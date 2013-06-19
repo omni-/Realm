@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace TextAdventure
 {
-    class Program
+    public class End
     {
-        static void Main(string[] args)
+        public static void GameOver()
         {
+            Console.WriteLine("Game Over. Press any key to exit.");
+            Console.ReadKey();
             Init.Initialize();
         }
+
     }
 }
