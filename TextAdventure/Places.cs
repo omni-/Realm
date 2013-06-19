@@ -9,41 +9,43 @@ namespace TextAdventure
 
     public class Place
     {
-        public string Description; 
+        public string Description;
 
         public virtual char[] getAvailableCommands()
         {
-            return new char[] {};
+            return new char[] { };
         }
 
         public virtual bool handleInput(char input)
         {
-s    }
+            return false;
+        }
+    }
 
-    public class WKingdom: Place
+    public class WKingdom : Place
     {
-        WKingdom()
+        public WKingdom()
         {
             Description = "King: 'Come, my champion, for slaying the elder dragon, Tyrone, I will give you the ultimate gift, eternal respite.'\r\n\r\n" +
                 "The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight or Run? [f to fight, r to run]";
         }
 
-        public virtual char[] getAvailableCommands()
+        public override char[] getAvailableCommands()
         {
-            return new char[] { 'f', 'r'};
+            return new char[] { 'f', 'r' };
         }
 
-        public virtual bool handleInput(char input)
+        public override bool handleInput(char input)
         {
             switch (input)
             {
                 case 'f':
-                Console.WriteLine("The King gives you swift respite. He decapitates your sorry ass");
-                End.GameOver();
+                    Console.WriteLine("The King gives you swift respite. He decapitates your sorry ass");
+                    End.GameOver();
                     break;
                 case 'r':
-                Console.WriteLine("You have lived.");
-                Main.MainLoop();
+                    Console.WriteLine("You have lived.");
+                    Main.MainLoop();
                     break;
                 default:
                     return false;
@@ -52,82 +54,82 @@ s    }
         }
     }
 
-    public class IllusionForest
+    public class IllusionForest : Place
     {
 
     }
 
-    public class Seaport
+    public class Seaport : Place
     {
 
     }
 
-    public class Riverwell
+    public class Riverwell : Place
     {
 
     }
 
-    public class Valleyburg
+    public class Valleyburg : Place
     {
 
     }
 
-    public class NMtns
+    public class NMtns : Place
     {
 
     }
 
-    public class NKingdom
+    public class NKingdom : Place
     {
 
     }
 
-    public class CentralKingdom
+    public class CentralKingdom : Place
     {
 
     }
 
-    public class FlamingDesert
+    public class FlamingDesert : Place
     {
 
     }
 
-    public class SKingdom
+    public class SKingdom : Place
     {
 
     }
 
-    public class Newport
+    public class Newport : Place
     {
 
     }
 
-    public class BlackHorizon
+    public class BlackHorizon : Place
     {
 
     }
 
-    public class Nomad
+    public class Nomad : Place
     {
 
     }
 
-    public class WKingdom
+    public class EKingdom : Place
     {
 
     }
 
-    public class TwinPaths
+    public class TwinPaths : Place
     {
 
     }
 
-    public class Ravenkeep
+    public class Ravenkeep : Place
     {
 
     }
 
-    public class QuestionMarkx3
+    public class QuestionMarkx3 : Place
     {
 
     }

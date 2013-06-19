@@ -57,7 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="End.cs" />
+    <Compile Include="Globals.cs" />
     <Compile Include="Init.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="parse.cs" />
     <Compile Include="Places.cs" />
     <Compile Include="Program.cs" />
