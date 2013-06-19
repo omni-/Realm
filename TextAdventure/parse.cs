@@ -8,13 +8,28 @@ namespace TextAdventure
 {
     public class parse
     {
-        public static void InputCleanse(string input, string key1, string key2)
+        public static string InputCleanse(string[] keys) //fucntion to make sure the input is valid
         {
-            while ((input.CompareTo(key1) != 0 || (input.CompareTo(key2) != 0)))
+            bool valid = false;
+            string str = "";
+            while (!valid)
             {
-                Console.WriteLine("Invalid.");
-                input = Console.ReadLine();
+                str = Console.ReadLine();
+                foreach (string s in keys)
+                {
+                    if (str.CompareTo(s) == 0)
+                    {
+                        valid = true;
+                        break;
+                    }
+                }
+                if (!valid)
+                {
+                    //Write invalid while input is not one of the keys
+                    Console.WriteLine("Invalid.");
+                }
             }
+            return str;
         }
     }
 }

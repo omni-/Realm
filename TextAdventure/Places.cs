@@ -15,8 +15,7 @@ namespace TextAdventure
             Console.WriteLine("");
             Console.WriteLine("The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight or Run? [f to fight, r to run]");
 
-            string input = Console.ReadLine();
-            parse.InputCleanse(input, "f", "r");
+            string input = parse.InputCleanse(new string[] {"f", "r"});
             if (input == "f")
             {
                 Console.WriteLine("The King gives you swift respite. He decapitates your sorry ass");
