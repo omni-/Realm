@@ -84,7 +84,7 @@ namespace TextAdventure
     {
         public IllusionForest()
         {
-            Description = "You find yourself in a forest, the bizarrely appears to wrap itself around you, like a fun house mirror. You are more lost than that time you were on a road trip and your phone died so you had no GPS." + "\r\n"
+            Description = "\r\n You find yourself in a forest, the bizarrely appears to wrap itself around you, like a fun house mirror. You are more lost than that time you were on a road trip and your phone died so you had no GPS." + "\r\n"
                 + "Do you want to travel north, west, or search the area?";           
         }
 
@@ -107,8 +107,8 @@ namespace TextAdventure
                     Globals.PlayerPosition.y += 1;
                     break;
                 case 's':
-                    Console.WriteLine("\r\n You decide to look around. You find a trail leading to a clearing. Once in the clearing, you see a suit of cardboard armor held together with duct tape, a refigerator box for a shield, and a cardboad tube for a sword. Pick them up?");
-                    char tempinput = Convert.ToChar(Console.ReadKey());
+                    Console.WriteLine("\r\n You decide to look around. You find a trail leading to a clearing. Once in the clearing, you see a suit of cardboard armor held together with duct tape, a refigerator box for a shield, and a cardboad tube for a sword. Pick them up? \r\n Your current commands are y, n");
+                    char tempinput = Console.ReadKey().KeyChar;
                     switch (tempinput)
                     {
                         case 'y':
@@ -117,8 +117,6 @@ namespace TextAdventure
                         case 'n':
                             Console.WriteLine("\r\n Loser.");
                             break;
-                        default:
-                            return false;
                     }
                     break;
                 default:
