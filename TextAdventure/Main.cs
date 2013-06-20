@@ -12,15 +12,16 @@ namespace TextAdventure
         {
             Place currPlace;
             while (!End.IsDead)
-            {
-                
+            {    
                 currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
                 Console.WriteLine(currPlace.Description);
                 char[] currcommands = currPlace.getAvailableCommands();
+                Console.Write("Your current commands are x");
                 foreach (char c in currcommands)
                 {
-                    Console.WriteLine("Your current commands available are {0}.", c);
+                    Console.Write(", {0}", c);
                 }
+                Console.WriteLine("");
                 char command = Console.ReadKey().KeyChar;
                 if (command == 'x')
                 {

@@ -14,7 +14,6 @@ namespace TextAdventure
         {
             if (IsDead)
             {
-                Console.WriteLine("");
                 Console.WriteLine("\r\n Game Over. Press any key to restart, x at any time to exit.");
                 Console.ReadKey();
                 Init.Initialize();
