@@ -26,8 +26,8 @@ namespace TextAdventure
     {
         public WKingdom()
         {
-            Description = "King: 'Come, my champion, for slaying the elder dragon, Tyrone, I will give you the ultimate gift, eternal respite.'\r\n\r\n" +
-                "The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight or Run? [f to fight, r to run]";
+            Description = "\r\n King: 'Come, my champion, for slaying the elder dragon, Tyrone, I will give you the ultimate gift, eternal respite.'\r\n\r\n" +
+                "The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight or Run?";
         }
 
         public override char[] getAvailableCommands()
@@ -40,11 +40,14 @@ namespace TextAdventure
             switch (input)
             {
                 case 'f':
-                    Console.WriteLine("The King gives you swift respite. He decapitates your sorry ass");
+                    Console.WriteLine("\r\n The King gives you swift respite. He decapitates your sorry ass");
+                    End.IsDead = true;
                     End.GameOver();
                     break;
                 case 'r':
-                    Console.WriteLine("You have lived.");
+                    Console.WriteLine("\r\n You have lived.");
+                    Globals.PlayerPosition.y = 1;
+                    Globals.PlayerPosition.x = 3;
                     Main.MainLoop();
                     break;
                 default:

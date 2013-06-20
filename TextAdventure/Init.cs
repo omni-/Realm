@@ -10,7 +10,10 @@ namespace TextAdventure
     {
         public static void Initialize()
         {
-            Console.WriteLine("You are the Hero of the Western Kingdom. The Western King has called for your /r/n/ presence.");
+            Console.WriteLine("\r\n You are the Hero of the Western Kingdom. The Western King has called for your   presence.");
+            Globals.PlayerPosition.x = 2;
+            Globals.PlayerPosition.y = 0;
+            Main.MainLoop();
         }
     }
 }

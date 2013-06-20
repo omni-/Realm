@@ -8,11 +8,19 @@ namespace TextAdventure
 {
     public class End
     {
+        public static bool IsDead = false;
+        
         public static void GameOver()
         {
-            Console.WriteLine("Game Over. Press any key to exit.");
-            Console.ReadKey();
-            Init.Initialize();
+            if (IsDead)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("\r\n Game Over. Press any key to restart, x at any time to exit.");
+                Console.ReadKey();
+                Init.Initialize();
+                Console.Clear();
+                IsDead = false;
+            }
         }
 
     }
