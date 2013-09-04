@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="End.cs" />
+    <Compile Include="Formatting.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Main.cs" />

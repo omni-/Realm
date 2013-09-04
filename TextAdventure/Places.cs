@@ -49,8 +49,8 @@ namespace TextAdventure
     {
         public WKingdom()
         {
-            Description = "\r\n King: 'Come, my champion, for slaying the elder dragon, Tyrone, I will give you the ultimate gift, eternal respite.'\r\n\r\n" +
-                "The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight or Run?";
+            Console.Clear();
+            Description = "\n King: 'Come, my champion, for slaying the elder dragon, Tyrone, I will give you the ultimate gift, eternal respite. \n The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight or Run?";
         }
 
         public override char[] getAvailableCommands()
@@ -63,12 +63,12 @@ namespace TextAdventure
             switch (input)
             {
                 case 'f':
-                    Console.WriteLine("\r\n The King gives you swift respite. He decapitates your sorry ass");
+                    Console.WriteLine("\n The King gives you swift respite. He decapitates your sorry ass");
                     End.IsDead = true;
                     End.GameOver();
                     break;
                 case 'r':
-                    Console.WriteLine("\r\n You have lived.");
+                    Console.WriteLine("\n You have lived.");
                     Globals.PlayerPosition.y = 0;
                     Globals.PlayerPosition.x = 3;
                     Main.MainLoop();
@@ -82,9 +82,10 @@ namespace TextAdventure
 
     public class IllusionForest : Place
     {
+
         public IllusionForest()
         {
-            Description = "\r\n You find yourself in a forest, the bizarrely appears to wrap itself around you, like a fun house mirror. You are more lost than that time you were on a road trip and your phone died so you had no GPS." + "\r\n"
+            Description = "\n You find yourself in a forest, the bizarrely appears to wrap itself around you, like a fun house mirror. You are more lost than that time you were on a road trip and your phone died so you had no GPS." + "\n"
                 + "Do you want to travel north, west, or search the area?";           
         }
 
@@ -107,7 +108,7 @@ namespace TextAdventure
                     Globals.PlayerPosition.y += 1;
                     break;
                 case 's':
-                    Console.WriteLine("\r\n You decide to look around. You find a trail leading to a clearing. Once in the clearing, you see a suit of cardboard armor held together with duct tape, a refigerator box for a shield, and a cardboad tube for a sword. Pick them up? \r\n Your current commands are y, n");
+                    Console.WriteLine("\n You decide to look around. You find a trail leading to a clearing. Once in the clearing, you see a suit of cardboard armor held together with duct tape, a refigerator box for a shield, and a cardboad tube for a sword. Pick them up? \n Your current commands are y, n");
                     char tempinput = Console.ReadKey().KeyChar;
                     switch (tempinput)
                     {
@@ -115,7 +116,7 @@ namespace TextAdventure
                             //add it to the backpack
                             break;
                         case 'n':
-                            Console.WriteLine("\r\n Loser.");
+                            Console.WriteLine("\n Loser.");
                             break;
                     }
                     break;

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,5 +22,35 @@ namespace TextAdventure
                                                    {new Place(), new Place(), new NKingdom(), new Place(), new BlackHorizon()}};
 
         public static Point PlayerPosition;
+    }
+
+    public struct Item
+    {
+        public string Description;
+        public int HPBonus;
+        public int SpeedBonus;
+        public int AtkBonus;
+        public int IntBonus;
+        public int DefBonus;
+    }
+
+    public class Player
+    {
+        public int hp;
+        public int spd;
+        public int atk;
+        public int intl;
+        public int def;
+        public string name = "";
+        public Backpack pack;
+        public Player()
+        {
+            pack = new Backpack();
+        }
+    }
+
+    public class Backpack
+    {
+        Hashtable Bp = new Hashtable();
     }
 }

@@ -12,11 +12,11 @@ namespace TextAdventure
         {
             Place currPlace;
             while (!End.IsDead)
-            {    
+            {
                 currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
                 Console.WriteLine(currPlace.Description);
                 char[] currcommands = currPlace.getAvailableCommands();
-                Console.Write("Your current commands are x");
+                Console.Write("\n Your current commands are x");
                 foreach (char c in currcommands)
                 {
                     Console.Write(", {0}", c);
@@ -25,8 +25,13 @@ namespace TextAdventure
                 char command = Console.ReadKey().KeyChar;
                 if (command == 'x')
                 {
-                    End.IsDead = true;
-                    End.GameOver();
+                    Console.WriteLine("\n Are you sure?");
+                    char surecommand = Console.ReadKey().KeyChar;
+                    if (surecommand == 'y')
+                    {
+                        End.IsDead = true;
+                        End.GameOver();
+                    }
                 }
                 else
                     currPlace.handleInput(command);
