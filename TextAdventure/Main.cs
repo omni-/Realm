@@ -8,11 +8,32 @@ namespace TextAdventure
 {
     public class Main
     {
+        public static Player player = new Player();
         public static void MainLoop()
         {
             Place currPlace;
             while (!End.IsDead)
             {
+                player.hp = 10;
+                player.def = 0;
+                player.atk = 1;
+                player.intl = 0;
+                player.spd = 1;
+                foreach (Item i in player.backpack)
+                {
+                    player.def += i.defbuff;
+                    player.atk += i.atkbuff;
+                    player.intl += i.intlbuff;
+                    player.spd += i.spdbuff;
+                }
+                Console.WriteLine("\r\n");
+                Console.WriteLine("-------------------------------------");
+                Console.WriteLine("HP: " + player.hp);
+                Console.WriteLine("Defense: "+ player.def);
+                Console.WriteLine("Attack: " + player.atk);
+                Console.WriteLine("Speed: " + player.spd);
+                Console.WriteLine("Intelligence: " + player.intl);
+                Console.WriteLine("-------------------------------------");
                 currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
                 Console.WriteLine(currPlace.Description);
                 char[] currcommands = currPlace.getAvailableCommands();

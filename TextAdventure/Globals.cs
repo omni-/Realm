@@ -11,29 +11,40 @@ namespace TextAdventure
         public int x;
         public int y;
     }
-
-    public static class Globals
-    {
-        public static Place[,] map = new Place[,] {{new Place(), new Place(), new IllusionForest(), new WKingdom(),new Seaport(), new Place()},
-                                                   {new NKingdom(), new Riverwell(), new Place(), new Valleyburg(),new Place(),new Place()},
-                                                   {new Place(), new Place(), new Place(), new CentralKingdom(),new FlamingDesert(),new SKingdom()},
-                                                   {new Place(), new NMtns(), new Newport(), new Nomad(),new TwinPaths(), new Place()}, 
-                                                   {new BlackHorizon(),new Place(),new Place(),new EKingdom(),new Ravenkeep(),new QuestionMarkx3()}};
-
-
-        public static Point PlayerPosition;
-    }
-
     public struct Item
     {
-        public string Description;
-        public int HPBonus;
-        public int SpeedBonus;
-        public int AtkBonus;
-        public int IntBonus;
-        public int DefBonus;
+        public string desc;
+        public int atkbuff;
+        public int defbuff;
+        public int spdbuff;
+        public int intlbuff;
+        public int tier;
+        public int slot;
+        //1 for primary 2 for secondary 3 for armor 4 for Accessory
     }
+    public static class Globals
+    {
+        public static Place[,] map = new Place[,] {
 
+        {new Place(), new Seaport(), new WKingdom(), new IllusionForest(), new Place(), new Place()},
+        {new Place(), new Place(), new Valleyburg(), new Place(), new Riverwell(), new NKingdom()},        
+        {new SKingdom(), new FlamingDesert(), new CentralKingdom(), new Place(), new Place(), new Place()}, 
+        {new Place(), new TwinPaths(), new Nomad(), new Newport(), new NMtns(), new Place()},                 
+        {new QuestionMarkx3(), new Ravenkeep(), new EKingdom(), new Place(), new Place(), new BlackHorizon()}
+
+        };
+
+        public static Point PlayerPosition;
+
+        public static Item cardboard_armor;
+        public static Item cardboard_sword;
+        public static Item cardboard_shield;
+        public static Item wood_armor;
+        public static Item wood_staff;
+        public static Item wood_plank;
+
+
+    }
     public class Player
     {
         public int hp;
@@ -42,15 +53,7 @@ namespace TextAdventure
         public int intl;
         public int def;
         public string name = "";
-        public Backpack pack;
-        public Player()
-        {
-            pack = new Backpack();
-        }
+        public Hashtable backpack = new Hashtable();
     }
 
-    public class Backpack
-    {
-        Hashtable Bp = new Hashtable();
-    }
 }

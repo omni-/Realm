@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace TextAdventure
 {
-
     public class Place
     {
         public string Description;
@@ -41,7 +40,24 @@ namespace TextAdventure
 
         public virtual bool handleInput(char input)
         {
-            return IsValid(input);
+            switch (input)
+            {
+                case 'n':
+                    Globals.PlayerPosition.y += 1;
+                    break;
+                case 'e':
+                    Globals.PlayerPosition.x += 1;
+                    break;
+                case 's':
+                    Globals.PlayerPosition.y -= 1;
+                    break;
+                case 'w':
+                    Globals.PlayerPosition.x -= 1;
+                    break;
+                default:
+                    return false;
+            }
+            return true;
         }
     }
 
@@ -69,7 +85,7 @@ namespace TextAdventure
                     break;
                 case 'r':
                     Console.WriteLine("\r\n You have lived.");
-                    Globals.PlayerPosition.y -= 1;
+                    Globals.PlayerPosition.y += 1;
                     Main.MainLoop();
                     break;
                 default:
@@ -84,31 +100,32 @@ namespace TextAdventure
         public IllusionForest()
         {
             Description = "\r\n You find yourself in a forest, the bizarrely appears to wrap itself around you, like a fun house mirror. You are more lost than that time you were on a road trip and your phone died so you had no GPS." + "\r\n"
-                + "Do you want to travel east(e), south(s) or search the area(z)?";
+                + "Do you want to travel east(e), north(n) or search the area(z)?";
         }
 
         public override char[] getAvailableCommands()
         {
-            return new char[] { 's', 'e', 'z' };
+            return new char[] { 'n', 'e', 'z' };
         }
 
         public override bool handleInput(char input)
         {
             switch (input)
             {
-                case 's':
-                    Globals.PlayerPosition.y -= 1;
+                case 'n':
+                    Globals.PlayerPosition.y += 1;
                     break;
                 case 'e':
                     Globals.PlayerPosition.x += 1;
                     break;
                 case 'z':
-                    Console.WriteLine("\r\n You decide to look around. You find a trail leading to a clearing. Once in the clearing, you see a suit of cardboard armor held together with duct tape, a refigerator box for a shield, and a cardboad tube for a sword. Pick them up? \r\n Your current commands are y, n");
+                    Console.WriteLine("\r\n You decide to look around. You find a trail leading to a clearing. Once in the clearing, you see a suit of cardboard armor held together with duct tape, a refigerator box, and a cardboad tube. Pick them up? \r\n Your current commands are y, n");
                     char tempinput = Console.ReadKey().KeyChar;
                     switch (tempinput)
                     {
                         case 'y':
-                            //add it to the backpack
+                            Main.player.backpack.Add(0, Globals.cardboard_armor);
+                            Main.player.backpack.Add(1, Globals.cardboard_sword);
                             break;
                         case 'n':
                             Console.WriteLine("\r\n Loser.");
@@ -124,7 +141,10 @@ namespace TextAdventure
 
     public class Seaport : Place
     {
-
+        public Seaport()
+        {
+            Description = "\r\n You arrive at a seaside port bustling with couriers and merchants. Where do you want to go?";
+        }
     }
 
     public class Riverwell : Place
