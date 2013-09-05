@@ -43,8 +43,8 @@ namespace TextAdventure
                     Console.Write(", {0}", c);
                 }
                 Console.WriteLine("");
-                char command = Console.ReadKey().KeyChar;
-                if (command == 'x')
+                ConsoleKeyInfo command = Console.ReadKey();
+                if (command.Key == ConsoleKey.X)
                 {
                     Console.WriteLine("\n Are you sure?");
                     char surecommand = Console.ReadKey().KeyChar;
@@ -54,9 +54,14 @@ namespace TextAdventure
                         End.GameOver();
                     }
                 }
+                else if (command.Key == ConsoleKey.Escape)
+                {
+                    Environment.Exit(0);
+                }
                 else
-                    currPlace.handleInput(command);
+                    currPlace.handleInput(command.KeyChar);
             }
         }
     }
 }
+//gota figte let's go guys!

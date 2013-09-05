@@ -9,7 +9,8 @@ namespace TextAdventure
     public class Place
     {
         public string Description;
-
+        public int q;
+        public Globals globals = new Globals();
         public virtual char[] getAvailableCommands()
         {
             List<char> templist = new List<char>();
@@ -21,7 +22,11 @@ namespace TextAdventure
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(0))
                 templist.Add('n');
-
+            templist.Add('b');
+            //for (int i = 0; i < Main.player.backpack.Count; i++)
+            //{
+            //    templist.Add((char)i);
+            //}
             return templist.ToArray<char>();
         }
 
@@ -53,6 +58,13 @@ namespace TextAdventure
                     break;
                 case 'w':
                     Globals.PlayerPosition.x -= 1;
+                    break;
+                case 'b':
+                    foreach (Item item in Main.player.backpack)
+                    {
+                        q++;
+                        Console.WriteLine("/r/n " + q + ". " + item);
+                    }
                     break;
                 default:
                     return false;
@@ -100,12 +112,23 @@ namespace TextAdventure
         public IllusionForest()
         {
             Description = "\r\n You find yourself in a forest, the bizarrely appears to wrap itself around you, like a fun house mirror. You are more lost than that time you were on a road trip and your phone died so you had no GPS." + "\r\n"
-                + "Do you want to travel east(e), north(n) or search the area(z)?";
+                + "Do you want to travel east(e), north(n) or search the area(z) [(b) for backpack]?";
         }
 
         public override char[] getAvailableCommands()
         {
-            return new char[] { 'n', 'e', 'z' };
+            //List<char> templist = new List<char>();
+            //templist.Add('b');
+            //templist.Add('e');
+            //templist.Add('n');
+            //templist.Add('z');
+            //for (int i = 0; i < Main.player.backpack.Count; i++)
+            //{
+            //    templist.Add(Convert.ToChar(i));
+            //}
+            //return templist.ToArray<char>();
+            return new char[] { 'e', 'n', 'z', 'b' };
+
         }
 
         public override bool handleInput(char input)
@@ -124,13 +147,22 @@ namespace TextAdventure
                     switch (tempinput)
                     {
                         case 'y':
-                            Main.player.backpack.Add(0, Globals.cardboard_armor);
-                            Main.player.backpack.Add(1, Globals.cardboard_sword);
+                            Main.player.backpack.Add(globals.cardboard_armor);
+                            Main.player.backpack.Add(globals.cardboard_sword);
+                            Main.player.backpack.Add(globals.cardboard_shield);
                             break;
                         case 'n':
                             Console.WriteLine("\r\n Loser.");
                             break;
                     }
+                    break;
+                case 'b':
+                    foreach (Item item in Main.player.backpack)
+                    {
+                        q++;
+                        Console.WriteLine("\r\n " + q + ". " + item.name);
+                    }
+                    tempinput = Console.ReadKey().KeyChar;
                     break;
                 default:
                     return false;
