@@ -22,6 +22,7 @@ namespace TextAdventure
         public int intlbuff;
         public int tier;
         public int slot;
+        public bool in_use;
         //1 for primary 2 for secondary 3 for armor 4 for Accessory
     }
     public class Globals
@@ -110,8 +111,8 @@ namespace TextAdventure
         public int intl;
         public int def;
         public string name = "";
-        public bool in_use = false;
         public List<Item> backpack = new List<Item>();
+        public List<string> abilities;
     }
 
 }

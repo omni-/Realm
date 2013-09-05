@@ -11,6 +11,14 @@ namespace TextAdventure
         public string Description;
         public int q;
         public Globals globals = new Globals();
+        public List<Enemy> enemylist = new List<Enemy>();
+
+        public virtual List<Enemy> getEnemyList()
+        {
+            List<Enemy> templist = new List<Enemy>();
+            templist.Add(new Slime());
+            return templist;
+        }
         public virtual char[] getAvailableCommands()
         {
             List<char> templist = new List<char>();

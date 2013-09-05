@@ -11,6 +11,10 @@ namespace TextAdventure
         public static Player player = new Player();
         public static void MainLoop()
         {
+            if (Combat.CheckBattle())
+            {
+                BattleLoop();
+            }
             Place currPlace;
             while (!End.IsDead)
             {
@@ -19,6 +23,7 @@ namespace TextAdventure
                 player.atk = 1;
                 player.intl = 0;
                 player.spd = 1;
+
                 foreach (Item i in player.backpack)
                 {
                     player.def += i.defbuff;
@@ -26,6 +31,7 @@ namespace TextAdventure
                     player.intl += i.intlbuff;
                     player.spd += i.spdbuff;
                 }
+
                 Console.WriteLine("\r\n");
                 Console.WriteLine("-------------------------------------");
                 Console.WriteLine("HP: " + player.hp);
@@ -34,8 +40,10 @@ namespace TextAdventure
                 Console.WriteLine("Speed: " + player.spd);
                 Console.WriteLine("Intelligence: " + player.intl);
                 Console.WriteLine("-------------------------------------");
+
                 currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
                 Console.WriteLine(currPlace.Description);
+
                 char[] currcommands = currPlace.getAvailableCommands();
                 Console.Write("\n Your current commands are x");
                 foreach (char c in currcommands)
@@ -43,6 +51,7 @@ namespace TextAdventure
                     Console.Write(", {0}", c);
                 }
                 Console.WriteLine("");
+
                 ConsoleKeyInfo command = Console.ReadKey();
                 if (command.Key == ConsoleKey.X)
                 {
@@ -60,6 +69,26 @@ namespace TextAdventure
                 }
                 else
                     currPlace.handleInput(command.KeyChar);
+            }
+        }
+
+        public static void BattleLoop()
+        {
+            bool is_turn = false;
+            Console.WriteLine("You've been ambushed! You ready your weapons.");
+            Place currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
+            List<Enemy> enemylist = currPlace.getEnemyList();
+            Random rand = new Random();
+            int randint = rand.Next(1, enemylist.Count);
+            Enemy enemy = enemylist[randint];
+            if (enemy.spd < player.spd)
+                is_turn = true;
+            while (enemy.hp != 0)
+            {
+                if (is_turn)
+                {
+
+                }
             }
         }
     }

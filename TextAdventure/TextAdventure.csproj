@@ -56,7 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Combat.cs" />
     <Compile Include="End.cs" />
+    <Compile Include="Enemy.cs" />
     <Compile Include="Formatting.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Init.cs" />
