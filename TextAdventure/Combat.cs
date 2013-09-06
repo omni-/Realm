@@ -33,45 +33,42 @@ namespace TextAdventure
             }
         }
 
-        public static char[] getBattleCommands()
+        public static Hashtable getBattleCommands()
         {
-            List<char> templist = new List<char>();
+            Hashtable temptable = new Hashtable();
             for (int i = 0; i < Main.player.abilities.Count; i++)
             {
-                templist.Add(Convert.ToChar(i + 49));
+                temptable.Add(Convert.ToChar(i + 49), null);
             }
-            return templist.ToArray<char>();
+            return temptable;
         }
-        private static bool IsValid(char cmd)
+        public class Attack
         {
-            bool IsFound = false;
-            char[] cmdlist = getBattleCommands();
-            foreach (char c in cmdlist)
+            public virtual void HandleInput(char cmd, Hashtable cmds)
             {
-                IsFound = c == cmd;
-                if (IsFound)
-                    break;
+                foreach (DictionaryEntry de in cmds)
+                {
+                    if(cmd == (char)de.Key)
+                    {
+                        //de.Value.
+                    }
+                }
             }
-            return IsFound;
-        }
+            public virtual void attack()
+            {
 
-        public static bool handleInput(char input)
-        {
-            Hashtable dispatch = new Hashtable();
-            char[] cmdlist = getBattleCommands();
-            foreach (char c in cmdlist)
-            {
-                dispatch.Add(c, new BasicAttack());
             }
-            return true;
         }
         public class BasicAttack
         {
-            public static void basicattack()
-            {
-                Enemy enemy = new Enemy();
-                enemy.hp -= Main.player.atk;
-            }
+            //public override void attack(Enemy target)
+            //{
+            //    Hashtable cmds = getBattleCommands();
+            //    char cmd = Console.ReadKey().KeyChar;
+            //    while (!cmds.ContainsKey(cmd))
+            //        cmd = Console.ReadKey().KeyChar;
+            //    target.hp -= Main.player.atk - target.def;
+            //}
         }
     }
 }
