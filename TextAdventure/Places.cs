@@ -30,11 +30,12 @@ namespace TextAdventure
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(0))
                 templist.Add('n');
-            templist.Add('b');
-            //for (int i = 0; i < Main.player.backpack.Count; i++)
-            //{
-            //    templist.Add((char)i);
-            //}
+            if (Main.player.backpack.Count > 0)
+                templist.Add('b');
+            for (int i = 0; i < Main.player.backpack.Count; i++)
+            {
+                templist.Add((Convert.ToChar(i + 49)));
+            }
             return templist.ToArray<char>();
         }
 
@@ -85,8 +86,8 @@ namespace TextAdventure
     {
         public WKingdom()
         {
-            Description = "\r\n King: 'Come, my champion, for slaying the elder dragon, Tyrone, I will give you the ultimate gift, eternal respite.'\r\n\r\n" +
-                "The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight or Run?";
+            Description = "\r\n King: 'Come, my champion, for slaying the elder dragon, Tyrone, I will give you the ultimate gift, eternal respite.' \r\n" +
+                "\r\n\r\n The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight(f) or run(r)?";
         }
 
         public override char[] getAvailableCommands()
@@ -119,24 +120,23 @@ namespace TextAdventure
     {
         public IllusionForest()
         {
-            Description = "\r\n You find yourself in a forest, the bizarrely appears to wrap itself around you, like a fun house mirror. You are more lost than that time you were on a road trip and your phone died so you had no GPS." + "\r\n"
-                + "Do you want to travel east(e), north(n) or search the area(z) [(b) for backpack]?";
+            Description = "\r\n You find yourself in a forest, the bizarrely appears to wrap itself around you, like a fun house mirror. You are more lost than that time you were on a road \r\n trip and your phone died so you had no GPS." + "\r\n"
+                + "\r\n Do you want to travel east(e), north(n), backpack(b), or search the area(z)?";
         }
 
         public override char[] getAvailableCommands()
         {
-            //List<char> templist = new List<char>();
-            //templist.Add('b');
-            //templist.Add('e');
-            //templist.Add('n');
-            //templist.Add('z');
-            //for (int i = 0; i < Main.player.backpack.Count; i++)
-            //{
-            //    templist.Add(Convert.ToChar(i));
-            //}
-            //return templist.ToArray<char>();
-            return new char[] { 'e', 'n', 'z', 'b' };
-
+            List<char> templist = new List<char>();
+            if (Main.player.backpack.Count >= 1)
+                templist.Add('b');
+            templist.Add('e');
+            templist.Add('n');
+            templist.Add('z');
+            for (int i = 0; i < Main.player.backpack.Count; i++)
+            {
+                templist.Add(Convert.ToChar(i + 49));
+            }
+            return templist.ToArray<char>();
         }
 
         public override bool handleInput(char input)
@@ -150,7 +150,7 @@ namespace TextAdventure
                     Globals.PlayerPosition.x += 1;
                     break;
                 case 'z':
-                    Console.WriteLine("\r\n You decide to look around. You find a trail leading to a clearing. Once in the clearing, you see a suit of cardboard armor held together with duct tape, a refigerator box, and a cardboad tube. Pick them up? \r\n Your current commands are y, n");
+                    Console.WriteLine("\r\n You decide to look around. You find a trail leading to a clearing. Once in the  clearing, you see a suit of cardboard armor held together with duct tape, a \r\n refigerator box, and a cardboad tube. Pick them up? \r\n Your current commands are y, n");
                     char tempinput = Console.ReadKey().KeyChar;
                     switch (tempinput)
                     {

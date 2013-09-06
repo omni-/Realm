@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,47 @@ namespace TextAdventure
             else
             {
                 return abilities[rand.Next(2, abilities.Count)];
+            }
+        }
+
+        public static char[] getBattleCommands()
+        {
+            List<char> templist = new List<char>();
+            for (int i = 0; i < Main.player.abilities.Count; i++)
+            {
+                templist.Add(Convert.ToChar(i + 49));
+            }
+            return templist.ToArray<char>();
+        }
+        private static bool IsValid(char cmd)
+        {
+            bool IsFound = false;
+            char[] cmdlist = getBattleCommands();
+            foreach (char c in cmdlist)
+            {
+                IsFound = c == cmd;
+                if (IsFound)
+                    break;
+            }
+            return IsFound;
+        }
+
+        public static bool handleInput(char input)
+        {
+            Hashtable dispatch = new Hashtable();
+            char[] cmdlist = getBattleCommands();
+            foreach (char c in cmdlist)
+            {
+                dispatch.Add(c, new BasicAttack());
+            }
+            return true;
+        }
+        public class BasicAttack
+        {
+            public static void basicattack()
+            {
+                Enemy enemy = new Enemy();
+                enemy.hp -= Main.player.atk;
             }
         }
     }

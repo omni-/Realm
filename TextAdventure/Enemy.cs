@@ -25,6 +25,7 @@ namespace TextAdventure
             atk = 1;
             def = 0;
             spd = 0;
+            abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("SuperSlimySlam");
         }

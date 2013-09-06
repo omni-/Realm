@@ -9,7 +9,6 @@ C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\obj\Debug\TextAdven
 C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\obj\Debug\TextAdventure.pdb
 C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\bin\Debug\TextAdventure.exe
 C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\bin\Debug\TextAdventure.pdb
-C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\obj\Debug\TextAdventure.csprojResolveAssemblyReference.cache
 C:\Users\Giorgio\Documents\Visual Studio 2013\Projects\TextAdventure\TextAdventure\bin\Debug\TextAdventure.exe.config
 C:\Users\Giorgio\Documents\Visual Studio 2013\Projects\TextAdventure\TextAdventure\obj\Debug\TextAdventure.exe
 C:\Users\Giorgio\Documents\Visual Studio 2013\Projects\TextAdventure\TextAdventure\obj\Debug\TextAdventure.pdb

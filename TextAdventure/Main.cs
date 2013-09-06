@@ -9,12 +9,20 @@ namespace TextAdventure
     public class Main
     {
         public static Player player = new Player();
+        public static int loop_number = 0;
+        public static int game_state = 0;
         public static void MainLoop()
         {
-            if (Combat.CheckBattle())
-            {
-                BattleLoop();
-            }
+            game_state = 0;
+            if (player.abilities.Count == 0)
+                player.abilities.Add("BasicAttack");
+            //if (loop_number >= 1)
+            //{
+                //if (Combat.CheckBattle())
+                //{
+                    BattleLoop();
+                //}
+            //}
             Place currPlace;
             while (!End.IsDead)
             {
@@ -64,30 +72,51 @@ namespace TextAdventure
                     }
                 }
                 else if (command.Key == ConsoleKey.Escape)
-                {
                     Environment.Exit(0);
-                }
                 else
                     currPlace.handleInput(command.KeyChar);
+                loop_number++;
             }
         }
 
         public static void BattleLoop()
         {
-            bool is_turn = false;
+            game_state = 1;
+
+            player.hp = 10;
+            player.def = 0;
+            player.atk = 1;
+            player.intl = 0;
+            player.spd = 1;
+
+            foreach (Item i in player.backpack)
+            {
+                player.def += i.defbuff;
+                player.atk += i.atkbuff;
+                player.intl += i.intlbuff;
+                player.spd += i.spdbuff;
+            }
+
             Console.WriteLine("You've been ambushed! You ready your weapons.");
             Place currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
             List<Enemy> enemylist = currPlace.getEnemyList();
             Random rand = new Random();
-            int randint = rand.Next(1, enemylist.Count);
+            int randint = rand.Next(0, enemylist.Count);
             Enemy enemy = enemylist[randint];
-            if (enemy.spd < player.spd)
-                is_turn = true;
+            bool is_turn = enemy.spd < player.spd;
             while (enemy.hp != 0)
             {
                 if (is_turn)
                 {
-
+                    char[] cmdlist = Combat.getBattleCommands();
+                    Console.WriteLine("\n AVAILABLE MOVES:");
+                    Console.WriteLine("=========================");
+                    for (int i = 0; i < cmdlist.Count(); i++)
+                    {
+                        Console.WriteLine("||   {0}. {1}    ||", i, Main.player.abilities[i]);
+                    }
+                    Console.WriteLine("=========================");
+                    Console.ReadKey();
                 }
             }
         }

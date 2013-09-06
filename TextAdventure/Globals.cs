@@ -112,7 +112,7 @@ namespace TextAdventure
         public int def;
         public string name = "";
         public List<Item> backpack = new List<Item>();
-        public List<string> abilities;
+        public List<string> abilities = new List<string>();
     }
 
 }
