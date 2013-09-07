@@ -22,6 +22,7 @@ namespace TextAdventure
         public int intlbuff;
         public int tier;
         public int slot;
+        public float multiplier;
         public bool in_use;
         //1 for primary 2 for secondary 3 for armor 4 for Accessory
     }
@@ -55,6 +56,7 @@ namespace TextAdventure
             cardboard_armor.intlbuff = 0;
             cardboard_armor.tier = 0;
             cardboard_armor.slot = 3;
+            cardboard_armor.multiplier = 1;
 
             cardboard_sword.name = "Cardboard Sword";
             cardboard_sword.desc = "One of those wrapping paper tubes you hit your siblings with.";
@@ -64,6 +66,7 @@ namespace TextAdventure
             cardboard_sword.intlbuff = 0;
             cardboard_sword.tier = 0;
             cardboard_sword.slot = 1;
+            cardboard_sword.multiplier = .5f;
 
             cardboard_shield.name = "Carboard Shield";
             cardboard_shield.desc = "It's just a box from costco.";
@@ -73,6 +76,7 @@ namespace TextAdventure
             cardboard_shield.intlbuff = 0;
             cardboard_shield.tier = 0;
             cardboard_shield.slot = 2;
+            cardboard_shield.multiplier = 1;
 
             wood_armor.name = "Wood Armor";
             wood_armor.desc = "Some plywood you stole from Home Depot. It give you the Home Depot feeling. ";
@@ -82,6 +86,7 @@ namespace TextAdventure
             wood_armor.intlbuff = 0;
             wood_armor.tier = 1;
             wood_armor.slot = 3;
+            wood_armor.multiplier = 0;
 
             wood_staff.name = "Wood Staff";
             wood_staff.desc = "A label that reads 'S̶a̶m̶m̶y̶ Luigi' is stuck on it. There's also blood on the hilt.";
@@ -91,6 +96,7 @@ namespace TextAdventure
             wood_staff.intlbuff = 0;
             wood_staff.tier = 1;
             wood_staff.slot = 1;
+            wood_staff.multiplier = 1.3f;
 
             wood_plank.name = "Wood Plank";
             wood_plank.desc = "A wood plank.";
@@ -100,19 +106,22 @@ namespace TextAdventure
             wood_plank.intlbuff = 0;
             wood_plank.tier = 1;
             wood_plank.slot = 1;
-
+            wood_plank.multiplier = 1;
         }
     }
-    public class Player
+    public static class Player
     {
-        public int hp;
-        public int spd;
-        public int atk;
-        public int intl;
-        public int def;
-        public string name = "";
-        public List<Item> backpack = new List<Item>();
-        public List<string> abilities = new List<string>();
+        public static int hp;
+        public static int spd;
+        public static int atk;
+        public static int intl;
+        public static int def;
+        public static string name = "";
+        public static Item primary;
+        public static Item secondary;
+        public static Item armor;
+        public static Item accessory;
+        public static List<Item> backpack = new List<Item>();
+        public static TextAdventure.Combat.CommandTable abilities = new TextAdventure.Combat.CommandTable();
     }
-
 }

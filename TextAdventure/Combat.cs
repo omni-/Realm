@@ -9,6 +9,19 @@ namespace TextAdventure
 {
     public class Combat
     {
+        public static class Dice
+        {
+            public static int roll(int numdice, int numsides)
+            {
+                int total = 0;
+                Random rand = new Random();
+                for (int i = 0; i < numdice; i++)
+                {
+                    total += rand.Next(1, numsides + 1);
+                }
+                return total;
+            }
+        }
         public static bool CheckBattle()
         {
             Random randint = new Random();
@@ -33,44 +46,60 @@ namespace TextAdventure
             }
         }
 
-        public static char[] getBattleCommands()
+        public static CommandTable getBattleCommands()
         {
-            List<char> templist = new List<char>();
-            for (int i = 0; i < Main.player.abilities.Count; i++)
+            CommandTable tempCommandTable = new CommandTable();
+            for (int i = 0; i < Player.abilities.Count; i++)
             {
-                templist.Add(Convert.ToChar(i + 49));
+                tempCommandTable.AddCommand(Convert.ToChar(i + 49), );
             }
-            return templist.ToArray<char>();
+            return tempCommandTable;
         }
-        private static bool IsValid(char cmd)
+        public class Command
         {
-            bool IsFound = false;
-            char[] cmdlist = getBattleCommands();
-            foreach (char c in cmdlist)
+            public virtual bool Execute(object Data)
             {
-                IsFound = c == cmd;
-                if (IsFound)
-                    break;
+                return false;
             }
-            return IsFound;
         }
 
-        public static bool handleInput(char input)
+        public class CommandTable
         {
-            Hashtable dispatch = new Hashtable();
-            char[] cmdlist = getBattleCommands();
-            foreach (char c in cmdlist)
+            private Dictionary<char, Command> commands;
+
+            public CommandTable()
             {
-                dispatch.Add(c, new BasicAttack());
+                commands = new Dictionary<char, Command>();
             }
-            return true;
-        }
-        public class BasicAttack
-        {
-            public static void basicattack()
+
+            public int Count { get { return commands.Count; } }
+
+            public void AddCommand(char ch, Command cmd)
             {
-                Enemy enemy = new Enemy();
-                enemy.hp -= Main.player.atk;
+                commands.Add(ch, cmd);
+            }
+
+            public bool ExecuteCommand(char ch, object data)
+            {
+                try
+                {
+                    Command cmd = commands[ch];
+                    cmd.Execute(data);
+                }
+                catch (KeyNotFoundException)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+        public class BasicAttack : Command
+        {
+            public static void basicattack(Enemy target)
+            {
+                double damage = Dice.roll(Player.atk, 4);
+                damage *= Player.primary.multiplier;
+                target.hp -= Convert.ToInt32(damage);
             }
         }
     }

@@ -8,14 +8,13 @@ namespace TextAdventure
 {
     public class Main
     {
-        public static Player player = new Player();
         public static int loop_number = 0;
         public static int game_state = 0;
         public static void MainLoop()
         {
             game_state = 0;
-            if (player.abilities.Count == 0)
-                player.abilities.Add("BasicAttack");
+            //if (Player.abilities.Count == 0)
+            //    Player.abilities.AddCommand("BasicAttack");
             //if (loop_number >= 1)
             //{
                 //if (Combat.CheckBattle())
@@ -26,44 +25,43 @@ namespace TextAdventure
             Place currPlace;
             while (!End.IsDead)
             {
-                player.hp = 10;
-                player.def = 0;
-                player.atk = 1;
-                player.intl = 0;
-                player.spd = 1;
+                Player.hp = 10;
+                Player.def = 0;
+                Player.atk = 1;
+                Player.intl = 0;
+                Player.spd = 1;
 
-                foreach (Item i in player.backpack)
+                foreach (Item i in Player.backpack)
                 {
-                    player.def += i.defbuff;
-                    player.atk += i.atkbuff;
-                    player.intl += i.intlbuff;
-                    player.spd += i.spdbuff;
+                    Player.def += i.defbuff;
+                    Player.atk += i.atkbuff;
+                    Player.intl += i.intlbuff;
+                    Player.spd += i.spdbuff;
                 }
 
-                Console.WriteLine("\r\n");
-                Console.WriteLine("-------------------------------------");
-                Console.WriteLine("HP: " + player.hp);
-                Console.WriteLine("Defense: "+ player.def);
-                Console.WriteLine("Attack: " + player.atk);
-                Console.WriteLine("Speed: " + player.spd);
-                Console.WriteLine("Intelligence: " + player.intl);
-                Console.WriteLine("-------------------------------------");
+                Formatting.type("-------------------------------------", 10);
+                Formatting.type("HP: " + Player.hp);
+                Formatting.type("Defense: "+ Player.def);
+                Formatting.type("Attack: " + Player.atk);
+                Formatting.type("Speed: " + Player.spd);
+                Formatting.type("Intelligence: " + Player.intl);
+                Formatting.type("-------------------------------------", 10);
 
                 currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
-                Console.WriteLine(currPlace.Description);
+                Formatting.type(currPlace.Description);
 
                 char[] currcommands = currPlace.getAvailableCommands();
-                Console.Write("\n Your current commands are x");
+                Console.Write("\r\nYour current commands are x");
                 foreach (char c in currcommands)
                 {
                     Console.Write(", {0}", c);
                 }
-                Console.WriteLine("");
+                Formatting.type("");
 
                 ConsoleKeyInfo command = Console.ReadKey();
                 if (command.Key == ConsoleKey.X)
                 {
-                    Console.WriteLine("\n Are you sure?");
+                    Formatting.type("\r\nAre you sure?");
                     char surecommand = Console.ReadKey().KeyChar;
                     if (surecommand == 'y')
                     {
@@ -83,39 +81,42 @@ namespace TextAdventure
         {
             game_state = 1;
 
-            player.hp = 10;
-            player.def = 0;
-            player.atk = 1;
-            player.intl = 0;
-            player.spd = 1;
+            Player.hp = 10;
+            Player.def = 0;
+            Player.atk = 1;
+            Player.intl = 0;
+            Player.spd = 1;
 
-            foreach (Item i in player.backpack)
+            foreach (Item i in Player.backpack)
             {
-                player.def += i.defbuff;
-                player.atk += i.atkbuff;
-                player.intl += i.intlbuff;
-                player.spd += i.spdbuff;
+                Player.def += i.defbuff;
+                Player.atk += i.atkbuff;
+                Player.intl += i.intlbuff;
+                Player.spd += i.spdbuff;
             }
 
-            Console.WriteLine("You've been ambushed! You ready your weapons.");
+            Formatting.type("You've been ambushed! You ready your weapons.");
             Place currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
             List<Enemy> enemylist = currPlace.getEnemyList();
             Random rand = new Random();
             int randint = rand.Next(0, enemylist.Count);
             Enemy enemy = enemylist[randint];
-            bool is_turn = enemy.spd < player.spd;
+            bool is_turn = enemy.spd < Player.spd;
             while (enemy.hp != 0)
             {
                 if (is_turn)
                 {
-                    char[] cmdlist = Combat.getBattleCommands();
-                    Console.WriteLine("\n AVAILABLE MOVES:");
-                    Console.WriteLine("=========================");
-                    for (int i = 0; i < cmdlist.Count(); i++)
+                    TextAdventure.Combat.CommandTable cmdtable = Combat.getBattleCommands();
+                    Formatting.type("\r\nAVAILABLE MOVES:");
+                    Formatting.type("=========================", 10);
+                    /* make a function that returns a list of strings that are the availible commands */
+                    foreach (TextAdventure.Combat.Command c in Player.abilities)
                     {
-                        Console.WriteLine("||   {0}. {1}    ||", i, Main.player.abilities[i]);
+                        string src = "||   " + i + ". " + Player.abilities[i] + "    ||";
+                        Formatting.type(src, 10);
                     }
-                    Console.WriteLine("=========================");
+                    Formatting.type("=========================", 10);
+                    Formatting.type("\r\n", 0);
                     Console.ReadKey();
                 }
             }

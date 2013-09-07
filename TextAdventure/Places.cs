@@ -8,10 +8,18 @@ namespace TextAdventure
 {
     public class Place
     {
-        public string Description;
         public int q;
         public Globals globals = new Globals();
         public List<Enemy> enemylist = new List<Enemy>();
+
+        protected virtual string GetDesc()
+        {
+            return "";
+        }
+        public string Description
+        {
+            get { return GetDesc(); }
+        }
 
         public virtual List<Enemy> getEnemyList()
         {
@@ -30,9 +38,9 @@ namespace TextAdventure
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(0))
                 templist.Add('n');
-            if (Main.player.backpack.Count > 0)
+            if (Player.backpack.Count > 0)
                 templist.Add('b');
-            for (int i = 0; i < Main.player.backpack.Count; i++)
+            for (int i = 0; i < Player.backpack.Count; i++)
             {
                 templist.Add((Convert.ToChar(i + 49)));
             }
@@ -69,10 +77,10 @@ namespace TextAdventure
                     Globals.PlayerPosition.x -= 1;
                     break;
                 case 'b':
-                    foreach (Item item in Main.player.backpack)
+                    foreach (Item item in Player.backpack)
                     {
                         q++;
-                        Console.WriteLine("/r/n " + q + ". " + item);
+                        Formatting.type("/r/n " + q + ". " + item);
                     }
                     break;
                 default:
@@ -84,10 +92,9 @@ namespace TextAdventure
 
     public class WKingdom : Place
     {
-        public WKingdom()
+        protected override string GetDesc()
         {
-            Description = "\r\n King: 'Come, my champion, for slaying the elder dragon, Tyrone, I will give you the ultimate gift, eternal respite.' \r\n" +
-                "\r\n\r\n The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight(f) or run(r)?";
+                return "King: 'Come, " + Player.name + ", for slaying the elder dragon, Tyrone, I will give you the ultimate gift, eternal respite.The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight(f) or run(r)?";
         }
 
         public override char[] getAvailableCommands()
@@ -100,12 +107,12 @@ namespace TextAdventure
             switch (input)
             {
                 case 'f':
-                    Console.WriteLine("\r\n The King gives you swift respite. He decapitates your sorry ass");
+                    Formatting.type("The King gives you swift respite. He decapitates your sorry ass");
                     End.IsDead = true;
                     End.GameOver();
                     break;
                 case 'r':
-                    Console.WriteLine("\r\n You have lived.");
+                    Formatting.type("You have lived.");
                     Globals.PlayerPosition.y += 1;
                     Main.MainLoop();
                     break;
@@ -118,21 +125,20 @@ namespace TextAdventure
 
     public class IllusionForest : Place
     {
-        public IllusionForest()
+        protected override string GetDesc()
         {
-            Description = "\r\n You find yourself in a forest, the bizarrely appears to wrap itself around you, like a fun house mirror. You are more lost than that time you were on a road \r\n trip and your phone died so you had no GPS." + "\r\n"
-                + "\r\n Do you want to travel east(e), north(n), backpack(b), or search the area(z)?";
+            return "You find yourself in a forest, that bizarrely appears to wrap itself around you, like a fun house mirror. You are more lost than that time you were on a road trip and your phone died so you had no GPS. Do you want to travel east(e), north(n), backpack(b), or search the area(z)?";
         }
 
         public override char[] getAvailableCommands()
         {
             List<char> templist = new List<char>();
-            if (Main.player.backpack.Count >= 1)
+            if (Player.backpack.Count >= 1)
                 templist.Add('b');
             templist.Add('e');
             templist.Add('n');
             templist.Add('z');
-            for (int i = 0; i < Main.player.backpack.Count; i++)
+            for (int i = 0; i < Player.backpack.Count; i++)
             {
                 templist.Add(Convert.ToChar(i + 49));
             }
@@ -150,25 +156,25 @@ namespace TextAdventure
                     Globals.PlayerPosition.x += 1;
                     break;
                 case 'z':
-                    Console.WriteLine("\r\n You decide to look around. You find a trail leading to a clearing. Once in the  clearing, you see a suit of cardboard armor held together with duct tape, a \r\n refigerator box, and a cardboad tube. Pick them up? \r\n Your current commands are y, n");
+                    Formatting.type("You decide to look around. You find a trail leading to a clearing. Once in the  clearing, you see a suit of cardboard armor held together with duct tape, a refigerator box, and a cardboad tube. Pick them up? Your current commands are y, n");
                     char tempinput = Console.ReadKey().KeyChar;
                     switch (tempinput)
                     {
                         case 'y':
-                            Main.player.backpack.Add(globals.cardboard_armor);
-                            Main.player.backpack.Add(globals.cardboard_sword);
-                            Main.player.backpack.Add(globals.cardboard_shield);
+                            Player.backpack.Add(globals.cardboard_armor);
+                            Player.backpack.Add(globals.cardboard_sword);
+                            Player.backpack.Add(globals.cardboard_shield);
                             break;
                         case 'n':
-                            Console.WriteLine("\r\n Loser.");
+                            Formatting.type("\r\nLoser.");
                             break;
                     }
                     break;
                 case 'b':
-                    foreach (Item item in Main.player.backpack)
+                    foreach (Item item in Player.backpack)
                     {
                         q++;
-                        Console.WriteLine("\r\n " + q + ". " + item.name);
+                        Formatting.type("\r " + q + ". " + item.name);
                     }
                     tempinput = Console.ReadKey().KeyChar;
                     break;
@@ -181,9 +187,9 @@ namespace TextAdventure
 
     public class Seaport : Place
     {
-        public Seaport()
+        protected override string GetDesc()
         {
-            Description = "\r\n You arrive at a seaside port bustling with couriers and merchants. Where do you want to go?";
+            return "You arrive at a seaside port bustling with couriers and merchants. Where do you want to go?";
         }
     }
 
