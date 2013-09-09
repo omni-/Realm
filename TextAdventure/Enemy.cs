@@ -14,6 +14,11 @@ namespace TextAdventure
         public int def;
         public int spd;
         public List<string> abilities;
+        
+        public virtual void attack()
+        {
+            return;
+        }
     }
 
     public class Slime : Enemy
@@ -22,12 +27,25 @@ namespace TextAdventure
         {
             name = "Slime";
             hp = 5;
-            atk = 1;
+            atk = 2;
             def = 0;
             spd = 0;
             abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("SuperSlimySlam");
+        }
+        public override void attack()
+        {
+            if (Combat.DecideAttack(abilities) == "BasicAttack")
+            {
+                double damage = Combat.Dice.roll(1, atk);
+                Main.Player.hp -= (Convert.ToInt32(damage) - Main.Player.def);
+            }
+            else if (Combat.DecideAttack(abilities) == "SuperSlimySlam")
+            {
+                double damage = Combat.Dice.roll(atk, atk * 2);
+                Main.Player.hp -= (Convert.ToInt32(damage) - Main.Player.def);
+            }
         }
     }
 }

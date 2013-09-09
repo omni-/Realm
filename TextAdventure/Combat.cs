@@ -46,17 +46,32 @@ namespace TextAdventure
             }
         }
 
-        public static CommandTable getBattleCommands()
-        {
-            CommandTable tempCommandTable = new CommandTable();
-            for (int i = 0; i < Player.abilities.Count; i++)
-            {
-                tempCommandTable.AddCommand(Convert.ToChar(i + 49), );
-            }
-            return tempCommandTable;
-        }
+        //public static CommandTable getBattleCommands()
+        //{
+        //    CommandTable tempCommandTable = new CommandTable();
+        //    for (int i = 0; i < Player.abilities.Count; i++)
+        //    {
+        //        int cmd = i + 49;
+        //        char cmdchar = Convert.ToChar(cmd);
+        //        tempCommandTable.AddCommand(new Command(BasicAttack, cmdchar));
+        //    }
+        //    return tempCommandTable;
+        //}
         public class Command
         {
+            public string name;
+            public char cmdchar;
+
+            public Command()
+            {
+            }
+
+            public Command(string aname, char achar)
+            {
+                name = aname;
+                cmdchar = achar;
+            }
+
             public virtual bool Execute(object Data)
             {
                 return false;
@@ -65,25 +80,36 @@ namespace TextAdventure
 
         public class CommandTable
         {
-            private Dictionary<char, Command> commands;
+            private Dictionary<char, Command> _commands;
 
             public CommandTable()
             {
-                commands = new Dictionary<char, Command>();
+                _commands = new Dictionary<char, Command>();
             }
 
-            public int Count { get { return commands.Count; } }
+            public int Count { get { return _commands.Count; } }
 
-            public void AddCommand(char ch, Command cmd)
+            public void AddCommand(Command cmd)
             {
-                commands.Add(ch, cmd);
+                _commands.Add(cmd.cmdchar, cmd);
+            }
+
+            public char[] commandChars
+            {
+                get { return _commands.Keys.ToArray<char>(); }
+            }
+
+            public Dictionary<char, Command> commands
+            {
+                get { return _commands; }
+                set { _commands = value; }
             }
 
             public bool ExecuteCommand(char ch, object data)
             {
                 try
                 {
-                    Command cmd = commands[ch];
+                    Command cmd = _commands[ch];
                     cmd.Execute(data);
                 }
                 catch (KeyNotFoundException)
@@ -93,13 +119,20 @@ namespace TextAdventure
                 return true;
             }
         }
-        public class BasicAttack : Command
+        public class BasicAttack: Command
         {
-            public static void basicattack(Enemy target)
+            public BasicAttack(string aname, char cmd): base(aname, cmd)
             {
-                double damage = Dice.roll(Player.atk, 4);
-                damage *= Player.primary.multiplier;
+            }
+            public override bool Execute(object data)
+            {
+                // data should be the enemy
+                Enemy target = (Enemy)data;
+                double damage = Dice.roll(Main.Player.atk, 4);
+                if (Main.Player.primary.multiplier != 0)
+                    damage *= Main.Player.primary.multiplier;
                 target.hp -= Convert.ToInt32(damage);
+                return true;
             }
         }
     }

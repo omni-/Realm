@@ -38,9 +38,9 @@ namespace TextAdventure
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(0))
                 templist.Add('n');
-            if (Player.backpack.Count > 0)
+            if (Main.Player.backpack.Count > 0)
                 templist.Add('b');
-            for (int i = 0; i < Player.backpack.Count; i++)
+            for (int i = 0; i < Main.Player.backpack.Count; i++)
             {
                 templist.Add((Convert.ToChar(i + 49)));
             }
@@ -77,7 +77,7 @@ namespace TextAdventure
                     Globals.PlayerPosition.x -= 1;
                     break;
                 case 'b':
-                    foreach (Item item in Player.backpack)
+                    foreach (Item item in Main.Player.backpack)
                     {
                         q++;
                         Formatting.type("/r/n " + q + ". " + item);
@@ -94,7 +94,7 @@ namespace TextAdventure
     {
         protected override string GetDesc()
         {
-                return "King: 'Come, " + Player.name + ", for slaying the elder dragon, Tyrone, I will give you the ultimate gift, eternal respite.The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight(f) or run(r)?";
+            return "King: 'Come, " + Main.Player.name + ", for slaying the elder dragon, Tyrone, I will give you the ultimate gift, eternal respite.The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight(f) or run(r)?";
         }
 
         public override char[] getAvailableCommands()
@@ -133,12 +133,12 @@ namespace TextAdventure
         public override char[] getAvailableCommands()
         {
             List<char> templist = new List<char>();
-            if (Player.backpack.Count >= 1)
+            if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             templist.Add('e');
             templist.Add('n');
             templist.Add('z');
-            for (int i = 0; i < Player.backpack.Count; i++)
+            for (int i = 0; i < Main.Player.backpack.Count; i++)
             {
                 templist.Add(Convert.ToChar(i + 49));
             }
@@ -161,9 +161,9 @@ namespace TextAdventure
                     switch (tempinput)
                     {
                         case 'y':
-                            Player.backpack.Add(globals.cardboard_armor);
-                            Player.backpack.Add(globals.cardboard_sword);
-                            Player.backpack.Add(globals.cardboard_shield);
+                            Main.Player.backpack.Add(globals.cardboard_armor);
+                            Main.Player.backpack.Add(globals.cardboard_sword);
+                            Main.Player.backpack.Add(globals.cardboard_shield);
                             break;
                         case 'n':
                             Formatting.type("\r\nLoser.");
@@ -171,7 +171,7 @@ namespace TextAdventure
                     }
                     break;
                 case 'b':
-                    foreach (Item item in Player.backpack)
+                    foreach (Item item in Main.Player.backpack)
                     {
                         q++;
                         Formatting.type("\r " + q + ". " + item.name);

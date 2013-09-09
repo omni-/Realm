@@ -46,6 +46,7 @@ namespace TextAdventure
         public Item wood_armor = new Item();
         public Item wood_staff = new Item();
         public Item wood_plank = new Item();
+
         public Globals()
         {
             cardboard_armor.name = "Cardboard Armor";
@@ -109,19 +110,26 @@ namespace TextAdventure
             wood_plank.multiplier = 1;
         }
     }
-    public static class Player
+    public class GamePlayer
     {
-        public static int hp;
-        public static int spd;
-        public static int atk;
-        public static int intl;
-        public static int def;
-        public static string name = "";
-        public static Item primary;
-        public static Item secondary;
-        public static Item armor;
-        public static Item accessory;
-        public static List<Item> backpack = new List<Item>();
-        public static TextAdventure.Combat.CommandTable abilities = new TextAdventure.Combat.CommandTable();
+        public int hp;
+        public int spd;
+        public int atk;
+        public int intl;
+        public int def;
+        public string name;
+        public Item primary;
+        public Item secondary;
+        public Item armor;
+        public Item accessory;
+        public List<Item> backpack;
+        public TextAdventure.Combat.CommandTable abilities;
+
+        public GamePlayer()
+        {
+            backpack = new List<Item>();
+            abilities = new TextAdventure.Combat.CommandTable();
+            abilities.AddCommand(new Combat.BasicAttack("Basic Attack", '0'));
+        }
     }
 }
