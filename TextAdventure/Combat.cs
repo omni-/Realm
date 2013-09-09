@@ -42,8 +42,9 @@ namespace TextAdventure
                 return abilities[0];
             else
             {
-                return abilities[rand.Next(2, abilities.Count)];
+                return abilities[rand.Next(1, abilities.Count)];
             }
+            //return abilities[1];
         }
 
         //public static CommandTable getBattleCommands()

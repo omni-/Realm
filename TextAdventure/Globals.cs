@@ -113,6 +113,7 @@ namespace TextAdventure
     public class GamePlayer
     {
         public int hp;
+        public int maxhp;
         public int spd;
         public int atk;
         public int intl;
@@ -123,10 +124,36 @@ namespace TextAdventure
         public Item armor;
         public Item accessory;
         public List<Item> backpack;
+        public int g;
+        public int level;
+        public int xp;
         public TextAdventure.Combat.CommandTable abilities;
-
+        public void levelup()
+        {
+            int xp_to_lvl = 10;
+            if (level <= 10)
+            {
+                if (xp == xp_to_lvl)
+                {
+                    level += 1;
+                    hp = maxhp;
+                    xp_to_lvl *= level;
+                }
+            }
+            else
+            {
+                int oldlevel = level;
+                level = (int)Math.Log(xp, 1.2);
+                if (level > oldlevel)
+                    hp = maxhp;
+            }
+        }
         public GamePlayer()
         {
+            hp = 10;
+            level = 1;
+            xp = 1;
+            g = 10;
             backpack = new List<Item>();
             abilities = new TextAdventure.Combat.CommandTable();
             abilities.AddCommand(new Combat.BasicAttack("Basic Attack", '0'));

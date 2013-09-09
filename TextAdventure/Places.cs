@@ -14,7 +14,7 @@ namespace TextAdventure
 
         protected virtual string GetDesc()
         {
-            return "";
+            return "You are smack-dab in the middle nowhere.";
         }
         public string Description
         {
@@ -31,9 +31,9 @@ namespace TextAdventure
         {
             List<char> templist = new List<char>();
             if (Globals.PlayerPosition.x > 0)
-                templist.Add('e');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(1))
                 templist.Add('w');
+            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(1))
+                templist.Add('e');
             if (Globals.PlayerPosition.y > 0)
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(0))
@@ -156,7 +156,8 @@ namespace TextAdventure
                     Globals.PlayerPosition.x += 1;
                     break;
                 case 'z':
-                    Formatting.type("You decide to look around. You find a trail leading to a clearing. Once in the  clearing, you see a suit of cardboard armor held together with duct tape, a refigerator box, and a cardboad tube. Pick them up? Your current commands are y, n");
+                    Formatting.type("You decide to look around. You find a trail leading to a clearing. Once in the  clearing, you see a suit of cardboard armor held together with duct tape, a refrigerator box, and a cardboad tube. Pick them up? Your current commands are y, n");
+                    Formatting.type("");
                     char tempinput = Console.ReadKey().KeyChar;
                     switch (tempinput)
                     {
@@ -195,7 +196,92 @@ namespace TextAdventure
 
     public class Riverwell : Place
     {
-
+        protected override string GetDesc()
+        {
+            return "A river town centered around a massive well full of magically enriched electrolyte water. And the good stuff. Do you want to go north(n), south(s), east(e), west(w), backpack(b), or visit the town(v)";
+        }
+        public override bool handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'n':
+                    Globals.PlayerPosition.y += 1;
+                    break;
+                case 'e':
+                    Globals.PlayerPosition.x += 1;
+                    break;
+                case 'w':
+                    Globals.PlayerPosition.x -= 1;
+                    break;
+                case 's':
+                    Globals.PlayerPosition.y -= 1;
+                    break;
+                case 'v':
+                    Formatting.type("There is an inn(i) and an arms dealer(a). Or you can investigate the well(w).");
+                    Formatting.type("");
+                    char tempinput = Console.ReadKey().KeyChar;
+                    switch (tempinput)
+                    {
+                        case 'i':
+                            Formatting.type("Innkeep: \"It will cost you 3 gold. Are you sure?\"(y/n)");
+                            char _tempinput = Console.ReadKey().KeyChar;
+                            switch (_tempinput)
+                            {
+                                case 'y':
+                                    Formatting.type("Your health has been fully restored.");
+                                    Main.Player.g -= 3;
+                                    Main.Player.hp = Main.Player.maxhp;
+                                    break;
+                                case 'n':
+                                    Formatting.type("You leave the inn.");
+                                    break;
+                            }
+                            break;
+                        case 'a':
+                            Formatting.type("You visit the arms dealer. He has naught to sell but a wooden staff. Buy for 10 gold? (y/n)");
+                            char __tempinput = Console.ReadKey().KeyChar;
+                            switch (__tempinput)
+                            {
+                                case 'y':
+                                    Formatting.type("You buy the staff. He grins, and you know you've been ripped off.");
+                                    Main.Player.g -= 20;
+                                    Main.Player.backpack.Add(globals.wood_staff);
+                                    break;
+                                case 'n':
+                                    Formatting.type("You leave the inn.");
+                                    break;
+                            }
+                            break;
+                        case 'w':
+                            Formatting.type("Do you want to look inside the well?(y/n)");
+                            char ___tempinput = Console.ReadKey().KeyChar;
+                            switch (___tempinput)
+                            {
+                                case 'y':
+                                    Formatting.type("You fall in and drown.");
+                                    End.IsDead = true;
+                                    End.GameOver();
+                                    break;
+                                case 'n':
+                                    Formatting.type("You leave.");
+                                    break;
+                            }
+                            break;
+                    }
+                    break;
+                case 'b':
+                    foreach (Item item in Main.Player.backpack)
+                    {
+                        q++;
+                        Formatting.type("\r " + q + ". " + item.name);
+                    }
+                    tempinput = Console.ReadKey().KeyChar;
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
     }
 
     public class Valleyburg : Place

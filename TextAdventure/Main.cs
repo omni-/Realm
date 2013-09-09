@@ -15,21 +15,27 @@ namespace TextAdventure
         public static void MainLoop()
         {
             game_state = 0;
-            //if (loop_number >= 1)
-            //{
-            //    if (Combat.CheckBattle())
-            //    {
-                    BattleLoop();
-            //    }
-            //}
+            Player.hp = 10;
+
             Place currPlace;
             while (!End.IsDead)
             {
-                Player.hp = 10;
-                Player.def = 0;
-                Player.atk = 1;
-                Player.intl = 0;
-                Player.spd = 1;
+                Player.levelup();
+                if (Player.hp > Player.maxhp)
+                    Player.hp = Player.maxhp;
+                if (loop_number >= 1)
+                {
+                    if (Combat.CheckBattle())
+                    {
+                        BattleLoop();
+                    }
+                }
+
+                Player.maxhp = 9 + Player.level;
+                Player.def = -1 + Player.level;
+                Player.atk = 0 + Player.level;
+                Player.intl = -1 + Player.level;
+                Player.spd = 0 + Player.level;
 
                 foreach (Item i in Player.backpack)
                 {
@@ -40,15 +46,17 @@ namespace TextAdventure
                 }
 
                 Formatting.type("-------------------------------------", 10);
-                Formatting.type("HP: " + Player.hp);
-                Formatting.type("Defense: "+ Player.def);
-                Formatting.type("Attack: " + Player.atk);
-                Formatting.type("Speed: " + Player.spd);
-                Formatting.type("Intelligence: " + Player.intl);
+                Formatting.type("Level: " + Player.level, 10);
+                Formatting.type("HP: " + Player.hp + "/" + Player.maxhp, 10);
+                Formatting.type("Defense: "+ Player.def, 10);
+                Formatting.type("Attack: " + Player.atk, 10);
+                Formatting.type("Speed: " + Player.spd, 10);
+                Formatting.type("Intelligence: " + Player.intl, 10);
+                Formatting.type("Gold: " + Player.g, 10);
                 Formatting.type("-------------------------------------", 10);
 
                 currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
-                Formatting.type(currPlace.Description);
+                Formatting.type(currPlace.Description, 15);
 
                 char[] currcommands = currPlace.getAvailableCommands();
                 Console.Write("\r\nYour current commands are x");
@@ -81,11 +89,11 @@ namespace TextAdventure
         {
             game_state = 1;
 
-            Player.hp = 10;
-            Player.def = 0;
-            Player.atk = 1;
-            Player.intl = 0;
-            Player.spd = 1;
+            Player.maxhp = 9 + Player.level;
+            Player.def = -1 + Player.level;
+            Player.atk = 0 + Player.level;
+            Player.intl = -1 + Player.level;
+            Player.spd = 0 + Player.level;
 
             foreach (Item i in Player.backpack)
             {
@@ -113,41 +121,45 @@ namespace TextAdventure
 
                     Formatting.type("\r\nAVAILABLE MOVES:");
                     Formatting.type("=========================", 10);
-
                     foreach (TextAdventure.Combat.Command c in Main.Player.abilities.commands.Values)
                     {
                         string src = "||   " + c.cmdchar + ". " + c.name + "    ||";
                         Formatting.type(src, 10);
                     }
                     Formatting.type("=========================", 10);
+                    Formatting.type("");
 
                     int oldhp = enemy.hp;
                     char ch = Console.ReadKey().KeyChar;
                     Main.Player.abilities.ExecuteCommand(ch, enemy);
                     int enemyhp = oldhp - enemy.hp;
                     Formatting.type("The enemy takes " + enemyhp + " damage!");
+                    if (enemy.hp <= 0)
+                    {
+                        Formatting.type("Your have defeated " + enemy.name + "!");
+                        Player.xp += enemy.xp;
+                        Formatting.type("You gained " + enemy.xp + " xp.");
+                        Player.levelup();
+                        MainLoop();
+                    }
                     is_turn = false;
-                }
-                if (enemy.hp <= 0)
-                {
-                    Formatting.type("Your have deafted " + enemy.name + "!");
-                    MainLoop();
                 }
                 else if (!is_turn)
                 {
-                    Formatting.type(enemy.name + ":");
+                    int oldhp = Main.Player.hp;
+                    string ability;
+                    enemy.attack(out ability);
+                    Formatting.type(enemy.name + " used " + ability);
+                    Formatting.type("You take " + (oldhp - Main.Player.hp) + " damage!");
                     Formatting.type("-------------------------", 10);
                     Formatting.type("Your HP: " + Main.Player.hp);
                     Formatting.type("-------------------------", 10);
-                    int oldhp = Main.Player.hp;
-                    enemy.attack();
-                    Formatting.type("You take " + (oldhp - Main.Player.hp) + "damage!");
+                    if (Player.hp <= 0)
+                    {
+                        End.IsDead = true;
+                        End.GameOver();
+                    }
                     is_turn = true;
-                }
-                if (Player.hp <= 0)
-                {
-                    End.IsDead = true;
-                    End.GameOver();
                 }
             }
         }
