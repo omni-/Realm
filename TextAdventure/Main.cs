@@ -162,10 +162,30 @@ namespace TextAdventure
                 }
             }
         }
-
+        public class backpackcommand : Combat.Command
+        {
+            public backpackcommand(string aname, char cmd): base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                return base.Execute(Data);
+            }
+        }
         public static void BackpackLoop()
         {
             bool loopcontrol = true;
+            while(loopcontrol)
+            {
+                int q = 0;
+                Combat.CommandTable cmd = new Combat.CommandTable();
+                foreach (Item i in Main.Player.backpack)
+                {
+                    q++;
+                    Formatting.type(q + ". " + i.name);
+                    cmd.AddCommand(new Combat.Command());
+                }
+            }
         }
     }
 }

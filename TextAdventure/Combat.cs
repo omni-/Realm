@@ -46,18 +46,6 @@ namespace TextAdventure
             }
             //return abilities[1];
         }
-
-        //public static CommandTable getBattleCommands()
-        //{
-        //    CommandTable tempCommandTable = new CommandTable();
-        //    for (int i = 0; i < Player.abilities.Count; i++)
-        //    {
-        //        int cmd = i + 49;
-        //        char cmdchar = Convert.ToChar(cmd);
-        //        tempCommandTable.AddCommand(new Command(BasicAttack, cmdchar));
-        //    }
-        //    return tempCommandTable;
-        //}
         public class Command
         {
             public string name;
