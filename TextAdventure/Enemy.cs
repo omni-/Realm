@@ -14,12 +14,19 @@ namespace TextAdventure
         public int def;
         public int spd;
         public int xp;
+        public int gpdice;
         public List<string> abilities;
         
         public virtual void attack(out string ability_used)
         {
             ability_used = "";
             return;
+        }
+        public virtual void droploot()
+        {
+            int gold = Combat.Dice.roll(gpdice, 4);
+            Formatting.type("You gain " + gold + " gold.");
+            Main.Player.g += gold;
         }
     }
 
@@ -33,6 +40,7 @@ namespace TextAdventure
             def = 0;
             spd = 0;
             xp = 5;
+            gpdice = 1;
             abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("SuperSlimySlam");
@@ -43,6 +51,8 @@ namespace TextAdventure
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
+                if (atk < Main.Player.def)
+                    damage = 1;
                 Main.Player.hp -= (Convert.ToInt32(damage) - Main.Player.def);
                 ability_used = "Basic Attack";
             }
@@ -64,6 +74,7 @@ namespace TextAdventure
             def = 1;
             spd = 1;
             xp = 10;
+            gpdice = 3;
             abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("Impale");

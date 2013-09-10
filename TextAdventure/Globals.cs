@@ -23,7 +23,6 @@ namespace TextAdventure
         public int tier;
         public int slot;
         public float multiplier;
-        public bool in_use;
         //1 for primary 2 for secondary 3 for armor 4 for Accessory
     }
     public class Globals
@@ -46,7 +45,7 @@ namespace TextAdventure
         public Item wood_armor = new Item();
         public Item wood_staff = new Item();
         public Item wood_plank = new Item();
-
+        public Item iron_lance = new Item();
         public Globals()
         {
             cardboard_armor.name = "Cardboard Armor";
@@ -108,6 +107,15 @@ namespace TextAdventure
             wood_plank.tier = 1;
             wood_plank.slot = 1;
             wood_plank.multiplier = 1;
+
+            iron_lance.name = "Iron Lance";
+            iron_lance.desc = "A lance of iron, gilded in gold";
+            iron_lance.defbuff = 1;
+            iron_lance.atkbuff = 3;
+            iron_lance.spdbuff = 1;
+            iron_lance.tier = 2;
+            iron_lance.slot = 1;
+            iron_lance.multiplier = 1.2f;
         }
     }
     public class GamePlayer

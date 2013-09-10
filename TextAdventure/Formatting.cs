@@ -25,7 +25,7 @@ namespace TextAdventure
             foreach (char c in src)
             {
                 Console.Write(c);
-                Thread.Sleep(50);
+                Thread.Sleep(10);
             }
         }
     }

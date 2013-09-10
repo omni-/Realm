@@ -40,10 +40,6 @@ namespace TextAdventure
                 templist.Add('n');
             if (Main.Player.backpack.Count > 0)
                 templist.Add('b');
-            for (int i = 0; i < Main.Player.backpack.Count; i++)
-            {
-                templist.Add((Convert.ToChar(i + 49)));
-            }
             return templist.ToArray<char>();
         }
 
@@ -77,7 +73,7 @@ namespace TextAdventure
                     Globals.PlayerPosition.x -= 1;
                     break;
                 case 'b':
-                    Main.BackpackLoop();
+                    //Main.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -134,10 +130,6 @@ namespace TextAdventure
             templist.Add('e');
             templist.Add('n');
             templist.Add('z');
-            for (int i = 0; i < Main.Player.backpack.Count; i++)
-            {
-                templist.Add(Convert.ToChar(i + 49));
-            }
             return templist.ToArray<char>();
         }
 
@@ -168,12 +160,7 @@ namespace TextAdventure
                     }
                     break;
                 case 'b':
-                    foreach (Item item in Main.Player.backpack)
-                    {
-                        q++;
-                        Formatting.type("\r " + q + ". " + item.name);
-                    }
-                    tempinput = Console.ReadKey().KeyChar;
+                    //Main.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -186,10 +173,68 @@ namespace TextAdventure
     {
         protected override string GetDesc()
         {
-            return "You arrive at a seaside port bustling with couriers and merchants. Where do you want to go?";
+            return "You arrive at a seaside port bustling with couriers and merchants. Do you want to go to the arms dealer(a), the library(r), or inn(i)?";
+        }
+        public override List<Enemy> getEnemyList()
+        {
+            List<Enemy> templist = new List<Enemy>();
+            templist.Add(new Slime());
+            templist.Add(new Goblin());
+            return templist;
+        }
+        public override bool handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'n':
+                    Globals.PlayerPosition.y += 1;
+                    break;
+                case 'e':
+                    Globals.PlayerPosition.x += 1;
+                    break;
+                case 's':
+                    Globals.PlayerPosition.y -= 1;
+                    break;
+                case 'i':
+                    Formatting.type("Innkeep: \"It will cost you 5 gold. Are you sure?\"(y/n)");
+                    char _tempinput = Console.ReadKey().KeyChar;
+                    switch (_tempinput)
+                    {
+                        case 'y':
+                            if (Main.Purchase(3))
+                            {
+                                Formatting.type("Your health has been fully restored, although the matress was as hard as stale crackers and your back kinda hurts.");
+                                Main.Player.hp = Main.Player.maxhp;
+                            }
+                            break;
+                        case 'n':
+                            Formatting.type("You leave the inn.");
+                            break;
+                    }
+                    break;
+                case 'a':
+                    Formatting.type("You visit the arms dealer. He's out of stock except for an iron lance Buy for 15 gold? (y/n)");
+                    char __tempinput = Console.ReadKey().KeyChar;
+                    switch (__tempinput)
+                    {
+                        case 'y':
+                            if (Main.Purchase(15, globals.wood_staff))
+                                Formatting.type("It's almost as if he doesn't even see you.");
+                            break;
+                        case 'n':
+                            Formatting.type("You leave.");
+                            break;
+                    }
+                    break;
+                case 'b':
+                    //Main.BackpackLoop();
+                    break;
+                default:
+                    return false;
+            }
+            return true;
         }
     }
-
     public class Riverwell : Place
     {
         protected override string GetDesc()
@@ -206,10 +251,6 @@ namespace TextAdventure
             templist.Add('w');
             templist.Add('s');
             templist.Add('v');
-            for (int i = 0; i < Main.Player.backpack.Count; i++)
-            {
-                templist.Add(Convert.ToChar(i + 49));
-            }
             return templist.ToArray<char>();
         }
         public override bool handleInput(char input)
@@ -240,9 +281,11 @@ namespace TextAdventure
                             switch (_tempinput)
                             {
                                 case 'y':
-                                    Formatting.type("Your health has been fully restored.");
-                                    Main.Player.g -= 3;
-                                    Main.Player.hp = Main.Player.maxhp;
+                                    if (Main.Purchase(3))
+                                    {
+                                        Formatting.type("Your health has been fully restored, although you suspect you have lice.");
+                                        Main.Player.hp = Main.Player.maxhp;
+                                    }
                                     break;
                                 case 'n':
                                     Formatting.type("You leave the inn.");
@@ -255,9 +298,8 @@ namespace TextAdventure
                             switch (__tempinput)
                             {
                                 case 'y':
-                                    Formatting.type("You buy the staff. He grins, and you know you've been ripped off.");
-                                    Main.Player.g -= 20;
-                                    Main.Player.backpack.Add(globals.wood_staff);
+                                    if (Main.Purchase(10, globals.wood_staff))
+                                        Formatting.type("You buy the staff. He grins, and you know you've been ripped off.");
                                     break;
                                 case 'n':
                                     Formatting.type("You leave the inn.");
@@ -282,7 +324,7 @@ namespace TextAdventure
                     }
                     break;
                 case 'b':
-                    Main.BackpackLoop();
+                    //Main.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -290,6 +332,7 @@ namespace TextAdventure
             return true;
         }
     }
+        
 
     public class Valleyburg : Place
     {

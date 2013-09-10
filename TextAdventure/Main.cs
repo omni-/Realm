@@ -29,7 +29,6 @@ namespace TextAdventure
                         BattleLoop();
                     }
                 }
-
                 Player.maxhp = 9 + Player.level;
                 Player.def = -1 + Player.level;
                 Player.atk = 0 + Player.level;
@@ -42,6 +41,37 @@ namespace TextAdventure
                     Player.atk += i.atkbuff;
                     Player.intl += i.intlbuff;
                     Player.spd += i.spdbuff;
+                }
+                if (!Player.primary.Equals(default(Item)))
+                {
+                    Player.def += Player.primary.defbuff;
+                    Player.atk += Player.primary.atkbuff;
+                    Player.intl += Player.primary.intlbuff;
+                    Player.spd += Player.primary.spdbuff;
+                }
+
+                if (!Player.secondary.Equals(default(Item)))
+                {
+                    Player.def += Player.secondary.defbuff;
+                    Player.atk += Player.secondary.atkbuff;
+                    Player.intl += Player.secondary.intlbuff;
+                    Player.spd += Player.secondary.spdbuff;
+                }
+
+                if (!Player.armor.Equals(default(Item)))
+                {
+                    Player.def += Player.armor.defbuff;
+                    Player.atk += Player.armor.atkbuff;
+                    Player.intl += Player.armor.intlbuff;
+                    Player.spd += Player.armor.spdbuff;
+                }
+
+                if (!Player.accessory.Equals(default(Item)))
+                {
+                    Player.def += Player.accessory.defbuff;
+                    Player.atk += Player.accessory.atkbuff;
+                    Player.intl += Player.accessory.intlbuff;
+                    Player.spd += Player.accessory.spdbuff;
                 }
 
                 Formatting.type("-------------------------------------", 10);
@@ -138,6 +168,7 @@ namespace TextAdventure
                         Formatting.type("Your have defeated " + enemy.name + "!");
                         Player.xp += enemy.xp;
                         Formatting.type("You gained " + enemy.xp + " xp.");
+                        enemy.droploot();
                         Player.levelup();
                         MainLoop();
                     }
@@ -169,7 +200,31 @@ namespace TextAdventure
             }
             public override bool Execute(object Data)
             {
-                return base.Execute(Data);
+                Item i = (Item)Data;
+                Formatting.type(i.name);
+                Formatting.type("Description: " + i.desc);
+                Formatting.type("Attack Buff: " + i.atkbuff);
+                Formatting.type("Defense Buff: " + i.defbuff);
+                Formatting.type("Speed Buff: " + i.spdbuff);
+                Formatting.type("Intelligence Buff: " + i.intlbuff);
+                Formatting.type("Enter (y) to switch this item, and anything else to go back.");
+                char c = Console.ReadKey().KeyChar;
+                switch (c)
+                {
+                    case 'y':
+                        if (i.slot == 1)
+                            Main.Player.primary = i;
+                        else if (i.slot == 2)
+                            Main.Player.secondary = i;
+                        else if (i.slot == 3)
+                            Main.Player.armor = i;
+                        else if (i.slot == 4)
+                            Main.Player.accessory = i;
+                        break;
+                    default:
+                        return false;
+                }
+                return true;
             }
         }
         public static void BackpackLoop()
@@ -183,8 +238,38 @@ namespace TextAdventure
                 {
                     q++;
                     Formatting.type(q + ". " + i.name);
-                    cmd.AddCommand(new Combat.Command());
+                    backpackcommand bpcmd = new backpackcommand(i.name, (char)(q + 49));
+                    cmd.AddCommand(bpcmd);
+                    char ch = Console.ReadKey().KeyChar;
+                    cmd.ExecuteCommand(ch, i);
                 }
+            }
+        }
+        public static bool Purchase(int cost)
+        {
+            if (cost > Player.g)
+            {
+                Formatting.type("You don't have enough gold.");
+                return false;
+            }
+            else
+            {
+                Player.g -= cost;
+                return true;
+            }
+        }
+        public static bool Purchase(int cost, Item i)
+        {
+            if (cost < Player.g)
+            {
+                Player.g -= cost;
+                Player.backpack.Add(i);
+                return true;
+            }
+            else
+            {
+                Formatting.type("You don't have enough gold.");
+                return false;
             }
         }
     }
