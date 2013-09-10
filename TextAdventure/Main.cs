@@ -15,7 +15,6 @@ namespace TextAdventure
         public static void MainLoop()
         {
             game_state = 0;
-            Player.hp = 10;
 
             Place currPlace;
             while (!End.IsDead)
@@ -162,6 +161,11 @@ namespace TextAdventure
                     is_turn = true;
                 }
             }
+        }
+
+        public static void BackpackLoop()
+        {
+            bool loopcontrol = true;
         }
     }
 }

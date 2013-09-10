@@ -150,6 +150,7 @@ namespace TextAdventure
         }
         public GamePlayer()
         {
+            maxhp = 10;
             hp = 10;
             level = 1;
             xp = 1;

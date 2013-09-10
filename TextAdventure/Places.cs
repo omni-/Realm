@@ -77,11 +77,7 @@ namespace TextAdventure
                     Globals.PlayerPosition.x -= 1;
                     break;
                 case 'b':
-                    foreach (Item item in Main.Player.backpack)
-                    {
-                        q++;
-                        Formatting.type("/r/n " + q + ". " + item);
-                    }
+                    Main.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -200,6 +196,22 @@ namespace TextAdventure
         {
             return "A river town centered around a massive well full of magically enriched electrolyte water. And the good stuff. Do you want to go north(n), south(s), east(e), west(w), backpack(b), or visit the town(v)";
         }
+        public override char[] getAvailableCommands()
+        {
+            List<char> templist = new List<char>();
+            if (Main.Player.backpack.Count >= 1)
+                templist.Add('b');
+            templist.Add('n');
+            templist.Add('e');
+            templist.Add('w');
+            templist.Add('s');
+            templist.Add('v');
+            for (int i = 0; i < Main.Player.backpack.Count; i++)
+            {
+                templist.Add(Convert.ToChar(i + 49));
+            }
+            return templist.ToArray<char>();
+        }
         public override bool handleInput(char input)
         {
             switch (input)
@@ -270,12 +282,7 @@ namespace TextAdventure
                     }
                     break;
                 case 'b':
-                    foreach (Item item in Main.Player.backpack)
-                    {
-                        q++;
-                        Formatting.type("\r " + q + ". " + item.name);
-                    }
-                    tempinput = Console.ReadKey().KeyChar;
+                    Main.BackpackLoop();
                     break;
                 default:
                     return false;
