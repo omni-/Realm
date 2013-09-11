@@ -14,64 +14,36 @@ namespace TextAdventure
         public static int libcounter = 0;
         public static GamePlayer Player = new GamePlayer();
 
+        public static void Tutorial()
+        {
+            Formatting.type("Welcome, " + Player.name + ", to Realm.");
+            Formatting.type("To do anything in Realm, simply press one of the listed commands.");
+            Formatting.type("When in combat, select an availible move. All damage is randomized.");
+            Formatting.type("While in the backpack, simply select a number corresponding to an item. You may swap this item in or out. Make sure to equip an item once you pick it up!");
+            Formatting.type("At any specified time, you may press x, then y. This will cause you to commit suicide.");
+            Formatting.type("You are now ready to play Realm. Good luck!");
+            Formatting.type("Press any key to continue.");
+            Console.ReadKey();
+            MainLoop();
+        }
         public static void MainLoop()
         {
             game_state = 0;
-
             Place currPlace;
             while (!End.IsDead)
             {
                 Player.levelup();
+
                 if (Player.hp > Player.maxhp)
                     Player.hp = Player.maxhp;
-                if (Combat.CheckBattle())
+                if (loop_number >= 1)
                 {
-                    BattleLoop();
+                    if (Combat.CheckBattle())
+                    {
+                        BattleLoop();
+                    }
                 }
-                Player.maxhp = 9 + Player.level;
-                Player.def = -1 + Player.level;
-                Player.atk = 0 + Player.level;
-                Player.intl = -1 + Player.level;
-                Player.spd = 0 + Player.level;
-
-                //foreach (Item i in Player.backpack)
-                //{
-                //    Player.def += i.defbuff;
-                //    Player.atk += i.atkbuff;
-                //    Player.intl += i.intlbuff;
-                //    Player.spd += i.spdbuff;
-                //}
-                if (!Player.primary.Equals(default(Item)))
-                {
-                    Player.def += Player.primary.defbuff;
-                    Player.atk += Player.primary.atkbuff;
-                    Player.intl += Player.primary.intlbuff;
-                    Player.spd += Player.primary.spdbuff;
-                }
-
-                if (!Player.secondary.Equals(default(Item)))
-                {
-                    Player.def += Player.secondary.defbuff;
-                    Player.atk += Player.secondary.atkbuff;
-                    Player.intl += Player.secondary.intlbuff;
-                    Player.spd += Player.secondary.spdbuff;
-                }
-
-                if (!Player.armor.Equals(default(Item)))
-                {
-                    Player.def += Player.armor.defbuff;
-                    Player.atk += Player.armor.atkbuff;
-                    Player.intl += Player.armor.intlbuff;
-                    Player.spd += Player.armor.spdbuff;
-                }
-
-                if (!Player.accessory.Equals(default(Item)))
-                {
-                    Player.def += Player.accessory.defbuff;
-                    Player.atk += Player.accessory.atkbuff;
-                    Player.intl += Player.accessory.intlbuff;
-                    Player.spd += Player.accessory.spdbuff;
-                }
+                Main.Player.applybonus();
 
                 Formatting.type("-------------------------------------", 10);
                 Formatting.type("Level: " + Player.level, 10);
@@ -118,26 +90,18 @@ namespace TextAdventure
         {
             game_state = 1;
 
-            Player.maxhp = 9 + Player.level;
-            Player.def = -1 + Player.level;
-            Player.atk = 0 + Player.level;
-            Player.intl = -1 + Player.level;
-            Player.spd = 0 + Player.level;
+            Player.applybonus();
 
-            foreach (Item i in Player.backpack)
-            {
-                Player.def += i.defbuff;
-                Player.atk += i.atkbuff;
-                Player.intl += i.intlbuff;
-                Player.spd += i.spdbuff;
-            }
-
-            Formatting.type("You've been ambushed! You ready your weapons.");
             Place currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
             List<Enemy> enemylist = currPlace.getEnemyList();
+            if (enemylist.Count == 0)
+                return;
+            Formatting.type("You've been ambushed! You ready your weapons.");
             Random rand = new Random();
-            int randint = rand.Next(0, enemylist.Count);
-            Enemy enemy = enemylist[randint];
+            int randint = rand.Next(0, enemylist.Count + 1);
+            if (randint <= 1)
+                randint = 1;
+            Enemy enemy = enemylist[randint - 1];
             bool is_turn = enemy.spd < Player.spd;
             while (enemy.hp >= 0)
             {
@@ -207,7 +171,7 @@ namespace TextAdventure
                 Formatting.type("Defense Buff: " + i.defbuff);
                 Formatting.type("Speed Buff: " + i.spdbuff);
                 Formatting.type("Intelligence Buff: " + i.intlbuff);
-                Formatting.type("Enter (y) to switch this item, and anything else to go back.");
+                Formatting.type("Enter (y) to equip this item, (n) to dequip and anything else to go back.");
                 char c = Console.ReadKey().KeyChar;
                 switch (c)
                 {
@@ -221,6 +185,16 @@ namespace TextAdventure
                         else if (i.slot == 4)
                             Main.Player.accessory = i;
                         break;
+                    case 'n':
+                        if (i.slot == 1)
+                            Main.Player.primary = new Item();
+                        else if (i.slot == 2)
+                            Main.Player.secondary = new Item();
+                        else if (i.slot == 3)
+                            Main.Player.armor = new Item();
+                        else if (i.slot == 4)
+                            Main.Player.accessory = new Item();
+                        break;
                     default:
                         return false;
                 }
@@ -232,17 +206,40 @@ namespace TextAdventure
             bool loopcontrol = true;
             while(loopcontrol)
             {
-                int q = 0;
+                Formatting.type("**********Current Equipment**********");
+                if (!Main.Player.primary.Equals(default(Item)))
+                    Formatting.type("Primary: " + Player.primary.name);
+                else
+                    Formatting.type("Primary: None.");
+                if (!Main.Player.secondary.Equals(default(Item)))
+                    Formatting.type("Secondary: " + Player.secondary.name);
+                else
+                    Formatting.type("Secondary: None.");
+                if (!Main.Player.armor.Equals(default(Item)))
+                    Formatting.type("Armor: " + Player.armor.name);
+                else
+                    Formatting.type("Armor: None.");
+                if (!Main.Player.accessory.Equals(default(Item)))
+                    Formatting.type("Accessory: " + Player.accessory.name);
+                else
+                    Formatting.type("Accessory: None.");
+                Formatting.type("*************************************");
+                int q = 1;
                 Combat.CommandTable cmd = new Combat.CommandTable();
                 foreach (Item i in Main.Player.backpack)
                 {
-                    q++;
-                    Formatting.type(q + ". " + i.name);
-                    backpackcommand bpcmd = new backpackcommand(i.name, (char)(q + 49));
+                    Formatting.type((q - 1) + ". " + i.name);
+                    backpackcommand bpcmd = new backpackcommand(i.name, (char)(q + 47));
                     cmd.AddCommand(bpcmd);
+                    q++;
                 }
+                Formatting.type("");
                 char ch = Console.ReadKey().KeyChar;
-                cmd.ExecuteCommand(ch, Player.backpack[(int)(ch-49)]);
+                if (!cmd.commandChars.Contains(ch))
+                    break;
+                //if (ch == '1')
+                //    cmd.ExecuteCommand('1', 1);
+                cmd.ExecuteCommand(ch, Player.backpack[(int)Char.GetNumericValue(ch)]);
             }
         }
         public static bool Purchase(int cost)

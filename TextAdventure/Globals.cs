@@ -89,11 +89,11 @@ namespace TextAdventure
             wood_armor.multiplier = 0;
 
             wood_staff.name = "Wood Staff";
-            wood_staff.desc = "A label that reads 'S̶a̶m̶m̶y̶ Luigi' is stuck on it. There's also blood on the hilt.";
-            wood_staff.defbuff = 4;
+            wood_staff.desc = "A label that reads 'Luigi(sammy)' is stuck on it. There's also blood on the hilt.";
+            wood_staff.defbuff = 2;
             wood_staff.atkbuff = 2;
             wood_staff.spdbuff = 1;
-            wood_staff.intlbuff = 0;
+            wood_staff.intlbuff = 1;
             wood_staff.tier = 1;
             wood_staff.slot = 1;
             wood_staff.multiplier = 1.3f;
@@ -145,13 +145,54 @@ namespace TextAdventure
                 Formatting.type("Congratulations! You have leveld up! You are now level " + level + ".");
             }
         }
+        public void applybonus()
+        {
+            maxhp = 9 + (level * 2);
+            def = -1 + level;
+            atk = 0 + level;
+            intl = 0 + level;
+            spd = 0 + level;
+
+            if (!primary.Equals(default(Item)))
+            {
+                def += primary.defbuff;
+                atk += primary.atkbuff;
+                intl += primary.intlbuff;
+                spd += primary.spdbuff;
+            }
+
+            if (!secondary.Equals(default(Item)))
+            {
+                def += secondary.defbuff;
+                atk += secondary.atkbuff;
+                intl += secondary.intlbuff;
+                spd += secondary.spdbuff;
+            }
+
+            if (!armor.Equals(default(Item)))
+            {
+                def += armor.defbuff;
+                atk += armor.atkbuff;
+                intl += armor.intlbuff;
+                spd += armor.spdbuff;
+            }
+
+            if (!accessory.Equals(default(Item)))
+            {
+                def += accessory.defbuff;
+                atk += accessory.atkbuff;
+                intl += accessory.intlbuff;
+                spd += accessory.spdbuff;
+            }
+
+        }
         public GamePlayer()
         {
             maxhp = 10;
             hp = 10;
             level = 1;
             xp = 0;
-            g = 10;
+            g = 15;
             backpack = new List<Item>();
             abilities = new TextAdventure.Combat.CommandTable();
             abilities.AddCommand(new Combat.BasicAttack("Basic Attack", 'b'));

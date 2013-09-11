@@ -25,7 +25,7 @@ namespace TextAdventure
         {
             List<Enemy> templist = new List<Enemy>();
             templist.Add(new Slime());
-            //templist.Add(new Goblin());
+            templist.Add(new Goblin());
             return templist;
         }
         public virtual char[] getAvailableCommands()
@@ -87,9 +87,16 @@ namespace TextAdventure
     {
         protected override string GetDesc()
         {
-            return "King: 'Come, " + Main.Player.name + ", for slaying the elder dragon, Tyrone, I will give you the ultimate gift, eternal respite.The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight(f) or run(r)?";
+            return "King: 'Come, " + Main.Player.name + ", for slaying the elder dragon, Tyrone, I will give you the ultimate gift, eternal respite. The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight(f) or run(r)?";
         }
 
+        public override List<Enemy> getEnemyList()
+        {
+            List<Enemy> templist = new List<Enemy>();
+            //templist.Add(new Slime());
+            //templist.Add(new Goblin());
+            return templist;
+        }
         public override char[] getAvailableCommands()
         {
             return new char[] { 'f', 'r' };
@@ -122,7 +129,13 @@ namespace TextAdventure
         {
             return "You find yourself in a forest, that bizarrely appears to wrap itself around you, like a fun house mirror. You are more lost than that time you were on a road trip and your phone died so you had no GPS. Do you want to travel east(e), north(n), backpack(b), or search the area(z)?";
         }
-
+        public override List<Enemy> getEnemyList()
+        {
+            List<Enemy> templist = new List<Enemy>();
+            templist.Add(new Slime());
+            //templist.Add(new Goblin());
+            return templist;
+        }
         public override char[] getAvailableCommands()
         {
             List<char> templist = new List<char>();
@@ -195,6 +208,13 @@ namespace TextAdventure
             templist.Add('s');
             templist.Add('v');
             return templist.ToArray<char>();
+        }
+        public override List<Enemy> getEnemyList()
+        {
+            List<Enemy> templist = new List<Enemy>();
+            templist.Add(new Slime());
+            templist.Add(new Goblin());
+            return templist;
         }
         public override bool handleInput(char input)
         {
@@ -280,7 +300,7 @@ namespace TextAdventure
     {
         protected override string GetDesc()
         {
-            return "You arrive at a seaside port bustling with couriers and merchants. Do you want to go to the arms dealer(a), the library(r), or inn(i)?";
+            return "You arrive at a seaside port bustling with couriers and merchants. Do you want to go to the arms dealer(a), the library(l), or inn(i)?";
         }
         public override List<Enemy> getEnemyList()
         {
@@ -288,6 +308,19 @@ namespace TextAdventure
             templist.Add(new Slime());
             templist.Add(new Goblin());
             return templist;
+        }
+        public override char[] getAvailableCommands()
+        {
+            List<char> templist = new List<char>();
+            if (Main.Player.backpack.Count >= 1)
+                templist.Add('b');
+            templist.Add('n');
+            templist.Add('e');
+            templist.Add('s');
+            templist.Add('a');
+            templist.Add('l');
+            templist.Add('i');
+            return templist.ToArray<char>();
         }
         public override bool handleInput(char input)
         {
@@ -325,7 +358,7 @@ namespace TextAdventure
                     switch (__tempinput)
                     {
                         case 'y':
-                            if (Main.Purchase(15, globals.wood_staff))
+                            if (Main.Purchase(15, globals.iron_lance))
                                 Formatting.type("It's almost as if he doesn't even see you.");
                             break;
                         case 'n':

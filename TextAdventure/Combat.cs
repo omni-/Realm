@@ -116,6 +116,8 @@ namespace TextAdventure
                 double damage = Dice.roll(Main.Player.atk, 4);
                 if (Main.Player.primary.multiplier != 0)
                     damage *= Main.Player.primary.multiplier;
+                if (damage <= 0)
+                    damage = 1;
                 target.hp -= Convert.ToInt32(damage);
                 return true;
             }

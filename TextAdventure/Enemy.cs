@@ -67,6 +67,8 @@ namespace TextAdventure
                 dmg = Math.Max((Convert.ToInt32(damage) - Main.Player.def), 0);
                 ability_used = "Super Slimy Slam";
             }
+            if (dmg <= 0)
+                dmg = 1;
             Main.Player.hp -= dmg;
         }
     }

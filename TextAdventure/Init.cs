@@ -16,13 +16,10 @@ namespace TextAdventure
             Formatting.type("Please enter your name.\r\n");
             Main.Player.name = Console.ReadLine();
 
-            string line = "Hello, " + Main.Player.name + ". Now let us begin our tale.";
-            Formatting.type(line);
-
             //Formatting.type("You are the Hero of the Western Kingdom. The Western King has called for your\r\npresence.");
             Globals.PlayerPosition.x = 0;
             Globals.PlayerPosition.y = 2;
-            Main.MainLoop();
+            Main.Tutorial();
         }
     }
 }
