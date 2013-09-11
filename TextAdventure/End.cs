@@ -14,11 +14,9 @@ namespace TextAdventure
         {
             if (IsDead)
             {
-                Formatting.type("Game Over. Press any key to restart, x at any time to exit.");
+                Formatting.type("Game Over. Press any key to exit, esc during non-combat to exit.");
                 Console.ReadKey();
-                Init.Initialize();
-                Console.Clear();
-                IsDead = false;
+                Environment.Exit(0);
             }
         }
 

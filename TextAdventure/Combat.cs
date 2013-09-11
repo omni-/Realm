@@ -25,17 +25,13 @@ namespace TextAdventure
         public static bool CheckBattle()
         {
             Random randint = new Random();
-            if (randint.Next(1, 5) == 2)
-                return true;
-            else
-                return false;
+            int rollresult = Dice.roll(1, 5);
+            return rollresult == 1;
         }
 
         public static string DecideAttack(List<string> abilities)
         {
-            int i = 0;
-            foreach (string s in abilities)
-                i++;
+            int i = abilities.Count;
             Random rand = new Random();
             int randint = rand.Next(1, ((i * 3) + 1));
             if (randint > i)
@@ -120,6 +116,51 @@ namespace TextAdventure
                 double damage = Dice.roll(Main.Player.atk, 4);
                 if (Main.Player.primary.multiplier != 0)
                     damage *= Main.Player.primary.multiplier;
+                target.hp -= Convert.ToInt32(damage);
+                return true;
+            }
+        }
+        public class EnergyOverload : Command
+        {
+            public EnergyOverload(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object data)
+            {
+                // data should be the enemy
+                Enemy target = (Enemy)data;
+                double damage = Dice.roll(Main.Player.intl * 2, 2);
+                target.hp -= Convert.ToInt32(damage);
+                return true;
+            }
+        }
+        public class BladeDash : Command
+        {
+            public BladeDash(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object data)
+            {
+                // data should be the enemy
+                Enemy target = (Enemy)data;
+                double damage = Dice.roll(Main.Player.atk + 1, 6);
+                target.hp -= Convert.ToInt32(damage);
+                return true;
+            }
+        }
+        public class HolySmite : Command
+        {
+            public HolySmite(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object data)
+            {
+                // data should be the enemy
+                Enemy target = (Enemy)data;
+                double damage = Dice.roll(Main.Player.def, 4);
                 target.hp -= Convert.ToInt32(damage);
                 return true;
             }

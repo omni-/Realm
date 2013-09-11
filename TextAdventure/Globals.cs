@@ -138,22 +138,11 @@ namespace TextAdventure
         public TextAdventure.Combat.CommandTable abilities;
         public void levelup()
         {
-            int xp_to_lvl = 10;
-            if (level <= 10)
+            int xp_next = level >= 30 ? 62 + (level - 30) * 7 : (level >= 15 ? 17 + (level - 15) * 3 : 17);
+            if (xp >= xp_next)
             {
-                if (xp == xp_to_lvl)
-                {
-                    level += 1;
-                    hp = maxhp;
-                    xp_to_lvl *= level;
-                }
-            }
-            else
-            {
-                int oldlevel = level;
-                level = (int)Math.Log(xp, 1.2);
-                if (level > oldlevel)
-                    hp = maxhp;
+                level++;
+                Formatting.type("Congratulations! You have leveld up! You are now level " + level + ".");
             }
         }
         public GamePlayer()
@@ -161,11 +150,11 @@ namespace TextAdventure
             maxhp = 10;
             hp = 10;
             level = 1;
-            xp = 1;
+            xp = 0;
             g = 10;
             backpack = new List<Item>();
             abilities = new TextAdventure.Combat.CommandTable();
-            abilities.AddCommand(new Combat.BasicAttack("Basic Attack", '0'));
+            abilities.AddCommand(new Combat.BasicAttack("Basic Attack", 'b'));
         }
     }
 }

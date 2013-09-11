@@ -22,12 +22,9 @@ namespace TextAdventure
                 Player.levelup();
                 if (Player.hp > Player.maxhp)
                     Player.hp = Player.maxhp;
-                if (loop_number >= 1)
+                if (Combat.CheckBattle())
                 {
-                    if (Combat.CheckBattle())
-                    {
-                        BattleLoop();
-                    }
+                    BattleLoop();
                 }
                 Player.maxhp = 9 + Player.level;
                 Player.def = -1 + Player.level;
@@ -82,10 +79,11 @@ namespace TextAdventure
                 Formatting.type("Speed: " + Player.spd, 10);
                 Formatting.type("Intelligence: " + Player.intl, 10);
                 Formatting.type("Gold: " + Player.g, 10);
+                //Formatting.type("Exp: " + Player.xp);
                 Formatting.type("-------------------------------------", 10);
 
                 currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
-                Formatting.type(currPlace.Description, 15);
+                Formatting.type(currPlace.Description, 10);
 
                 char[] currcommands = currPlace.getAvailableCommands();
                 Console.Write("\r\nYour current commands are x");
@@ -166,10 +164,7 @@ namespace TextAdventure
                     if (enemy.hp <= 0)
                     {
                         Formatting.type("Your have defeated " + enemy.name + "!");
-                        Player.xp += enemy.xp;
-                        Formatting.type("You gained " + enemy.xp + " xp.");
                         enemy.droploot();
-                        Player.levelup();
                         MainLoop();
                     }
                     is_turn = false;
@@ -240,9 +235,9 @@ namespace TextAdventure
                     Formatting.type(q + ". " + i.name);
                     backpackcommand bpcmd = new backpackcommand(i.name, (char)(q + 49));
                     cmd.AddCommand(bpcmd);
-                    char ch = Console.ReadKey().KeyChar;
-                    cmd.ExecuteCommand(ch, i);
                 }
+                char ch = Console.ReadKey().KeyChar;
+                cmd.ExecuteCommand(ch, Player.backpack[(int)(ch-49)]);
             }
         }
         public static bool Purchase(int cost)
@@ -260,7 +255,7 @@ namespace TextAdventure
         }
         public static bool Purchase(int cost, Item i)
         {
-            if (cost < Player.g)
+            if (cost <= Player.g)
             {
                 Player.g -= cost;
                 Player.backpack.Add(i);

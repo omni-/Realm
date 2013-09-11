@@ -13,7 +13,7 @@ namespace TextAdventure
         public int atk;
         public int def;
         public int spd;
-        public int xp;
+        public int xpdice;
         public int gpdice;
         public List<string> abilities;
         
@@ -27,6 +27,10 @@ namespace TextAdventure
             int gold = Combat.Dice.roll(gpdice, 4);
             Formatting.type("You gain " + gold + " gold.");
             Main.Player.g += gold;
+
+            int xp = Combat.Dice.roll(1, xpdice);
+            Formatting.type("You gained " + xp + " xp.");
+            Main.Player.xp += xp;
         }
     }
 
@@ -39,7 +43,7 @@ namespace TextAdventure
             atk = 2;
             def = 0;
             spd = 0;
-            xp = 5;
+            xpdice = 5;
             gpdice = 1;
             abilities = new List<string>();
             abilities.Add("BasicAttack");
@@ -48,20 +52,22 @@ namespace TextAdventure
         public override void attack(out string ability_used)
         {
             ability_used = "";
+            int dmg = 0;
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
                 if (atk < Main.Player.def)
                     damage = 1;
-                Main.Player.hp -= (Convert.ToInt32(damage) - Main.Player.def);
+                dmg = Math.Max((Convert.ToInt32(damage) - Main.Player.def), 0);
                 ability_used = "Basic Attack";
             }
             else if (Combat.DecideAttack(abilities) == "SuperSlimySlam")
             {
                 double damage = Combat.Dice.roll(atk, atk * 2);
-                Main.Player.hp -= (Convert.ToInt32(damage) - Main.Player.def);
+                dmg = Math.Max((Convert.ToInt32(damage) - Main.Player.def), 0);
                 ability_used = "Super Slimy Slam";
             }
+            Main.Player.hp -= dmg;
         }
     }
     public class Goblin : Enemy
@@ -73,7 +79,7 @@ namespace TextAdventure
             atk = 3;
             def = 1;
             spd = 1;
-            xp = 10;
+            xpdice = 10;
             gpdice = 3;
             abilities = new List<string>();
             abilities.Add("BasicAttack");
@@ -82,26 +88,28 @@ namespace TextAdventure
         }
         public override void attack(out string ability_used)
         {
+            int dmg = 0;
             ability_used = "";
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
-                Main.Player.hp -= (Convert.ToInt32(damage) - Main.Player.def);
+                dmg = Math.Max((Convert.ToInt32(damage) - Main.Player.def), 0);
                 ability_used = "Basic Attack";
             }
             else if (Combat.DecideAttack(abilities) == "Impale")
             {
                 double damage = Combat.Dice.roll(atk, atk * 2);
-                Main.Player.hp -= Convert.ToInt32(damage);
+                dmg = Convert.ToInt32(damage);
                 ability_used = "Impale";
             }
             else if (Combat.DecideAttack(abilities) == "CrazedSlashes")
             {
                 double damage = Combat.Dice.roll(1, atk);
                 damage *= Combat.Dice.roll(1, 5);
-                Main.Player.hp -= Convert.ToInt32(damage);
+                dmg = Convert.ToInt32(damage);
                 ability_used = "Crazed Slashes";
             }
+            Main.Player.hp -= dmg;
         }
     }
 }

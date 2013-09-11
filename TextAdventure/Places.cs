@@ -25,6 +25,7 @@ namespace TextAdventure
         {
             List<Enemy> templist = new List<Enemy>();
             templist.Add(new Slime());
+            //templist.Add(new Goblin());
             return templist;
         }
         public virtual char[] getAvailableCommands()
@@ -73,7 +74,7 @@ namespace TextAdventure
                     Globals.PlayerPosition.x -= 1;
                     break;
                 case 'b':
-                    //Main.BackpackLoop();
+                    Main.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -147,12 +148,19 @@ namespace TextAdventure
                     Formatting.type("You decide to look around. You find a trail leading to a clearing. Once in the  clearing, you see a suit of cardboard armor held together with duct tape, a refrigerator box, and a cardboad tube. Pick them up? Your current commands are y, n");
                     Formatting.type("");
                     char tempinput = Console.ReadKey().KeyChar;
+                    int forrestcounter = 0;
                     switch (tempinput)
                     {
                         case 'y':
-                            Main.Player.backpack.Add(globals.cardboard_armor);
-                            Main.Player.backpack.Add(globals.cardboard_sword);
-                            Main.Player.backpack.Add(globals.cardboard_shield);
+                            if (forrestcounter == 0)
+                            {
+                                Main.Player.backpack.Add(globals.cardboard_armor);
+                                Main.Player.backpack.Add(globals.cardboard_sword);
+                                Main.Player.backpack.Add(globals.cardboard_shield);
+                                forrestcounter++;
+                            }
+                            else
+                                Formatting.type("You've already been here!");
                             break;
                         case 'n':
                             Formatting.type("\r\nLoser.");
@@ -160,7 +168,7 @@ namespace TextAdventure
                     }
                     break;
                 case 'b':
-                    //Main.BackpackLoop();
+                    Main.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -169,77 +177,11 @@ namespace TextAdventure
         }
     }
 
-    public class Seaport : Place
-    {
-        protected override string GetDesc()
-        {
-            return "You arrive at a seaside port bustling with couriers and merchants. Do you want to go to the arms dealer(a), the library(r), or inn(i)?";
-        }
-        public override List<Enemy> getEnemyList()
-        {
-            List<Enemy> templist = new List<Enemy>();
-            templist.Add(new Slime());
-            templist.Add(new Goblin());
-            return templist;
-        }
-        public override bool handleInput(char input)
-        {
-            switch (input)
-            {
-                case 'n':
-                    Globals.PlayerPosition.y += 1;
-                    break;
-                case 'e':
-                    Globals.PlayerPosition.x += 1;
-                    break;
-                case 's':
-                    Globals.PlayerPosition.y -= 1;
-                    break;
-                case 'i':
-                    Formatting.type("Innkeep: \"It will cost you 5 gold. Are you sure?\"(y/n)");
-                    char _tempinput = Console.ReadKey().KeyChar;
-                    switch (_tempinput)
-                    {
-                        case 'y':
-                            if (Main.Purchase(3))
-                            {
-                                Formatting.type("Your health has been fully restored, although the matress was as hard as stale crackers and your back kinda hurts.");
-                                Main.Player.hp = Main.Player.maxhp;
-                            }
-                            break;
-                        case 'n':
-                            Formatting.type("You leave the inn.");
-                            break;
-                    }
-                    break;
-                case 'a':
-                    Formatting.type("You visit the arms dealer. He's out of stock except for an iron lance Buy for 15 gold? (y/n)");
-                    char __tempinput = Console.ReadKey().KeyChar;
-                    switch (__tempinput)
-                    {
-                        case 'y':
-                            if (Main.Purchase(15, globals.wood_staff))
-                                Formatting.type("It's almost as if he doesn't even see you.");
-                            break;
-                        case 'n':
-                            Formatting.type("You leave.");
-                            break;
-                    }
-                    break;
-                case 'b':
-                    //Main.BackpackLoop();
-                    break;
-                default:
-                    return false;
-            }
-            return true;
-        }
-    }
     public class Riverwell : Place
     {
         protected override string GetDesc()
         {
-            return "A river town centered around a massive well full of magically enriched electrolyte water. And the good stuff. Do you want to go north(n), south(s), east(e), west(w), backpack(b), or visit the town(v)";
+            return "You come across a river town centered around a massive well full of magically enriched electrolyte water. And the good stuff. Do you want to go north(n), south(s), east(e), west(w), backpack(b), or visit the town(v)";
         }
         public override char[] getAvailableCommands()
         {
@@ -324,7 +266,7 @@ namespace TextAdventure
                     }
                     break;
                 case 'b':
-                    //Main.BackpackLoop();
+                    Main.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -332,8 +274,115 @@ namespace TextAdventure
             return true;
         }
     }
-        
 
+    public class Seaport : Place
+    {
+        protected override string GetDesc()
+        {
+            return "You arrive at a seaside port bustling with couriers and merchants. Do you want to go to the arms dealer(a), the library(r), or inn(i)?";
+        }
+        public override List<Enemy> getEnemyList()
+        {
+            List<Enemy> templist = new List<Enemy>();
+            templist.Add(new Slime());
+            templist.Add(new Goblin());
+            return templist;
+        }
+        public override bool handleInput(char input)
+        {
+            int libcounter = 0;
+            switch (input)
+            {
+                case 'n':
+                    Globals.PlayerPosition.y += 1;
+                    break;
+                case 'e':
+                    Globals.PlayerPosition.x += 1;
+                    break;
+                case 's':
+                    Globals.PlayerPosition.y -= 1;
+                    break;
+                case 'i':
+                    Formatting.type("Innkeep: \"It will cost you 5 gold. Are you sure?\"(y/n)");
+                    char _tempinput = Console.ReadKey().KeyChar;
+                    switch (_tempinput)
+                    {
+                        case 'y':
+                            if (Main.Purchase(3))
+                            {
+                                Formatting.type("Your health has been fully restored, although the matress was as hard as stale crackers and your back kinda hurts.");
+                                Main.Player.hp = Main.Player.maxhp;
+                            }
+                            break;
+                        case 'n':
+                            Formatting.type("You leave the inn.");
+                            break;
+                    }
+                    break;
+                case 'a':
+                    Formatting.type("You visit the arms dealer. He's out of stock except for an iron lance Buy for 15 gold? (y/n)");
+                    char __tempinput = Console.ReadKey().KeyChar;
+                    switch (__tempinput)
+                    {
+                        case 'y':
+                            if (Main.Purchase(15, globals.wood_staff))
+                                Formatting.type("It's almost as if he doesn't even see you.");
+                            break;
+                        case 'n':
+                            Formatting.type("You leave.");
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 'l':
+                    if (libcounter == 0)
+                    {
+                        Formatting.type("You see a massive building with columns the size of a house. This is obivously the town's main attraction. Nerds are streaming in and out like a river. You try to go inside, but you're stopped at the door. The enterance fee is 3 g. Pay? (y/n)");
+                        char ___tempinput = Console.ReadKey().KeyChar;
+                        switch (___tempinput)
+                        {
+                            case 'y':
+                                if (Main.Purchase(3))
+                                {
+                                    Formatting.type("You enter the library. Before you lays a vast emporium of knowledge. You scratch your butt, then look for some comic books or something. 3 books catch your eye. 'The Wizard's Lexicon'(a), 'The Warrior's Code'(b), and 'Codex Pallatinus'(c). Which do you read?");
+                                    switch (Console.ReadKey().KeyChar)
+                                    {
+                                        case 'a':
+                                            Formatting.type("You read of the maegi of old. As you flip through, something catches your eye. You see what looks to be ancient writing, but you somehow understand it.");
+                                            Main.Player.abilities.AddCommand(new Combat.EnergyOverload("Energy Overload", 'e'));
+                                            Formatting.type("Learned 'Energy Overload!'");
+                                            break;
+                                        case 'b':
+                                            Formatting.type("You pore over the pages, and see a diagram of an ancient technique, lost to the ages.");
+                                            Main.Player.abilities.AddCommand(new Combat.BladeDash("Blade Dash", 'd'));
+                                            Formatting.type("Learned 'Blade Dash'!");
+                                            break;
+                                        case 'c':
+                                            Formatting.type("You squint your eyes to see the tiny text. This tome convinces you of the existence of Lord Luxfert, the Bringer of Light. The book teaches you the importance of protecting others.");
+                                            Main.Player.abilities.AddCommand(new Combat.HolySmite("Holy Smite", 'h'));
+                                            break;
+                                    }
+                                }
+                                break;
+                            case 'n':
+                                Formatting.type("You leave.");
+                                break;
+                        }
+                        libcounter++;
+                    }
+                    else
+                        Formatting.type("The library is closed.");
+                    break;
+                case 'b':
+                    Main.BackpackLoop();
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
+    }
     public class Valleyburg : Place
     {
 
