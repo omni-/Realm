@@ -145,26 +145,27 @@ namespace TextAdventure
                     Globals.PlayerPosition.x += 1;
                     break;
                 case 'z':
-                    Formatting.type("You decide to look around. You find a trail leading to a clearing. Once in the  clearing, you see a suit of cardboard armor held together with duct tape, a refrigerator box, and a cardboad tube. Pick them up? Your current commands are y, n");
-                    Formatting.type("");
-                    char tempinput = Console.ReadKey().KeyChar;
-                    int forrestcounter = 0;
-                    switch (tempinput)
+                    if (Main.forrestcounter == 0)
                     {
-                        case 'y':
-                            if (forrestcounter == 0)
-                            {
+                        Formatting.type("You decide to look around. You find a trail leading to a clearing. Once in the  clearing, you see a suit of cardboard armor held together with duct tape, a refrigerator box, and a cardboad tube. Pick them up? Your current commands are y, n");
+                        Formatting.type("");
+                        char tempinput = Console.ReadKey().KeyChar;
+                        switch (tempinput)
+                        {
+                            case 'y':
                                 Main.Player.backpack.Add(globals.cardboard_armor);
                                 Main.Player.backpack.Add(globals.cardboard_sword);
                                 Main.Player.backpack.Add(globals.cardboard_shield);
-                                forrestcounter++;
-                            }
-                            else
-                                Formatting.type("You've already been here!");
-                            break;
-                        case 'n':
-                            Formatting.type("\r\nLoser.");
-                            break;
+                                Main.forrestcounter++;
+                                break;
+                            case 'n':
+                                Formatting.type("\r\nLoser.");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Formatting.type("You've already been here!");
                     }
                     break;
                 case 'b':
@@ -290,7 +291,6 @@ namespace TextAdventure
         }
         public override bool handleInput(char input)
         {
-            int libcounter = 0;
             switch (input)
             {
                 case 'n':
@@ -336,7 +336,7 @@ namespace TextAdventure
                     }
                     break;
                 case 'l':
-                    if (libcounter == 0)
+                    if (Main.libcounter == 0)
                     {
                         Formatting.type("You see a massive building with columns the size of a house. This is obivously the town's main attraction. Nerds are streaming in and out like a river. You try to go inside, but you're stopped at the door. The enterance fee is 3 g. Pay? (y/n)");
                         char ___tempinput = Console.ReadKey().KeyChar;
@@ -369,7 +369,7 @@ namespace TextAdventure
                                 Formatting.type("You leave.");
                                 break;
                         }
-                        libcounter++;
+                        Main.libcounter++;
                     }
                     else
                         Formatting.type("The library is closed.");

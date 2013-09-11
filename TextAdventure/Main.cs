@@ -10,6 +10,8 @@ namespace TextAdventure
     {
         public static int loop_number = 0;
         public static int game_state = 0;
+        public static int forrestcounter = 0;
+        public static int libcounter = 0;
         public static GamePlayer Player = new GamePlayer();
 
         public static void MainLoop()
@@ -32,13 +34,13 @@ namespace TextAdventure
                 Player.intl = -1 + Player.level;
                 Player.spd = 0 + Player.level;
 
-                foreach (Item i in Player.backpack)
-                {
-                    Player.def += i.defbuff;
-                    Player.atk += i.atkbuff;
-                    Player.intl += i.intlbuff;
-                    Player.spd += i.spdbuff;
-                }
+                //foreach (Item i in Player.backpack)
+                //{
+                //    Player.def += i.defbuff;
+                //    Player.atk += i.atkbuff;
+                //    Player.intl += i.intlbuff;
+                //    Player.spd += i.spdbuff;
+                //}
                 if (!Player.primary.Equals(default(Item)))
                 {
                     Player.def += Player.primary.defbuff;
@@ -148,10 +150,13 @@ namespace TextAdventure
 
                     Formatting.type("\r\nAVAILABLE MOVES:");
                     Formatting.type("=========================", 10);
+                    int i = 0;
                     foreach (TextAdventure.Combat.Command c in Main.Player.abilities.commands.Values)
                     {
+                        //Main.Player.abilities.commands.Keys[i] = (char)(i + 49);
                         string src = "||   " + c.cmdchar + ". " + c.name + "    ||";
                         Formatting.type(src, 10);
+                        i++;
                     }
                     Formatting.type("=========================", 10);
                     Formatting.type("");
