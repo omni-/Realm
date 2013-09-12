@@ -30,9 +30,13 @@ namespace TextAdventure
         public static Place[,] map = new Place[,] {
 
         {new Place(), new Seaport(), new WKingdom(), new IllusionForest(), new Place(), new Place()},
-        {new Place(), new Place(), new Valleyburg(), new Place(), new Riverwell(), new NKingdom()},        
-        {new SKingdom(), new FlamingDesert(), new CentralKingdom(), new Place(), new Place(), new Place()}, 
-        {new Place(), new TwinPaths(), new Nomad(), new Newport(), new NMtns(), new Place()},                 
+
+        {new Place(), new Place(), new Valleyburg(), new Place(), new Riverwell(), new NKingdom()},
+        
+        {new SKingdom(), new FlamingDesert(), new CentralKingdom(), new Place(), new Place(), new Place()},
+ 
+        {new Place(), new TwinPaths(), new Nomad(), new Newport(), new NMtns(), new Place()},        
+         
         {new QuestionMarkx3(), new Ravenkeep(), new EKingdom(), new Place(), new Place(), new BlackHorizon()}
 
         };
