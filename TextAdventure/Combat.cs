@@ -21,6 +21,17 @@ namespace TextAdventure
                 }
                 return total;
             }
+            public static bool misschance(int spd)
+            {
+                int misschance = Dice.roll(1, 101 - (spd * 3));
+                if (misschance == 1)
+                {
+                    Formatting.type("Missed!");
+                    return true;
+                }
+                else
+                    return false;
+            }
         }
         public static bool CheckBattle()
         {
@@ -118,6 +129,8 @@ namespace TextAdventure
                     damage *= Main.Player.primary.multiplier;
                 if (damage <= 0)
                     damage = 1;
+                if (Dice.misschance(Main.Player.spd))
+                    damage = 0;
                 target.hp -= Convert.ToInt32(damage);
                 return true;
             }
@@ -133,6 +146,8 @@ namespace TextAdventure
                 // data should be the enemy
                 Enemy target = (Enemy)data;
                 double damage = Dice.roll(Main.Player.intl * 2, 2);
+                if (Combat.Dice.misschance(-Main.Player.spd))
+                    damage = 0;
                 target.hp -= Convert.ToInt32(damage);
                 return true;
             }
@@ -148,6 +163,8 @@ namespace TextAdventure
                 // data should be the enemy
                 Enemy target = (Enemy)data;
                 double damage = Dice.roll(Main.Player.atk + 1, 6);
+                if (Combat.Dice.misschance(-Main.Player.spd))
+                    damage = 0;
                 target.hp -= Convert.ToInt32(damage);
                 return true;
             }
@@ -163,6 +180,22 @@ namespace TextAdventure
                 // data should be the enemy
                 Enemy target = (Enemy)data;
                 double damage = Dice.roll(Main.Player.def, 4);
+                if (Combat.Dice.misschance(-Main.Player.spd))
+                    damage = 0;
+                target.hp -= Convert.ToInt32(damage);
+                return true;
+            }
+        }
+        public class EndtheIllusion : Command
+        {
+            public EndtheIllusion(string aname, char cmd) : base(aname, cmd)
+            {
+            }
+
+            public override bool Execute(object data)
+            {
+                Enemy target = (Enemy)data;
+                double damage = Dice.roll((Main.Player.atk + Main.Player.def + Main.Player.spd + Main.Player.intl), Main.Player.level);
                 target.hp -= Convert.ToInt32(damage);
                 return true;
             }

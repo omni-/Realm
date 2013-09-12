@@ -13,6 +13,9 @@ namespace TextAdventure
         public static int forrestcounter = 0;
         public static int libcounter = 0;
         public static GamePlayer Player = new GamePlayer();
+        public static Globals globals = new Globals();
+        public static bool devmode = false;
+        public static bool hasmap = false;
 
         public static void Tutorial()
         {
@@ -30,9 +33,22 @@ namespace TextAdventure
         {
             game_state = 0;
             Place currPlace;
+            if (devmode)
+            {
+                Player.primary = globals.phantasmal_claymore;
+                Player.secondary = globals.spectral_bulwark;
+                Player.armor = globals.illusory_plate;
+                Player.accessory = globals.void_cloak;
+            }
+            if (Player.primary.Equals(globals.phantasmal_claymore) && Player.secondary.Equals(globals.spectral_bulwark) && Player.armor.Equals(globals.illusory_plate) && Player.accessory.Equals(globals.void_cloak))
+                if(!Player.abilities.commandChars.Contains('*'))
+                    Player.abilities.AddCommand(new Combat.EndtheIllusion("End the Illusion", '*'));
             while (!End.IsDead)
             {
                 Player.levelup();
+
+                currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
+                List<Enemy> enemylist = currPlace.getEnemyList();
 
                 if (Player.hp > Player.maxhp)
                     Player.hp = Player.maxhp;
@@ -40,25 +56,39 @@ namespace TextAdventure
                 {
                     if (Combat.CheckBattle())
                     {
-                        BattleLoop();
+                        if (enemylist.Count == 0)
+                            break;
+                        Random rand = new Random();
+                        int randint = rand.Next(0, enemylist.Count + 1);
+                        if (randint <= 1)
+                            randint = 1;
+                        Enemy enemy = enemylist[randint - 1];
+                        BattleLoop(enemy);
                     }
                 }
-                Main.Player.applybonus();
+                if (!devmode)
+                    Main.Player.applybonus();
+                else
+                    Main.Player.applydevbonus();
+                if (!devmode)
+                {
+                    Formatting.type("-------------------------------------", 10);
+                    Formatting.type("Level: " + Player.level, 10);
+                    Formatting.type("HP: " + Player.hp + "/" + Player.maxhp, 10);
+                    Formatting.type("Defense: " + Player.def, 10);
+                    Formatting.type("Attack: " + Player.atk, 10);
+                    Formatting.type("Speed: " + Player.spd, 10);
+                    Formatting.type("Intelligence: " + Player.intl, 10);
+                    Formatting.type("Gold: " + Player.g, 10);
+                    //Formatting.type("Exp: " + Player.xp);
+                    Formatting.type("-------------------------------------", 10);
+                }
 
-                Formatting.type("-------------------------------------", 10);
-                Formatting.type("Level: " + Player.level, 10);
-                Formatting.type("HP: " + Player.hp + "/" + Player.maxhp, 10);
-                Formatting.type("Defense: "+ Player.def, 10);
-                Formatting.type("Attack: " + Player.atk, 10);
-                Formatting.type("Speed: " + Player.spd, 10);
-                Formatting.type("Intelligence: " + Player.intl, 10);
-                Formatting.type("Gold: " + Player.g, 10);
-                //Formatting.type("Exp: " + Player.xp);
-                Formatting.type("-------------------------------------", 10);
-
-                currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
-                Formatting.type(currPlace.Description, 10);
-
+                //currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
+                if (!devmode)
+                    Formatting.type(currPlace.Description, 10);
+                else
+                    Formatting.type(currPlace.ToString());
                 char[] currcommands = currPlace.getAvailableCommands();
                 Console.Write("\r\nYour current commands are x");
                 foreach (char c in currcommands)
@@ -86,22 +116,13 @@ namespace TextAdventure
             }
         }
 
-        public static void BattleLoop()
+        public static void BattleLoop(Enemy enemy)
         {
             game_state = 1;
 
             Player.applybonus();
 
-            Place currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
-            List<Enemy> enemylist = currPlace.getEnemyList();
-            if (enemylist.Count == 0)
-                return;
-            Formatting.type("You've been ambushed! You ready your weapons.");
-            Random rand = new Random();
-            int randint = rand.Next(0, enemylist.Count + 1);
-            if (randint <= 1)
-                randint = 1;
-            Enemy enemy = enemylist[randint - 1];
+            Formatting.type("You have entered combat! Ready your weapons!");
             bool is_turn = enemy.spd < Player.spd;
             while (enemy.hp >= 0)
             {

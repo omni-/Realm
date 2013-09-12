@@ -58,7 +58,7 @@ namespace TextAdventure
                 double damage = Combat.Dice.roll(1, atk);
                 if (atk < Main.Player.def)
                     damage = 1;
-                dmg = Math.Max((Convert.ToInt32(damage) - Main.Player.def), 0);
+                dmg = Convert.ToInt32(damage) - Main.Player.def;
                 ability_used = "Basic Attack";
             }
             else if (Combat.DecideAttack(abilities) == "SuperSlimySlam")
@@ -69,6 +69,8 @@ namespace TextAdventure
             }
             if (dmg <= 0)
                 dmg = 1;
+            if (Combat.Dice.misschance(-Main.Player.spd))
+                dmg = 0;
             Main.Player.hp -= dmg;
         }
     }
@@ -111,6 +113,50 @@ namespace TextAdventure
                 dmg = Convert.ToInt32(damage);
                 ability_used = "Crazed Slashes";
             }
+            if (dmg <= 0)
+                dmg = 1;
+            if (Combat.Dice.misschance(-Main.Player.spd))
+                dmg = 0;
+            Main.Player.hp -= dmg;
+        }
+    }
+    public class WesternKing: Enemy
+    {
+        public WesternKing()
+        {
+            name = "Western King";
+            hp = 50;
+            atk = 50;
+            def = 35;
+            spd = 25;
+            xpdice = 1000;
+            gpdice = 1000;
+            abilities = new List<string>();
+            abilities.Add("BasicAttack");
+            abilities.Add("Terminate");
+        }
+        public override void attack(out string ability_used)
+        {
+            ability_used = "";
+            int dmg = 0;
+            if (Combat.DecideAttack(abilities) == "BasicAttack")
+            {
+                double damage = Combat.Dice.roll(1, atk);
+                if (atk < Main.Player.def)
+                    damage = 1;
+                dmg = Convert.ToInt32(damage) - Main.Player.def;
+                ability_used = "Basic Attack";
+            }
+            else if (Combat.DecideAttack(abilities) == "Terminate")
+            {
+                double damage = Combat.Dice.roll(atk, atk * 2);
+                dmg = Math.Max((Convert.ToInt32(damage) - Main.Player.def), 0);
+                ability_used = "Terminate";
+            }
+            if (dmg <= 0)
+                dmg = 1;
+            if (Combat.Dice.misschance(-Main.Player.spd))
+                dmg = 0;
             Main.Player.hp -= dmg;
         }
     }

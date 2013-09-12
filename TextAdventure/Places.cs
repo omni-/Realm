@@ -107,9 +107,7 @@ namespace TextAdventure
             switch (input)
             {
                 case 'f':
-                    Formatting.type("The King gives you swift respite. He decapitates your sorry ass");
-                    End.IsDead = true;
-                    End.GameOver();
+                    Main.BattleLoop(new WesternKing());
                     break;
                 case 'r':
                     Formatting.type("You have lived.");
@@ -256,13 +254,16 @@ namespace TextAdventure
                             }
                             break;
                         case 'a':
-                            Formatting.type("You visit the arms dealer. He has naught to sell but a wooden staff. Buy for 10 gold? (y/n)");
+                            Formatting.type("You visit the arms dealer. He has naught to sell but a wooden staff and a plastic ring. Buy both for 11 gold? (y/n)");
                             char __tempinput = Console.ReadKey().KeyChar;
                             switch (__tempinput)
                             {
                                 case 'y':
-                                    if (Main.Purchase(10, globals.wood_staff))
+                                    if (Main.Purchase(11, globals.wood_staff))
+                                    {
+                                        Main.Player.backpack.Add(globals.plastic_ring);
                                         Formatting.type("You buy the staff. He grins, and you know you've been ripped off.");
+                                    }
                                     break;
                                 case 'n':
                                     Formatting.type("You leave the inn.");
@@ -353,12 +354,16 @@ namespace TextAdventure
                     }
                     break;
                 case 'a':
-                    Formatting.type("You visit the arms dealer. He's out of stock except for an iron lance Buy for 15 gold? (y/n)");
+                    Formatting.type("You visit the arms dealer. He's out of stock except for an iron lance(l, $15) and an iron buckler(b, $10). (n to leave)");
                     char __tempinput = Console.ReadKey().KeyChar;
                     switch (__tempinput)
                     {
-                        case 'y':
+                        case 'l':
                             if (Main.Purchase(15, globals.iron_lance))
+                                Formatting.type("It's almost as if he doesn't even see you.");
+                            break;
+                        case 'b':
+                            if (Main.Purchase(10, globals.iron_buckler))
                                 Formatting.type("It's almost as if he doesn't even see you.");
                             break;
                         case 'n':
@@ -418,7 +423,98 @@ namespace TextAdventure
     }
     public class Valleyburg : Place
     {
-
+        protected override string GetDesc()
+        {
+            return "You arrive at a small town just east of the Western Kingdom. Do you want to visit the town(v) or head to the inn(i)?";
+        }
+        public override List<Enemy> getEnemyList()
+        {
+            List<Enemy> templist = new List<Enemy>();
+            templist.Add(new Slime());
+            templist.Add(new Goblin());
+            return templist;
+        }
+        public override char[] getAvailableCommands()
+        {
+            List<char> templist = new List<char>();
+            if (Main.Player.backpack.Count >= 1)
+                templist.Add('b');
+            templist.Add('n');
+            templist.Add('e');
+            templist.Add('s');
+            templist.Add('w');
+            templist.Add('a');
+            templist.Add('v');
+            return templist.ToArray<char>();
+        }
+        public override bool handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'n':
+                    Globals.PlayerPosition.y += 1;
+                    break;
+                case 'e':
+                    Globals.PlayerPosition.x += 1;
+                    break;
+                case 's':
+                    Globals.PlayerPosition.y -= 1;
+                    break;
+                case 'w':
+                    Globals.PlayerPosition.x -= 1;
+                    break;
+                case 'i':
+                    Formatting.type("Innkeep: \"It will cost you 5 gold. Are you sure?\"(y/n)");
+                    char _tempinput = Console.ReadKey().KeyChar;
+                    switch (_tempinput)
+                    {
+                        case 'y':
+                            if (Main.Purchase(3))
+                            {
+                                Formatting.type("Your health has been fully restored, although the matress smelled of mildew, and so do your clothes.");
+                                Main.Player.hp = Main.Player.maxhp;
+                            }
+                            break;
+                        case 'n':
+                            Formatting.type("You leave the inn.");
+                            break;
+                    }
+                    break;
+                case 'v':
+                    Formatting.type("You visit the town. You may choose to visit with the townsfolk(t), or head to the artificer(a).");
+                    char __tempinput = Console.ReadKey().KeyChar;
+                    switch (__tempinput)
+                    {
+                        case 'a':
+                            Formatting.type("The artificer has some magically charged rings for sale. Buy one for 20? (y/n)");
+                            switch (Console.ReadKey().KeyChar)
+                            {
+                                case 'y':
+                                    if (Main.Purchase(15, globals.iron_band))
+                                        Formatting.type("He smiles weakly and thanks you.");
+                                    break;
+                                case 'n':
+                                    Formatting.type("You leave.");
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        case 'v':
+                            Formatting.type("You talk to a villager. He muses about the fact that sometimes, reality doens't feel real at all. Puzzled by his comment, you walk away.");
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 'b':
+                    Main.BackpackLoop();
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
     }
 
     public class NMtns : Place

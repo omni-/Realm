@@ -39,17 +39,33 @@ namespace TextAdventure
 
         public static Point PlayerPosition;
 
+        //shit tier
         public Item cardboard_armor = new Item();
         public Item cardboard_sword = new Item();
         public Item cardboard_shield = new Item();
+
+        //sammy tier
         public Item wood_armor = new Item();
         public Item wood_staff = new Item();
         public Item wood_plank = new Item();
+        public Item plastic_ring = new Item();
+
+        //mediocre tier
         public Item iron_lance = new Item();
+        public Item iron_rapier = new Item();
+        public Item iron_mail = new Item();
+        public Item iron_buckler = new Item();
+        public Item iron_band = new Item();
+
+        //god tier
+        public Item phantasmal_claymore = new Item();
+        public Item spectral_bulwark = new Item();
+        public Item illusory_plate = new Item();
+        public Item void_cloak = new Item();
         public Globals()
         {
             cardboard_armor.name = "Cardboard Armor";
-            cardboard_armor.desc = "A shitty refrigerator box barely held together by masking tape.";
+            cardboard_armor.desc = "A refrigerator box barely held together by masking tape.";
             cardboard_armor.defbuff = 1;
             cardboard_armor.atkbuff = 0;
             cardboard_armor.spdbuff = 0;
@@ -77,6 +93,16 @@ namespace TextAdventure
             cardboard_shield.tier = 0;
             cardboard_shield.slot = 2;
             cardboard_shield.multiplier = 1;
+
+            plastic_ring.name = "Plastic Ring";
+            plastic_ring.desc = "It's actually just a Ringpop.";
+            plastic_ring.defbuff = 0;
+            plastic_ring.atkbuff = 0;
+            plastic_ring.spdbuff = 1;
+            plastic_ring.intlbuff = 1;
+            plastic_ring.tier = 0;
+            plastic_ring.slot = 4;
+            plastic_ring.multiplier = 1;
 
             wood_armor.name = "Wood Armor";
             wood_armor.desc = "Some plywood you stole from Home Depot. It give you the Home Depot feeling. ";
@@ -116,6 +142,83 @@ namespace TextAdventure
             iron_lance.tier = 2;
             iron_lance.slot = 1;
             iron_lance.multiplier = 1.2f;
+
+            iron_rapier.name = "Iron Rapier";
+            iron_rapier.desc = "A well-smithed blade, edged to split hair.";
+            iron_rapier.defbuff = 0;
+            iron_rapier.atkbuff = 5;
+            iron_rapier.spdbuff = 2;
+            iron_rapier.tier = 2;
+            iron_rapier.slot = 1;
+            iron_rapier.multiplier = 1.5f;
+
+            iron_mail.name = "Iron Chainmail";
+            iron_mail.desc = "Iron ringmail. Sturdy, but not invincible. You are slower while wearing it.";
+            iron_mail.defbuff = 5;
+            iron_mail.atkbuff = 0;
+            iron_mail.spdbuff = -1;
+            iron_mail.tier = 2;
+            iron_mail.slot = 3;
+            iron_mail.multiplier = 1;
+
+            iron_buckler.name = "Iron Buckler";
+            iron_buckler.desc = "A lightweight buckler. Will stop fire and swords, but not Unstoppable Forces.";
+            iron_buckler.defbuff = 3;
+            iron_buckler.atkbuff = 0;
+            iron_buckler.spdbuff = 0;
+            iron_buckler.tier = 2;
+            iron_buckler.slot = 2;
+            iron_buckler.multiplier = 1;
+
+            iron_band.name = "Iron Band";
+            iron_band.desc = "An iron ring. Ugly, but it appears to be magical.";
+            iron_band.defbuff = 0;
+            iron_band.atkbuff = 0;
+            iron_band.spdbuff = 2;
+            iron_band.intlbuff = 5;
+            iron_band.tier = 2;
+            iron_band.slot = 4;
+            iron_band.multiplier = 1.2f;
+
+            phantasmal_claymore.name = "Phantasmal Claymore";
+            phantasmal_claymore.desc = "A legendary blade made from the essence of reality.";
+            phantasmal_claymore.defbuff = 50;
+            phantasmal_claymore.atkbuff = 100;
+            phantasmal_claymore.spdbuff = 75;
+            phantasmal_claymore.intlbuff = 25;
+            phantasmal_claymore.tier = 7;
+            phantasmal_claymore.slot = 1;
+            phantasmal_claymore.multiplier = 3.5f;
+
+            spectral_bulwark.name = "Spectral Bulwark";
+            spectral_bulwark.desc = "A shield forged in the flames of the souls of the damned.";
+            spectral_bulwark.defbuff = 75;
+            spectral_bulwark.atkbuff = 25;
+            spectral_bulwark.spdbuff = 50;
+            spectral_bulwark.intlbuff = 25;
+            spectral_bulwark.tier = 7;
+            spectral_bulwark.slot = 2;
+            spectral_bulwark.multiplier = 1;
+
+            illusory_plate.name = "Illusory Plate";
+            illusory_plate.desc = "Even though you know it to be an illusion, every attack against it is futile.";
+            illusory_plate.defbuff = 100;
+            illusory_plate.atkbuff = 25;
+            illusory_plate.spdbuff = 0;
+            illusory_plate.intlbuff = 50;
+            illusory_plate.tier = 7;
+            illusory_plate.slot = 3;
+            illusory_plate.multiplier = 1;
+
+            void_cloak.name = "Void Cloack";
+            void_cloak.desc = "It's existence is an oxymoron. It is made from nothing.";
+            void_cloak.defbuff = 50;
+            void_cloak.atkbuff = 25;
+            void_cloak.spdbuff = 75;
+            void_cloak.intlbuff = 100;
+            void_cloak.tier = 7;
+            void_cloak.slot = 4;
+            void_cloak.multiplier = 1;
         }
     }
     public class GamePlayer
@@ -142,12 +245,12 @@ namespace TextAdventure
             if (xp >= xp_next)
             {
                 level++;
-                Formatting.type("Congratulations! You have leveld up! You are now level " + level + ".");
+                Formatting.type("Congratulations! You have leveled up! You are now level " + level + ".");
             }
         }
         public void applybonus()
         {
-            maxhp = 9 + (level * 2);
+            maxhp = 10 + (level * 2);
             def = -1 + level;
             atk = 0 + level;
             intl = 0 + level;
@@ -176,7 +279,6 @@ namespace TextAdventure
                 intl += armor.intlbuff;
                 spd += armor.spdbuff;
             }
-
             if (!accessory.Equals(default(Item)))
             {
                 def += accessory.defbuff;
@@ -186,10 +288,43 @@ namespace TextAdventure
             }
 
         }
+        public void applydevbonus()
+        {
+            if (!primary.Equals(default(Item)))
+            {
+                def += primary.defbuff;
+                atk += primary.atkbuff;
+                intl += primary.intlbuff;
+                spd += primary.spdbuff;
+            }
+
+            if (!secondary.Equals(default(Item)))
+            {
+                def += secondary.defbuff;
+                atk += secondary.atkbuff;
+                intl += secondary.intlbuff;
+                spd += secondary.spdbuff;
+            }
+
+            if (!armor.Equals(default(Item)))
+            {
+                def += armor.defbuff;
+                atk += armor.atkbuff;
+                intl += armor.intlbuff;
+                spd += armor.spdbuff;
+            }
+            if (!accessory.Equals(default(Item)))
+            {
+                def += accessory.defbuff;
+                atk += accessory.atkbuff;
+                intl += accessory.intlbuff;
+                spd += accessory.spdbuff;
+            }
+        }
         public GamePlayer()
         {
-            maxhp = 10;
-            hp = 10;
+            maxhp = 12;
+            hp = 12;
             level = 1;
             xp = 0;
             g = 15;
