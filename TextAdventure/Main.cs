@@ -46,7 +46,14 @@ namespace TextAdventure
             while (!End.IsDead)
             {
                 Player.levelup();
-
+                //if (devmode)
+                //{
+                //    Formatting.type("X: " + Globals.PlayerPosition.x + " Y: " + Globals.PlayerPosition.y);
+                //    Formatting.type("Enter an x coord: ");
+                //    Globals.PlayerPosition.x = Console.ReadKey().KeyChar;
+                //    Formatting.type("Enter a y coord: ");
+                //    Globals.PlayerPosition.y = Console.ReadKey().KeyChar;
+                //}              
                 currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
                 List<Enemy> enemylist = currPlace.getEnemyList();
 
@@ -80,7 +87,7 @@ namespace TextAdventure
                     Formatting.type("Speed: " + Player.spd, 10);
                     Formatting.type("Intelligence: " + Player.intl, 10);
                     Formatting.type("Gold: " + Player.g, 10);
-                    //Formatting.type("Exp: " + Player.xp);
+                    Formatting.type("Exp to Level: " + (Player.xp_next - Player.xp));
                     Formatting.type("-------------------------------------", 10);
                 }
 

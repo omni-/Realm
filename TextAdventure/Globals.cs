@@ -186,20 +186,20 @@ namespace TextAdventure
 
             phantasmal_claymore.name = "Phantasmal Claymore";
             phantasmal_claymore.desc = "A legendary blade made from the essence of reality.";
-            phantasmal_claymore.defbuff = 50;
-            phantasmal_claymore.atkbuff = 100;
-            phantasmal_claymore.spdbuff = 75;
-            phantasmal_claymore.intlbuff = 25;
+            phantasmal_claymore.defbuff = 10;
+            phantasmal_claymore.atkbuff = 50;
+            phantasmal_claymore.spdbuff = 25;
+            phantasmal_claymore.intlbuff = 10;
             phantasmal_claymore.tier = 7;
             phantasmal_claymore.slot = 1;
             phantasmal_claymore.multiplier = 3.5f;
 
             spectral_bulwark.name = "Spectral Bulwark";
             spectral_bulwark.desc = "A shield forged in the flames of the souls of the damned.";
-            spectral_bulwark.defbuff = 75;
-            spectral_bulwark.atkbuff = 25;
-            spectral_bulwark.spdbuff = 50;
-            spectral_bulwark.intlbuff = 25;
+            spectral_bulwark.defbuff = 50;
+            spectral_bulwark.atkbuff = 10;
+            spectral_bulwark.spdbuff = 10;
+            spectral_bulwark.intlbuff = 10;
             spectral_bulwark.tier = 7;
             spectral_bulwark.slot = 2;
             spectral_bulwark.multiplier = 1;
@@ -207,19 +207,19 @@ namespace TextAdventure
             illusory_plate.name = "Illusory Plate";
             illusory_plate.desc = "Even though you know it to be an illusion, every attack against it is futile.";
             illusory_plate.defbuff = 100;
-            illusory_plate.atkbuff = 25;
+            illusory_plate.atkbuff = 0;
             illusory_plate.spdbuff = 0;
-            illusory_plate.intlbuff = 50;
+            illusory_plate.intlbuff = 0;
             illusory_plate.tier = 7;
             illusory_plate.slot = 3;
             illusory_plate.multiplier = 1;
 
             void_cloak.name = "Void Cloack";
             void_cloak.desc = "It's existence is an oxymoron. It is made from nothing.";
-            void_cloak.defbuff = 50;
-            void_cloak.atkbuff = 25;
-            void_cloak.spdbuff = 75;
-            void_cloak.intlbuff = 100;
+            void_cloak.defbuff = 0;
+            void_cloak.atkbuff = 0;
+            void_cloak.spdbuff = 50;
+            void_cloak.intlbuff = 50;
             void_cloak.tier = 7;
             void_cloak.slot = 4;
             void_cloak.multiplier = 1;
@@ -242,14 +242,20 @@ namespace TextAdventure
         public int g;
         public int level;
         public int xp;
+        public int xp_next;
         public TextAdventure.Combat.CommandTable abilities;
         public void levelup()
         {
-            int xp_next = level >= 30 ? 62 + (level - 30) * 7 : (level >= 15 ? 17 + (level - 15) * 3 : 17);
+            xp_next = level >= 30 ? 62 + (level - 30) * 7 : (level >= 15 ? 17 + (level - 15) * 3 : 17);
             if (xp >= xp_next)
             {
+                hp = maxhp;
                 level++;
                 Formatting.type("Congratulations! You have leveled up! You are now level " + level + ".");
+                xp = 0;
+                xp_next = level >= 30 ? 62 + (level - 30) * 7 : (level >= 15 ? 17 + (level - 15) * 3 : 17);
+                if (xp >= xp_next)
+                    levelup();
             }
         }
         public void applybonus()
@@ -330,7 +336,7 @@ namespace TextAdventure
             maxhp = 12;
             hp = 12;
             level = 1;
-            xp = 0;
+            xp = 17;
             g = 15;
             backpack = new List<Item>();
             abilities = new TextAdventure.Combat.CommandTable();

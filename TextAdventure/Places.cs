@@ -26,6 +26,7 @@ namespace TextAdventure
             List<Enemy> templist = new List<Enemy>();
             templist.Add(new Slime());
             templist.Add(new Goblin());
+            templist.Add(new Bandit());
             return templist;
         }
         public virtual char[] getAvailableCommands()
@@ -33,11 +34,11 @@ namespace TextAdventure
             List<char> templist = new List<char>();
             if (Globals.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(1))
+            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
                 templist.Add('e');
             if (Globals.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(0))
+            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
                 templist.Add('n');
             if (Main.Player.backpack.Count > 0)
                 templist.Add('b');
@@ -62,19 +63,24 @@ namespace TextAdventure
             switch (input)
             {
                 case 'n':
-                    Globals.PlayerPosition.y += 1;
+                    if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+                        Globals.PlayerPosition.y += 1;
                     break;
                 case 'e':
-                    Globals.PlayerPosition.x += 1;
+                    if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+                        Globals.PlayerPosition.x += 1;
                     break;
                 case 's':
-                    Globals.PlayerPosition.y -= 1;
+                    if (Globals.PlayerPosition.y > 0)
+                        Globals.PlayerPosition.y -= 1;
                     break;
                 case 'w':
-                    Globals.PlayerPosition.x -= 1;
+                    if (Globals.PlayerPosition.x > 0)
+                        Globals.PlayerPosition.x -= 1;
                     break;
                 case 'b':
-                    Main.BackpackLoop();
+                    if (Main.Player.backpack.Count > 0)
+                        Main.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -443,7 +449,7 @@ namespace TextAdventure
             templist.Add('e');
             templist.Add('s');
             templist.Add('w');
-            templist.Add('a');
+            templist.Add('i');
             templist.Add('v');
             return templist.ToArray<char>();
         }
@@ -500,7 +506,7 @@ namespace TextAdventure
                                     break;
                             }
                             break;
-                        case 'v':
+                        case 't':
                             Formatting.type("You talk to a villager. He muses about the fact that sometimes, reality doens't feel real at all. Puzzled by his comment, you walk away.");
                             break;
                         default:
@@ -519,7 +525,125 @@ namespace TextAdventure
 
     public class NMtns : Place
     {
-
+        protected override string GetDesc()
+        {
+            return "You find yourself at the foot of a mountain. There is a village not far off do you wish to go there?(y to enter)";
+        }
+        public override List<Enemy> getEnemyList()
+        {
+            List<Enemy> templist = new List<Enemy>();
+            templist.Add(new Goblin());
+            templist.Add(new Bandit());
+            return templist;
+        }
+        public override char[] getAvailableCommands()
+        {
+            List<char> templist = new List<char>();
+            if (Main.Player.backpack.Count >= 1)
+                templist.Add('b');
+            templist.Add('n');
+            templist.Add('e');
+            templist.Add('s');
+            templist.Add('w');
+            templist.Add('y');
+            return templist.ToArray<char>();
+        }
+        public override bool handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'n':
+                    Globals.PlayerPosition.y += 1;
+                    break;
+                case 'e':
+                    Globals.PlayerPosition.x += 1;
+                    break;
+                case 's':
+                    Globals.PlayerPosition.y -= 1;
+                    break;
+                case 'w':
+                    Globals.PlayerPosition.x -= 1;
+                    break;
+                case 'y':
+                    Formatting.type("You see a library(l) and a weaponsmith(w). Which do you wish to enter?");
+                    switch (Console.ReadKey().KeyChar)
+                    {
+                        case 'l':
+                            Formatting.type("There are three books. Do you wish to read Climbing Safety (c), Solomon's Answer (s), or Gordon Ramsay: A Biology (g)");
+                            switch(Console.ReadKey().KeyChar)
+                            {
+                                case 'c':
+                                    Formatting.type("Climbing mountains requires absolute safety. (.....this book seems pretty thick. Do you wish to continue reading?(y/n))");
+                                        switch(Console.ReadKey().KeyChar)
+                                        {
+                                            case 'y':
+                                                Formatting.type("As you silently become informed about safety, you notice that a segment of the wall is opening itself up to your far right. Do you wish to enter?(y/n)");
+                                                switch(Console.ReadKey().KeyChar)
+                                                {
+                                                    case 'y':
+                                                        Formatting.type("You try to enter, but the door requires a password.");
+                                                        if (Console.ReadLine() == "Don't Fall")
+                                                        {
+                                                            Formatting.type(" You open the door to find a dark room with a suspicious figure conducting suspicious rituals. The man looks flustered and says 'Nice day isn't it?'. As you wonder what anyone would be doing in such a dark room, the man edges his way to the entrance and dashes outside. He forgot to take his book with him. Do you wish to take it? (y/n) ");
+                                                            switch (Console.ReadKey().KeyChar)
+                                                            {
+                                                                case 'y':
+                                                                    Main.Player.abilities.AddCommand(new Combat.LifeEat("Life Eat", 'e'));
+                                                                    Formatting.type(" Learned 'Life Eat'!(e)");
+                                                                    break;
+                                                                case 'n':
+                                                                    Formatting.type("You remember that you are an exemplary member of society and that you will by no means touch another's belongings without their consent. You leave the room like the good man you are.");
+                                                                    break;
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            Formatting.type("Password incorrect.");
+                                                            break;
+                                                        }
+                                                        break;
+                                                    case 'n':
+                                                        Formatting.type("You did not see anything out of the ordinary. You have never seen anything out of the ordinary. As you leave you makes sure to shut the door behind you because you did not see anything out of the ordinary.");
+                                                        break;
+                                                }
+                                                break;
+                                            case 'n':
+                                                Formatting.type("You believe that you already know enough about safety. Put the book back in it's spot in the bookshelf?(y/n)");
+                                                switch(Console.ReadKey().KeyChar)
+                                                {
+                                                    case 'y':
+                                                        Formatting.type("You insert the book back in it's righteous position. You feel good about doing a good deed.");
+                                                        break;
+                                                    case 'n':
+                                                        Main.Player.hp -= 2;
+                                                        Formatting.type("You are trash. You are the pondscum of society. Repent and pay with your life. You take 2 damage.");
+                                                        break;
+                                                }
+                                                break;
+                                        }
+                                    break;
+                                case 's':
+                                    Formatting.type("You don't know how to read this language");
+                                    break;
+                                case 'g':
+                                    Main.Player.intl += 1;
+                                    Formatting.type("You are touched by the art of cooking. Being forged in the flame of cooking, your ability to think up vicious insults has improved. Your intelligence has improved a little");
+                                    break;
+                            }
+                            break;
+                        case 'w':
+                            Formatting.type("You realize that you don't speak the same language as the shopkeeper. You take all of his peppermint candy and leave.");
+                            break;
+                    }
+                    break;
+                case 'b':
+                    Main.BackpackLoop();
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
     }
 
     public class NKingdom : Place

@@ -120,6 +120,51 @@ namespace TextAdventure
             Main.Player.hp -= dmg;
         }
     }
+    public class Bandit : Enemy
+    {
+        public Bandit()
+        {
+            name = "Bandit";
+            hp = 12;
+            atk = 1;
+            def = 0;
+            spd = 3;
+            xpdice = 10;
+            gpdice = 3;
+            abilities = new List<string>();
+            abilities.Add("BasicAttack");
+            abilities.Add("DustStorm");
+            abilities.Add("RavenousPound");
+        }
+        public override void attack(out string ability_used)
+        {
+            int dmg = 0;
+            ability_used = "";
+            if (Combat.DecideAttack(abilities) == "BasicAttack")
+            {
+                double damage = Combat.Dice.roll(1, atk);
+                dmg = Math.Max((Convert.ToInt32(damage) - Main.Player.def), 0);
+                ability_used = "Basic Attack";
+            }
+            else if (Combat.DecideAttack(abilities) == "DustStorm")
+            {
+                double damage = Combat.Dice.roll(atk, 4);
+                dmg = Convert.ToInt32(damage);
+                ability_used = "Dust Storm";
+            }
+            else if (Combat.DecideAttack(abilities) == "RavenousPound")
+            {
+                double damage = Combat.Dice.roll(3, 2);
+                dmg = Convert.ToInt32(damage);
+                ability_used = "Ravenous Pound";
+            }
+            if (dmg <= 0)
+                dmg = 1;
+            if (Combat.Dice.misschance(-Main.Player.spd))
+                dmg = 0;
+            Main.Player.hp -= dmg;
+        }
+    }
     public class WesternKing: Enemy
     {
         public WesternKing()
@@ -129,8 +174,8 @@ namespace TextAdventure
             atk = 50;
             def = 35;
             spd = 25;
-            xpdice = 1000;
-            gpdice = 1000;
+            xpdice = 100;
+            gpdice = 100;
             abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("Terminate");
@@ -150,7 +195,7 @@ namespace TextAdventure
             else if (Combat.DecideAttack(abilities) == "Terminate")
             {
                 double damage = Combat.Dice.roll(atk, atk * 2);
-                dmg = Math.Max((Convert.ToInt32(damage) - Main.Player.def), 0);
+                dmg = Convert.ToInt32(damage) - Main.Player.def;
                 ability_used = "Terminate";
             }
             if (dmg <= 0)

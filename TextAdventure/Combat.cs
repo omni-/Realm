@@ -17,7 +17,7 @@ namespace TextAdventure
                 Random rand = new Random();
                 for (int i = 0; i < numdice; i++)
                 {
-                    total += rand.Next(1, numsides + 1);
+                    total += rand.Next(1, Math.Abs(numsides + 1));
                 }
                 return total;
             }
@@ -146,6 +146,8 @@ namespace TextAdventure
                 // data should be the enemy
                 Enemy target = (Enemy)data;
                 double damage = Dice.roll(Main.Player.intl * 2, 2);
+                if (damage <= 0)
+                    damage = 1;
                 if (Combat.Dice.misschance(-Main.Player.spd))
                     damage = 0;
                 target.hp -= Convert.ToInt32(damage);
@@ -169,6 +171,27 @@ namespace TextAdventure
                 return true;
             }
         }
+        public class LifeEat : Command
+        {
+            public LifeEat(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object data)
+            {
+                // data should be the enemy
+                Enemy target = (Enemy)data;
+                double damage = Dice.roll(1, Main.Player.atk);
+                if (damage <= 0)
+                    damage = 1;
+                if (Combat.Dice.misschance(-Main.Player.spd))
+                    damage = 0;
+                target.hp -= Convert.ToInt32(damage);
+                Main.Player.hp += Convert.ToInt32(damage);
+                Formatting.type("You gain " + damage + " life.");
+                return true;
+            }
+        }
         public class HolySmite : Command
         {
             public HolySmite(string aname, char cmd)
@@ -180,6 +203,8 @@ namespace TextAdventure
                 // data should be the enemy
                 Enemy target = (Enemy)data;
                 double damage = Dice.roll(Main.Player.def, 4);
+                if (damage <= 0)
+                    damage = 1;
                 if (Combat.Dice.misschance(-Main.Player.spd))
                     damage = 0;
                 target.hp -= Convert.ToInt32(damage);
