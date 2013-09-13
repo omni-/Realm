@@ -336,8 +336,9 @@ namespace TextAdventure
             maxhp = 12;
             hp = 12;
             level = 1;
-            xp = 17;
+            xp = 0;
             g = 15;
+            intl = 1;
             backpack = new List<Item>();
             abilities = new TextAdventure.Combat.CommandTable();
             abilities.AddCommand(new Combat.BasicAttack("Basic Attack", 'b'));

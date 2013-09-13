@@ -8,26 +8,29 @@ namespace TextAdventure
 {
     public class Place
     {
+        public Random rand;
         public int q;
         public Globals globals = new Globals();
         public List<Enemy> enemylist = new List<Enemy>();
 
         protected virtual string GetDesc()
         {
-            return "You are smack-dab in the middle nowhere.";
+            return "You are smack-dab in the middle of nowhere.";
         }
         public string Description
         {
             get { return GetDesc(); }
         }
 
-        public virtual List<Enemy> getEnemyList()
+        public virtual Enemy getEnemyList()
         {
             List<Enemy> templist = new List<Enemy>();
-            templist.Add(new Slime());
             templist.Add(new Goblin());
+            templist.Add(new Slime());
             templist.Add(new Bandit());
-            return templist;
+            int randint = rand.Next(1, templist.Count + 1);
+
+            return templist[randint - 1];
         }
         public virtual char[] getAvailableCommands()
         {
@@ -87,6 +90,10 @@ namespace TextAdventure
             }
             return true;
         }
+        public Place()
+        {
+            rand = new Random();
+        }
     }
 
     public class WKingdom : Place
@@ -96,12 +103,9 @@ namespace TextAdventure
             return "King: 'Come, " + Main.Player.name + ", for slaying the elder dragon, Tyrone, I will give you the ultimate gift, eternal respite. The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight(f) or run(r)?";
         }
 
-        public override List<Enemy> getEnemyList()
+        public override Enemy getEnemyList()
         {
-            List<Enemy> templist = new List<Enemy>();
-            //templist.Add(new Slime());
-            //templist.Add(new Goblin());
-            return templist;
+            return new Enemy();
         }
         public override char[] getAvailableCommands()
         {
@@ -133,12 +137,9 @@ namespace TextAdventure
         {
             return "You find yourself in a forest, that bizarrely appears to wrap itself around you, like a fun house mirror. You are more lost than that time you were on a road trip and your phone died so you had no GPS. Do you want to travel east(e), north(n), backpack(b), or search the area(z)?";
         }
-        public override List<Enemy> getEnemyList()
+        public override Enemy getEnemyList()
         {
-            List<Enemy> templist = new List<Enemy>();
-            templist.Add(new Slime());
-            //templist.Add(new Goblin());
-            return templist;
+            return new Slime();
         }
         public override char[] getAvailableCommands()
         {
@@ -213,12 +214,15 @@ namespace TextAdventure
             templist.Add('v');
             return templist.ToArray<char>();
         }
-        public override List<Enemy> getEnemyList()
+        public override Enemy getEnemyList()
         {
             List<Enemy> templist = new List<Enemy>();
-            templist.Add(new Slime());
             templist.Add(new Goblin());
-            return templist;
+
+            Random rand = new Random();
+            int randint = rand.Next(0, templist.Count + 1);
+
+            return templist[randint];
         }
         public override bool handleInput(char input)
         {
@@ -272,7 +276,7 @@ namespace TextAdventure
                                     }
                                     break;
                                 case 'n':
-                                    Formatting.type("You leave the inn.");
+                                    Formatting.type("You leave the shop.");
                                     break;
                             }
                             break;
@@ -309,12 +313,17 @@ namespace TextAdventure
         {
             return "You arrive at a seaside port bustling with couriers and merchants. Do you want to go to the arms dealer(a), the library(l), or inn(i)?";
         }
-        public override List<Enemy> getEnemyList()
+        public override Enemy getEnemyList()
         {
             List<Enemy> templist = new List<Enemy>();
-            templist.Add(new Slime());
             templist.Add(new Goblin());
-            return templist;
+            templist.Add(new Slime());
+            templist.Add(new Bandit());
+
+            Random rand = new Random();
+            int randint = rand.Next(0, templist.Count + 1);
+
+            return templist[randint];
         }
         public override char[] getAvailableCommands()
         {
@@ -403,7 +412,7 @@ namespace TextAdventure
                                             Formatting.type("Learned 'Blade Dash'!");
                                             break;
                                         case 'c':
-                                            Formatting.type("You squint your eyes to see the tiny text. This tome convinces you of the existence of Lord Luxfert, the Bringer of Light. The book teaches you the importance of protecting others.");
+                                            Formatting.type("You squint your eyes to see the tiny text. This tome convinces you of the existence of Lord Luxferre, the Bringer of Light. The book teaches you the importance of protecting others.");
                                             Main.Player.abilities.AddCommand(new Combat.HolySmite("Holy Smite", 'h'));
                                             break;
                                     }
@@ -433,12 +442,17 @@ namespace TextAdventure
         {
             return "You arrive at a small town just east of the Western Kingdom. Do you want to visit the town(v) or head to the inn(i)?";
         }
-        public override List<Enemy> getEnemyList()
+        public override Enemy getEnemyList()
         {
             List<Enemy> templist = new List<Enemy>();
-            templist.Add(new Slime());
             templist.Add(new Goblin());
-            return templist;
+            templist.Add(new Slime());
+            templist.Add(new Bandit());
+
+            Random rand = new Random();
+            int randint = rand.Next(0, templist.Count + 1);
+
+            return templist[randint];
         }
         public override char[] getAvailableCommands()
         {
@@ -529,12 +543,16 @@ namespace TextAdventure
         {
             return "You find yourself at the foot of a mountain. There is a village not far off do you wish to go there?(y to enter)";
         }
-        public override List<Enemy> getEnemyList()
+        public override Enemy getEnemyList()
         {
             List<Enemy> templist = new List<Enemy>();
             templist.Add(new Goblin());
             templist.Add(new Bandit());
-            return templist;
+
+            Random rand = new Random();
+            int randint = rand.Next(0, templist.Count + 1);
+
+            return templist[randint];
         }
         public override char[] getAvailableCommands()
         {
@@ -569,16 +587,18 @@ namespace TextAdventure
                     switch (Console.ReadKey().KeyChar)
                     {
                         case 'l':
-                            Formatting.type("There are three books. Do you wish to read Climbing Safety (c), Solomon's Answer (s), or Gordon Ramsay: A Biology (g)");
-                            switch(Console.ReadKey().KeyChar)
+                            if (Main.ramseycounter == 0)
                             {
-                                case 'c':
-                                    Formatting.type("Climbing mountains requires absolute safety. (.....this book seems pretty thick. Do you wish to continue reading?(y/n))");
-                                        switch(Console.ReadKey().KeyChar)
+                                Formatting.type("There are three books. Do you wish to read Climbing Safety (c), Solomon's Answer (s), or Gordon Ramsay: A Biology (g)");
+                                switch (Console.ReadKey().KeyChar)
+                                {
+                                    case 'c':
+                                        Formatting.type("Climbing mountains requires absolute safety. Rule #1: Don't Fall(.....this book seems pretty thick. Do you wish to continue reading?(y/n))");
+                                        switch (Console.ReadKey().KeyChar)
                                         {
                                             case 'y':
                                                 Formatting.type("As you silently become informed about safety, you notice that a segment of the wall is opening itself up to your far right. Do you wish to enter?(y/n)");
-                                                switch(Console.ReadKey().KeyChar)
+                                                switch (Console.ReadKey().KeyChar)
                                                 {
                                                     case 'y':
                                                         Formatting.type("You try to enter, but the door requires a password.");
@@ -588,8 +608,8 @@ namespace TextAdventure
                                                             switch (Console.ReadKey().KeyChar)
                                                             {
                                                                 case 'y':
-                                                                    Main.Player.abilities.AddCommand(new Combat.LifeEat("Life Eat", 'e'));
-                                                                    Formatting.type(" Learned 'Life Eat'!(e)");
+                                                                    Main.Player.abilities.AddCommand(new Combat.Eat("Eat", 'e'));
+                                                                    Formatting.type(" Learned 'Eat'!(e)");
                                                                     break;
                                                                 case 'n':
                                                                     Formatting.type("You remember that you are an exemplary member of society and that you will by no means touch another's belongings without their consent. You leave the room like the good man you are.");
@@ -609,7 +629,7 @@ namespace TextAdventure
                                                 break;
                                             case 'n':
                                                 Formatting.type("You believe that you already know enough about safety. Put the book back in it's spot in the bookshelf?(y/n)");
-                                                switch(Console.ReadKey().KeyChar)
+                                                switch (Console.ReadKey().KeyChar)
                                                 {
                                                     case 'y':
                                                         Formatting.type("You insert the book back in it's righteous position. You feel good about doing a good deed.");
@@ -621,16 +641,23 @@ namespace TextAdventure
                                                 }
                                                 break;
                                         }
-                                    break;
-                                case 's':
-                                    Formatting.type("You don't know how to read this language");
-                                    break;
-                                case 'g':
-                                    Main.Player.intl += 1;
-                                    Formatting.type("You are touched by the art of cooking. Being forged in the flame of cooking, your ability to think up vicious insults has improved. Your intelligence has improved a little");
-                                    break;
+                                        break;
+                                    case 's':
+                                        Formatting.type("You don't know how to read this language");
+                                        break;
+                                    case 'g':
+                                        Main.Player.intl += 1;
+                                        Formatting.type("You are touched by the art of cooking. Being forged in the flame of cooking, your ability to think up vicious insults has improved. Your intelligence has improved a little");
+                                        break;
+                                }
+                                Main.ramseycounter++;
+                                break;
                             }
-                            break;
+                            else
+                            {
+                                Formatting.type("The library is closed, but you find a signed version of Gordon Ramsey's book.");
+                                break;
+                            }
                         case 'w':
                             Formatting.type("You realize that you don't speak the same language as the shopkeeper. You take all of his peppermint candy and leave.");
                             break;
@@ -648,7 +675,141 @@ namespace TextAdventure
 
     public class NKingdom : Place
     {
+        //protected override string GetDesc()
+        //{
+        //    return "You have arrived at the gate of a castle. There are many people passing through the gate. You see the royal library(l), a smithy's guild(g), the north castle(n), and the marketplace(m). Where do you wish to go? (l,g,n,m)  ";
+        //}
+        //public override Enemy getEnemyList()
+        //{
+        //    List<Enemy> templist = new List<Enemy>();
+        //    templist.Add(new Goblin());
+        //    templist.Add(new Bandit());
 
+        //    Random rand = new Random();
+        //    int randint = rand.Next(0, templist.Count + 1);
+
+        //    return templist[randint];
+        //}
+        //public override char[] getAvailableCommands()
+        //{
+        //    List<char> templist = new List<char>();
+        //    if (Main.Player.backpack.Count >= 1)
+        //        templist.Add('b');
+        //    templist.Add('n');
+        //    templist.Add('e');
+        //    templist.Add('s');
+        //    templist.Add('w');
+        //    templist.Add('l');
+        //    templist.Add('g');
+        //    templist.Add('n');
+        //    templist.Add('m');
+        //    return templist.ToArray<char>();
+        //}
+        //public override bool handleInput(char input)
+        //{
+        //    switch (input)
+        //    {
+        //        case 'n':
+        //            Globals.PlayerPosition.y += 1;
+        //            break;
+        //        case 'e':
+        //            Globals.PlayerPosition.x += 1;
+        //            break;
+        //        case 's':
+        //            Globals.PlayerPosition.y -= 1;
+        //            break;
+        //        case 'w':
+        //            Globals.PlayerPosition.x -= 1;
+        //            break;
+        //        case 'l':
+        //            Formatting.type("In the royal library you find 'Crescent Path'(c), 'Tale of Sariel'(t), 'History of The Realm'(h), and Gordon Ramsey: A Psychology(p). Which do you wish to read? (c,t,h,p)");
+        //            switch (Console.ReadKey().KeyChar)
+        //            {
+        //                case 'c':
+        //                    if (Main.ramseycounter == 0)
+        //                    {
+        //                        Formatting.type(" The book reads 'In the land of the central sands.......(This book is incredibly long. If you wish to complete this book, it may cost");
+        //                        switch (Console.ReadKey().KeyChar)
+        //                        {
+        //                            case 'c':
+        //                                Formatting.type("Climbing mountains requires absolute safety. Rule #1: Don't Fall(.....this book seems pretty thick. Do you wish to continue reading?(y/n))");
+        //                                switch (Console.ReadKey().KeyChar)
+        //                                {
+        //                                    case 'y':
+        //                                        Formatting.type("As you silently become informed about safety, you notice that a segment of the wall is opening itself up to your far right. Do you wish to enter?(y/n)");
+        //                                        switch (Console.ReadKey().KeyChar)
+        //                                        {
+        //                                            case 'y':
+        //                                                Formatting.type("You try to enter, but the door requires a password.");
+        //                                                if (Console.ReadLine() == "Don't Fall")
+        //                                                {
+        //                                                    Formatting.type(" You open the door to find a dark room with a suspicious figure conducting suspicious rituals. The man looks flustered and says 'Nice day isn't it?'. As you wonder what anyone would be doing in such a dark room, the man edges his way to the entrance and dashes outside. He forgot to take his book with him. Do you wish to take it? (y/n) ");
+        //                                                    switch (Console.ReadKey().KeyChar)
+        //                                                    {
+        //                                                        case 'y':
+        //                                                            Main.Player.abilities.AddCommand(new Combat.Eat("Eat", 'e'));
+        //                                                            Formatting.type(" Learned 'Eat'!(e)");
+        //                                                            break;
+        //                                                        case 'n':
+        //                                                            Formatting.type("You remember that you are an exemplary member of society and that you will by no means touch another's belongings without their consent. You leave the room like the good man you are.");
+        //                                                            break;
+        //                                                    }
+        //                                                }
+        //                                                else
+        //                                                {
+        //                                                    Formatting.type("Password incorrect.");
+        //                                                    break;
+        //                                                }
+        //                                                break;
+        //                                            case 'n':
+        //                                                Formatting.type("You did not see anything out of the ordinary. You have never seen anything out of the ordinary. As you leave you makes sure to shut the door behind you because you did not see anything out of the ordinary.");
+        //                                                break;
+        //                                        }
+        //                                        break;
+        //                                    case 'n':
+        //                                        Formatting.type("You believe that you already know enough about safety. Put the book back in it's spot in the bookshelf?(y/n)");
+        //                                        switch (Console.ReadKey().KeyChar)
+        //                                        {
+        //                                            case 'y':
+        //                                                Formatting.type("You insert the book back in it's righteous position. You feel good about doing a good deed.");
+        //                                                break;
+        //                                            case 'n':
+        //                                                Main.Player.hp -= 2;
+        //                                                Formatting.type("You are trash. You are the pondscum of society. Repent and pay with your life. You take 2 damage.");
+        //                                                break;
+        //                                        }
+        //                                        break;
+        //                                }
+        //                                break;
+        //                            case 's':
+        //                                Formatting.type("You don't know how to read this language");
+        //                                break;
+        //                            case 'g':
+        //                                Main.Player.intl += 1;
+        //                                Formatting.type("You are touched by the art of cooking. Being forged in the flame of cooking, your ability to think up vicious insults has improved. Your intelligence has improved a little");
+        //                                break;
+        //                        }
+        //                        Main.ramseycounter++;
+        //                        break;
+        //                    }
+        //                    else
+        //                    {
+        //                        Formatting.type("The library is closed, but you find a signed version of Gordon Ramsey's book.");
+        //                        break;
+        //                    }
+        //                case 'w':
+        //                    Formatting.type("You realize that you don't speak the same language as the shopkeeper. You take all of his peppermint candy and leave.");
+        //                    break;
+        //            }
+        //            break;
+        //        case 'b':
+        //            Main.BackpackLoop();
+        //            break;
+        //        default:
+        //            return false;
+        //    }
+        //    return true;
+        //}
     }
 
     public class CentralKingdom : Place

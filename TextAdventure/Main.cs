@@ -12,6 +12,7 @@ namespace TextAdventure
         public static int game_state = 0;
         public static int forrestcounter = 0;
         public static int libcounter = 0;
+        public static int ramseycounter = 0;
         public static GamePlayer Player = new GamePlayer();
         public static Globals globals = new Globals();
         public static bool devmode = false;
@@ -45,6 +46,7 @@ namespace TextAdventure
                     Player.abilities.AddCommand(new Combat.EndtheIllusion("End the Illusion", '*'));
             while (!End.IsDead)
             {
+                Enemy enemy = new Enemy();
                 Player.levelup();
                 //if (devmode)
                 //{
@@ -55,21 +57,13 @@ namespace TextAdventure
                 //    Globals.PlayerPosition.y = Console.ReadKey().KeyChar;
                 //}              
                 currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
-                List<Enemy> enemylist = currPlace.getEnemyList();
-
                 if (Player.hp > Player.maxhp)
                     Player.hp = Player.maxhp;
                 if (loop_number >= 1)
                 {
                     if (Combat.CheckBattle())
                     {
-                        if (enemylist.Count == 0)
-                            break;
-                        Random rand = new Random();
-                        int randint = rand.Next(0, enemylist.Count + 1);
-                        if (randint <= 1)
-                            randint = 1;
-                        Enemy enemy = enemylist[randint - 1];
+                        enemy = currPlace.getEnemyList();
                         BattleLoop(enemy);
                     }
                 }

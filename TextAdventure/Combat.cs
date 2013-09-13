@@ -39,7 +39,6 @@ namespace TextAdventure
             int rollresult = Dice.roll(1, 5);
             return rollresult == 1;
         }
-
         public static string DecideAttack(List<string> abilities)
         {
             int i = abilities.Count;
@@ -171,9 +170,9 @@ namespace TextAdventure
                 return true;
             }
         }
-        public class LifeEat : Command
+        public class Eat : Command
         {
-            public LifeEat(string aname, char cmd)
+            public Eat(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
@@ -181,7 +180,7 @@ namespace TextAdventure
             {
                 // data should be the enemy
                 Enemy target = (Enemy)data;
-                double damage = Dice.roll(1, Main.Player.atk);
+                double damage = Dice.roll(2, Main.Player.atk);
                 if (damage <= 0)
                     damage = 1;
                 if (Combat.Dice.misschance(-Main.Player.spd))
@@ -202,7 +201,7 @@ namespace TextAdventure
             {
                 // data should be the enemy
                 Enemy target = (Enemy)data;
-                double damage = Dice.roll(Main.Player.def, 4);
+                double damage = Dice.roll(Main.Player.def, 2);
                 if (damage <= 0)
                     damage = 1;
                 if (Combat.Dice.misschance(-Main.Player.spd))

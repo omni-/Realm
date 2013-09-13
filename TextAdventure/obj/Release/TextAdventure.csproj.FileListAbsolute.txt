@@ -1,0 +1,6 @@
+C:\Users\Giorgio\Documents\GitHub\TextAdventure\TextAdventure\bin\Release\TextAdventure.exe.config
+C:\Users\Giorgio\Documents\GitHub\TextAdventure\TextAdventure\bin\Release\TextAdventure.exe
+C:\Users\Giorgio\Documents\GitHub\TextAdventure\TextAdventure\bin\Release\TextAdventure.pdb
+C:\Users\Giorgio\Documents\GitHub\TextAdventure\TextAdventure\obj\Release\TextAdventure.csprojResolveAssemblyReference.cache
+C:\Users\Giorgio\Documents\GitHub\TextAdventure\TextAdventure\obj\Release\TextAdventure.exe
+C:\Users\Giorgio\Documents\GitHub\TextAdventure\TextAdventure\obj\Release\TextAdventure.pdb
