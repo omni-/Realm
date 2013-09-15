@@ -83,7 +83,7 @@ namespace TextAdventure
 
         //good tier
         public Item p_shield = new Item();
-        public Item p_longsword = new Item();
+        public Item p_shortsword = new Item();
         public Item p_mail = new Item();
         public Item goldcloth_cloak = new Item();
 
@@ -223,6 +223,48 @@ namespace TextAdventure
 
             bt_greatsword.name = "Bloodthirsty Greatsword";
             bt_greatsword.desc = "A massive blade with a crimson sheen";
+            bt_greatsword.atkbuff = 13;
+            bt_greatsword.slot = 1;
+            bt_greatsword.multiplier = 1.31f;
+
+            bt_plate.name = "Bloodmail";
+            bt_plate.desc = "Thrives off of souls of the fallen.";
+            bt_plate.atkbuff = 1;
+            bt_plate.defbuff = 10;
+            bt_plate.slot = 3;
+
+            blood_amulet.name = "Blood Amulet";
+            blood_amulet.desc = "It has a sinister sheen to it";
+            blood_amulet.intlbuff = 10;
+            blood_amulet.spdbuff = 1;
+            blood_amulet.atkbuff = 1;
+            blood_amulet.slot = 4;
+
+            p_shield.name = "Palladium Shield";
+            p_shield.desc = "";
+            p_shield.defbuff = 11;
+            p_shield.spdbuff = -1;
+            p_shield.slot = 3;
+
+            p_shortsword.name = "Palladium Shortsword";
+            p_shortsword.desc = "";
+            p_shortsword.defbuff = 1;
+            p_shortsword.atkbuff = 10;
+            p_shortsword.spdbuff = 2;
+            p_shortsword.slot = 1;
+            p_shortsword.multiplier = 1.25f;
+
+            p_mail.name = "Palladium Mail";
+            p_mail.desc = "";
+            p_mail.defbuff = 13;
+            p_mail.spdbuff = -1;
+            p_mail.slot = 3;
+
+            goldcloth_cloak.name = "Goldcloth Cloak";
+            goldcloth_cloak.desc = "";
+            goldcloth_cloak.intlbuff = 13;
+            goldcloth_cloak.defbuff = 2;
+            goldcloth_cloak.slot = 4;
 
             phantasmal_claymore.name = "Phantasmal Claymore";
             phantasmal_claymore.desc = "A legendary blade made from the essence of reality.";
