@@ -12,7 +12,7 @@ namespace TextAdventure
         public int x;
         public int y;
     }
-    public struct Item
+    public class Item
     {
         public string name;
         public string desc;
@@ -24,6 +24,14 @@ namespace TextAdventure
         public int slot;
         public float multiplier;
         //1 for primary 2 for secondary 3 for armor 4 for Accessory
+        public Item()
+        {
+            atkbuff = 0;
+            defbuff = 0;
+            spdbuff = 0;
+            intlbuff = 0;
+            multiplier = 1;
+        }
     }
     public class Globals
     {
@@ -49,8 +57,13 @@ namespace TextAdventure
         public Item cardboard_shield = new Item();
 
         //sammy tier
-        public Item wood_armor = new Item();
         public Item wood_staff = new Item();
+        public Item fmBP = new Item();
+        public Item sonictee = new Item();
+        public Item slwscreen = new Item();
+
+        //Bad tier
+        public Item wood_armor = new Item();
         public Item wood_plank = new Item();
         public Item plastic_ring = new Item();
 
@@ -60,6 +73,25 @@ namespace TextAdventure
         public Item iron_mail = new Item();
         public Item iron_buckler = new Item();
         public Item iron_band = new Item();
+
+        //ok tier
+        public Item bt_longsword = new Item();
+        public Item bt_battleaxe = new Item();
+        public Item bt_greatsword = new Item();
+        public Item bt_plate = new Item();
+        public Item blood_amulet = new Item();
+
+        //good tier
+        public Item p_shield = new Item();
+        public Item p_longsword = new Item();
+        public Item p_mail = new Item();
+        public Item goldcloth_cloak = new Item();
+
+        //excellent tier
+        public Item ds_amulet = new Item();
+        public Item ds_kite = new Item();
+        public Item ds_kris = new Item();
+        public Item ds_scale = new Item();
 
         //god tier
         public Item phantasmal_claymore = new Item();
@@ -71,19 +103,12 @@ namespace TextAdventure
             cardboard_armor.name = "Cardboard Armor";
             cardboard_armor.desc = "A refrigerator box barely held together by masking tape.";
             cardboard_armor.defbuff = 1;
-            cardboard_armor.atkbuff = 0;
-            cardboard_armor.spdbuff = 0;
-            cardboard_armor.intlbuff = 0;
             cardboard_armor.tier = 0;
             cardboard_armor.slot = 3;
-            cardboard_armor.multiplier = 1;
 
             cardboard_sword.name = "Cardboard Sword";
             cardboard_sword.desc = "One of those wrapping paper tubes you hit your siblings with.";
-            cardboard_sword.defbuff = 0;
             cardboard_sword.atkbuff = 1;
-            cardboard_sword.spdbuff = 0;
-            cardboard_sword.intlbuff = 0;
             cardboard_sword.tier = 0;
             cardboard_sword.slot = 1;
             cardboard_sword.multiplier = .5f;
@@ -91,32 +116,29 @@ namespace TextAdventure
             cardboard_shield.name = "Carboard Shield";
             cardboard_shield.desc = "It's just a box from costco.";
             cardboard_shield.defbuff = 1;
-            cardboard_shield.atkbuff = 0;
-            cardboard_shield.spdbuff = 0;
-            cardboard_shield.intlbuff = 0;
             cardboard_shield.tier = 0;
             cardboard_shield.slot = 2;
-            cardboard_shield.multiplier = 1;
 
             plastic_ring.name = "Plastic Ring";
             plastic_ring.desc = "It's actually just a Ringpop.";
-            plastic_ring.defbuff = 0;
-            plastic_ring.atkbuff = 0;
             plastic_ring.spdbuff = 1;
             plastic_ring.intlbuff = 1;
             plastic_ring.tier = 0;
             plastic_ring.slot = 4;
-            plastic_ring.multiplier = 1;
 
             wood_armor.name = "Wood Armor";
             wood_armor.desc = "Some plywood you stole from Home Depot. It give you the Home Depot feeling. ";
             wood_armor.defbuff = 5;
-            wood_armor.atkbuff = 0;
-            wood_armor.spdbuff = 0;
-            wood_armor.intlbuff = 0;
             wood_armor.tier = 1;
             wood_armor.slot = 3;
-            wood_armor.multiplier = 0;
+
+            wood_plank.name = "Wood Plank";
+            wood_plank.desc = "A wood plank.";
+            wood_plank.defbuff = 1;
+            wood_plank.atkbuff = 2;
+            wood_plank.tier = 1;
+            wood_plank.slot = 1;
+            wood_plank.multiplier = 1.1f;
 
             wood_staff.name = "Wood Staff";
             wood_staff.desc = "A label that reads 'Luigi(sammy)' is stuck on it. There's also blood on the hilt.";
@@ -126,17 +148,26 @@ namespace TextAdventure
             wood_staff.intlbuff = 1;
             wood_staff.tier = 1;
             wood_staff.slot = 1;
-            wood_staff.multiplier = 1.3f;
+            wood_staff.multiplier = 1.075f;
 
-            wood_plank.name = "Wood Plank";
-            wood_plank.desc = "A wood plank.";
-            wood_plank.defbuff = 3;
-            wood_plank.atkbuff = 0;
-            wood_plank.spdbuff = 0;
-            wood_plank.intlbuff = 0;
-            wood_plank.tier = 1;
-            wood_plank.slot = 1;
-            wood_plank.multiplier = 1;
+            sonictee.name = "Sonic T-Shirt";
+            sonictee.desc = "'Gotta go fast!'";
+            sonictee.defbuff = 1;
+            sonictee.spdbuff = 4;
+            sonictee.tier = 1;
+            sonictee.slot = 3;
+
+            fmBP.name = "Fire Mario Backpack";
+            fmBP.name = "Discontinued because people used its supernatural powers for bad.";
+            fmBP.intlbuff = 5;
+            fmBP.tier = 1;
+            fmBP.slot = 4;
+
+            slwscreen.name = "Sonic Lost World Screenshots";
+            slwscreen.desc = "This proves you can't hate on Sonic";
+            slwscreen.defbuff = 4;
+            slwscreen.tier = 1;
+            slwscreen.slot = 3;
 
             iron_lance.name = "Iron Lance";
             iron_lance.desc = "A lance of iron, gilded in gold";
@@ -145,44 +176,53 @@ namespace TextAdventure
             iron_lance.spdbuff = 1;
             iron_lance.tier = 2;
             iron_lance.slot = 1;
-            iron_lance.multiplier = 1.2f;
+            iron_lance.multiplier = 1.1f;
 
             iron_rapier.name = "Iron Rapier";
             iron_rapier.desc = "A well-smithed blade, edged to split hair.";
-            iron_rapier.defbuff = 0;
             iron_rapier.atkbuff = 5;
             iron_rapier.spdbuff = 2;
             iron_rapier.tier = 2;
             iron_rapier.slot = 1;
-            iron_rapier.multiplier = 1.5f;
+            iron_rapier.multiplier = 1.1f;
 
             iron_mail.name = "Iron Chainmail";
             iron_mail.desc = "Iron ringmail. Sturdy, but not invincible. You are slower while wearing it.";
             iron_mail.defbuff = 5;
-            iron_mail.atkbuff = 0;
             iron_mail.spdbuff = -1;
             iron_mail.tier = 2;
             iron_mail.slot = 3;
-            iron_mail.multiplier = 1;
 
             iron_buckler.name = "Iron Buckler";
             iron_buckler.desc = "A lightweight buckler. Will stop fire and swords, but not Unstoppable Forces.";
             iron_buckler.defbuff = 3;
-            iron_buckler.atkbuff = 0;
-            iron_buckler.spdbuff = 0;
             iron_buckler.tier = 2;
             iron_buckler.slot = 2;
-            iron_buckler.multiplier = 1;
 
             iron_band.name = "Iron Band";
             iron_band.desc = "An iron ring. Ugly, but it appears to be magical.";
-            iron_band.defbuff = 0;
-            iron_band.atkbuff = 0;
             iron_band.spdbuff = 2;
             iron_band.intlbuff = 5;
             iron_band.tier = 2;
             iron_band.slot = 4;
-            iron_band.multiplier = 1.2f;
+            iron_band.multiplier = 1.05f;
+
+            bt_longsword.name = "Bloodthirsty Longsword";
+            bt_longsword.desc = "It drinks the blood of enemies";
+            bt_longsword.atkbuff = 12;
+            bt_longsword.slot = 1;
+            bt_longsword.multiplier = 1.3f;
+
+            bt_battleaxe.name = "Bloodthirsty Battleaxe";
+            bt_battleaxe.desc = "It hungers for flesh";
+            bt_battleaxe.atkbuff = 10;
+            bt_battleaxe.defbuff = 3;
+            bt_battleaxe.spdbuff = -1;
+            bt_battleaxe.slot = 1;
+            bt_battleaxe.multiplier = 1.25f;
+
+            bt_greatsword.name = "Bloodthirsty Greatsword";
+            bt_greatsword.desc = "A massive blade with a crimson sheen";
 
             phantasmal_claymore.name = "Phantasmal Claymore";
             phantasmal_claymore.desc = "A legendary blade made from the essence of reality.";
@@ -202,27 +242,22 @@ namespace TextAdventure
             spectral_bulwark.intlbuff = 10;
             spectral_bulwark.tier = 7;
             spectral_bulwark.slot = 2;
-            spectral_bulwark.multiplier = 1;
 
             illusory_plate.name = "Illusory Plate";
             illusory_plate.desc = "Even though you know it to be an illusion, every attack against it is futile.";
             illusory_plate.defbuff = 100;
             illusory_plate.atkbuff = 0;
-            illusory_plate.spdbuff = 0;
-            illusory_plate.intlbuff = 0;
             illusory_plate.tier = 7;
             illusory_plate.slot = 3;
-            illusory_plate.multiplier = 1;
 
             void_cloak.name = "Void Cloack";
             void_cloak.desc = "It's existence is an oxymoron. It is made from nothing.";
-            void_cloak.defbuff = 0;
             void_cloak.atkbuff = 0;
             void_cloak.spdbuff = 50;
             void_cloak.intlbuff = 50;
             void_cloak.tier = 7;
             void_cloak.slot = 4;
-            void_cloak.multiplier = 1;
+
         }
     }
     public class GamePlayer

@@ -12,7 +12,11 @@ namespace TextAdventure
         public static int game_state = 0;
         public static int forrestcounter = 0;
         public static int libcounter = 0;
+        public static int centrallibcounter = 0;
         public static int ramseycounter = 0;
+        public static int gbooks = 0;
+        public static bool is_theif = false;
+        public static bool is_phased = false;
         public static GamePlayer Player = new GamePlayer();
         public static Globals globals = new Globals();
         public static bool devmode = false;
@@ -45,6 +49,11 @@ namespace TextAdventure
             if (Player.primary.Equals(globals.phantasmal_claymore) && Player.secondary.Equals(globals.spectral_bulwark) && Player.armor.Equals(globals.illusory_plate) && Player.accessory.Equals(globals.void_cloak))
                 if(!Player.abilities.commandChars.Contains('*'))
                     Player.abilities.AddCommand(new Combat.EndtheIllusion("End the Illusion", '*'));
+            if (Player.primary.Equals(globals.wood_staff) && Player.secondary.Equals(globals.slwscreen) && Player.armor.Equals(globals.sonictee) && Player.accessory.Equals(globals.fmBP))
+            {
+                if (!Player.abilities.commandChars.Contains('/'))
+                    Player.abilities.AddCommand(new Combat.ArrowsofLies("Arrows of Lies", '/'));
+            }
             while (!End.IsDead)
             {
                 Enemy enemy = new Enemy();
@@ -130,6 +139,8 @@ namespace TextAdventure
             {
                 if (is_turn)
                 {
+                    if (is_phased)
+                        is_phased = false;
                     Formatting.type(enemy.name + ":");
                     Formatting.type("-------------------------", 10);
                     Formatting.type("Enemy HP: " + enemy.hp);
@@ -159,10 +170,13 @@ namespace TextAdventure
                         enemy.droploot();
                         MainLoop();
                     }
-                    is_turn = false;
+                    if (!is_phased)
+                        is_turn = false;
                 }
                 else if (!is_turn)
                 {
+                    if (enemy.is_cursed)
+                        enemy.hp -= 2;
                     int oldhp = Main.Player.hp;
                     string ability;
                     enemy.attack(out ability);
@@ -264,6 +278,10 @@ namespace TextAdventure
                 //    cmd.ExecuteCommand('1', 1);
                 cmd.ExecuteCommand(ch, Player.backpack[(int)Char.GetNumericValue(ch)]);
             }
+        }
+        public static void SammysAdventure()
+        {
+
         }
         public static bool Purchase(int cost)
         {

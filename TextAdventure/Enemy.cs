@@ -15,6 +15,7 @@ namespace TextAdventure
         public int spd;
         public int xpdice;
         public int gpdice;
+        public bool is_cursed;
         public List<string> abilities;
         
         public virtual void attack(out string ability_used)
@@ -26,7 +27,10 @@ namespace TextAdventure
         {
             int gold = Combat.Dice.roll(gpdice, 4);
             Formatting.type("You gain " + gold + " gold.");
-            Main.Player.g += gold;
+            if (!Main.is_theif)
+                Main.Player.g += gold;
+            else
+                Main.Player.g += (gold + (gold / 10));
 
             int xp = Combat.Dice.roll(1, xpdice);
             Formatting.type("You gained " + xp + " xp.");

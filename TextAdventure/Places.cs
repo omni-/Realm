@@ -686,6 +686,7 @@ namespace TextAdventure
                                     case 'g':
                                         Main.Player.intl += 1;
                                         Formatting.type("You are touched by the art of cooking. Being forged in the flame of cooking, your ability to think up vicious insults has improved. Your intelligence has improved a little");
+                                        Main.gbooks++;
                                         break;
                                 }
                                 Main.ramseycounter++;
@@ -831,6 +832,7 @@ namespace TextAdventure
         //                            case 'g':
         //                                Main.Player.intl += 1;
         //                                Formatting.type("You are touched by the art of cooking. Being forged in the flame of cooking, your ability to think up vicious insults has improved. Your intelligence has improved a little");
+        //                                Main.gbooks++;
         //                                break;
         //                        }
         //                        Main.ramseycounter++;
@@ -858,7 +860,109 @@ namespace TextAdventure
 
     public class CentralKingdom : Place
     {
+        protected override string GetDesc()
+        {
+            return "You step through the gates of the city, and witness the largest coalescence of humanity you've seen in you entire life. There are hundereds of great wonders in this behemoth of a city. You may visit the library(l), the weaponsmith(w), the inn(i), the magic shop(s), or the town's great monument(o)";
+        }
+        public override Enemy getEnemyList()
+        {
+            List<Enemy> templist = new List<Enemy>();
+            templist.Add(new Goblin());
+            templist.Add(new Bandit());
 
+            Random rand = new Random();
+            int randint = rand.Next(0, templist.Count + 1);
+
+            return templist[randint];
+        }
+        public override char[] getAvailableCommands()
+        {
+            List<char> templist = new List<char>();
+            if (Main.Player.backpack.Count >= 1)
+                templist.Add('b');
+            if (Main.hasmap)
+                templist.Add('m');
+            templist.Add('w');
+            templist.Add('n');
+            templist.Add('e');
+            templist.Add('s');
+            templist.Add('w');
+            templist.Add('l');
+            templist.Add('i');
+            templist.Add('s');
+            templist.Add('o');
+            return templist.ToArray<char>();
+        }
+        public override bool handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'm':
+                    if (Main.hasmap)
+                        Formatting.drawmap();
+                    break;
+                case 'n':
+                    Globals.PlayerPosition.y += 1;
+                    break;
+                case 'e':
+                    Globals.PlayerPosition.x += 1;
+                    break;
+                case 's':
+                    Globals.PlayerPosition.y -= 1;
+                    break;
+                case 'w':
+                    Globals.PlayerPosition.x -= 1;
+                    break;
+
+                case 'l':
+                    if (Main.centrallibcounter == 0)
+                    {
+                        Formatting.type("This massive building is a monument to human knowledge. You feel dwarfed by its towering presence.");
+                        Formatting.type("You arrive at a shelf that draws your attention. There are five books. The first one is a musty tome entitled Alcwyn's Legacy(a). The second one is A Guide to Theivery(g), the third Sacrificial Rite(s). The fourth book is The Void(v). The final book's title Ramsey: A Mathematics(r). Which do you read?");
+                        switch (Console.ReadKey().KeyChar)
+                        {
+                            case 'a':
+                                Formatting.type("You become enlightened in the ways of the elder wizard Alcywn.");
+                                Formatting.type("Learned 'Curse'!");
+                                Main.Player.abilities.AddCommand(new Combat.Curse("Curse", 'c'));
+                                
+                                break;
+                            case 'g':
+                                Formatting.type("Now skilled in the art of stealing, you gain 10% more gold.");
+                                Main.is_theif = true;
+                                break;
+                            case 's':
+                                Formatting.type("You become skilled in the art of sacrifice.");
+                                Formatting.type("Learned 'Sacrifice'!");
+                                Main.Player.abilities.AddCommand(new Combat.Sacrifice("Sacrifice", 's'));
+                                break;
+                            case 'v':
+                                Formatting.type("You learn of the Void. You can phase in and out of reality.");
+                                Formatting.type("Learned 'Phase'!");
+                                Main.Player.abilities.AddCommand(new Combat.Phase("Phase", 'p'));
+                                break;
+                            case 'r':
+                                Formatting.type("You become educated on the mathematics of cooking.");
+                                Main.Player.intl += 1;
+                                Main.gbooks++;
+                                break;
+                        }
+                        Main.ramseycounter++;
+                        break;
+                    }
+                    else
+                    {
+                        Formatting.type("The library is closed, but you find a signed version of Gordon Ramsey's book.");
+                        break;
+                    }
+                case 'b':
+                    Main.BackpackLoop();
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
     }
 
     public class FlamingDesert : Place

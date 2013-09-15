@@ -224,5 +224,60 @@ namespace TextAdventure
                 return true;
             }
         }
+        public class ArrowsofLies : Command
+        {
+            public ArrowsofLies(string aname, char cmd) : base(aname, cmd)
+            {
+            }
+
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                target.hp = 0;
+                return true;
+            }
+        }
+
+        public class Curse : Command
+        {
+            public Curse(string aname, char cmd): base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                target.hp -= Dice.roll(1, Main.Player.intl);
+                target.is_cursed = true;
+                return true;
+            }
+        }
+
+        public class Sacrifice : Command
+        {
+            public Sacrifice(string aname, char cmd) : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                int dmg = Dice.roll(Main.Player.atk / 2, Main.Player.atk);
+                target.hp -= dmg;
+                Main.Player.hp -= dmg / 2;
+                return true;
+            }
+        }
+
+        public class Phase : Command
+        {
+            public Phase(string aname, char cmd) : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                Main.is_phased = true;
+                return true;
+            }
+        }
     }
 }
