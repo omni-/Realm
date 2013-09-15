@@ -40,6 +40,7 @@ namespace TextAdventure
                 Player.secondary = globals.spectral_bulwark;
                 Player.armor = globals.illusory_plate;
                 Player.accessory = globals.void_cloak;
+                hasmap = true;
             }
             if (Player.primary.Equals(globals.phantasmal_claymore) && Player.secondary.Equals(globals.spectral_bulwark) && Player.armor.Equals(globals.illusory_plate) && Player.accessory.Equals(globals.void_cloak))
                 if(!Player.abilities.commandChars.Contains('*'))

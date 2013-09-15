@@ -45,6 +45,8 @@ namespace TextAdventure
                 templist.Add('n');
             if (Main.Player.backpack.Count > 0)
                 templist.Add('b');
+            if (Main.hasmap)
+                templist.Add('m');
             return templist.ToArray<char>();
         }
 
@@ -84,6 +86,10 @@ namespace TextAdventure
                 case 'b':
                     if (Main.Player.backpack.Count > 0)
                         Main.BackpackLoop();
+                    break;
+                case 'm':
+                    if (Main.hasmap)
+                        Formatting.drawmap();
                     break;
                 default:
                     return false;
@@ -146,6 +152,8 @@ namespace TextAdventure
             List<char> templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
+            if (Main.hasmap)
+                templist.Add('m');
             templist.Add('e');
             templist.Add('n');
             templist.Add('z');
@@ -156,6 +164,10 @@ namespace TextAdventure
         {
             switch (input)
             {
+                case 'm':
+                    if (Main.hasmap)
+                        Formatting.drawmap();
+                    break;
                 case 'n':
                     Globals.PlayerPosition.y += 1;
                     break;
@@ -207,6 +219,8 @@ namespace TextAdventure
             List<char> templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
+            if (Main.hasmap)
+                templist.Add('m');
             templist.Add('n');
             templist.Add('e');
             templist.Add('w');
@@ -228,6 +242,10 @@ namespace TextAdventure
         {
             switch (input)
             {
+                case 'm':
+                    if (Main.hasmap)
+                        Formatting.drawmap();
+                    break;
                 case 'n':
                     Globals.PlayerPosition.y += 1;
                     break;
@@ -330,6 +348,8 @@ namespace TextAdventure
             List<char> templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
+            if (Main.hasmap)
+                templist.Add('m');
             templist.Add('n');
             templist.Add('e');
             templist.Add('s');
@@ -342,6 +362,10 @@ namespace TextAdventure
         {
             switch (input)
             {
+                case 'm':
+                    if (Main.hasmap)
+                        Formatting.drawmap();
+                    break;
                 case 'n':
                     Globals.PlayerPosition.y += 1;
                     break;
@@ -459,6 +483,8 @@ namespace TextAdventure
             List<char> templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
+            if (Main.hasmap)
+                templist.Add('m');
             templist.Add('n');
             templist.Add('e');
             templist.Add('s');
@@ -471,6 +497,10 @@ namespace TextAdventure
         {
             switch (input)
             {
+                case 'm':
+                    if (Main.hasmap)
+                        Formatting.drawmap();
+                    break;
                 case 'n':
                     Globals.PlayerPosition.y += 1;
                     break;
@@ -559,6 +589,8 @@ namespace TextAdventure
             List<char> templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
+            if (Main.hasmap)
+                templist.Add('m');
             templist.Add('n');
             templist.Add('e');
             templist.Add('s');
@@ -570,6 +602,10 @@ namespace TextAdventure
         {
             switch (input)
             {
+                case 'm':
+                    if (Main.hasmap)
+                        Formatting.drawmap();
+                    break;
                 case 'n':
                     Globals.PlayerPosition.y += 1;
                     break;
@@ -608,8 +644,8 @@ namespace TextAdventure
                                                             switch (Console.ReadKey().KeyChar)
                                                             {
                                                                 case 'y':
-                                                                    Main.Player.abilities.AddCommand(new Combat.Eat("Eat", 'e'));
-                                                                    Formatting.type(" Learned 'Eat'!(e)");
+                                                                    Main.Player.abilities.AddCommand(new Combat.ConsumeSoul("Consume Soul", 'c'));
+                                                                    Formatting.type(" Learned 'Consume Soul'!(c)");
                                                                     break;
                                                                 case 'n':
                                                                     Formatting.type("You remember that you are an exemplary member of society and that you will by no means touch another's belongings without their consent. You leave the room like the good man you are.");
@@ -643,7 +679,9 @@ namespace TextAdventure
                                         }
                                         break;
                                     case 's':
-                                        Formatting.type("You don't know how to read this language");
+                                        Formatting.type("You don't know how to read this language, however you do find a crumpled up map of the realm in the back of the book.");
+                                        Formatting.type("Obtained 'Map'!");
+                                        Main.hasmap = true;
                                         break;
                                     case 'g':
                                         Main.Player.intl += 1;
@@ -695,6 +733,8 @@ namespace TextAdventure
         //    List<char> templist = new List<char>();
         //    if (Main.Player.backpack.Count >= 1)
         //        templist.Add('b');
+        //    if (Main.hasmap)
+        //        templist.Add('m');
         //    templist.Add('n');
         //    templist.Add('e');
         //    templist.Add('s');
@@ -708,7 +748,11 @@ namespace TextAdventure
         //public override bool handleInput(char input)
         //{
         //    switch (input)
-        //    {
+        //   {
+        //        case 'm':
+        //            if (Main.hasmap)
+        //                Formatting.drawmap();
+        //            break;
         //        case 'n':
         //            Globals.PlayerPosition.y += 1;
         //            break;

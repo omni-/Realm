@@ -28,5 +28,22 @@ namespace TextAdventure
                 Thread.Sleep(10);
             }
         }
+
+        public static void drawmap()
+        {
+            Formatting.type("++++++++++++++++++++++++++++++++++Realm Map++++++++++++++++++++++++++++++++++", 1);
+            Formatting.type("+--------()--(Northern Kingdon)--()----------------()---(Black Horizon)-----+", 1);
+            Formatting.type("+---------------------------------------------------------------------------+", 1);
+            Formatting.type("+-------------()--(Riverwell)--()--(Northern Mountains)--()--()-------------+", 1);
+            Formatting.type("+---------------------------------------------------------------------------+", 1);
+            Formatting.type("+---------(Illusion Forest)--()--()------------------(Newport)--()----------+", 1);
+            Formatting.type("+---------------------------------------------------------------------------+", 1);
+            Formatting.type("+(Western Kingdom)--(Valleyburg)--(Central Kindom)--(Nomads)--(East Kingdom)+", 1);
+            Formatting.type("+---------------------------------------------------------------------------+", 1);
+            Formatting.type("+----------(Seaport)--()--(Flaming Desert)--(Twin Paths)--(RavenKeep)-------+", 1);
+            Formatting.type("+---------------------------------------------------------------------------+", 1);
+            Formatting.type("+----------------()--()--(Southern Kingdom)--()--(???)----------------------+", 1);
+            Formatting.type("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", 1);
+        }
     }
 }

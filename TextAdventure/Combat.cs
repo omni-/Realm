@@ -170,9 +170,9 @@ namespace TextAdventure
                 return true;
             }
         }
-        public class Eat : Command
+        public class ConsumeSoul : Command
         {
-            public Eat(string aname, char cmd)
+            public ConsumeSoul(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
