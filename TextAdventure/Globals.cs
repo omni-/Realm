@@ -266,6 +266,31 @@ namespace TextAdventure
             goldcloth_cloak.defbuff = 2;
             goldcloth_cloak.slot = 4;
 
+            ds_amulet.name = "Darksteel Amulet";
+            ds_amulet.desc = "";
+            ds_amulet.defbuff = 7;
+            ds_amulet.intlbuff = 15;
+            ds_amulet.slot = 4;
+
+            ds_kite.name = "Darksteel Kite Shield";
+            ds_kite.desc = "";
+            ds_kite.defbuff = 20;
+            ds_kite.spdbuff = -2;
+            ds_kite.slot = 3;
+
+            ds_kris.name = "Darksteel Kris";
+            ds_kris.desc = "";
+            ds_kris.defbuff = 1;
+            ds_kris.spdbuff = 2;
+            ds_kris.atkbuff = 10;
+            ds_kris.slot = 1;
+            ds_kris.multiplier = 1.35f;
+
+            ds_scale.name = "Darksteel Scalemail";
+            ds_scale.desc = "";
+            ds_scale.defbuff = 25;
+            ds_scale.slot = 3;
+
             phantasmal_claymore.name = "Phantasmal Claymore";
             phantasmal_claymore.desc = "A legendary blade made from the essence of reality.";
             phantasmal_claymore.defbuff = 10;
