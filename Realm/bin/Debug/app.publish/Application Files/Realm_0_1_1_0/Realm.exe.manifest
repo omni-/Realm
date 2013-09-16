@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="Realm.exe" version="0.1.1.0" publicKeyToken="aba040e587f5e8ff" language="neutral" processorArchitecture="msil" type="win32" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="Realm" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="Realm.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet version="1" class="System.Security.NamedPermissionSet" Name="LocalIntranet" Description="Default rights given to applications on the local intranet" Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!-- UAC Manifest Options
+            If you want to change the Windows User Account Control level replace the 
+            requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+            Specifying requestedExecutionLevel node will disable file and registry virtualization.
+            If you want to utilize File and Registry Virtualization for backward 
+            compatibility then delete the requestedExecutionLevel node.
+        -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Realm.exe" size="52736">
+      <assemblyIdentity name="Realm" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>LOMxA3cmMjHbuKPBuDUX3TQlQ0dP8P8qmPSg/ConVC4=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="Realm.exe.config" size="187">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>xm4bo26HQ0LNVwz1vdPYtzhkpMnp2AI5i+f0b+OahTI=</dsig:DigestValue>
+    </hash>
+  </file>
+  <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+    <application>
+      <!-- A list of all Windows versions that this application is designed to work with. 
+      Windows will automatically select the most compatible environment.-->
+      <!-- If your application is designed to work with Windows Vista, uncomment the following supportedOS node-->
+      <!--<supportedOS Id="{e2011457-1546-43c5-a5fe-008deee3d3f0}"></supportedOS>-->
+      <!-- If your application is designed to work with Windows 7, uncomment the following supportedOS node-->
+      <!--<supportedOS Id="{35138b9a-5d96-4fbd-8e2d-a2440225f93a}"/>-->
+      <!-- If your application is designed to work with Windows 8, uncomment the following supportedOS node-->
+      <!--<supportedOS Id="{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}"></supportedOS>-->
+      <!-- If your application is designed to work with Windows 8.1, uncomment the following supportedOS node-->
+      <!--<supportedOS Id="{1f676c76-80e1-4239-95bb-83d0f6d0da78}"/>-->
+    </application>
+  </compatibility>
+<publisherIdentity name="CN=TheDonger\Cooper" issuerKeyHash="b066028e4fa53521805fb5e41e2b7e50bf93e984" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>K1NVqN89OAPWTNrAB0C2LyyCAoVkANE1tZbvaD8NFjI=</DigestValue></Reference></SignedInfo><SignatureValue>CVtXSp4xQMT90qBFl/5jXID5+p2NtVYtPWMVkJMRbxlYSW1UUYDUEKDB+j1/Wkf7Cv2duM3uOWO5VkWS2H095DUxHxUKIHp/bQ4xPS0TQfBBvbESFoZAf2tQoZxRCRVNFv6yALXOKzVaze4Fa98qE0vJVbM65Wp/gxrL5xNnUoY=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>mcW+WabCwAEex0AE8JBTDrFjMc9eI93t+SAyl1hsN6IGHYK420Hdr+BLAZSymvDDmu2CwwiUgW6swmTZbQlcV+uIzvBT6H36vDmNUcVpelsWlg6BM0tVPV5/V2Frw26glwKJh4RR/EelOYRg8W13S9Xt3mb7+zRUrDqKu36IIX8=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="32160d3f68ef96b535d100648502822c2fb64007c0da4cd603383ddfa855532b" Description="" Url=""><as:assemblyIdentity name="Realm.exe" version="0.1.1.0" publicKeyToken="aba040e587f5e8ff" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=TheDonger\Cooper</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>3+o+C8zbgxUow6VL1HIvTG3W5zWoEEgVdUIGNh0Q4vM=</DigestValue></Reference></SignedInfo><SignatureValue>ACsQvDpeQfbVwKUcoX60CfRG2zaYqBSYNj3yMz9FL1nUGVq9aJzVii6esAhB2eQAnLJqCNG/z6imOMPwmhDlugZaj2FgAVjkgXt/LV+Y5KJQBrZ03oROe2iNX0uuyTIeiKjDNjpVQOuVs/oSi/pVVO1UCeoNQzcsC6lso2dYke4=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>mcW+WabCwAEex0AE8JBTDrFjMc9eI93t+SAyl1hsN6IGHYK420Hdr+BLAZSymvDDmu2CwwiUgW6swmTZbQlcV+uIzvBT6H36vDmNUcVpelsWlg6BM0tVPV5/V2Frw26glwKJh4RR/EelOYRg8W13S9Xt3mb7+zRUrDqKu36IIX8=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB2TCCAUKgAwIBAgIQMEqn/AwWqKdP2zvqmetxzzANBgkqhkiG9w0BAQsFADArMSkwJwYDVQQDHiAAVABoAGUARABvAG4AZwBlAHIAXABDAG8AbwBwAGUAcjAeFw0xMzA5MTUyMjAxMzJaFw0xNDA5MTYwNDAxMzJaMCsxKTAnBgNVBAMeIABUAGgAZQBEAG8AbgBnAGUAcgBcAEMAbwBvAHAAZQByMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCZxb5ZpsLAAR7HQATwkFMOsWMxz14j3e35IDKXWGw3ogYdgrjbQd2v4EsBlLKa8MOa7YLDCJSBbqzCZNltCVxX64jO8FPoffq8OY1RxWl6WxaWDoEzS1U9Xn9XYWvDbqCXAomHhFH8R6U5hGDxbXdL1e3eZvv7NFSsOoq7foghfwIDAQABMA0GCSqGSIb3DQEBCwUAA4GBAGpISxqUzDYMNsVkiMtNQnx3XDS6Wjd0ettpaQ76H7dfEadMpIAE+VvOehTysNaxOqksOVYjPSK7KVUWgn3zyuCW5m7emc1Yf+2TI+ztYTBF9VJ6DzCBxYmzzCvEDDnrD6DhfX0PYmoEnqIl83mdMAiQ3zC5uVgXXoSFGJLQ1Mop</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

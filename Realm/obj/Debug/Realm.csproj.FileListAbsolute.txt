@@ -1,0 +1,14 @@
+C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\bin\Debug\Realm.exe.config
+C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\obj\Debug\Realm.exe
+C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\obj\Debug\Realm.pdb
+C:\Users\Cooper\Documents\GitHub\TextAdventure\Realm\bin\Debug\Realm.exe.config
+C:\Users\Cooper\Documents\GitHub\TextAdventure\Realm\bin\Debug\Realm.exe.manifest
+C:\Users\Cooper\Documents\GitHub\TextAdventure\Realm\bin\Debug\Realm.application
+C:\Users\Cooper\Documents\GitHub\TextAdventure\Realm\bin\Debug\Realm.exe
+C:\Users\Cooper\Documents\GitHub\TextAdventure\Realm\bin\Debug\Realm.pdb
+C:\Users\Cooper\Documents\GitHub\TextAdventure\Realm\obj\Debug\Realm.csprojResolveAssemblyReference.cache
+C:\Users\Cooper\Documents\GitHub\TextAdventure\Realm\obj\Debug\Realm.TrustInfo.xml
+C:\Users\Cooper\Documents\GitHub\TextAdventure\Realm\obj\Debug\Realm.exe.manifest
+C:\Users\Cooper\Documents\GitHub\TextAdventure\Realm\obj\Debug\Realm.application
+C:\Users\Cooper\Documents\GitHub\TextAdventure\Realm\obj\Debug\Realm.exe
+C:\Users\Cooper\Documents\GitHub\TextAdventure\Realm\obj\Debug\Realm.pdb

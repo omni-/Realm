@@ -1,0 +1,10 @@
+C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\bin\Release\Realm.exe.config
+C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\bin\Release\Realm.exe.manifest
+C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\bin\Release\Realm.application
+C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\bin\Release\Realm.exe
+C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\bin\Release\Realm.pdb
+C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\obj\Release\Realm.TrustInfo.xml
+C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\obj\Release\Realm.exe.manifest
+C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\obj\Release\Realm.application
+C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\obj\Release\Realm.exe
+C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\obj\Release\Realm.pdb
