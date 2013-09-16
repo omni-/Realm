@@ -12,3 +12,14 @@ C:\Users\Cooper\Documents\GitHub\TextAdventure\Realm\obj\Debug\Realm.exe.manifes
 C:\Users\Cooper\Documents\GitHub\TextAdventure\Realm\obj\Debug\Realm.application
 C:\Users\Cooper\Documents\GitHub\TextAdventure\Realm\obj\Debug\Realm.exe
 C:\Users\Cooper\Documents\GitHub\TextAdventure\Realm\obj\Debug\Realm.pdb
+C:\Users\Giorgio\Documents\GitHub\Realm\Realm\bin\Debug\Realm.exe.config
+C:\Users\Giorgio\Documents\GitHub\Realm\Realm\obj\Debug\Realm.exe
+C:\Users\Giorgio\Documents\GitHub\Realm\Realm\obj\Debug\Realm.pdb
+C:\Users\Giorgio\Documents\GitHub\Realm\Realm\obj\Debug\Realm.csprojResolveAssemblyReference.cache
+C:\Users\Giorgio\Documents\GitHub\Realm\Realm\bin\Debug\Realm.exe.manifest
+C:\Users\Giorgio\Documents\GitHub\Realm\Realm\bin\Debug\Realm.application
+C:\Users\Giorgio\Documents\GitHub\Realm\Realm\bin\Debug\Realm.exe
+C:\Users\Giorgio\Documents\GitHub\Realm\Realm\bin\Debug\Realm.pdb
+C:\Users\Giorgio\Documents\GitHub\Realm\Realm\obj\Debug\Realm.TrustInfo.xml
+C:\Users\Giorgio\Documents\GitHub\Realm\Realm\obj\Debug\Realm.exe.manifest
+C:\Users\Giorgio\Documents\GitHub\Realm\Realm\obj\Debug\Realm.application

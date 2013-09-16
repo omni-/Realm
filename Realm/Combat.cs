@@ -326,6 +326,20 @@ namespace Realm
                 return true;
             }
         }
+        public class Heavensplitter : Command
+        {
+            public Heavensplitter(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                target.stunned = true;
+                target.hp -= Main.Player.atk + Main.Player.def;
+                return true;
+            }
+        }
     }
 }
    

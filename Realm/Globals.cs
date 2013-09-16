@@ -92,6 +92,10 @@ namespace Realm
         public Item ds_kite = new Item();
         public Item ds_kris = new Item();
         public Item ds_scale = new Item();
+        public Item sb_saber = new Item();
+        public Item sb_chain = new Item();
+        public Item sb_gauntlet = new Item();
+        public Item sb_shield = new Item();
 
         //god tier
         public Item phantasmal_claymore = new Item();
@@ -151,7 +155,7 @@ namespace Realm
             wood_staff.multiplier = 1.075f;
 
             sonictee.name = "Sonic T-Shirt";
-            sonictee.desc = "'Gotta go fast!'";
+            sonictee.desc = "'Gotta go fast!'(Alright, guys?)";
             sonictee.defbuff = 1;
             sonictee.spdbuff = 4;
             sonictee.tier = 1;
@@ -164,13 +168,13 @@ namespace Realm
             fmBP.slot = 4;
 
             slwscreen.name = "Sonic Lost World Screenshots";
-            slwscreen.desc = "This proves you can't hate on Sonic";
+            slwscreen.desc = "This proves you can't hate on Sonic. LIKE SONIC LIKE SONIC LIKE SONIC LIKE SONIC.";
             slwscreen.defbuff = 4;
             slwscreen.tier = 1;
             slwscreen.slot = 3;
 
             iron_lance.name = "Iron Lance";
-            iron_lance.desc = "A lance of iron, gilded in gold";
+            iron_lance.desc = "A gilded lance of iron.";
             iron_lance.defbuff = 1;
             iron_lance.atkbuff = 3;
             iron_lance.spdbuff = 1;
@@ -179,7 +183,7 @@ namespace Realm
             iron_lance.multiplier = 1.1f;
 
             iron_rapier.name = "Iron Rapier";
-            iron_rapier.desc = "A well-smithed blade, edged to split hair.";
+            iron_rapier.desc = "A well-smithed blade said to even be able to pierce thick armor if used properly.";
             iron_rapier.atkbuff = 5;
             iron_rapier.spdbuff = 2;
             iron_rapier.tier = 2;
@@ -187,20 +191,20 @@ namespace Realm
             iron_rapier.multiplier = 1.1f;
 
             iron_mail.name = "Iron Chainmail";
-            iron_mail.desc = "Iron ringmail. Sturdy, but not invincible. You are slower while wearing it.";
+            iron_mail.desc = "A reliable suit of armor that sacrifices speed for defense.";
             iron_mail.defbuff = 5;
             iron_mail.spdbuff = -1;
             iron_mail.tier = 2;
             iron_mail.slot = 3;
 
             iron_buckler.name = "Iron Buckler";
-            iron_buckler.desc = "A lightweight buckler. Will stop fire and swords, but not Unstoppable Forces.";
+            iron_buckler.desc = "A lightweight buckler meant for all professions.";
             iron_buckler.defbuff = 3;
             iron_buckler.tier = 2;
             iron_buckler.slot = 2;
 
             iron_band.name = "Iron Band";
-            iron_band.desc = "An iron ring. Ugly, but it appears to be magical.";
+            iron_band.desc = "A bland iron band with inscriptions on the inside.";
             iron_band.spdbuff = 2;
             iron_band.intlbuff = 5;
             iron_band.tier = 2;
@@ -208,14 +212,14 @@ namespace Realm
             iron_band.multiplier = 1.05f;
 
             bt_longsword.name = "Bloodthirsty Longsword";
-            bt_longsword.desc = "It drinks the blood of enemies";
+            bt_longsword.desc = "A longsword that has rusted from all of the blood that it has drawn from its prey. It is unknown as to why the rust is crimson.";
             bt_longsword.atkbuff = 12;
             bt_longsword.slot = 1;
             bt_longsword.tier = 3;
             bt_longsword.multiplier = 1.3f;
 
             bt_battleaxe.name = "Bloodthirsty Battleaxe";
-            bt_battleaxe.desc = "It hungers for flesh";
+            bt_battleaxe.desc = "This weapon was once used on its creator. There is an eerie aura emanating from it. ";
             bt_battleaxe.atkbuff = 10;
             bt_battleaxe.defbuff = 3;
             bt_battleaxe.spdbuff = -1;
@@ -224,21 +228,21 @@ namespace Realm
             bt_battleaxe.multiplier = 1.25f;
 
             bt_greatsword.name = "Bloodthirsty Greatsword";
-            bt_greatsword.desc = "A massive blade with a crimson sheen";
+            bt_greatsword.desc = "An uncommonly large greatsword  traditionally used by the ancients. ";
             bt_greatsword.atkbuff = 13;
             bt_greatsword.slot = 1;
             bt_greatsword.tier = 3;
             bt_greatsword.multiplier = 1.31f;
 
             bt_plate.name = "Bloodmail";
-            bt_plate.desc = "Thrives off of souls of the fallen.";
+            bt_plate.desc = "Chainmail that gained magic protection from the blood of divine animals.";
             bt_plate.atkbuff = 1;
             bt_plate.defbuff = 10;
             bt_plate.tier = 3;
             bt_plate.slot = 3;
 
             blood_amulet.name = "Blood Amulet";
-            blood_amulet.desc = "It has a sinister sheen to it";
+            blood_amulet.desc = "A red amulet. It is said that the previous owner died from unknown causes.";
             blood_amulet.intlbuff = 10;
             blood_amulet.spdbuff = 1;
             blood_amulet.atkbuff = 1;
@@ -246,14 +250,14 @@ namespace Realm
             blood_amulet.slot = 4;
 
             p_shield.name = "Palladium Shield";
-            p_shield.desc = "";
+            p_shield.desc = "A shield inscribed with the mark of the protectorate that guards this world.";
             p_shield.defbuff = 11;
             p_shield.spdbuff = -1;
             p_shield.tier = 4;
             p_shield.slot = 3;
 
             p_shortsword.name = "Palladium Shortsword";
-            p_shortsword.desc = "";
+            p_shortsword.desc = "This blade is only meant to be used for the sake of protecting others.";
             p_shortsword.defbuff = 1;
             p_shortsword.atkbuff = 10;
             p_shortsword.spdbuff = 2;
@@ -262,35 +266,35 @@ namespace Realm
             p_shortsword.multiplier = 1.25f;
 
             p_mail.name = "Palladium Mail";
-            p_mail.desc = "";
+            p_mail.desc = "It is said that Palladium Mail is made by sacred iron that originates from the sky.";
             p_mail.defbuff = 13;
             p_mail.spdbuff = -1;
             p_mail.tier = 4;
             p_mail.slot = 3;
 
             goldcloth_cloak.name = "Goldcloth Cloak";
-            goldcloth_cloak.desc = "";
+            goldcloth_cloak.desc = "The cloth worn by the hero king who united the realm in the name of peace.";
             goldcloth_cloak.intlbuff = 13;
             goldcloth_cloak.defbuff = 2;
             goldcloth_cloak.tier = 4;
             goldcloth_cloak.slot = 4;
 
             ds_amulet.name = "Darksteel Amulet";
-            ds_amulet.desc = "";
+            ds_amulet.desc = " An indestructible amulet that was worn by the protectorate when he salvaged the realm from chaos. It reads ' Do not cast the shadow away from light'.";
             ds_amulet.defbuff = 7;
             ds_amulet.intlbuff = 15;
             ds_amulet.tier = 5;
             ds_amulet.slot = 4;
 
             ds_kite.name = "Darksteel Kite Shield";
-            ds_kite.desc = "";
+            ds_kite.desc = "A shield created from the protectorate's shadow.";
             ds_kite.defbuff = 20;
             ds_kite.spdbuff = -2;
             ds_kite.tier = 5;
             ds_kite.slot = 3;
 
             ds_kris.name = "Darksteel Kris";
-            ds_kris.desc = "";
+            ds_kris.desc = "A dagger that was forged by the protectorate's soul.";
             ds_kris.defbuff = 1;
             ds_kris.spdbuff = 2;
             ds_kris.atkbuff = 10;
@@ -299,13 +303,42 @@ namespace Realm
             ds_kris.multiplier = 1.35f;
 
             ds_scale.name = "Darksteel Scalemail";
-            ds_scale.desc = "";
+            ds_scale.desc = "It came to being when the protectorate casted off its darkness.";
             ds_scale.defbuff = 25;
             ds_scale.tier = 5;
             ds_scale.slot = 3;
 
+            sb_chain.name = "Sunburst Ringmail";
+            sb_chain.desc = "It gleams all the colors of the rainbow.";
+            sb_chain.defbuff = 10;
+            sb_chain.atkbuff = 18;
+            sb_chain.tier = 5;
+            sb_chain.slot = 3;
+
+            sb_gauntlet.name = "Sunburst Gauntlet";
+            sb_gauntlet.desc = "a beautiful artifact made for blocking and punching with the left hand.";
+            sb_gauntlet.atkbuff = 12;
+            sb_gauntlet.defbuff = 8;
+            sb_gauntlet.intlbuff = 10;
+            sb_gauntlet.slot = 4;
+            sb_gauntlet.tier = 5;
+
+            sb_saber.name = "Sunburst Saber";
+            sb_saber.desc = "Color where there is none. Light in the darkness.";
+            sb_saber.atkbuff = 25;
+            sb_saber.spdbuff = 10;
+            sb_saber.slot = 1;
+            sb_saber.tier = 5;
+
+            sb_shield.name = "Sunburst Shield";
+            sb_shield.desc = "A shield that almost looks like it's meant for attacking.";
+            sb_shield.atkbuff = 15;
+            sb_shield.defbuff = 20;
+            sb_shield.slot = 2;
+            sb_shield.tier = 5;
+
             phantasmal_claymore.name = "Phantasmal Claymore";
-            phantasmal_claymore.desc = "A legendary blade made from the essence of reality.";
+            phantasmal_claymore.desc = "The claymore is made from the material used to create the realm.";
             phantasmal_claymore.defbuff = 10;
             phantasmal_claymore.atkbuff = 50;
             phantasmal_claymore.spdbuff = 25;

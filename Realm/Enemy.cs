@@ -262,4 +262,104 @@ namespace Realm
             Main.Player.hp -= dmg;
         }
     }
+    public class RavenKing : Enemy
+    {
+        public RavenKing()
+        {
+            name = "Raven King";
+            hp = 60;
+            atk = 30;
+            def = 13;
+            spd = 20;
+            xpdice = 100;
+            gpdice = 100;
+            abilities = new List<string>();
+            abilities.Add("BasicAttack");
+            abilities.Add("Crow Call");
+            abilities.Add("Murder");
+
+        }
+        public override void attack(out string ability_used)
+        {
+            ability_used = "";
+            int dmg = 0;
+            if (Combat.DecideAttack(abilities) == "BasicAttack")
+            {
+                double damage = Combat.Dice.roll(1, atk);
+                if (atk < Main.Player.def)
+                    damage = 1;
+                dmg = Convert.ToInt32(damage) - Main.Player.def;
+                ability_used = "Basic Attack";
+            }
+            else if (Combat.DecideAttack(abilities) == "Crow Call")
+            {
+                double damage = Combat.Dice.roll(2, atk / 3);
+                Main.Player.cursed = true;
+                dmg = Convert.ToInt32(damage) - Main.Player.def;
+                ability_used = "Crow Call";
+            }
+            else if (Combat.DecideAttack(abilities) == "Murder")
+            {
+                double damage = Combat.Dice.roll(3, atk);
+                Main.Player.stunned = true;
+                dmg = Convert.ToInt32(damage) - Main.Player.def;
+                ability_used = "Murder";
+            }
+            if (dmg <= 0)
+                dmg = 1;
+            if (Combat.Dice.misschance(-Main.Player.spd))
+                dmg = 0;
+            Main.Player.hp -= dmg;
+        }
+    }
+    public class finalboss : Enemy
+    {
+        public finalboss()
+        {
+            name = "Janus";
+            hp = 150;
+            atk = 50;
+            def = 35;
+            spd = 30;
+            xpdice = 500;
+            gpdice = 500;
+            abilities = new List<string>();
+            abilities.Add("BasicAttack");
+            abilities.Add("Illusory Slash");
+            abilities.Add("Time Bend");
+
+        }
+        public override void attack(out string ability_used)
+        {
+            ability_used = "";
+            int dmg = 0;
+            if (Combat.DecideAttack(abilities) == "BasicAttack")
+            {
+                double damage = Combat.Dice.roll(1, atk);
+                if (atk < Main.Player.def)
+                    damage = 1;
+                dmg = Convert.ToInt32(damage) - Main.Player.def;
+                ability_used = "Basic Attack";
+            }
+            else if (Combat.DecideAttack(abilities) == "Illusory Slash")
+            {
+                double damage = Combat.Dice.roll(3, atk);
+                Main.Player.cursed = true;
+                dmg = Convert.ToInt32(damage);
+                ability_used = "Illusory Slash";
+            }
+            else if (Combat.DecideAttack(abilities) == "Time Bend")
+            {
+                double damage = Combat.Dice.roll(2, atk / 2);
+                Main.Player.stunned = true;
+                Main.Player.cursed = true;
+                dmg = Convert.ToInt32(damage) - Main.Player.def;
+            }
+            if (dmg <= 0)
+                dmg = 1;
+            if (Combat.Dice.misschance(-Main.Player.spd))
+                dmg = 0;
+            Main.Player.hp -= dmg;
+        }
+    }
 }

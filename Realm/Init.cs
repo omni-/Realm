@@ -24,14 +24,14 @@ namespace Realm
                 Main.Player.def = 1000;
                 Main.Player.spd = 1000;
                 Main.Player.intl = 1000;
-                Globals.PlayerPosition.x = 0;
-                Globals.PlayerPosition.y = 5;
                 Main.devmode = true;
+                Globals.PlayerPosition.x = 2;
+                Globals.PlayerPosition.y = 2;
                 Main.MainLoop();
             }
             //Formatting.type("You are the Hero of the Western Kingdom. The Western King has called for your\r\npresence.");
-            Globals.PlayerPosition.x = 0;
-            Globals.PlayerPosition.y = 5;
+            Globals.PlayerPosition.x = 2;
+            Globals.PlayerPosition.y = 2;
             Main.Tutorial();
         }
     }

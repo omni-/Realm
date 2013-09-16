@@ -17,6 +17,8 @@ namespace Realm
         public static int ramseycounter = 0;
         public static int magiccounter = 0;
         public static int nlibcounter = 0;
+        public static int townfolkcounter = 0;
+        public static int nomadcounter = 0;
 
         public static int gbooks = 0;
 
@@ -63,15 +65,7 @@ namespace Realm
             while (!End.IsDead)
             {
                 Enemy enemy = new Enemy();
-                Player.levelup();
-                //if (devmode)
-                //{
-                //    Formatting.type("X: " + Globals.PlayerPosition.x + " Y: " + Globals.PlayerPosition.y);
-                //    Formatting.type("Enter an x coord: ");
-                //    Globals.PlayerPosition.x = Console.ReadKey().KeyChar;
-                //    Formatting.type("Enter a y coord: ");
-                //    Globals.PlayerPosition.y = Console.ReadKey().KeyChar;
-                //}              
+                Player.levelup();         
                 currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
                 if (Player.hp > Player.maxhp)
                     Player.hp = Player.maxhp;
@@ -83,6 +77,8 @@ namespace Realm
                         BattleLoop(enemy);
                     }
                 }
+                if (devmode)
+                    Formatting.type(Globals.PlayerPosition.x + " " + Globals.PlayerPosition.y);
                 if (!devmode)
                     Main.Player.applybonus();
                 else
@@ -181,7 +177,7 @@ namespace Realm
 
                     int oldhp = enemy.hp;
                     char ch = Console.ReadKey().KeyChar;
-                    while (Player.abilities.commandChars.Contains(ch))
+                    while (!Player.abilities.commandChars.Contains(ch))
                     {
                         Formatting.type("Invalid.");
                         Formatting.type("");
@@ -369,6 +365,8 @@ namespace Realm
         }
         public static void Endgame()
         {
+            Formatting.type("You stand in front of the protextorate, Janus. He says 'Have you realized that this world is a _____?' You nod your head and reach towards the book behind him. 'You will result in the Realm's demise, you must be wiped.");
+            Formatting.type("The protectorate kneels on the ground in front of you. 'Do you truly wish to end this dream?', it says. You look at him without uttering a word. 'Very well, I must ask of you one last favor even though the realm is no more, do not let the realm vanish from within you. A child awakes from his sleep and looks out the window feeling fulfilled as if a story has come to a close")
         }
         public static void SammysAdventure()
         {

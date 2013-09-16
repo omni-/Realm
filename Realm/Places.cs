@@ -760,7 +760,7 @@ namespace Realm
     {
         protected override string GetDesc()
         {
-            return "You have arrived at the gate of a castle. There are many people passing through the gate. You see the royal library(l), a smithy's guild(g), the north castle(c), and the marketplace(p). Where do you wish to go?";
+            return "You have arrived at the gate of a castle. There are many people passing through the gate. You see the royal library(l), a smithy's guild(g). Where do you wish to go?";
         }
         public override Enemy getEnemyList()
         {
@@ -878,12 +878,15 @@ namespace Realm
                     }
                     break;
                 case 'g':
-                    Formatting.type("The Smith's Guild only has their cumulative project for sale. IT's a masterpeice, but very expensive. Buy Bloodmail for 50 gold? (y/n)");
+                    Formatting.type("The Smith's Guild only has their cumulative project for sale. It's a masterpiece, but very expensive. Buy Bloodmail for 50 gold? (y/n)");
                     switch(Console.ReadKey().KeyChar)
                     {
                         case 'y':
+                            Main.Purchase(50, globals.bt_plate);
+                            Formatting.type("Obtained 'Bloodmail'!");
                             break;
                         case 'n':
+                            Formatting.type("You leave.");
                             break;
                     }
                     break;
@@ -1059,7 +1062,7 @@ namespace Realm
                     Main.BackpackLoop();
                     break;
                 case 'i':
-                    Formatting.type("The sign above the inn reads 'Donaldius Trump'. Stay the night for 15 gold? (y/n)");
+                    Formatting.type("The sign above the inn reads 'Donaldius Trumpe'. Stay the night for 15 gold? (y/n)");
                     switch(Console.ReadKey().KeyChar)
                     {
                         case 'y':
@@ -1080,7 +1083,7 @@ namespace Realm
                     {
                         case 'y':
                             Formatting.type("The door requires a password.");
-                            if (Console.ReadLine() == "God's Death")
+                            if (Console.ReadLine() == "God's Will")
                                 Main.Endgame();
                             else
                                 Formatting.type("The door remains shut.");
@@ -1198,10 +1201,16 @@ namespace Realm
                     }
                     break;
                 case 'r':
-                    Formatting.type("You visit the house of the jobless former librarian. He says there is something very strange about that sword monument in Central. He says you can never go anywhere unarmed. He teaches you a new ability.");
-                    Formatting.type("Learned 'Incinerate'!");
-                    Main.Player.abilities.AddCommand(new Combat.Incinerate("Incinerate", 'i'));
-                    Formatting.type("As you're leaving, you notice the letter 'l' burned into the doorknob.");
+                    if (Main.townfolkcounter == 0)
+                    {
+                        Formatting.type("You visit the house of the jobless former librarian. He says there is something very strange about that sword monument in Central. He says you can never go anywhere unarmed. He teaches you a new ability.");
+                        Formatting.type("Learned 'Incinerate'!");
+                        Main.Player.abilities.AddCommand(new Combat.Incinerate("Incinerate", 'i'));
+                        Formatting.type("As you're leaving, you notice the letter 'l' burned into the doorknob.");
+                        Main.townfolkcounter++;
+                    }
+                    else
+                        Formatting.type("You look for the librarian, but he's not there.");
                     break;
                 default:
                     return false;
@@ -1212,26 +1221,428 @@ namespace Realm
 
     public class Newport : Place
     {
+        protected override string GetDesc()
+        {
+            return "You walk into a ghost town, obviously built for a port before the ocean receeded. You may visit the inn(i) or the arms dealer(a).";
+        }
+        public override Enemy getEnemyList()
+        {
+            List<Enemy> templist = new List<Enemy>();
+            templist.Add(new Goblin());
+            templist.Add(new Bandit());
+            templist.Add(new Drake());
+            Random rand = new Random();
+            int randint = rand.Next(0, templist.Count + 1);
 
+            return templist[randint];
+        }
+        public override char[] getAvailableCommands()
+        {
+            List<char> templist = new List<char>();
+            if (Main.Player.backpack.Count >= 1)
+                templist.Add('b');
+            if (Main.hasmap)
+                templist.Add('m');
+            if (Globals.PlayerPosition.x > 0)
+                templist.Add('w');
+            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+                templist.Add('e');
+            if (Globals.PlayerPosition.y > 0)
+                templist.Add('s');
+            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+                templist.Add('n');
+            templist.Add('a');
+            templist.Add('i');
+            return templist.ToArray<char>();
+        }
+        public override bool handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'm':
+                    if (Main.hasmap)
+                        Formatting.drawmap();
+                    break;
+                case 'n':
+                    Globals.PlayerPosition.y += 1;
+                    break;
+                case 'e':
+                    Globals.PlayerPosition.x += 1;
+                    break;
+                case 'w':
+                    Globals.PlayerPosition.x -= 1;
+                    break;
+                case 's':
+                    Globals.PlayerPosition.y -= 1;
+                    break;
+                case 'a':
+                    Formatting.type("You visit the arms dealer. It's a very old man selling some very expensive wares. You wonder where he came across such valuables. Buy Bloodthirsty Battleaxe(b, 55), or Bloodthirsty Greatsword(g, 55)?");
+                    switch(Console.ReadKey().KeyChar)
+                    {
+                        case 'b':
+                            Main.Purchase(55, globals.bt_battleaxe);
+                            Formatting.type("Obtained 'Bloodthirsty Battleaxe'!");
+                            Formatting.type("The old man grins.");
+                            break;
+                        case 'g':
+                            Main.Purchase(55, globals.bt_greatsword);
+                            Formatting.type("Obtained 'Bloodthirsty'!");
+                            Formatting.type("The old man grins.");
+                            break;
+                    }
+                    break;
+                case 'b':
+                    Main.BackpackLoop();
+                    break;
+                case 'i':
+                    Formatting.type("Stay at the average-ass hotel for 15 gold?(y/n)");
+                    switch (Console.ReadKey().KeyChar)
+                    {
+                        case 'y':
+                            if (Main.Purchase(15))
+                                Main.Player.hp = Main.Player.maxhp;
+                            Formatting.type("As you're leaving you pick up a scrabble tile off of the floor. It is a blank. (' ').");
+                            break;
+                        case 'n':
+                            Formatting.type("You leave.");
+                            break;
+                    }
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
     }
-
     public class Nomad : Place
     {
-
+        protected override string GetDesc()
+        {
+            return "You happen upon a travelling band of merchants wearing turbans. They have unimaginably valuable wares for sale. You may talk to the Sage Kaiser(s) or the man with the gear(g)";
+        }
+        public override Enemy getEnemyList()
+        {
+            return new Bandit();
+        }
+        public override char[] getAvailableCommands()
+        {
+            List<char> templist = new List<char>();
+            if (Main.Player.backpack.Count >= 1)
+                templist.Add('b');
+            if (Main.hasmap)
+                templist.Add('m');
+            if (Globals.PlayerPosition.x > 0)
+                templist.Add('w');
+            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+                templist.Add('e');
+            if (Globals.PlayerPosition.y > 0)
+                templist.Add('s');
+            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+                templist.Add('n');
+            templist.Add('a');
+            templist.Add('i');
+            return templist.ToArray<char>();
+        }
+        public override bool handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'm':
+                    if (Main.hasmap)
+                        Formatting.drawmap();
+                    break;
+                case 'n':
+                    Globals.PlayerPosition.y += 1;
+                    break;
+                case 'e':
+                    Globals.PlayerPosition.x += 1;
+                    break;
+                case 'w':
+                    Globals.PlayerPosition.x -= 1;
+                    break;
+                case 'a':
+                    Formatting.type("You talk to the toothless man holding the wares. You may buy the Void Cloak(v, 150), the Illusory Plate(i, 150), or the Spectral Bulwark(s, 150). Or you may buy all 3(3, 300).");
+                    switch(Console.ReadKey().KeyChar)
+                    {
+                        case 'v':
+                            Main.Purchase(150, globals.void_cloak);
+                            Formatting.type("The toothless man reverently hands you artifact.");
+                            Formatting.type("Obtained 'Void Cloak'!");
+                            break;
+                        case 'i':
+                            Main.Purchase(150, globals.illusory_plate);
+                            Formatting.type("The toothless man reverently hands you artifact.");
+                            Formatting.type("Obtained 'Illusory Plate'!");
+                            break;
+                        case 's':
+                            Main.Purchase(150, globals.spectral_bulwark);
+                            Formatting.type("The toothless man reverently hands you artifact.");
+                            Formatting.type("Obtained 'Spectral Bulwark'!");
+                            break;
+                        case '3':
+                            if (Main.Purchase(300, globals.void_cloak))
+                            {
+                                Formatting.type("Obtained 'Void Cloak'!");
+                                Formatting.type("Obtained 'Spectral Bulwark'!");
+                                Formatting.type("Obtained 'Illusory Plate'!");
+                                Main.Player.backpack.Add(globals.spectral_bulwark);
+                                Main.Player.backpack.Add(globals.illusory_plate);
+                            }
+                            break;
+                    }
+                    break;
+                case 's':
+                    if (Main.nomadcounter == 0)
+                    {
+                        Formatting.type("You visit their Elder King, or Sage Kaiser, as they call him. He offers to teach you an ability for 50 gold. (y/n)");
+                        switch (Console.ReadKey().KeyChar)
+                        {
+                            case 'y':
+                                Formatting.type("You say yes, and he holds up hand, and some strange runes on his hand begin to glow.");
+                                Formatting.type("Learned 'Heavensplitter'!");
+                                Formatting.type("The old man also hands you a runw with the letter 'w' inscribed.");
+                                Main.Player.abilities.AddCommand(new Combat.Heavensplitter("Heavensplitter", 'h'));
+                                break;
+                        }
+                    }
+                    else
+                        Formatting.type("He already taught you that ability. He has nothing more to offer.");
+                    break;
+                case 'b':
+                    Main.BackpackLoop();
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
     }
-
     public class EKingdom : Place
     {
-
+        protected override string GetDesc()
+        {
+            return "You approach the gates of the East Kingdom. You see an arms dealer (a) and an inn(i). Which do you which to enter?";
+        }
+        public override Enemy getEnemyList()
+        {
+            return new Bandit();
+        }
+        public override char[] getAvailableCommands()
+        {
+            List<char> templist = new List<char>();
+            if (Main.Player.backpack.Count >= 1)
+                templist.Add('b');
+            if (Main.hasmap)
+                templist.Add('m');
+            if (Globals.PlayerPosition.x > 0)
+                templist.Add('w');
+            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+                templist.Add('e');
+            if (Globals.PlayerPosition.y > 0)
+                templist.Add('s');
+            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+                templist.Add('n');
+            templist.Add('a');
+            templist.Add('i');
+            return templist.ToArray<char>();
+        }
+        public override bool handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'm':
+                    if (Main.hasmap)
+                        Formatting.drawmap();
+                    break;
+                case 'n':
+                    Globals.PlayerPosition.y += 1;
+                    break;
+                case 'w':
+                    Globals.PlayerPosition.x -= 1;
+                    break;
+                case 's':
+                    Globals.PlayerPosition.y -= 1;
+                    break;
+                case 'a':
+                    switch (Console.ReadKey().KeyChar)
+                    {
+                        case 'v':
+                            Main.Purchase(120, globals.sb_saber);
+                            Formatting.type("The child smiles gleefully and hands you the Sunburst Saber.");
+                            Formatting.type("Obtained 'Sunburst Saber'!");
+                            break;
+                        case 'i':
+                            Main.Purchase(100, globals.sb_shield);
+                            Formatting.type("The child smiles and hands you the Sunburst Shield.");
+                            Formatting.type("Obtained 'Sunburst Shield'!");
+                            break;
+                    }
+                    break;
+                case 'i':
+                    Formatting.type("Stay at the luxurious hotel for 40 gold?(y/n)");
+                    switch (Console.ReadKey().KeyChar)
+                    {
+                        case 'y':
+                            if (Main.Purchase(40))
+                                Main.Player.hp = Main.Player.maxhp;
+                            Formatting.type("As you're leaving you take all the free soap.");
+                            break;
+                        case 'n':
+                            Formatting.type("You leave.");
+                            break;
+                    }
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }    
     }
 
     public class TwinPaths : Place
     {
-
+        protected override string GetDesc()
+        {
+            return "You are in a small village at the base of a waterfall. You see an arms dealer (a),an inn(i), and some townsfolk(t). Which do you which to enter?";
+        }
+        public override Enemy getEnemyList()
+        {
+            return new Bandit();
+        }
+        public override char[] getAvailableCommands()
+        {
+            List<char> templist = new List<char>();
+            if (Main.Player.backpack.Count >= 1)
+                templist.Add('b');
+            if (Main.hasmap)
+                templist.Add('m');
+            if (Globals.PlayerPosition.x > 0)
+                templist.Add('w');
+            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+                templist.Add('e');
+            if (Globals.PlayerPosition.y > 0)
+                templist.Add('s');
+            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+                templist.Add('n');
+            templist.Add('a');
+            templist.Add('i');
+            return templist.ToArray<char>();
+        }
+        public override bool handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'm':
+                    if (Main.hasmap)
+                        Formatting.drawmap();
+                    break;
+                case 'n':
+                    Globals.PlayerPosition.y += 1;
+                    break;
+                case 'e':
+                    Globals.PlayerPosition.x += 1;
+                    break;
+                case 'w':
+                    Globals.PlayerPosition.x -= 1;
+                    break;
+                case 's':
+                    Globals.PlayerPosition.y -= 1;
+                    break;
+                case 'a':
+                    Formatting.type("An average guy manages the shop. You can buy a Sunburst Ringmail(150) and a Sunburst Gauntlet(150).(r/g)");
+                    switch (Console.ReadKey().KeyChar)
+                    {
+                        case 'r':
+                            Main.Purchase(150, globals.sb_chain);
+                            Formatting.type("The man hands you the Sunburst Ringmail.");
+                            Formatting.type("Obtained 'Sunburst Ringmail'!");
+                            break;
+                        case 'g':
+                            Main.Purchase(150, globals.sb_gauntlet);
+                            Formatting.type("The man hands you the Sunburst Gauntlet.");
+                            Formatting.type("Obtained 'Sunburst Gauntlet'!");
+                            break;
+                    }
+                    break;
+                case 'i':
+                    Formatting.type("Stay at the overpriced hotel for 60 gold?(y/n)");
+                    switch (Console.ReadKey().KeyChar)
+                    {
+                        case 'y':
+                            if (Main.Purchase(60))
+                                Main.Player.hp = Main.Player.maxhp;
+                            Formatting.type("As you're leaving you set fire to the bathroom. You see a sign on the door that reads 'Romney 2012', and one of the tiles on the bathroom floor reads 'i'.");
+                            break;
+                        case 'n':
+                            Formatting.type("You leave.");
+                            break;
+                    }
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }    
     }
 
     public class Ravenkeep : Place
     {
-
+        protected override string GetDesc()
+        {
+            return "You are at the foot of a black citadel, do you wish to climb the stairs and commence the reconquest of Ravenkeep(c) or leave(l)?";
+        }
+        public override Enemy getEnemyList()
+        {
+            return new Bandit();
+        }
+        public override char[] getAvailableCommands()
+        {
+            List<char> templist = new List<char>();
+            if (Main.Player.backpack.Count >= 1)
+                templist.Add('b');
+            if (Main.hasmap)
+                templist.Add('m');
+            templist.Add('c');
+            templist.Add('l');
+            return templist.ToArray<char>();
+        }
+        public override bool handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'm':
+                    if (Main.hasmap)
+                        Formatting.drawmap();
+                    break;
+                case 'c':
+                    Formatting.type("You climb 18 flights of obsidian stairs. You're kind of huffing an puffing at this point, but you stand before the mad king who rules RavenKeep.");
+                    Formatting.type("Challenge him, or run? (f/r).");
+                    switch (Console.ReadKey().KeyChar)
+                    {
+                        case 'f':
+                            Formatting.type("You challenge the mad king, and he stands from his obsidian throne, raven-feathered cloak swirling. He laughs a deep booming laugh and draws a wicked looking blade.");
+                            Main.BattleLoop(new RavenKing());
+                            Main.Player.backpack.Add(globals.phantasmal_claymore);
+                            Formatting.type("The king falls to the ground, defeated. You pick up his night colored sword form the ground, and in your hand it changes to a shimmering blue claymore.");
+                            Formatting.type("Obtained 'Phantasmal Claymore'!");
+                            Formatting.type("A blue portal opens up with the glowing letter 'l' above it. You yell 'Jeronimo!' and jump through.");
+                            Globals.PlayerPosition.x = 2;
+                            Globals.PlayerPosition.y = 2;
+                            break;
+                        case 'r':
+                            Formatting.type("You run back down the stairs like this sissy cRAVEN you are.");
+                            break;
+                    }
+                    
+                    break;
+                case 'l':
+                    Formatting.type("Coward.");
+                    Globals.PlayerPosition.x -= 1;
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
     }
 }
