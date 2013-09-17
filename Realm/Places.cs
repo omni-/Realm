@@ -957,7 +957,7 @@ namespace Realm
                                 Main.gbooks++;
                                 break;
                         }
-                        Main.ramsaycounter++;
+                        Main.centrallibcounter++;
                         break;
                     }
                     else

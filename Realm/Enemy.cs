@@ -50,7 +50,7 @@ namespace Realm
             atk = 2;
             def = 0;
             spd = 0;
-            xpdice = 5;
+            xpdice = 10;
             gpdice = 1;
             abilities = new List<string>();
             abilities.Add("BasicAttack");
@@ -90,7 +90,7 @@ namespace Realm
             atk = 3;
             def = 1;
             spd = 1;
-            xpdice = 10;
+            xpdice = 15;
             gpdice = 3;
             abilities = new List<string>();
             abilities.Add("BasicAttack");
@@ -136,7 +136,7 @@ namespace Realm
             atk = 1;
             def = 0;
             spd = 3;
-            xpdice = 10;
+            xpdice = 18;
             gpdice = 3;
             abilities = new List<string>();
             abilities.Add("BasicAttack");

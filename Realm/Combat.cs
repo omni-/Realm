@@ -36,7 +36,7 @@ namespace Realm
         public static bool CheckBattle()
         {
             Random randint = new Random();
-            int rollresult = Dice.roll(1, 5);
+            int rollresult = Dice.roll(1, 3);
             return rollresult == 1;
         }
         public static string DecideAttack(List<string> abilities)

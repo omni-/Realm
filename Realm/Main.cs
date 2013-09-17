@@ -12,6 +12,7 @@ namespace Realm
         public static int loop_number = 0;
         public static int game_state = 0;
 
+        public static int slibcounter = 0;
         public static int forrestcounter = 0;
         public static int libcounter = 0;
         public static int centrallibcounter = 0;
