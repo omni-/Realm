@@ -21,13 +21,16 @@ namespace Realm
         {
             get { return GetDesc(); }
         }
-
         public virtual Enemy getEnemyList()
         {
             List<Enemy> templist = new List<Enemy>();
-            templist.Add(new Goblin());
             templist.Add(new Slime());
-            templist.Add(new Bandit());
+            if (Main.Player.level >= 3)
+                templist.Add(new Goblin());
+            if (Main.Player.level >= 5)
+                templist.Add(new Bandit());
+            if (Main.Player.level >= 10)
+                templist.Add(new Drake());
             int randint = rand.Next(1, templist.Count + 1);
 
             return templist[randint - 1];
@@ -111,7 +114,7 @@ namespace Realm
 
         public override Enemy getEnemyList()
         {
-            return new Enemy();
+            return null;
         }
         public override char[] getAvailableCommands()
         {
@@ -145,7 +148,7 @@ namespace Realm
         }
         public override Enemy getEnemyList()
         {
-            return new Slime();
+            return null;
         }
         public override char[] getAvailableCommands()
         {
@@ -247,13 +250,7 @@ namespace Realm
         }
         public override Enemy getEnemyList()
         {
-            List<Enemy> templist = new List<Enemy>();
-            templist.Add(new Goblin());
-
-            Random rand = new Random();
-            int randint = rand.Next(0, templist.Count + 1);
-
-            return templist[randint];
+            return null;
         }
         public override bool handleInput(char input)
         {
@@ -353,15 +350,7 @@ namespace Realm
         }
         public override Enemy getEnemyList()
         {
-            List<Enemy> templist = new List<Enemy>();
-            templist.Add(new Goblin());
-            templist.Add(new Slime());
-            templist.Add(new Bandit());
-
-            Random rand = new Random();
-            int randint = rand.Next(0, templist.Count + 1);
-
-            return templist[randint];
+            return null;
         }
         public override char[] getAvailableCommands()
         {
@@ -499,15 +488,7 @@ namespace Realm
         }
         public override Enemy getEnemyList()
         {
-            List<Enemy> templist = new List<Enemy>();
-            templist.Add(new Goblin());
-            templist.Add(new Slime());
-            templist.Add(new Bandit());
-
-            Random rand = new Random();
-            int randint = rand.Next(0, templist.Count + 1);
-
-            return templist[randint];
+            return null;
         }
         public override char[] getAvailableCommands()
         {
@@ -614,14 +595,7 @@ namespace Realm
         }
         public override Enemy getEnemyList()
         {
-            List<Enemy> templist = new List<Enemy>();
-            templist.Add(new Goblin());
-            templist.Add(new Bandit());
-
-            Random rand = new Random();
-            int randint = rand.Next(0, templist.Count + 1);
-
-            return templist[randint];
+            return null;
         }
         public override char[] getAvailableCommands()
         {
@@ -666,7 +640,7 @@ namespace Realm
                     switch (Console.ReadKey().KeyChar)
                     {
                         case 'l':
-                            if (Main.ramseycounter == 0)
+                            if (Main.ramsaycounter == 0)
                             {
                                 Formatting.type("There are three books. Do you wish to read Climbing Safety (c), Solomon's Answer (s), or Gordon Ramsay: A Biology (g)");
                                 switch (Console.ReadKey().KeyChar)
@@ -732,12 +706,12 @@ namespace Realm
                                         Main.gbooks++;
                                         break;
                                 }
-                                Main.ramseycounter++;
+                                Main.ramsaycounter++;
                                 break;
                             }
                             else
                             {
-                                Formatting.type("The library is closed, but you find a signed version of Gordon Ramsey's book.");
+                                Formatting.type("The library is closed, but you find a signed version of Gordon ramsay's book.");
                                 break;
                             }
                         case 'w':
@@ -764,14 +738,7 @@ namespace Realm
         }
         public override Enemy getEnemyList()
         {
-            List<Enemy> templist = new List<Enemy>();
-            templist.Add(new Goblin());
-            templist.Add(new Bandit());
-
-            Random rand = new Random();
-            int randint = rand.Next(0, templist.Count + 1);
-
-            return templist[randint];
+            return null;
         }
         public override char[] getAvailableCommands()
         {
@@ -817,7 +784,7 @@ namespace Realm
                 case 'l':
                     if (Main.nlibcounter == 0)
                     {
-                        Formatting.type("In the royal library you find 'Crescent Path'(c), 'Tale of Sariel'(t), 'History of The Realm'(h), and Gordon Ramsey: A Geology(g). Which do you wish to read?");
+                        Formatting.type("In the royal library you find 'Crescent Path'(c), 'Tale of Sariel'(t), 'History of The Realm'(h), and Gordon ramsay: A Geology(g). Which do you wish to read?");
                         switch (Console.ReadKey().KeyChar)
                         {
                             case 'c':
@@ -864,7 +831,7 @@ namespace Realm
                                 Main.Player.intl += 2;
                                 break;
                             case 'g':
-                                Formatting.type("You learn of the layers of granite and basalt on Planet Ramsey.");
+                                Formatting.type("You learn of the layers of granite and basalt on Planet ramsay.");
                                 Main.Player.def += 1;
                                 Main.gbooks++;
                                 break;
@@ -912,14 +879,7 @@ namespace Realm
         }
         public override Enemy getEnemyList()
         {
-            List<Enemy> templist = new List<Enemy>();
-            templist.Add(new Goblin());
-            templist.Add(new Bandit());
-
-            Random rand = new Random();
-            int randint = rand.Next(0, templist.Count + 1);
-
-            return templist[randint];
+            return null;
         }
         public override char[] getAvailableCommands()
         {
@@ -968,7 +928,7 @@ namespace Realm
                     if (Main.centrallibcounter == 0)
                     {
                         Formatting.type("This massive building is a monument to human knowledge. You feel dwarfed by its towering presence.");
-                        Formatting.type("You arrive at a shelf that draws your attention. There are five books. The first one is a musty tome entitled Alcwyn's Legacy(a). The second one is A Guide to Theivery(g), the third Sacrificial Rite(s). The fourth book is The Void(v). The final book's title Ramsey: A Mathematics(r). Which do you read?");
+                        Formatting.type("You arrive at a shelf that draws your attention. There are five books. The first one is a musty tome entitled Alcwyn's Legacy(a). The second one is A Guide to Theivery(g), the third Sacrificial Rite(s). The fourth book is The Void(v). The final book's title ramsay: A Mathematics(r). Which do you read?");
                         switch (Console.ReadKey().KeyChar)
                         {
                             case 'a':
@@ -997,7 +957,7 @@ namespace Realm
                                 Main.gbooks++;
                                 break;
                         }
-                        Main.ramseycounter++;
+                        Main.ramsaycounter++;
                         break;
                     }
                     else
@@ -1108,14 +1068,7 @@ namespace Realm
         }
         public override Enemy getEnemyList()
         {
-            List<Enemy> templist = new List<Enemy>();
-            templist.Add(new Goblin());
-            templist.Add(new Bandit());
-
-            Random rand = new Random();
-            int randint = rand.Next(0, templist.Count + 1);
-
-            return templist[randint];
+            return null;
         }
         public override char[] getAvailableCommands()
         {
@@ -1227,14 +1180,7 @@ namespace Realm
         }
         public override Enemy getEnemyList()
         {
-            List<Enemy> templist = new List<Enemy>();
-            templist.Add(new Goblin());
-            templist.Add(new Bandit());
-            templist.Add(new Drake());
-            Random rand = new Random();
-            int randint = rand.Next(0, templist.Count + 1);
-
-            return templist[randint];
+            return null;
         }
         public override char[] getAvailableCommands()
         {
@@ -1322,7 +1268,7 @@ namespace Realm
         }
         public override Enemy getEnemyList()
         {
-            return new Bandit();
+            return null;
         }
         public override char[] getAvailableCommands()
         {
@@ -1425,7 +1371,7 @@ namespace Realm
         }
         public override Enemy getEnemyList()
         {
-            return new Bandit();
+            return null;
         }
         public override char[] getAvailableCommands()
         {
@@ -1507,7 +1453,7 @@ namespace Realm
         }
         public override Enemy getEnemyList()
         {
-            return new Bandit();
+            return null;
         }
         public override char[] getAvailableCommands()
         {
@@ -1593,7 +1539,7 @@ namespace Realm
         }
         public override Enemy getEnemyList()
         {
-            return new Bandit();
+            return null;
         }
         public override char[] getAvailableCommands()
         {
@@ -1621,7 +1567,7 @@ namespace Realm
                     {
                         case 'f':
                             Formatting.type("You challenge the mad king, and he stands from his obsidian throne, raven-feathered cloak swirling. He laughs a deep booming laugh and draws a wicked looking blade.");
-                            Main.BattleLoop(new RavenKing());
+                            Main.BattleLoop(new RavenKing(), true);
                             Main.Player.backpack.Add(globals.phantasmal_claymore);
                             Formatting.type("The king falls to the ground, defeated. You pick up his night colored sword form the ground, and in your hand it changes to a shimmering blue claymore.");
                             Formatting.type("Obtained 'Phantasmal Claymore'!");

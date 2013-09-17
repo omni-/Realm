@@ -16,6 +16,7 @@ namespace Realm
             Main.Player.name = Console.ReadLine();
             if (Main.Player.name == "__dev__")
             {
+                Console.Clear();
                 Main.Player.level = 100;
                 Main.Player.hp = 1000;
                 Main.Player.maxhp = 1000;
@@ -25,13 +26,13 @@ namespace Realm
                 Main.Player.spd = 1000;
                 Main.Player.intl = 1000;
                 Main.devmode = true;
-                Globals.PlayerPosition.x = 2;
-                Globals.PlayerPosition.y = 2;
+                Globals.PlayerPosition.x = 0;
+                Globals.PlayerPosition.y = 5;
                 Main.MainLoop();
             }
             //Formatting.type("You are the Hero of the Western Kingdom. The Western King has called for your\r\npresence.");
-            Globals.PlayerPosition.x = 2;
-            Globals.PlayerPosition.y = 2;
+            Globals.PlayerPosition.x = 0;
+            Globals.PlayerPosition.y = 5;
             Main.Tutorial();
         }
     }

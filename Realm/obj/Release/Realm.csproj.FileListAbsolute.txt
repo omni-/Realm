@@ -8,3 +8,13 @@ C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\obj\Release\Realm.e
 C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\obj\Release\Realm.application
 C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\obj\Release\Realm.exe
 C:\Users\Cooper\Documents\GitHub\TextAdventure\TextAdventure\obj\Release\Realm.pdb
+C:\Users\Cooper\Documents\GitHub\Realm\Realm\bin\Release\Realm.exe.config
+C:\Users\Cooper\Documents\GitHub\Realm\Realm\obj\Release\Realm.exe
+C:\Users\Cooper\Documents\GitHub\Realm\Realm\obj\Release\Realm.pdb
+C:\Users\Cooper\Documents\GitHub\Realm\Realm\bin\Release\Realm.exe.manifest
+C:\Users\Cooper\Documents\GitHub\Realm\Realm\bin\Release\Realm.application
+C:\Users\Cooper\Documents\GitHub\Realm\Realm\bin\Release\Realm.exe
+C:\Users\Cooper\Documents\GitHub\Realm\Realm\bin\Release\Realm.pdb
+C:\Users\Cooper\Documents\GitHub\Realm\Realm\obj\Release\Realm.TrustInfo.xml
+C:\Users\Cooper\Documents\GitHub\Realm\Realm\obj\Release\Realm.exe.manifest
+C:\Users\Cooper\Documents\GitHub\Realm\Realm\obj\Release\Realm.application

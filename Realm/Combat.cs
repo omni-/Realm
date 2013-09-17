@@ -340,6 +340,22 @@ namespace Realm
                 return true;
             }
         }
+        public class HellsKitchen : Command
+        {
+            public HellsKitchen(string aname, char cmd)
+                : base (aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                target.stunned = true;
+                target.on_fire = true;
+                target.is_cursed = true;
+                target.hp -= 5;
+                return true;
+            }
+        }
     }
 }
    

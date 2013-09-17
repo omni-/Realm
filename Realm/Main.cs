@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ namespace Realm
         public static int forrestcounter = 0;
         public static int libcounter = 0;
         public static int centrallibcounter = 0;
-        public static int ramseycounter = 0;
+        public static int ramsaycounter = 0;
         public static int magiccounter = 0;
         public static int nlibcounter = 0;
         public static int townfolkcounter = 0;
@@ -71,7 +72,7 @@ namespace Realm
                     Player.hp = Player.maxhp;
                 if (loop_number >= 1)
                 {
-                    if (Combat.CheckBattle())
+                    if (Combat.CheckBattle() && currPlace.getEnemyList() != null)
                     {
                         enemy = currPlace.getEnemyList();
                         BattleLoop(enemy);
@@ -83,6 +84,12 @@ namespace Realm
                     Main.Player.applybonus();
                 else
                     Main.Player.applydevbonus();
+                if (gbooks >= 3)
+                {
+                    Formatting.type("Having read all of the Ramsay books, you are enlightened in the ways of Gordon Ramsay.");
+                    Formatting.type("Learned 'Hell's Kitchen'!");
+                    Player.abilities.AddCommand(new Combat.HellsKitchen("Hell's Kitchen", 'k'));
+                }
                 if (!devmode)
                 {
                     Formatting.type("-------------------------------------", 10);
@@ -111,7 +118,7 @@ namespace Realm
                 Formatting.type("");
 
                 ConsoleKeyInfo command = Console.ReadKey();
-                if (command.Key == ConsoleKey.X)
+                if (command.KeyChar == 'x')
                 {
                     Formatting.type("\r\nAre you sure?");
                     char surecommand = Console.ReadKey().KeyChar;
@@ -123,6 +130,36 @@ namespace Realm
                 }
                 else if (command.Key == ConsoleKey.Escape)
                     Environment.Exit(0);
+                else if (command.KeyChar == '-')
+                {
+                    string input = Console.ReadLine();
+                    if (input == "e")
+                        Endgame();
+                    else if (input == "c")
+                    {
+                        string combat_input = Console.ReadLine();
+                        Type etype = Type.GetType("Realm." + combat_input);
+                        Enemy e = (Enemy)Activator.CreateInstance(etype);
+                        BattleLoop(e);
+                    }
+                    else if (input == "n")
+                        Player.name = Console.ReadLine();
+                    else if (input == "a")
+                    {
+                        string add_input = Console.ReadLine();
+                        Type atype = Type.GetType("Realm." + add_input);
+                        Item i = (Item)Activator.CreateInstance(atype);
+                        Player.backpack.Add(i);
+                        Formatting.type("Obtained '" + i.name + "'!");
+                    }
+                    else if (input == "t")
+                    {
+                        string place_input = Console.ReadLine();
+                        Type ptype = Type.GetType("Realm." + place_input);
+                        Place p = (Place)Activator.CreateInstance(ptype);
+
+                    }
+                }
                 else
                     currPlace.handleInput(command.KeyChar);
                 loop_number++;
@@ -199,6 +236,155 @@ namespace Realm
                         Formatting.type("Your have defeated " + enemy.name + "!");
                         enemy.droploot();
                         MainLoop();
+                    }
+                    if (!Main.Player.is_phased)
+                        is_turn = false;
+                }
+                else if (Main.Player.stunned)
+                {
+                    Formatting.type("You are stunned!");
+                    Main.Player.stunned = false;
+                    if (Main.Player.fire >= 3)
+                        Main.Player.on_fire = false;
+                    if (Main.Player.on_fire)
+                    {
+                        Main.Player.fire++;
+                        int dmg = Combat.Dice.roll(1, 3);
+                        Player.hp -= dmg;
+                        Formatting.type("You take " + " fire damage.");
+                    }
+                    if (Main.Player.cursed)
+                    {
+                        Main.Player.hp -= Combat.Dice.roll(1, 6);
+                        Formatting.type("You are cursed!");
+                    }
+                    is_turn = false;
+                }
+
+                else if (!is_turn && !enemy.stunned)
+                {
+                    if (enemy.fire >= 3)
+                        enemy.on_fire = false;
+                    if (enemy.on_fire)
+                    {
+                        enemy.fire++;
+                        int dmg = Combat.Dice.roll(1, 3);
+                        enemy.hp -= dmg;
+                        Formatting.type(enemy.name + " takes " + " fire damage.");
+                    }
+                    if (enemy.is_cursed)
+                    {
+                        Formatting.type(enemy.name + " is cursed!");
+                        enemy.hp -= Combat.Dice.roll(1, 6);
+                    }
+                    int oldhp = Main.Player.hp;
+                    string ability;
+                    enemy.attack(out ability);
+                    Formatting.type(enemy.name + " used " + ability);
+                    Formatting.type("You take " + (oldhp - Main.Player.hp) + " damage!");
+                    Formatting.type("-------------------------", 10);
+                    Formatting.type("Your HP: " + Main.Player.hp);
+                    Formatting.type("-------------------------", 10);
+                    if (Player.hp <= 0)
+                    {
+                        End.IsDead = true;
+                        End.GameOver();
+                    }
+                    is_turn = true;
+                }
+                else if (enemy.stunned)
+                {
+                    Formatting.type(enemy.name + " is stunned!");
+                    enemy.stunned = false;
+                    if (enemy.fire >= 3)
+                        enemy.on_fire = false;
+                    if (enemy.on_fire)
+                    {
+                        enemy.fire++;
+                        int dmg = Combat.Dice.roll(1, 3);
+                        enemy.hp -= dmg;
+                        Formatting.type(enemy.name + " takes " + " fire damage.");
+                    }
+                    if (enemy.is_cursed)
+                    {
+                        Formatting.type(enemy.name + " is cursed!");
+                        enemy.hp -= Combat.Dice.roll(1, 6);
+                    }
+                    is_turn = true;
+
+                }
+            }
+        }
+        public static void BattleLoop(Enemy enemy, bool spec)
+        {
+            game_state = 1;
+
+            Player.applybonus();
+
+            int mana = 2 + Player.level;
+            Formatting.type("You have entered combat! Ready your weapons!");
+            bool is_turn = enemy.spd < Player.spd;
+            while (enemy.hp >= 0)
+            {
+                if (is_turn && !Player.stunned)
+                {
+                    if (Main.Player.is_phased)
+                        Main.Player.is_phased = false;
+                    Formatting.type(enemy.name + ":");
+                    Formatting.type("-------------------------", 10);
+                    Formatting.type("Enemy HP: " + enemy.hp);
+                    Formatting.type("-------------------------", 10);
+
+                    Formatting.type("\r\nAVAILABLE MOVES:");
+                    Formatting.type("=========================", 10);
+                    if (Main.Player.fire >= 3)
+                        Main.Player.on_fire = false;
+                    if (Main.Player.on_fire)
+                    {
+                        Main.Player.fire++;
+                        int dmg = Combat.Dice.roll(1, 3);
+                        Player.hp -= dmg;
+                        Formatting.type("You take " + " fire damage.");
+                    }
+                    if (Main.Player.cursed)
+                    {
+                        Main.Player.hp -= Combat.Dice.roll(1, 6);
+                        Formatting.type("You are cursed!");
+                    }
+                    int i = 0;
+                    foreach (Realm.Combat.Command c in Main.Player.abilities.commands.Values)
+                    {
+                        string src = "||   " + c.cmdchar + ". " + c.name + "    ||";
+                        Formatting.type(src, 10);
+                        i++;
+                    }
+                    Formatting.type("=========================", 10);
+                    Formatting.type("");
+
+                    int oldhp = enemy.hp;
+                    char ch = Console.ReadKey().KeyChar;
+                    while (!Player.abilities.commandChars.Contains(ch))
+                    {
+                        Formatting.type("Invalid.");
+                        Formatting.type("");
+                        ch = Console.ReadKey().KeyChar;
+                    }
+                    while (ch != 'b' && mana <= 0)
+                    {
+                        Formatting.type("Out of mana!");
+                        Formatting.type("");
+                        ch = Console.ReadKey().KeyChar;
+                    }
+                    if (ch != 'b')
+                        mana--;
+                    Main.Player.abilities.ExecuteCommand(ch, enemy);
+                    int enemyhp = oldhp - enemy.hp;
+                    Formatting.type("The enemy takes " + enemyhp + " damage!");
+                    if (enemy.hp <= 0)
+                    {
+                        Formatting.type("Your have defeated " + enemy.name + "!");
+                        enemy.droploot();
+                        return;
                     }
                     if (!Main.Player.is_phased)
                         is_turn = false;
@@ -365,8 +551,17 @@ namespace Realm
         }
         public static void Endgame()
         {
-            Formatting.type("You stand in front of the protextorate, Janus. He says 'Have you realized that this world is a _____?' You nod your head and reach towards the book behind him. 'You will result in the Realm's demise, you must be wiped.");
-            Formatting.type("The protectorate kneels on the ground in front of you. 'Do you truly wish to end this dream?', it says. You look at him without uttering a word. 'Very well, I must ask of you one last favor even though the realm is no more, do not let the realm vanish from within you. A child awakes from his sleep and looks out the window feeling fulfilled as if a story has come to a close")
+            if (magiccounter >= 1)
+                Formatting.type("You recognize the magic man from the alley in Central. It is he who stands before you.");
+            Formatting.type("'I am Janus.' The mand before you says. You stand in front of the protetorate, Janus. He says 'Have you realized that this world is an illusion?' You nod your head and reach towards the book behind him. 'You will result in the Realm's demise, you must be wiped.");
+            Formatting.type("I regret to say, but we must fight.");
+            BattleLoop(new finalboss(), true);
+            Formatting.type("Janus defeated, the world vanishes and you both are standing on glass in a blank world of black void.");
+            Formatting.type("The protectorate kneels on the ground in front of you. 'Do you truly wish to end the illusion?', he says. You look at him without uttering a word. 'Very well, I must ask of you one last favor even though the realm is no more, do not let the realm vanish from within you. Everything around you goes black. (Press any key to continue)");
+            Console.ReadKey();
+            Console.Clear();
+            Formatting.type("A child awakes from his sleep and looks out the window feeling fulfilled as if a story has come to a close");
+            End.GameOver();
         }
         public static void SammysAdventure()
         {

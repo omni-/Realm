@@ -19,7 +19,6 @@ namespace Realm
         public bool on_fire = false;
         public bool stunned = false;
         public int fire;
-        public int curse;
         public List<string> abilities;
         
         public virtual void attack(out string ability_used)
