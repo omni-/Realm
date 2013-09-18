@@ -399,7 +399,7 @@ namespace Realm
         public Realm.Combat.CommandTable abilities;
         public void levelup()
         {
-            xp_next = level >= 30 ? 62 + (level - 30) * 7 : (level >= 15 ? 17 + (level - 15) * 3 : 17);
+            xp_next = level >= 20 ? 62 + (level - 20) * 7 : (level >= 10 ? 17 + (level - 10) * 3 : 17);
             if (xp >= xp_next)
             {
                 hp = maxhp;
@@ -413,11 +413,11 @@ namespace Realm
         }
         public void applybonus()
         {
-            maxhp = 10 + (level * 2);
-            def = -1 + level;
-            atk = 0 + level;
-            intl = 0 + level;
-            spd = 0 + level;
+            maxhp = 10 + (level);
+            def = 0 + (level / 2);
+            atk = 1 + (level / 2);
+            intl = 1 + (level / 2);
+            spd = 1 + (level / 2);
 
             if (!primary.Equals(default(Item)))
             {
@@ -486,8 +486,8 @@ namespace Realm
         }
         public GamePlayer()
         {
-            maxhp = 12;
-            hp = 12;
+            maxhp = 11;
+            hp = 11;
             level = 1;
             xp = 0;
             g = 15;

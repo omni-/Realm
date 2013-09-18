@@ -11,6 +11,7 @@ namespace Realm
     {
         public static void Initialize()
         {
+            Formatting.type("Version Number - 1.0.1");
             Formatting.type("\"Greetings. Before we begin, I must know your name.\"");
             Formatting.type("Please enter your name.\r\n");
             Main.Player.name = Console.ReadLine();

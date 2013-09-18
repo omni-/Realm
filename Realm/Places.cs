@@ -109,16 +109,26 @@ namespace Realm
     {
         protected override string GetDesc()
         {
-            return "King: 'Come, " + Main.Player.name + ". I plan give you the ultimate gift, eternal respite. You're not sure why he has called you but you don't like it. The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight(f) or run(r)?";
+            if (Main.wkingdead)
+                return "There's nothing here. r to leave.";
+            if (Main.wkingcounter <= 1)
+            {
+                Main.wkingcounter++;
+                return "King: 'Come, " + Main.Player.name + ". I plan to give you the ultimate gift, eternal respite. You're not sure why he has called you but you don't like it. The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight(f) or run(r)?";
+            }
+            else
+                return "Back so soon?";
         }
-
         public override Enemy getEnemyList()
         {
             return null;
         }
         public override char[] getAvailableCommands()
         {
-            return new char[] { 'f', 'r' };
+            if (!Main.wkingdead)
+                return new char[] { 'f', 'r' };
+            else
+                return new char[] { 'r' };
         }
 
         public override bool handleInput(char input)
@@ -165,7 +175,6 @@ namespace Realm
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
                 templist.Add('n');
-            templist.Add('n');
             templist.Add('z');
             return templist.ToArray<char>();
         }
@@ -570,8 +579,8 @@ namespace Realm
                             }
                             break;
                         case 't':
-                            Formatting.type("You talk to a villager. He muses about the fact that sometimes, reality doens't feel real at all. Puzzled by his comment, you walk away.");
-                            Formatting.type("A paper flaps out of his cloack as he walks away. On it is nothing but the letter 'd'.");
+                            Formatting.type("You talk to a villager. He muses about the fact that sometimes, reality doesn't feel real at all. Puzzled by his comment, you walk away.");
+                            Formatting.type("A paper flaps out of his cloack as he walks away. On it is nothing but the letter 'w'.");
                             break;
                         default:
                             break;
@@ -716,7 +725,7 @@ namespace Realm
                             }
                         case 'w':
                             Formatting.type("You realize that you don't speak the same language as the shopkeeper. You take all of his peppermint candy and leave.");
-                            Formatting.type("Before you toss it on the floor like the scumbad you are, you notice one of the candy wrappers has an apostrphe on the inside.");
+                            Formatting.type("Before you toss it on the floor like the scumbad you are, you notice one of the candy wrappers has an apostrophe on the inside.");
                             break;
                     }
                     break;
@@ -757,8 +766,6 @@ namespace Realm
                 templist.Add('n');
             templist.Add('l');
             templist.Add('g');
-            templist.Add('n');
-            templist.Add('m');
             return templist.ToArray<char>();
         }
         public override bool handleInput(char input)
@@ -768,9 +775,6 @@ namespace Realm
                 case 'm':
                     if (Main.hasmap)
                         Formatting.drawmap();
-                    break;
-                case 'n':
-                    Globals.PlayerPosition.y += 1;
                     break;
                 case 'e':
                     Globals.PlayerPosition.x += 1;
@@ -849,8 +853,8 @@ namespace Realm
                     switch(Console.ReadKey().KeyChar)
                     {
                         case 'y':
-                            Main.Purchase(50, globals.bt_plate);
-                            Formatting.type("Obtained 'Bloodmail'!");
+                            if (Main.Purchase(50, globals.bt_plate))
+                                Formatting.type("Obtained 'Bloodmail'!");
                             break;
                         case 'n':
                             Formatting.type("You leave.");
@@ -928,7 +932,7 @@ namespace Realm
                     if (Main.centrallibcounter == 0)
                     {
                         Formatting.type("This massive building is a monument to human knowledge. You feel dwarfed by its towering presence.");
-                        Formatting.type("You arrive at a shelf that draws your attention. There are five books. The first one is a musty tome entitled Alcwyn's Legacy(a). The second one is A Guide to Theivery(g), the third Sacrificial Rite(s). The fourth book is The Void(v). The final book's title ramsay: A Mathematics(r). Which do you read?");
+                        Formatting.type("You arrive at a shelf that draws your attention. There are six books. The first one is a musty tome entitled Alcwyn's Legacy(a). The second one is A Guide to Theivery(g), the third Sacrificial Rite(s). The fourth book is The Void(v). The fifth book is Samael's Game(j). The final book's title ramsay: A Mathematics(r). Which do you read?");
                         switch (Console.ReadKey().KeyChar)
                         {
                             case 'a':
@@ -956,15 +960,41 @@ namespace Realm
                                 Main.Player.intl += 1;
                                 Main.gbooks++;
                                 break;
-                        }
+                            case 'j':
+                                Formatting.type("You open the book and find dice inside. Do you wish to roll?(y/n)");
+                                switch(Console.ReadKey().KeyChar)
+                                {
+                                    case 'y':
+                                        int abilchance = Combat.Dice.roll(1,6);
+                                        if (abilchance == 6)
+                                        {
+                                            Formatting.type("You feel as if something incredible has happened.");
+                                            Formatting.type("Learned 'Gamble'!");
+                                            Main.Player.abilities.AddCommand(new Combat.Gamble("Gamble", '$'));
+                                        }
+                                        else
+                                        {
+                                            Formatting.type("Wow you roll a" + abilchance);
+                                            Main.Player.hp -= abilchance;
+                                            Formatting.type("You lose" + abilchance + "hp");
+                                        }
+                                        break;
+                                        
+                                    case 'n':
+                                        Formatting.type("You feel threatened by the words.");
+                                        break;
+                                }
                         Main.centrallibcounter++;
                         break;
+                        }
+                        Main.centrallibcounter++;
                     }
                     else
                     {
                         Formatting.type("The library is closed.");
                         break;
                     }
+                    break;
                 case 'a':
                     Formatting.type("You approach a building with a sigil bearing crossed swords. You suspect this is the weaponsmith. You enter, and he has loads of goodies for sale. Buy Iron Rapier(r, 30), Iron Chainmail(c, 30), Iron Buckler (b, 25), or Bloodthirsty Longsword(l, 50)?");
                     switch(Console.ReadKey().KeyChar)
@@ -996,18 +1026,20 @@ namespace Realm
                         switch (Console.ReadKey().KeyChar)
                         {
                             case 'b':
-                                Main.Purchase(50, globals.blood_amulet);
-                                Formatting.type("Obtained 'Blood Amulet'!");
+                                if (Main.Purchase(50, globals.blood_amulet))
+                                    Formatting.type("Obtained 'Blood Amulet'!");
                                 break;
                             case 'a':
-                                Main.Purchase(50);
-                                Formatting.type("He holds out his hand, and reality appears to bend around it. Kind of like the Degauss button on monitors from the 90's.");
-                                Main.Player.abilities.AddCommand(new Combat.VorpalBlades("Vorbal Blades", 'v'));
-                                Formatting.type("Learned 'Vorpal Blade'!");
+                                if (Main.Purchase(50))
+                                {
+                                    Formatting.type("He holds out his hand, and reality appears to bend around it. Kind of like the Degauss button on monitors from the 90's.");
+                                    Main.Player.abilities.AddCommand(new Combat.VorpalBlades("Vorbal Blades", 'v'));
+                                    Formatting.type("Learned 'Vorpal Blade'!");
+                                }
                                 break;
                             case 's':
-                                Main.Purchase(50);
-                                Formatting.type("'I have a secret to tell you. Everything you know is wrong.' He holds out his hand, and reality appears to bend around it. Kind of like the Degauss button on monitors from the 90's. 'See this?' he says. 'This is what's known as the Flux. Everything is from the Flux, and controlled by the Flux. Learn to control it, and you control reality.'. he dissapears througha shimmering portal and leaves you there mystified.");
+                                if (Main.Purchase(50))
+                                    Formatting.type("'I have a secret to tell you. Everything you know is wrong.' He holds out his hand, and reality appears to bend around it. Kind of like the Degauss button on monitors from the 90's. 'See this?' he says. 'This is what's known as the Flux. Everything is from the Flux, and controlled by the Flux. Learn to control it, and you control reality.'. he dissapears througha shimmering portal and leaves you there mystified.");
                                 break;
                         }
                         Main.magiccounter++;
@@ -1114,20 +1146,20 @@ namespace Realm
                     switch (Console.ReadKey().KeyChar)
                     {
                         case 'a':
-                            Main.Purchase(100, globals.ds_amulet);
-                            Formatting.type("Obtained 'Darksteel Amulet'!");
+                            if (Main.Purchase(100, globals.ds_amulet))
+                                Formatting.type("Obtained 'Darksteel Amulet'!");
                             break;
                         case 'c':
-                            Main.Purchase(110, globals.ds_scale);
-                            Formatting.type("Obatined 'Darksteel Scalemail'!");
+                            if (Main.Purchase(110, globals.ds_scale))
+                                Formatting.type("Obatined 'Darksteel Scalemail'!");
                             break;
                         case 'k':
-                            Main.Purchase(80, globals.ds_kris);
-                            Formatting.type("Obtained 'Darksteel Kris!'!");
+                            if (Main.Purchase(80, globals.ds_kris))
+                                Formatting.type("Obtained 'Darksteel Kris!'!");
                             break;
                         case 's':
-                            Main.Purchase(100, globals.ds_kite);
-                            Formatting.type("Obtained 'Darksteel Kite Shield'!");
+                            if (Main.Purchase(100, globals.ds_kite))
+                                Formatting.type("Obtained 'Darksteel Kite Shield'!");
                             break;
                         default:
                             break;
@@ -1226,13 +1258,13 @@ namespace Realm
                     switch(Console.ReadKey().KeyChar)
                     {
                         case 'b':
-                            Main.Purchase(55, globals.bt_battleaxe);
-                            Formatting.type("Obtained 'Bloodthirsty Battleaxe'!");
+                            if (Main.Purchase(55, globals.bt_battleaxe))
+                                Formatting.type("Obtained 'Bloodthirsty Battleaxe'!");
                             Formatting.type("The old man grins.");
                             break;
                         case 'g':
-                            Main.Purchase(55, globals.bt_greatsword);
-                            Formatting.type("Obtained 'Bloodthirsty'!");
+                            if (Main.Purchase(55, globals.bt_greatsword))
+                                Formatting.type("Obtained 'Bloodthirsty Greatsword'!");
                             Formatting.type("The old man grins.");
                             break;
                     }
@@ -1264,7 +1296,7 @@ namespace Realm
     {
         protected override string GetDesc()
         {
-            return "You happen upon a travelling band of merchants wearing turbans. They have unimaginably valuable wares for sale. You may talk to the Sage Kaiser(s) or the man with the gear(g)";
+            return "You happen upon a travelling band of merchants wearing turbans. They have unimaginably valuable wares for sale. You may talk to the Sage Kaiser(k) or the man with the gear(g)";
         }
         public override Enemy getEnemyList()
         {
@@ -1286,7 +1318,7 @@ namespace Realm
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('a');
-            templist.Add('i');
+            templist.Add('k');
             return templist.ToArray<char>();
         }
         public override bool handleInput(char input)
@@ -1306,24 +1338,33 @@ namespace Realm
                 case 'w':
                     Globals.PlayerPosition.x -= 1;
                     break;
-                case 'a':
+                case 's':
+                    Globals.PlayerPosition.y -= 1;
+                    break;
+                case 'g':
                     Formatting.type("You talk to the toothless man holding the wares. You may buy the Void Cloak(v, 150), the Illusory Plate(i, 150), or the Spectral Bulwark(s, 150). Or you may buy all 3(3, 300).");
                     switch(Console.ReadKey().KeyChar)
                     {
                         case 'v':
-                            Main.Purchase(150, globals.void_cloak);
-                            Formatting.type("The toothless man reverently hands you artifact.");
-                            Formatting.type("Obtained 'Void Cloak'!");
+                            if (Main.Purchase(150, globals.void_cloak))
+                            {
+                                Formatting.type("The toothless man reverently hands you artifact.");
+                                Formatting.type("Obtained 'Void Cloak'!");
+                            }
                             break;
                         case 'i':
-                            Main.Purchase(150, globals.illusory_plate);
-                            Formatting.type("The toothless man reverently hands you artifact.");
-                            Formatting.type("Obtained 'Illusory Plate'!");
+                            if (Main.Purchase(150, globals.illusory_plate))
+                            {
+                                Formatting.type("The toothless man reverently hands you artifact.");
+                                Formatting.type("Obtained 'Illusory Plate'!");
+                            }
                             break;
                         case 's':
-                            Main.Purchase(150, globals.spectral_bulwark);
-                            Formatting.type("The toothless man reverently hands you artifact.");
-                            Formatting.type("Obtained 'Spectral Bulwark'!");
+                            if (Main.Purchase(150, globals.spectral_bulwark))
+                            {
+                                Formatting.type("The toothless man reverently hands you artifact.");
+                                Formatting.type("Obtained 'Spectral Bulwark'!");
+                            }
                             break;
                         case '3':
                             if (Main.Purchase(300, globals.void_cloak))
@@ -1331,25 +1372,42 @@ namespace Realm
                                 Formatting.type("Obtained 'Void Cloak'!");
                                 Formatting.type("Obtained 'Spectral Bulwark'!");
                                 Formatting.type("Obtained 'Illusory Plate'!");
-                                Main.Player.backpack.Add(globals.spectral_bulwark);
-                                Main.Player.backpack.Add(globals.illusory_plate);
+
+                                if (Main.Player.backpack.Count <= 10)
+                                    Main.Player.backpack.Add(globals.void_cloak);
+                                else
+                                    Formatting.type("Not enough space.");
+
+                                if (Main.Player.backpack.Count <= 10)
+                                    Main.Player.backpack.Add(globals.spectral_bulwark);
+                                else
+                                    Formatting.type("Not enough space.");
+
+                                if (Main.Player.backpack.Count <= 10)
+                                    Main.Player.backpack.Add(globals.illusory_plate);
+                                else
+                                    Formatting.type("Not enough space.");
                             }
                             break;
                     }
                     break;
-                case 's':
+                case 'k':
                     if (Main.nomadcounter == 0)
                     {
                         Formatting.type("You visit their Elder King, or Sage Kaiser, as they call him. He offers to teach you an ability for 50 gold. (y/n)");
                         switch (Console.ReadKey().KeyChar)
                         {
                             case 'y':
-                                Formatting.type("You say yes, and he holds up hand, and some strange runes on his hand begin to glow.");
-                                Formatting.type("Learned 'Heavensplitter'!");
-                                Formatting.type("The old man also hands you a runw with the letter 'w' inscribed.");
-                                Main.Player.abilities.AddCommand(new Combat.Heavensplitter("Heavensplitter", 'h'));
+                                if (Main.Purchase(50))
+                                {
+                                    Formatting.type("You say yes, and he holds up hand, and some strange runes on his hand begin to glow.");
+                                    Formatting.type("Learned 'Heavensplitter'!");
+                                    Formatting.type("The old man also hands you a rune with the letter 's' inscribed.");
+                                    Main.Player.abilities.AddCommand(new Combat.Heavensplitter("Heavensplitter", 'z'));
+                                }
                                 break;
                         }
+                        Main.nomadcounter++;
                     }
                     else
                         Formatting.type("He already taught you that ability. He has nothing more to offer.");
@@ -1367,7 +1425,7 @@ namespace Realm
     {
         protected override string GetDesc()
         {
-            return "You approach the gates of the East Kingdom. You see an arms dealer (a) and an inn(i). Which do you which to enter?";
+            return "You approach the gates of the East Kingdom. You see an arms dealer(a) and an inn(i). Where do you go?";
         }
         public override Enemy getEnemyList()
         {
@@ -1409,21 +1467,6 @@ namespace Realm
                 case 's':
                     Globals.PlayerPosition.y -= 1;
                     break;
-                case 'a':
-                    switch (Console.ReadKey().KeyChar)
-                    {
-                        case 'v':
-                            Main.Purchase(120, globals.sb_saber);
-                            Formatting.type("The child smiles gleefully and hands you the Sunburst Saber.");
-                            Formatting.type("Obtained 'Sunburst Saber'!");
-                            break;
-                        case 'i':
-                            Main.Purchase(100, globals.sb_shield);
-                            Formatting.type("The child smiles and hands you the Sunburst Shield.");
-                            Formatting.type("Obtained 'Sunburst Shield'!");
-                            break;
-                    }
-                    break;
                 case 'i':
                     Formatting.type("Stay at the luxurious hotel for 40 gold?(y/n)");
                     switch (Console.ReadKey().KeyChar)
@@ -1438,6 +1481,30 @@ namespace Realm
                             break;
                     }
                     break;
+                case 'a':
+                    Formatting.type("You visit the arms dealer. It's being manned by a child. Buy Sunburst Saber(120, v) or Suburst Shield(100, s).");
+                    switch (Console.ReadKey().KeyChar)
+                    {
+                        case 'v':
+                            if (Main.Purchase(120, globals.sb_saber))
+                            {
+                                Formatting.type("The child smiles gleefully and hands you the Sunburst Saber.");
+                                Formatting.type("Obtained 'Sunburst Saber'!");
+                            }
+                            break;
+                        case 'i':
+                            if (Main.Purchase(100, globals.sb_shield))
+                            {
+                                Formatting.type("The child smiles and hands you the Sunburst Shield.");
+                                Formatting.type("Obtained 'Sunburst Shield'!");
+                            }
+                            break;
+                    }
+                    break;
+                case 'b':
+                    if (Main.Player.backpack.Count > 0)
+                        Main.BackpackLoop();
+                    break;
                 default:
                     return false;
             }
@@ -1449,7 +1516,7 @@ namespace Realm
     {
         protected override string GetDesc()
         {
-            return "You are in a small village at the base of a waterfall. You see an arms dealer (a),an inn(i), and some townsfolk(t). Which do you which to enter?";
+            return "You are in a small village at the base of a waterfall. You see an arms dealer(a) and an inn(i). Where do you want to go?";
         }
         public override Enemy getEnemyList()
         {
@@ -1524,6 +1591,10 @@ namespace Realm
                             break;
                     }
                     break;
+                case 'b':
+                    if (Main.Player.backpack.Count > 0)
+                        Main.BackpackLoop();
+                    break;
                 default:
                     return false;
             }
@@ -1568,7 +1639,10 @@ namespace Realm
                         case 'f':
                             Formatting.type("You challenge the mad king, and he stands from his obsidian throne, raven-feathered cloak swirling. He laughs a deep booming laugh and draws a wicked looking blade.");
                             Main.BattleLoop(new RavenKing(), true);
-                            Main.Player.backpack.Add(globals.phantasmal_claymore);
+                            if (Main.Player.backpack.Count <= 10)
+                                Main.Player.backpack.Add(globals.phantasmal_claymore);
+                            else
+                                Formatting.type("Not enough space.");
                             Formatting.type("The king falls to the ground, defeated. You pick up his night colored sword form the ground, and in your hand it changes to a shimmering blue claymore.");
                             Formatting.type("Obtained 'Phantasmal Claymore'!");
                             Formatting.type("A blue portal opens up with the glowing letter 'l' above it. You yell 'Jeronimo!' and jump through.");

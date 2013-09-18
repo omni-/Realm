@@ -36,7 +36,7 @@ namespace Realm
         public static bool CheckBattle()
         {
             Random randint = new Random();
-            int rollresult = Dice.roll(1, 3);
+            int rollresult = Dice.roll(1, 2);
             return rollresult == 1;
         }
         public static string DecideAttack(List<string> abilities)
@@ -124,7 +124,7 @@ namespace Realm
             {
                 // data should be the enemy
                 Enemy target = (Enemy)data;
-                double damage = Dice.roll(Main.Player.atk, 4);
+                double damage = Dice.roll(1, Main.Player.atk);
                 if (Main.Player.primary.multiplier != 0)
                     damage *= Main.Player.primary.multiplier;
                 if (damage <= 0)
@@ -145,7 +145,7 @@ namespace Realm
             {
                 // data should be the enemy
                 Enemy target = (Enemy)data;
-                double damage = Dice.roll(Main.Player.intl * 2, 2);
+                double damage = Dice.roll(2, Main.Player.intl);
                 if (damage <= 0)
                     damage = 1;
                 if (Combat.Dice.misschance(-Main.Player.spd))
@@ -164,7 +164,7 @@ namespace Realm
             {
                 // data should be the enemy
                 Enemy target = (Enemy)data;
-                double damage = Dice.roll(Main.Player.atk + 1, 6);
+                double damage = Dice.roll(2, Main.Player.atk);
                 if (Combat.Dice.misschance(-Main.Player.spd))
                     damage = 0;
                 target.hp -= Convert.ToInt32(damage);
@@ -181,13 +181,13 @@ namespace Realm
             {
                 // data should be the enemy
                 Enemy target = (Enemy)data;
-                double damage = Dice.roll(2, Main.Player.atk);
+                double damage = Dice.roll(2, Main.Player.atk * 2 / 3);
                 if (damage <= 0)
                     damage = 1;
                 if (Combat.Dice.misschance(-Main.Player.spd))
                     damage = 0;
                 target.hp -= Convert.ToInt32(damage);
-                Main.Player.hp += Convert.ToInt32(damage);
+                Main.Player.hp += Convert.ToInt32(damage / 3);
                 Formatting.type("You gain " + damage + " life.");
                 return true;
             }
@@ -202,7 +202,7 @@ namespace Realm
             {
                 // data should be the enemy
                 Enemy target = (Enemy)data;
-                double damage = Dice.roll(Main.Player.def, 2);
+                double damage = Dice.roll(2, Main.Player.def/2);
                 if (damage <= 0)
                     damage = 1;
                 if (Combat.Dice.misschance(-Main.Player.spd))
@@ -265,7 +265,7 @@ namespace Realm
             public override bool Execute(object Data)
             {
                 Enemy target = (Enemy)Data;
-                int dmg = Dice.roll(Main.Player.atk / 2, Main.Player.atk);
+                int dmg = Dice.roll(1, Main.Player.atk / 2);
                 target.hp -= dmg;
                 Main.Player.hp -= dmg / 2;
                 return true;
@@ -293,7 +293,7 @@ namespace Realm
             public override bool Execute(object Data)
             {
                 Enemy target = (Enemy)Data;
-                target.hp -= Dice.roll(2, ((Main.Player.atk/2) + Main.Player.intl/2));
+                target.hp -= Dice.roll(1, ((Main.Player.atk/3) + Main.Player.intl/3));
                 return true;
             }
         }
@@ -336,7 +336,7 @@ namespace Realm
             {
                 Enemy target = (Enemy)Data;
                 target.stunned = true;
-                target.hp -= Main.Player.atk + Main.Player.def;
+                target.hp -= (Main.Player.atk) + (Main.Player.def / 3);
                 return true;
             }
         }
@@ -354,6 +354,31 @@ namespace Realm
                 target.is_cursed = true;
                 target.hp -= 5;
                 return true;
+            }
+        }
+
+        public class Gamble : Command
+        {
+            public Gamble (string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                int chance = Dice.roll(1, 10);
+                if (chance <= 5)
+                {
+                    Main.Player.hp -= 2 * chance;
+                }
+                else
+                {
+                    target.hp -= Main.Player.atk * 5;
+                    target.stunned = true;
+                    target.on_fire = true;
+                    target.is_cursed = true;
+                }
+                    return true;
             }
         }
     }

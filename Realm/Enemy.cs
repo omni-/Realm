@@ -28,7 +28,7 @@ namespace Realm
         }
         public virtual void droploot()
         {
-            int gold = Combat.Dice.roll(gpdice, 4);
+            int gold = Combat.Dice.roll(1, gpdice);
             Formatting.type("You gain " + gold + " gold.");
             if (!Main.is_theif)
                 Main.Player.g += gold;
@@ -266,12 +266,12 @@ namespace Realm
         public RavenKing()
         {
             name = "Raven King";
-            hp = 60;
-            atk = 30;
-            def = 13;
-            spd = 20;
-            xpdice = 100;
-            gpdice = 100;
+            hp = 250;
+            atk = 45;
+            def = 20;
+            spd = 25;
+            xpdice = 80;
+            gpdice = 80;
             abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("Crow Call");
@@ -316,12 +316,12 @@ namespace Realm
         public finalboss()
         {
             name = "Janus";
-            hp = 150;
-            atk = 50;
-            def = 35;
-            spd = 30;
-            xpdice = 500;
-            gpdice = 500;
+            hp = 750;
+            atk = 150;
+            def = 85;
+            spd = 60;
+            xpdice = 1;
+            gpdice = 1;
             abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("Illusory Slash");

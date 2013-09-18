@@ -12,6 +12,7 @@ namespace Realm
         public static int loop_number = 0;
         public static int game_state = 0;
 
+        public static int wkingcounter = 0;
         public static int slibcounter = 0;
         public static int forrestcounter = 0;
         public static int libcounter = 0;
@@ -25,6 +26,7 @@ namespace Realm
         public static int gbooks = 0;
 
         public static bool is_theif = false;
+        public static bool wkingdead = false;
 
         public static GamePlayer Player = new GamePlayer();
         public static Globals globals = new Globals();
@@ -56,9 +58,6 @@ namespace Realm
                 Player.accessory = globals.void_cloak;
                 hasmap = true;
             }
-            if (Player.primary.Equals(globals.phantasmal_claymore) && Player.secondary.Equals(globals.spectral_bulwark) && Player.armor.Equals(globals.illusory_plate) && Player.accessory.Equals(globals.void_cloak))
-                if(!Player.abilities.commandChars.Contains('*'))
-                    Player.abilities.AddCommand(new Combat.EndtheIllusion("End the Illusion", '*'));
             if (Player.primary.Equals(globals.wood_staff) && Player.secondary.Equals(globals.slwscreen) && Player.armor.Equals(globals.sonictee) && Player.accessory.Equals(globals.fmBP))
             {
                 if (!Player.abilities.commandChars.Contains('/'))
@@ -79,17 +78,20 @@ namespace Realm
                         BattleLoop(enemy);
                     }
                 }
+                if (Player.primary.Equals(globals.phantasmal_claymore) && Player.secondary.Equals(globals.spectral_bulwark) && Player.armor.Equals(globals.illusory_plate) && Player.accessory.Equals(globals.void_cloak))
+                    if (!Player.abilities.commandChars.Contains('*'))
+                        Player.abilities.AddCommand(new Combat.EndtheIllusion("End the Illusion", '*'));
                 if (devmode)
                     Formatting.type(Globals.PlayerPosition.x + " " + Globals.PlayerPosition.y);
                 if (!devmode)
                     Main.Player.applybonus();
                 else
                     Main.Player.applydevbonus();
-                if (gbooks >= 3)
+                if (gbooks >= 3 && !Player.abilities.commandChars.Contains('!'))
                 {
                     Formatting.type("Having read all of the Ramsay books, you are enlightened in the ways of Gordon Ramsay.");
                     Formatting.type("Learned 'Hell's Kitchen'!");
-                    Player.abilities.AddCommand(new Combat.HellsKitchen("Hell's Kitchen", 'k'));
+                    Player.abilities.AddCommand(new Combat.HellsKitchen("Hell's Kitchen", '!'));
                 }
                 if (!devmode)
                 {
@@ -131,7 +133,7 @@ namespace Realm
                 }
                 else if (command.Key == ConsoleKey.Escape)
                     Environment.Exit(0);
-                else if (command.KeyChar == '-')
+                else if (command.KeyChar == '-' && devmode)
                 {
                     string input = Console.ReadLine();
                     if (input == "e")
@@ -150,7 +152,10 @@ namespace Realm
                         string add_input = Console.ReadLine();
                         Type atype = Type.GetType("Realm." + add_input);
                         Item i = (Item)Activator.CreateInstance(atype);
-                        Player.backpack.Add(i);
+                        if (Player.backpack.Count <= 10)
+                            Player.backpack.Add(i);
+                        else
+                            Formatting.type("Not enough space.");
                         Formatting.type("Obtained '" + i.name + "'!");
                     }
                     else if (input == "t")
@@ -206,7 +211,7 @@ namespace Realm
                     int i = 0;
                     foreach (Realm.Combat.Command c in Main.Player.abilities.commands.Values)
                     {
-                        string src = "||   " + c.cmdchar + ". " + c.name + "    ||";
+                        string src = "||   " + c.cmdchar + ". " + c.name;
                         Formatting.type(src, 10);
                         i++;
                     }
@@ -311,6 +316,12 @@ namespace Realm
                         Formatting.type(enemy.name + " is cursed!");
                         enemy.hp -= Combat.Dice.roll(1, 6);
                     }
+                    if (enemy.hp <= 0)
+                    {
+                        Formatting.type("Your have defeated " + enemy.name + "!");
+                        enemy.droploot();
+                        MainLoop();
+                    }
                     is_turn = true;
 
                 }
@@ -319,10 +330,11 @@ namespace Realm
         public static void BattleLoop(Enemy enemy, bool spec)
         {
             game_state = 1;
-
+            if (Player.hp > Player.maxhp)
+                Player.hp = Player.maxhp;
             Player.applybonus();
 
-            int mana = 2 + Player.level;
+            int mana = 2;
             Formatting.type("You have entered combat! Ready your weapons!");
             bool is_turn = enemy.spd < Player.spd;
             while (enemy.hp >= 0)
@@ -460,6 +472,12 @@ namespace Realm
                         Formatting.type(enemy.name + " is cursed!");
                         enemy.hp -= Combat.Dice.roll(1, 6);
                     }
+                    if (enemy.hp <= 0)
+                    {
+                        Formatting.type("Your have defeated " + enemy.name + "!");
+                        enemy.droploot();
+                        return;
+                    }
                     is_turn = true;
 
                 }
@@ -479,7 +497,7 @@ namespace Realm
                 Formatting.type("Defense Buff: " + i.defbuff);
                 Formatting.type("Speed Buff: " + i.spdbuff);
                 Formatting.type("Intelligence Buff: " + i.intlbuff);
-                Formatting.type("Enter (y) to equip this item, (n) to dequip and anything else to go back.");
+                Formatting.type("Enter (y) to equip this item, (d) to destroy and anything else to go back.");
                 char c = Console.ReadKey().KeyChar;
                 switch (c)
                 {
@@ -493,15 +511,27 @@ namespace Realm
                         else if (i.slot == 4)
                             Main.Player.accessory = i;
                         break;
-                    case 'n':
+                    case 'd':
                         if (i.slot == 1)
-                            Main.Player.primary = new Item();
+                        {
+                            Player.primary = new Item();
+                            Player.backpack.Remove(i);
+                        }
                         else if (i.slot == 2)
+                        {
                             Main.Player.secondary = new Item();
+                            Player.backpack.Remove(i);
+                        }
                         else if (i.slot == 3)
+                        {
                             Main.Player.armor = new Item();
+                            Player.backpack.Remove(i);
+                        }
                         else if (i.slot == 4)
+                        {
                             Main.Player.accessory = new Item();
+                            Player.backpack.Remove(i);
+                        }
                         break;
                     default:
                         return false;
@@ -562,6 +592,7 @@ namespace Realm
             Console.ReadKey();
             Console.Clear();
             Formatting.type("A child awakes from his sleep and looks out the window feeling fulfilled as if a story has come to a close");
+            End.IsDead = true;
             End.GameOver();
         }
         public static void SammysAdventure()
@@ -586,7 +617,10 @@ namespace Realm
             if (cost <= Player.g)
             {
                 Player.g -= cost;
-                Player.backpack.Add(i);
+                if (Player.backpack.Count <= 10)
+                    Player.backpack.Add(i);
+                else
+                    Formatting.type("Not enough space.");
                 return true;
             }
             else
