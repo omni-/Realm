@@ -29,3 +29,4 @@ C:\Users\Giorgio\Documents\GitHub\Realm\Realm\obj\Release\Realm.TrustInfo.xml
 C:\Users\Giorgio\Documents\GitHub\Realm\Realm\obj\Release\Realm.exe.manifest
 C:\Users\Giorgio\Documents\GitHub\Realm\Realm\obj\Release\Realm.application
 C:\Users\Giorgio\Documents\GitHub\Realm\Realm\obj\Release\Realm.csprojResolveAssemblyReference.cache
+C:\Users\Cooper\Documents\GitHub\Realm\Realm\obj\Release\Realm.csprojResolveAssemblyReference.cache
