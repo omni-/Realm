@@ -71,7 +71,7 @@ namespace Realm
             atkbuff = 1;
             tier = 0;
             slot = 1;
-            multiplier = .5f;
+            multiplier = 1;
         }
     }
     public class cardboard_shield : Item
