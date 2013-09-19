@@ -1474,10 +1474,10 @@ namespace Realm
                                     Formatting.type("Learned 'Heavensplitter'!");
                                     Formatting.type("The old man also hands you a rune with the letter 's' inscribed.");
                                     Main.Player.abilities.AddCommand(new Combat.Heavensplitter("Heavensplitter", 'z'));
+                                    Main.nomadcounter++;
                                 }
                                 break;
                         }
-                        Main.nomadcounter++;
                     }
                     else
                         Formatting.type("He already taught you that ability. He has nothing more to offer.");
