@@ -41,6 +41,7 @@ namespace Realm
             Formatting.type("When in combat, select an availible move. All damage is randomized.");
             Formatting.type("While in the backpack, simply select a number corresponding to an item. You may swap this item in or out. Make sure to equip an item once you pick it up!");
             Formatting.type("At any specified time, you may press x, then y. This will cause you to commit suicide.");
+            Formatting.type("At any specified time, you may press #. Doing so will save the game.");
             Formatting.type("You are now ready to play Realm. Good luck!");
             Formatting.type("Press any key to continue.");
             Console.ReadKey();
@@ -50,15 +51,16 @@ namespace Realm
         {
             game_state = 0;
             Place currPlace;
+            Place overrideplace = new Place();
             if (devmode)
             {
-                Player.primary = globals.phantasmal_claymore;
-                Player.secondary = globals.spectral_bulwark;
-                Player.armor = globals.illusory_plate;
-                Player.accessory = globals.void_cloak;
+                Player.primary = new phantasmal_claymore();
+                Player.secondary = new spectral_bulwark();
+                Player.armor = new illusory_plate();
+                Player.accessory = new void_cloak();
                 hasmap = true;
             }
-            if (Player.primary.Equals(globals.wood_staff) && Player.secondary.Equals(globals.slwscreen) && Player.armor.Equals(globals.sonictee) && Player.accessory.Equals(globals.fmBP))
+            if (Player.primary.Equals(new wood_staff()) && Player.secondary.Equals(new slwscreen()) && Player.armor.Equals(new sonictee()) && Player.accessory.Equals(new fmBP()))
             {
                 if (!Player.abilities.commandChars.Contains('/'))
                     Player.abilities.AddCommand(new Combat.ArrowsofLies("Arrows of Lies", '/'));
@@ -66,8 +68,11 @@ namespace Realm
             while (!End.IsDead)
             {
                 Enemy enemy = new Enemy();
-                Player.levelup();         
-                currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
+                Player.levelup();
+                if (overrideplace.Equals(new Place()))
+                    currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
+                else
+                    currPlace = overrideplace;
                 if (Player.hp > Player.maxhp)
                     Player.hp = Player.maxhp;
                 if (loop_number >= 1)
@@ -78,7 +83,7 @@ namespace Realm
                         BattleLoop(enemy);
                     }
                 }
-                if (Player.primary.Equals(globals.phantasmal_claymore) && Player.secondary.Equals(globals.spectral_bulwark) && Player.armor.Equals(globals.illusory_plate) && Player.accessory.Equals(globals.void_cloak))
+                if (Player.primary.Equals(new phantasmal_claymore()) && Player.secondary.Equals(new spectral_bulwark()) && Player.armor.Equals(new illusory_plate()) && Player.accessory.Equals(new void_cloak()))
                     if (!Player.abilities.commandChars.Contains('*'))
                         Player.abilities.AddCommand(new Combat.EndtheIllusion("End the Illusion", '*'));
                 if (devmode)
@@ -158,12 +163,19 @@ namespace Realm
                             Formatting.type("Not enough space.");
                         Formatting.type("Obtained '" + i.name + "'!");
                     }
+                    else if (input == "p")
+                    {
+                        string p_input = Console.ReadLine();
+                        Type atype = Type.GetType("Realm." + p_input);
+                        Item i = (Item)Activator.CreateInstance(atype);
+                        Player.primary = i;
+                    }
                     else if (input == "t")
                     {
                         string place_input = Console.ReadLine();
                         Type ptype = Type.GetType("Realm." + place_input);
                         Place p = (Place)Activator.CreateInstance(ptype);
-
+                        overrideplace = p;
                     }
                 }
                 else

@@ -7,14 +7,14 @@
     <framework targetVersion="4.5" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Realm.exe.manifest" size="5235">
+    <dependentAssembly dependencyType="install" codebase="Realm.exe.manifest" size="5236">
       <assemblyIdentity name="Realm.exe" version="1.0.0.0" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>lmTaggx+ZFl2A8xnHzid6KQoNMO9/OvgOguqq5fasWo=</dsig:DigestValue>
+        <dsig:DigestValue>K4/6P3m2f2xLWKCpSJprU0aDP3eKh8Ma9kMEnqQDBpo=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

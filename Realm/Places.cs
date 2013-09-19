@@ -50,6 +50,7 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
+            templist.Add('#');
             return templist.ToArray<char>();
         }
 
@@ -94,6 +95,9 @@ namespace Realm
                     if (Main.hasmap)
                         Formatting.drawmap();
                     break;
+                case '#':
+                    Save.SaveGame();
+                    break;
                 default:
                     return false;
             }
@@ -126,25 +130,49 @@ namespace Realm
         public override char[] getAvailableCommands()
         {
             if (!Main.wkingdead)
-                return new char[] { 'f', 'r' };
+                return new char[] { 'f', 'r', '#' };
             else
-                return new char[] { 'r' };
+                return new char[] { 'r', '#' };
         }
 
         public override bool handleInput(char input)
         {
-            switch (input)
+            if (!Main.wkingdead)
             {
-                case 'f':
-                    Main.BattleLoop(new WesternKing());
-                    break;
-                case 'r':
-                    Formatting.type("You escaped the Western King, but you're pretty damn lost now.");
-                    Globals.PlayerPosition.y -= 2;
-                    Main.MainLoop();
-                    break;
-                default:
-                    return false;
+                switch (input)
+                {
+                    case 'f':
+                        Main.BattleLoop(new WesternKing());
+                        Formatting.type("You weren't supposed to win this :/ -devs");
+                        Main.wkingdead = true;
+                        break;
+                    case 'r':
+                        Formatting.type("You escaped the Western King, but you're pretty damn lost now.");
+                        Globals.PlayerPosition.y -= 2;
+                        Main.MainLoop();
+                        break;
+                    case '#':
+                        Save.SaveGame();
+                        break;
+                    default:
+                        return false;
+                }
+            }
+            else
+            {
+                switch (input)
+                {
+                    case 'r':
+                        Formatting.type("You leave.");
+                        Globals.PlayerPosition.y -= 1;
+                        Main.MainLoop();
+                        break;
+                    case '#':
+                        Save.SaveGame();
+                        break;
+                    default:
+                        return false;
+                }
             }
             return true;
         }
@@ -176,6 +204,7 @@ namespace Realm
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('z');
+            templist.Add('#');
             return templist.ToArray<char>();
         }
 
@@ -183,6 +212,9 @@ namespace Realm
         {
             switch (input)
             {
+                case '#':
+                    Save.SaveGame();
+                    break;
                 case 'm':
                     if (Main.hasmap)
                         Formatting.drawmap();
@@ -206,11 +238,11 @@ namespace Realm
                         {
                             case 'y':
                                 Formatting.type("Amid the -trash- gear on the ground, you find a tile with the letter 'G' on it.");
-                                Main.Player.backpack.Add(globals.cardboard_armor);
+                                Main.Player.backpack.Add(new cardboard_armor());
                                 Formatting.type("Obtained 'Cardboard Armor'!");
-                                Main.Player.backpack.Add(globals.cardboard_sword);
+                                Main.Player.backpack.Add(new cardboard_sword());
                                 Formatting.type("Obtained 'Cardboard Shield'!");
-                                Main.Player.backpack.Add(globals.cardboard_shield);
+                                Main.Player.backpack.Add(new cardboard_shield());
                                 Formatting.type("Obtained 'Cardboard Shield'!");
                                 Main.forrestcounter++;
                                 break;
@@ -254,7 +286,9 @@ namespace Realm
             if (Globals.PlayerPosition.y > 0)
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
-                templist.Add('n'); templist.Add('v');
+                templist.Add('n'); 
+            templist.Add('v');
+            templist.Add('#');
             return templist.ToArray<char>();
         }
         public override Enemy getEnemyList()
@@ -265,6 +299,9 @@ namespace Realm
         {
             switch (input)
             {
+                case '#':
+                    Save.SaveGame();
+                    break;
                 case 'm':
                     if (Main.hasmap)
                         Formatting.drawmap();
@@ -310,10 +347,10 @@ namespace Realm
                             switch (__tempinput)
                             {
                                 case 'y':
-                                    if (Main.Purchase(11, globals.wood_staff))
+                                    if (Main.Purchase(11, new wood_staff()))
                                     {
                                         Formatting.type("Obtained 'Wood Staff'!");
-                                        Main.Player.backpack.Add(globals.plastic_ring);
+                                        Main.Player.backpack.Add(new plastic_ring());
                                         Formatting.type("Obtained 'Plastic Ring'!");
                                         Formatting.type("On the inside of the ring, the letter 'o' is embossed.");
                                         Formatting.type("You buy the staff and the ring. He grins, and you know you've been ripped off.");
@@ -375,7 +412,9 @@ namespace Realm
             if (Globals.PlayerPosition.y > 0)
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
-                templist.Add('n'); templist.Add('a');
+                templist.Add('n');
+            templist.Add('#');
+            templist.Add('a');
             templist.Add('l');
             templist.Add('i');
             return templist.ToArray<char>();
@@ -384,6 +423,9 @@ namespace Realm
         {
             switch (input)
             {
+                case '#':
+                    Save.SaveGame();
+                    break;
                 case 'm':
                     if (Main.hasmap)
                         Formatting.drawmap();
@@ -421,14 +463,14 @@ namespace Realm
                     switch (__tempinput)
                     {
                         case 'l':
-                            if (Main.Purchase(15, globals.iron_lance))
+                            if (Main.Purchase(15, new iron_lance()))
                             {
                                 Formatting.type("It's almost as if he doesn't even see you.");
                                 Formatting.type("Obtained 'Iron Lance'!");
                             }
                             break;
                         case 'b':
-                            if (Main.Purchase(10, globals.iron_buckler))
+                            if (Main.Purchase(10, new iron_buckler()))
                             {
                                 Formatting.type("It's almost as if he doesn't even see you.");
                                 Formatting.type("Obtained 'Iron Buckler'!");
@@ -513,7 +555,8 @@ namespace Realm
             if (Globals.PlayerPosition.y > 0)
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
-                templist.Add('n'); 
+                templist.Add('n');
+            templist.Add('#');
             templist.Add('i');
             templist.Add('v');
             return templist.ToArray<char>();
@@ -522,6 +565,9 @@ namespace Realm
         {
             switch (input)
             {
+                case '#':
+                    Save.SaveGame();
+                    break;
                 case 'm':
                     if (Main.hasmap)
                         Formatting.drawmap();
@@ -565,7 +611,7 @@ namespace Realm
                             switch (Console.ReadKey().KeyChar)
                             {
                                 case 'y':
-                                    if (Main.Purchase(15, globals.iron_band))
+                                    if (Main.Purchase(15, new iron_band()))
                                     {
                                         Formatting.type("He smiles weakly and thanks you.");
                                         Formatting.type("Obtained 'Iron Band'!");
@@ -620,7 +666,8 @@ namespace Realm
             if (Globals.PlayerPosition.y > 0)
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
-                templist.Add('n'); 
+                templist.Add('n');
+            templist.Add('#');
             templist.Add('y');
             return templist.ToArray<char>();
         }
@@ -628,6 +675,9 @@ namespace Realm
         {
             switch (input)
             {
+                case '#':
+                    Save.SaveGame();
+                    break;
                 case 'm':
                     if (Main.hasmap)
                         Formatting.drawmap();
@@ -764,6 +814,7 @@ namespace Realm
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('#');
             templist.Add('l');
             templist.Add('g');
             return templist.ToArray<char>();
@@ -772,6 +823,9 @@ namespace Realm
         {
             switch (input)
             {
+                case '#':
+                    Save.SaveGame();
+                    break;
                 case 'm':
                     if (Main.hasmap)
                         Formatting.drawmap();
@@ -853,7 +907,7 @@ namespace Realm
                     switch(Console.ReadKey().KeyChar)
                     {
                         case 'y':
-                            if (Main.Purchase(50, globals.bt_plate))
+                            if (Main.Purchase(50, new bt_plate()))
                                 Formatting.type("Obtained 'Bloodmail'!");
                             break;
                         case 'n':
@@ -899,7 +953,8 @@ namespace Realm
             if (Globals.PlayerPosition.y > 0)
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
-                templist.Add('n'); 
+                templist.Add('n');
+            templist.Add('#');
             templist.Add('a');
             templist.Add('l');
             templist.Add('i');
@@ -911,6 +966,9 @@ namespace Realm
         {
             switch (input)
             {
+                case '#':
+                    Save.SaveGame();
+                    break;
                 case 'm':
                     if (Main.hasmap)
                         Formatting.drawmap();
@@ -1000,19 +1058,19 @@ namespace Realm
                     switch(Console.ReadKey().KeyChar)
                     {
                         case 'r':
-                            Main.Purchase(30, globals.iron_rapier);
+                            Main.Purchase(30, new iron_rapier());
                             Formatting.type("Obtained 'Iron Rapier'!");
                             break;
                         case 'c':
-                            Main.Purchase(30, globals.iron_mail);
+                            Main.Purchase(30, new iron_mail());
                             Formatting.type("Obtained 'Iron Chainmail!'!");
                             break;
                         case 'b':
-                            Main.Purchase(25, globals.iron_buckler);
+                            Main.Purchase(25, new iron_buckler());
                             Formatting.type("Obtained 'Iron Buckler'!");
                             break;
                         case 'l':
-                            Main.Purchase(50, globals.bt_longsword);
+                            Main.Purchase(50, new bt_longsword());
                             Formatting.type("Obatined 'Bloodthirsty Longsword'!");
                             break;
                         default:
@@ -1026,14 +1084,14 @@ namespace Realm
                         switch (Console.ReadKey().KeyChar)
                         {
                             case 'b':
-                                if (Main.Purchase(50, globals.blood_amulet))
+                                if (Main.Purchase(50, new blood_amulet()))
                                     Formatting.type("Obtained 'Blood Amulet'!");
                                 break;
                             case 'a':
                                 if (Main.Purchase(50))
                                 {
                                     Formatting.type("He holds out his hand, and reality appears to bend around it. Kind of like the Degauss button on monitors from the 90's.");
-                                    Main.Player.abilities.AddCommand(new Combat.VorpalBlades("Vorbal Blades", 'v'));
+                                    Main.Player.abilities.AddCommand(new Combat.VorpalBlades("Vorpal Blades", 'v'));
                                     Formatting.type("Learned 'Vorpal Blade'!");
                                 }
                                 break;
@@ -1117,6 +1175,7 @@ namespace Realm
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('#');
             templist.Add('a');
             templist.Add('l');
             templist.Add('i');
@@ -1128,6 +1187,9 @@ namespace Realm
         {
             switch (input)
             {
+                case '#':
+                    Save.SaveGame();
+                    break;
                 case 'm':
                     if (Main.hasmap)
                         Formatting.drawmap();
@@ -1146,19 +1208,19 @@ namespace Realm
                     switch (Console.ReadKey().KeyChar)
                     {
                         case 'a':
-                            if (Main.Purchase(100, globals.ds_amulet))
+                            if (Main.Purchase(100, new ds_amulet()))
                                 Formatting.type("Obtained 'Darksteel Amulet'!");
                             break;
                         case 'c':
-                            if (Main.Purchase(110, globals.ds_scale))
+                            if (Main.Purchase(110, new ds_scale()))
                                 Formatting.type("Obatined 'Darksteel Scalemail'!");
                             break;
                         case 'k':
-                            if (Main.Purchase(80, globals.ds_kris))
+                            if (Main.Purchase(80, new ds_kris()))
                                 Formatting.type("Obtained 'Darksteel Kris!'!");
                             break;
                         case 's':
-                            if (Main.Purchase(100, globals.ds_kite))
+                            if (Main.Purchase(100, new ds_kite()))
                                 Formatting.type("Obtained 'Darksteel Kite Shield'!");
                             break;
                         default:
@@ -1229,6 +1291,7 @@ namespace Realm
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('#');
             templist.Add('a');
             templist.Add('i');
             return templist.ToArray<char>();
@@ -1237,6 +1300,9 @@ namespace Realm
         {
             switch (input)
             {
+                case '#':
+                    Save.SaveGame();
+                    break;
                 case 'm':
                     if (Main.hasmap)
                         Formatting.drawmap();
@@ -1258,12 +1324,12 @@ namespace Realm
                     switch(Console.ReadKey().KeyChar)
                     {
                         case 'b':
-                            if (Main.Purchase(55, globals.bt_battleaxe))
+                            if (Main.Purchase(55, new bt_battleaxe()))
                                 Formatting.type("Obtained 'Bloodthirsty Battleaxe'!");
                             Formatting.type("The old man grins.");
                             break;
                         case 'g':
-                            if (Main.Purchase(55, globals.bt_greatsword))
+                            if (Main.Purchase(55, new bt_greatsword()))
                                 Formatting.type("Obtained 'Bloodthirsty Greatsword'!");
                             Formatting.type("The old man grins.");
                             break;
@@ -1317,6 +1383,7 @@ namespace Realm
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('#');
             templist.Add('a');
             templist.Add('k');
             return templist.ToArray<char>();
@@ -1325,6 +1392,9 @@ namespace Realm
         {
             switch (input)
             {
+                case '#':
+                    Save.SaveGame();
+                    break;
                 case 'm':
                     if (Main.hasmap)
                         Formatting.drawmap();
@@ -1346,45 +1416,45 @@ namespace Realm
                     switch(Console.ReadKey().KeyChar)
                     {
                         case 'v':
-                            if (Main.Purchase(150, globals.void_cloak))
+                            if (Main.Purchase(150, new void_cloak()))
                             {
                                 Formatting.type("The toothless man reverently hands you artifact.");
                                 Formatting.type("Obtained 'Void Cloak'!");
                             }
                             break;
                         case 'i':
-                            if (Main.Purchase(150, globals.illusory_plate))
+                            if (Main.Purchase(150, new illusory_plate()))
                             {
                                 Formatting.type("The toothless man reverently hands you artifact.");
                                 Formatting.type("Obtained 'Illusory Plate'!");
                             }
                             break;
                         case 's':
-                            if (Main.Purchase(150, globals.spectral_bulwark))
+                            if (Main.Purchase(150, new spectral_bulwark()))
                             {
                                 Formatting.type("The toothless man reverently hands you artifact.");
                                 Formatting.type("Obtained 'Spectral Bulwark'!");
                             }
                             break;
                         case '3':
-                            if (Main.Purchase(300, globals.void_cloak))
+                            if (Main.Purchase(300, new void_cloak()))
                             {
                                 Formatting.type("Obtained 'Void Cloak'!");
                                 Formatting.type("Obtained 'Spectral Bulwark'!");
                                 Formatting.type("Obtained 'Illusory Plate'!");
 
                                 if (Main.Player.backpack.Count <= 10)
-                                    Main.Player.backpack.Add(globals.void_cloak);
+                                    Main.Player.backpack.Add(new void_cloak());
                                 else
                                     Formatting.type("Not enough space.");
 
                                 if (Main.Player.backpack.Count <= 10)
-                                    Main.Player.backpack.Add(globals.spectral_bulwark);
+                                    Main.Player.backpack.Add(new spectral_bulwark());
                                 else
                                     Formatting.type("Not enough space.");
 
                                 if (Main.Player.backpack.Count <= 10)
-                                    Main.Player.backpack.Add(globals.illusory_plate);
+                                    Main.Player.backpack.Add(new illusory_plate());
                                 else
                                     Formatting.type("Not enough space.");
                             }
@@ -1446,6 +1516,7 @@ namespace Realm
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('#');
             templist.Add('a');
             templist.Add('i');
             return templist.ToArray<char>();
@@ -1454,6 +1525,9 @@ namespace Realm
         {
             switch (input)
             {
+                case '#':
+                    Save.SaveGame();
+                    break;
                 case 'm':
                     if (Main.hasmap)
                         Formatting.drawmap();
@@ -1486,14 +1560,14 @@ namespace Realm
                     switch (Console.ReadKey().KeyChar)
                     {
                         case 'v':
-                            if (Main.Purchase(120, globals.sb_saber))
+                            if (Main.Purchase(120, new sb_saber()))
                             {
                                 Formatting.type("The child smiles gleefully and hands you the Sunburst Saber.");
                                 Formatting.type("Obtained 'Sunburst Saber'!");
                             }
                             break;
                         case 'i':
-                            if (Main.Purchase(100, globals.sb_shield))
+                            if (Main.Purchase(100, new sb_shield()))
                             {
                                 Formatting.type("The child smiles and hands you the Sunburst Shield.");
                                 Formatting.type("Obtained 'Sunburst Shield'!");
@@ -1537,6 +1611,7 @@ namespace Realm
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('#');
             templist.Add('a');
             templist.Add('i');
             return templist.ToArray<char>();
@@ -1545,6 +1620,9 @@ namespace Realm
         {
             switch (input)
             {
+                case '#':
+                    Save.SaveGame();
+                    break;
                 case 'm':
                     if (Main.hasmap)
                         Formatting.drawmap();
@@ -1566,12 +1644,12 @@ namespace Realm
                     switch (Console.ReadKey().KeyChar)
                     {
                         case 'r':
-                            Main.Purchase(150, globals.sb_chain);
+                            Main.Purchase(150, new sb_chain());
                             Formatting.type("The man hands you the Sunburst Ringmail.");
                             Formatting.type("Obtained 'Sunburst Ringmail'!");
                             break;
                         case 'g':
-                            Main.Purchase(150, globals.sb_gauntlet);
+                            Main.Purchase(150, new sb_gauntlet());
                             Formatting.type("The man hands you the Sunburst Gauntlet.");
                             Formatting.type("Obtained 'Sunburst Gauntlet'!");
                             break;
@@ -1619,6 +1697,7 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
+            templist.Add('#');
             templist.Add('c');
             templist.Add('l');
             return templist.ToArray<char>();
@@ -1627,6 +1706,9 @@ namespace Realm
         {
             switch (input)
             {
+                case '#':
+                    Save.SaveGame();
+                    break;
                 case 'm':
                     if (Main.hasmap)
                         Formatting.drawmap();
@@ -1640,7 +1722,7 @@ namespace Realm
                             Formatting.type("You challenge the mad king, and he stands from his obsidian throne, raven-feathered cloak swirling. He laughs a deep booming laugh and draws a wicked looking blade.");
                             Main.BattleLoop(new RavenKing(), true);
                             if (Main.Player.backpack.Count <= 10)
-                                Main.Player.backpack.Add(globals.phantasmal_claymore);
+                                Main.Player.backpack.Add(new phantasmal_claymore());
                             else
                                 Formatting.type("Not enough space.");
                             Formatting.type("The king falls to the ground, defeated. You pick up his night colored sword form the ground, and in your hand it changes to a shimmering blue claymore.");
