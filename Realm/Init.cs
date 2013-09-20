@@ -40,7 +40,11 @@ namespace Realm
                 Main.Tutorial();
             }
             else
+            {
                 Main.MainLoop();
+                Globals.PlayerPosition.x = 0;
+                Globals.PlayerPosition.y = 5;
+            }
         }
     }
 }

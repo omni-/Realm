@@ -25,6 +25,7 @@ namespace Realm
 
         public static int gbooks = 0;
 
+        public static bool raven_dead = false;
         public static bool is_theif = false;
         public static bool wkingdead = false;
 
@@ -192,17 +193,23 @@ namespace Realm
 
             int mana = 2 + Player.level;
             Formatting.type("You have entered combat! Ready your weapons!");
+            Formatting.type("Level " + enemy.level + " " + enemy.name + ":");
+            Formatting.type("-------------------------", 10);
+            Formatting.type("HP: " + enemy.hp);
+            Formatting.type("Attack: " + enemy.atk);
+            Formatting.type("Defense: " + enemy.def);
+            Formatting.type("-------------------------", 10);
             bool is_turn = enemy.spd < Player.spd;
             while (enemy.hp >= 0)
             {
+                Formatting.type("//////////////////////");
+                Formatting.type("Enemy HP: " + enemy.hp);
+                Formatting.type("Your HP: " + Player.hp);
+                Formatting.type("//////////////////////");
                 if (is_turn && !Player.stunned)
                 {
                     if (Main.Player.is_phased)
                         Main.Player.is_phased = false;
-                    Formatting.type(enemy.name + ":");
-                    Formatting.type("-------------------------", 10);
-                    Formatting.type("Enemy HP: " + enemy.hp);
-                    Formatting.type("-------------------------", 10);
 
                     Formatting.type("\r\nAVAILABLE MOVES:");
                     Formatting.type("=========================", 10);
@@ -300,9 +307,6 @@ namespace Realm
                     enemy.attack(out ability);
                     Formatting.type(enemy.name + " used " + ability);
                     Formatting.type("You take " + (oldhp - Main.Player.hp) + " damage!");
-                    Formatting.type("-------------------------", 10);
-                    Formatting.type("Your HP: " + Main.Player.hp);
-                    Formatting.type("-------------------------", 10);
                     if (Player.hp <= 0)
                     {
                         End.IsDead = true;
@@ -348,20 +352,26 @@ namespace Realm
 
             int mana = 2;
             Formatting.type("You have entered combat! Ready your weapons!");
+            Formatting.type("Level " + enemy.level + " " + enemy.name + ":");
+            Formatting.type("-------------------------", 10);
+            Formatting.type("HP: " + enemy.hp);
+            Formatting.type("Attack: " + enemy.atk);
+            Formatting.type("Defense: " + enemy.def);
+            Formatting.type("-------------------------", 10);
+
+            Formatting.type("\r\nAVAILABLE MOVES:");
+            Formatting.type("=========================", 10);
             bool is_turn = enemy.spd < Player.spd;
             while (enemy.hp >= 0)
             {
+                Formatting.type("//////////////////////");
+                Formatting.type("Enemy HP: " + enemy.hp);
+                Formatting.type("Your HP: " + Player.hp);
+                Formatting.type("//////////////////////");
                 if (is_turn && !Player.stunned)
                 {
                     if (Main.Player.is_phased)
                         Main.Player.is_phased = false;
-                    Formatting.type(enemy.name + ":");
-                    Formatting.type("-------------------------", 10);
-                    Formatting.type("Enemy HP: " + enemy.hp);
-                    Formatting.type("-------------------------", 10);
-
-                    Formatting.type("\r\nAVAILABLE MOVES:");
-                    Formatting.type("=========================", 10);
                     if (Main.Player.fire >= 3)
                         Main.Player.on_fire = false;
                     if (Main.Player.on_fire)
@@ -456,9 +466,6 @@ namespace Realm
                     enemy.attack(out ability);
                     Formatting.type(enemy.name + " used " + ability);
                     Formatting.type("You take " + (oldhp - Main.Player.hp) + " damage!");
-                    Formatting.type("-------------------------", 10);
-                    Formatting.type("Your HP: " + Main.Player.hp);
-                    Formatting.type("-------------------------", 10);
                     if (Player.hp <= 0)
                     {
                         End.IsDead = true;

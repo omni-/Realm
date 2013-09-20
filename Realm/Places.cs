@@ -1714,28 +1714,32 @@ namespace Realm
                         Formatting.drawmap();
                     break;
                 case 'c':
-                    Formatting.type("You climb 18 flights of obsidian stairs. You're kind of huffing an puffing at this point, but you stand before the mad king who rules RavenKeep.");
-                    Formatting.type("Challenge him, or run? (f/r).");
-                    switch (Console.ReadKey().KeyChar)
+                    if (Main.raven_dead)
                     {
-                        case 'f':
-                            Formatting.type("You challenge the mad king, and he stands from his obsidian throne, raven-feathered cloak swirling. He laughs a deep booming laugh and draws a wicked looking blade.");
-                            Main.BattleLoop(new RavenKing(), true);
-                            if (Main.Player.backpack.Count <= 10)
-                                Main.Player.backpack.Add(new phantasmal_claymore());
-                            else
-                                Formatting.type("Not enough space.");
-                            Formatting.type("The king falls to the ground, defeated. You pick up his night colored sword form the ground, and in your hand it changes to a shimmering blue claymore.");
-                            Formatting.type("Obtained 'Phantasmal Claymore'!");
-                            Formatting.type("A blue portal opens up with the glowing letter 'l' above it. You yell 'Jeronimo!' and jump through.");
-                            Globals.PlayerPosition.x = 2;
-                            Globals.PlayerPosition.y = 2;
-                            break;
-                        case 'r':
-                            Formatting.type("You run back down the stairs like this sissy cRAVEN you are.");
-                            break;
+                        Formatting.type("You climb 18 flights of obsidian stairs. You're kind of huffing an puffing at this point, but you stand before the mad king who rules RavenKeep.");
+                        Formatting.type("Challenge him, or run? (f/r).");
+                        switch (Console.ReadKey().KeyChar)
+                        {
+                            case 'f':
+                                Formatting.type("You challenge the mad king, and he stands from his obsidian throne, raven-feathered cloak swirling. He laughs a deep booming laugh and draws a wicked looking blade.");
+                                Main.BattleLoop(new RavenKing(), true);
+                                if (Main.Player.backpack.Count <= 10)
+                                    Main.Player.backpack.Add(new phantasmal_claymore());
+                                else
+                                    Formatting.type("Not enough space.");
+                                Formatting.type("The king falls to the ground, defeated. You pick up his night colored sword form the ground, and in your hand it changes to a shimmering blue claymore.");
+                                Formatting.type("Obtained 'Phantasmal Claymore'!");
+                                Formatting.type("A blue portal opens up with the glowing letter 'l' above it. You yell 'Jeronimo!' and jump through.");
+                                Globals.PlayerPosition.x = 2;
+                                Globals.PlayerPosition.y = 2;
+                                break;
+                            case 'r':
+                                Formatting.type("You run back down the stairs like this sissy cRAVEN you are.");
+                                break;
+                        }
                     }
-                    
+                    else
+                        Formatting.type("There's no one here.");
                     break;
                 case 'l':
                     Formatting.type("Coward.");

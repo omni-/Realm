@@ -9,6 +9,7 @@ namespace Realm
     public class Enemy
     {
         public string name;
+        public int level;
         public int hp;
         public int atk;
         public int def;
@@ -39,6 +40,10 @@ namespace Realm
             Formatting.type("You gained " + xp + " xp.");
             Main.Player.xp += xp;
         }
+        public Enemy()
+        {
+            level = Main.Player.level;
+        }
     }
 
     public class Slime : Enemy
@@ -46,10 +51,10 @@ namespace Realm
         public Slime()
         {
             name = "Slime";
-            hp = 5;
-            atk = 2;
-            def = 0;
-            spd = 0;
+            hp = 5 + (level / 2);
+            atk = 2  + (level / 2);
+            def = 0  + (level / 2);
+            spd = 0 + (level / 2);
             xpdice = 10;
             gpdice = 1;
             abilities = new List<string>();
@@ -86,10 +91,10 @@ namespace Realm
         public Goblin()
         {
             name = "Goblin";
-            hp = 8;
-            atk = 3;
-            def = 1;
-            spd = 1;
+            hp = 8 + (level / 2);
+            atk = 3 + (level / 2);
+            def = 1 + (level / 2);
+            spd = 1 + (level / 2);
             xpdice = 15;
             gpdice = 3;
             abilities = new List<string>();
@@ -132,10 +137,10 @@ namespace Realm
         public Bandit()
         {
             name = "Bandit";
-            hp = 12;
-            atk = 1;
-            def = 0;
-            spd = 3;
+            hp = 12 + (level / 2);
+            atk = 1 + (level / 2);
+            def = 0 + (level / 2);
+            spd = 3 + (level / 2);
             xpdice = 18;
             gpdice = 3;
             abilities = new List<string>();
@@ -177,12 +182,12 @@ namespace Realm
         public WesternKing()
         {
             name = "Western King";
-            hp = 50;
-            atk = 50;
-            def = 35;
-            spd = 25;
-            xpdice = 100;
-            gpdice = 100;
+            hp = 50 + (level / 2);
+            atk = 50 + (level / 2);
+            def = 35 + (level / 2);
+            spd = 25 + (level / 2);
+            xpdice = 100 + (level / 2);
+            gpdice = 100 + (level / 2);
             abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("Terminate");
@@ -217,10 +222,10 @@ namespace Realm
         public Drake()
         {
             name = "Drake";
-            hp = 30;
-            atk = 15;
-            def = 10;
-            spd = 15;
+            hp = 30 + (level / 2);
+            atk = 15 + (level / 2);
+            def = 10 + (level / 2);
+            spd = 15 + (level / 2);
             xpdice = 75;
             gpdice = 75;
             abilities = new List<string>();
@@ -266,10 +271,10 @@ namespace Realm
         public RavenKing()
         {
             name = "Raven King";
-            hp = 250;
-            atk = 45;
-            def = 20;
-            spd = 25;
+            hp = 250 + (level / 2);
+            atk = 45 + (level / 2);
+            def = 20 + (level / 2);
+            spd = 25 + (level / 2);
             xpdice = 80;
             gpdice = 80;
             abilities = new List<string>();
@@ -316,12 +321,12 @@ namespace Realm
         public finalboss()
         {
             name = "Janus";
-            hp = 750;
-            atk = 150;
-            def = 85;
-            spd = 60;
-            xpdice = 1;
-            gpdice = 1;
+            hp = 750 + (level / 2);
+            atk = 150 + (level / 2);
+            def = 85 + (level / 2);
+            spd = 60 + (level / 2);
+            xpdice = 1 + (level / 2);
+            gpdice = 1 + (level / 2);
             abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("Illusory Slash");

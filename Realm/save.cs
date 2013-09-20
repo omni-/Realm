@@ -34,14 +34,14 @@ namespace Realm
                 lines.Add("armor=" + Main.Player.armor);
             if (!Main.Player.accessory.Equals(new Item()))
                 lines.Add("accessory=" + Main.Player.accessory);
-            lines.Add("ppx=" + Globals.PlayerPosition.x);
-            lines.Add("ppy=" + Globals.PlayerPosition.y);
             lines.Add("level=" + Main.Player.level);
             lines.Add("hp=" + Main.Player.hp);
             if (Main.hasmap)
                 lines.Add("hasmap=true");
             if (Main.wkingdead)
                 lines.Add("wkingdead=true");
+            if (Main.raven_dead)
+                lines.Add("ravendead=true");
             if (Main.devmode)
                 lines.Add("devmode=true");
             lines.Add("g=" + Main.Player.g);
@@ -58,10 +58,11 @@ namespace Realm
                 File.Create(path);
                 return false;
             }
-            else if (new FileInfo("save.txt").Length == 0)
+            else if (File.Exists(path) && new FileInfo("save.txt").Length == 0 )
             {
                 Formatting.type("Save file empty.");
                 return false;
+            
             }
             else
             {
@@ -84,16 +85,14 @@ namespace Realm
                         }
                         if (entry.Key == "name")
                             Main.Player.name = entry.Value;
-                        if (entry.Key == "ppx")
-                            Globals.PlayerPosition.x = Convert.ToInt32(entry.Value);
-                        if (entry.Key == "ppx")
-                            Globals.PlayerPosition.y = Convert.ToInt32(entry.Value);
                         if (entry.Key == "level")
                             Main.Player.level = Convert.ToInt32(entry.Value);
                         if (entry.Key == "hasmap")
                             Main.hasmap = true;
                         if (entry.Key == "wkingdead")
                             Main.wkingdead = true;
+                        if (entry.Key == "ravendead")
+                            Main.raven_dead = true;
                         if (entry.Key == "hp")
                             Main.Player.hp = Convert.ToInt32(entry.Value);
                         if (entry.Key == "g")
