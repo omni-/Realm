@@ -734,7 +734,7 @@ namespace Realm
                                                             switch (Console.ReadKey().KeyChar)
                                                             {
                                                                 case 'y':
-                                                                    Main.Player.abilities.AddCommand(new Combat.ConsumeSoul("Consume Soul", 'e'));
+                                                                    Main.Player.abilities.AddCommand(new Combat.ConsumeSoul("Consume Soul", 'u'));
                                                                     Formatting.type(" Learned 'Consume Soul'!");
                                                                     break;
                                                                 case 'n':
@@ -1728,7 +1728,7 @@ namespace Realm
                         Formatting.drawmap();
                     break;
                 case 'c':
-                    if (Main.raven_dead)
+                    if (!Main.raven_dead)
                     {
                         Formatting.type("You climb 18 flights of obsidian stairs. You're kind of huffing an puffing at this point, but you stand before the mad king who rules RavenKeep.");
                         Formatting.type("Challenge him, or run? (f/r).");
