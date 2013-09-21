@@ -67,7 +67,21 @@ namespace Realm
             return IsFound;
         }
 
-        public virtual bool handleInput(char input)
+        public virtual void handleInput(char input)
+        {
+            bool inputHandled = false;
+            while (!inputHandled)
+            {
+                inputHandled = _handleInput(input);
+                if (!inputHandled)
+                {
+                    Formatting.type("Invalid.");
+                    Formatting.type("");
+                    input = Console.ReadKey().KeyChar;
+                }
+            }
+        }
+        public virtual bool _handleInput(char input)
         {
             switch (input)
             {
@@ -135,7 +149,7 @@ namespace Realm
                 return new char[] { 'r', '#' };
         }
 
-        public override bool handleInput(char input)
+        public override bool _handleInput(char input)
         {
             if (!Main.wkingdead)
             {
@@ -143,7 +157,7 @@ namespace Realm
                 {
                     case 'f':
                         Main.BattleLoop(new WesternKing());
-                        Formatting.type("You weren't supposed to win this :/ -devs");
+                        Formatting.type("Somehow, you managed to beat the Western King. *ahem* Cheater *ahem*");
                         Main.wkingdead = true;
                         break;
                     case 'r':
@@ -208,7 +222,7 @@ namespace Realm
             return templist.ToArray<char>();
         }
 
-        public override bool handleInput(char input)
+        public override bool _handleInput(char input)
         {
             switch (input)
             {
@@ -295,7 +309,7 @@ namespace Realm
         {
             return null;
         }
-        public override bool handleInput(char input)
+        public override bool _handleInput(char input)
         {
             switch (input)
             {
@@ -419,7 +433,7 @@ namespace Realm
             templist.Add('i');
             return templist.ToArray<char>();
         }
-        public override bool handleInput(char input)
+        public override bool _handleInput(char input)
         {
             switch (input)
             {
@@ -561,7 +575,7 @@ namespace Realm
             templist.Add('v');
             return templist.ToArray<char>();
         }
-        public override bool handleInput(char input)
+        public override bool _handleInput(char input)
         {
             switch (input)
             {
@@ -671,7 +685,7 @@ namespace Realm
             templist.Add('y');
             return templist.ToArray<char>();
         }
-        public override bool handleInput(char input)
+        public override bool _handleInput(char input)
         {
             switch (input)
             {
@@ -819,7 +833,7 @@ namespace Realm
             templist.Add('g');
             return templist.ToArray<char>();
         }
-        public override bool handleInput(char input)
+        public override bool _handleInput(char input)
         {
             switch (input)
             {
@@ -962,7 +976,7 @@ namespace Realm
             templist.Add('o');
             return templist.ToArray<char>();
         }
-        public override bool handleInput(char input)
+        public override bool _handleInput(char input)
         {
             switch (input)
             {
@@ -1183,7 +1197,7 @@ namespace Realm
             templist.Add('o');
             return templist.ToArray<char>();
         }
-        public override bool handleInput(char input)
+        public override bool _handleInput(char input)
         {
             switch (input)
             {
@@ -1296,7 +1310,7 @@ namespace Realm
             templist.Add('i');
             return templist.ToArray<char>();
         }
-        public override bool handleInput(char input)
+        public override bool _handleInput(char input)
         {
             switch (input)
             {
@@ -1388,7 +1402,7 @@ namespace Realm
             templist.Add('k');
             return templist.ToArray<char>();
         }
-        public override bool handleInput(char input)
+        public override bool _handleInput(char input)
         {
             switch (input)
             {
@@ -1521,7 +1535,7 @@ namespace Realm
             templist.Add('i');
             return templist.ToArray<char>();
         }
-        public override bool handleInput(char input)
+        public override bool _handleInput(char input)
         {
             switch (input)
             {
@@ -1616,7 +1630,7 @@ namespace Realm
             templist.Add('i');
             return templist.ToArray<char>();
         }
-        public override bool handleInput(char input)
+        public override bool _handleInput(char input)
         {
             switch (input)
             {
@@ -1702,7 +1716,7 @@ namespace Realm
             templist.Add('l');
             return templist.ToArray<char>();
         }
-        public override bool handleInput(char input)
+        public override bool _handleInput(char input)
         {
             switch (input)
             {

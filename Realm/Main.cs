@@ -46,13 +46,14 @@ namespace Realm
             Formatting.type("You are now ready to play Realm. Good luck!");
             Formatting.type("Press any key to continue.");
             Console.ReadKey();
+            Globals.PlayerPosition.x = 0;
+            Globals.PlayerPosition.y = 5;
             MainLoop();
         }
         public static void MainLoop()
         {
             game_state = 0;
             Place currPlace;
-            Place overrideplace = new Place();
             if (devmode)
             {
                 Player.primary = new phantasmal_claymore();
@@ -70,10 +71,7 @@ namespace Realm
             {
                 Enemy enemy = new Enemy();
                 Player.levelup();
-                if (overrideplace.Equals(new Place()))
-                    currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
-                else
-                    currPlace = overrideplace;
+                currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
                 if (Player.hp > Player.maxhp)
                     Player.hp = Player.maxhp;
                 if (loop_number >= 1)
@@ -176,7 +174,6 @@ namespace Realm
                         string place_input = Console.ReadLine();
                         Type ptype = Type.GetType("Realm." + place_input);
                         Place p = (Place)Activator.CreateInstance(ptype);
-                        overrideplace = p;
                     }
                 }
                 else

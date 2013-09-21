@@ -34,16 +34,15 @@ namespace Realm
                     Globals.PlayerPosition.y = 5;
                     Main.MainLoop();
                 }
-                //Formatting.type("You are the Hero of the Western Kingdom. The Western King has called for your\r\npresence.");
                 Globals.PlayerPosition.x = 0;
                 Globals.PlayerPosition.y = 5;
                 Main.Tutorial();
             }
             else
             {
-                Main.MainLoop();
                 Globals.PlayerPosition.x = 0;
                 Globals.PlayerPosition.y = 5;
+                Main.MainLoop();
             }
         }
     }

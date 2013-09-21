@@ -52,7 +52,7 @@ namespace Realm
         {
             name = "Slime";
             hp = 5 + (level / 2);
-            atk = 2  + (level / 2);
+            atk = 1  + (level / 2);
             def = 0  + (level / 2);
             spd = 0 + (level / 2);
             xpdice = 10;
@@ -182,7 +182,7 @@ namespace Realm
         public WesternKing()
         {
             name = "Western King";
-            hp = 50 + (level / 2);
+            hp = 150 + (level / 2);
             atk = 50 + (level / 2);
             def = 35 + (level / 2);
             spd = 25 + (level / 2);
