@@ -132,7 +132,7 @@ namespace Realm
             if (Main.wkingcounter <= 1)
             {
                 Main.wkingcounter++;
-                return "King: 'Come, " + Main.Player.name + ". I plan to give you the ultimate gift, eternal respite. You're not sure why he has called you but you don't like it. The Western King approaches and unsheathes his blade emitting a strong aura of bloodlust. He seems to hav powers far beyond anything you can imagine. Fight(f) or run(r)?";
+                return "King: 'Come, " + Main.Player.name + ". I plan to give you the ultimate gift, eternal respite. You're not sure why he has called you but you don't like it. The Western King approaches and unsheathes his blade emitting a strong aura of bloodlust. He seems to have powers far beyond anything you can imagine. Fight(f) or run(r)?";
             }
             else
                 return "Back so soon?";
