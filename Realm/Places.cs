@@ -132,7 +132,7 @@ namespace Realm
             if (Main.wkingcounter <= 1)
             {
                 Main.wkingcounter++;
-                return "King: 'Come, " + Main.Player.name + ". I plan to give you the ultimate gift, eternal respite. You're not sure why he has called you but you don't like it. The Western King approaches and unsheathes his blade emitting a strong aura of  bloodlust. Fight(f) or run(r)?";
+                return "King: 'Come, " + Main.Player.name + ". I plan to give you the ultimate gift, eternal respite. You're not sure why he has called you but you don't like it. The Western King approaches and unsheathes his blade emitting a strong aura of bloodlust. He seems to hav powers far beyond anything you can imagine. Fight(f) or run(r)?";
             }
             else
                 return "Back so soon?";
@@ -1094,7 +1094,7 @@ namespace Realm
                 case 'q':
                     if (Main.magiccounter == 0)
                     {
-                        Formatting.type("You arrive at a shifty magic dealer in a back alley. He offers to sell you a Blood Amulet(b, 50), a new ability(a, 50), or sell you a secret (s, 50).");
+                        Formatting.type("You arrive at a shifty magic dealer in a back alley. He says, 'Hey! " + Main.Player.name + "! I can sell you this Blood Amulet(b, 50), a new ability(a, 50), or secret (s, 50). You game? You're not sure how he knows your name, but it freaks you out.");
                         switch (Console.ReadKey().KeyChar)
                         {
                             case 'b':

@@ -600,16 +600,18 @@ namespace Realm
         {
             if (magiccounter >= 1)
                 Formatting.type("You recognize the magic man from the alley in Central. It is he who stands before you.");
-            Formatting.type("'I am Janus.' The mand before you says. You stand in front of the protetorate, Janus. He says 'Have you realized that this world is an illusion?' You nod your head and reach towards the book behind him. 'You will result in the Realm's demise, you must be wiped.");
+            Formatting.type("'I am Janus.' The mand before you says. You stand in front of the protetorate, Janus. He says '" + Player.name + ", have you realized that this world is an illusion?' You nod your head. 'You will result in the Realm's demise, you must be purged. Shimmering light gathers around him, and beams of blue light blast out of him.");
             Formatting.type("I regret to say, but we must fight.");
             BattleLoop(new finalboss(), true);
             Formatting.type("Janus defeated, the world vanishes and you both are standing on glass in a blank world of black void.");
             Formatting.type("The protectorate kneels on the ground in front of you. 'Do you truly wish to end the illusion?', he says. You look at him without uttering a word. 'Very well, I must ask of you one last favor even though the realm is no more, do not let the realm vanish from within you. Everything around you goes black. (Press any key to continue)");
             Console.ReadKey();
             Console.Clear();
-            Formatting.type("A child awakes from his sleep and looks out the window feeling fulfilled as if a story has come to a close");
-            End.IsDead = true;
-            End.GameOver();
+            Credits();
+        }
+        public static void Credits()
+        {
+            Formatting.type("A child awakes from his sleep and looks out the window feeling fulfilled as if a story has come to a close.");
         }
         public static void SammysAdventure()
         {

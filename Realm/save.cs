@@ -45,8 +45,20 @@ namespace Realm
                 lines.Add("wkingdead=true");
             if (Main.raven_dead)
                 lines.Add("ravendead=true");
+            if (Main.is_theif)
+                lines.Add("is_thief=true");
             if (Main.devmode)
                 lines.Add("devmode=true");
+            lines.Add("wkingcounter=" + Main.wkingcounter);
+            lines.Add("slibcounter=" + Main.slibcounter);
+            lines.Add("forrestcounter=" + Main.forrestcounter);
+            lines.Add("libcounter=" + Main.libcounter);
+            lines.Add("centrallibcounter=" + Main.centrallibcounter);
+            lines.Add("ramsaycounter=" + Main.ramsaycounter);
+            lines.Add("magiccounter=" + Main.magiccounter);
+            lines.Add("nlibcounter=" + Main.nlibcounter);
+            lines.Add("townfolkcounter=" + Main.townfolkcounter);
+            lines.Add("nomadcounter=" + Main.nomadcounter);
             lines.Add("g=" + Main.Player.g);
             lines.Add("xp=" + Main.Player.xp);
             string[] linesarray = lines.ToArray<string>();
@@ -233,7 +245,7 @@ namespace Realm
                             Main.nomadcounter = Convert.ToInt32(entry.Value);
                         if (entry.Key == "gbooks")
                             Main.gbooks = Convert.ToInt32(entry.Value);
-                        if (entry.Key == "isthief")
+                        if (entry.Key == "is_thief")
                             Main.is_theif = true;
                     }
                     Formatting.type("Done.");

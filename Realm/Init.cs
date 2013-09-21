@@ -16,7 +16,7 @@ namespace Realm
             if (!Save.LoadGame())
             {
                 Formatting.type("\"Greetings. Before we begin, I must know your name.\"");
-                Formatting.type("Please enter your name.\r\n");
+                Formatting.type("Please enter your name. ");
                 Main.Player.name = Console.ReadLine();
                 if (Main.Player.name == "__dev__")
                 {

@@ -552,9 +552,9 @@ namespace Realm
         }
         public void applybonus()
         {
-            maxhp = 10 + (level);
+            maxhp = 11 + (level);
             def = 0 + (level / 2);
-            atk = 1 + (level / 2);
+            atk = 2 + (level / 2);
             intl = 1 + (level / 2);
             spd = 1 + (level / 2);
 

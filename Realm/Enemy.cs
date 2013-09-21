@@ -75,8 +75,8 @@ namespace Realm
             }
             else if (Combat.DecideAttack(abilities) == "SuperSlimySlam")
             {
-                double damage = Combat.Dice.roll(atk, atk * 2);
-                dmg = Math.Max((Convert.ToInt32(damage) - Main.Player.def), 0);
+                double damage = Combat.Dice.roll(1, (atk * 2) + 1);
+                dmg = (Convert.ToInt32(damage) - Main.Player.def);
                 ability_used = "Super Slimy Slam";
             }
             if (dmg <= 0)
