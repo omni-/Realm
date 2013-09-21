@@ -16,7 +16,7 @@ namespace Realm
             if (IsDead)
             {
                 Formatting.type("Game Over. Press any key to exit, esc during non-combat to exit. Your save has been deleted.");
-                string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\save.txt";
+                string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\mysave.rlm";
                 if (File.Exists(path))
                     File.Delete(path);
                 Console.ReadKey();

@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Realm
 {
     public class Save
     {
+        public static string key = "???t\0sl";
         public static void SaveGame()
         {
 
-            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\save.txt";
+            string tpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm";
+            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\save.rlm";
             Formatting.type("Saving...");
             List<string> lines = new List<string>();
+            lines.Add("name=" + Main.Player.name);
             foreach (Combat.Command c in Main.Player.abilities.commands.Values)
                 lines.Add(c.name + "=true");
 
@@ -45,33 +48,26 @@ namespace Realm
             if (Main.devmode)
                 lines.Add("devmode=true");
             lines.Add("g=" + Main.Player.g);
-            lines.Add("xp=" + Main.Player.hp);
+            lines.Add("xp=" + Main.Player.xp);
             string[] linesarray = lines.ToArray<string>();
-            File.WriteAllLines(path, linesarray);
+            File.WriteAllLines(tpath, linesarray);
             Formatting.type("Done.");
+            EncryptFile(tpath, path, key);
         }
         public static bool LoadGame()
         {
-            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\save.txt";
-            if (!File.Exists(path))
+            string tpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm";
+            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\save.rlm";
+            try
             {
-                File.Create(path);
-                return false;
-            }
-            else if (File.Exists(path) && new FileInfo("save.txt").Length == 0 )
-            {
-                Formatting.type("Save file empty.");
-                return false;
-            
-            }
-            else
-            {
-                try
+                if (!File.Exists(path))
+                    return false;
+                Formatting.type("Loading Save...");
+                DecryptFile(path, tpath, key);
+                Dictionary<string, string> vals = new Dictionary<string, string>();
+                string line;
+                using (StreamReader file = new StreamReader(tpath))
                 {
-                    Formatting.type("Loading Save...");
-                    Dictionary<string, string> vals = new Dictionary<string, string>();
-                    string line;
-                    StreamReader file = new StreamReader(path);
                     while ((line = file.ReadLine()) != null)
                     {
                         string[] split = line.Split(new char[] { '=' });
@@ -101,67 +97,67 @@ namespace Realm
                             Main.Player.xp = Convert.ToInt32(entry.Value);
                         if (entry.Key == "bp1")
                         {
-                            Type atype = Type.GetType("Realm." + entry.Value);
+                            Type atype = Type.GetType(entry.Value);
                             Item i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp2")
                         {
-                            Type atype = Type.GetType("Realm." + entry.Value);
+                            Type atype = Type.GetType(entry.Value);
                             Item i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp3")
                         {
-                            Type atype = Type.GetType("Realm." + entry.Value);
+                            Type atype = Type.GetType(entry.Value);
                             Item i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp4")
                         {
-                            Type atype = Type.GetType("Realm." + entry.Value);
+                            Type atype = Type.GetType(entry.Value);
                             Item i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp5")
                         {
-                            Type atype = Type.GetType("Realm." + entry.Value);
+                            Type atype = Type.GetType(entry.Value);
                             Item i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp6")
                         {
-                            Type atype = Type.GetType("Realm." + entry.Value);
+                            Type atype = Type.GetType(entry.Value);
                             Item i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp7")
                         {
-                            Type atype = Type.GetType("Realm." + entry.Value);
+                            Type atype = Type.GetType(entry.Value);
                             Item i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp7")
                         {
-                            Type atype = Type.GetType("Realm." + entry.Value);
+                            Type atype = Type.GetType(entry.Value);
                             Item i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp8")
                         {
-                            Type atype = Type.GetType("Realm." + entry.Value);
+                            Type atype = Type.GetType(entry.Value);
                             Item i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp9")
                         {
-                            Type atype = Type.GetType("Realm." + entry.Value);
+                            Type atype = Type.GetType(entry.Value);
                             Item i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp10")
                         {
-                            Type atype = Type.GetType("Realm." + entry.Value);
+                            Type atype = Type.GetType(entry.Value);
                             Item i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
@@ -242,15 +238,57 @@ namespace Realm
                     }
                     Formatting.type("Done.");
                     file.Close();
+                    File.Delete(tpath);
                     return true;
                 }
-                catch (Exception e)
-                {
-                    Formatting.type("Load failed.");
-                    Formatting.type(e.ToString(), 0);
-                    return false;
-                }
             }
+            catch (IOException e)
+            {
+                Formatting.type("Load failed.");
+                Formatting.type(e.ToString(), 0);
+                return false;
+            }
+        }
+
+        static void EncryptFile(string sInputFilename, string sOutputFilename, string sKey)
+        {
+            FileStream fsInput = new FileStream(sInputFilename,
+               FileMode.Open, FileAccess.Read);
+            FileStream fsEncrypted = new FileStream(sOutputFilename,
+               FileMode.OpenOrCreate, FileAccess.Write);
+            DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
+            DES.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
+            DES.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
+            ICryptoTransform desencrypt = DES.CreateEncryptor();
+            CryptoStream cryptostream = new CryptoStream(fsEncrypted,
+               desencrypt, CryptoStreamMode.Write);
+            byte[] bytearrayinput = new byte[fsInput.Length];
+            fsInput.Read(bytearrayinput, 0, bytearrayinput.Length);
+            cryptostream.Write(bytearrayinput, 0, bytearrayinput.Length);
+            cryptostream.Close();
+            fsInput.Close();
+            fsEncrypted.Close();
+            File.Delete(sInputFilename);
+        }
+
+        static void DecryptFile(string sInputFilename, string sOutputFilename, string sKey)
+        {
+            DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
+            DES.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
+            DES.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
+
+            FileStream fsread = new FileStream(sInputFilename, FileMode.Open, FileAccess.Read);
+            ICryptoTransform desdecrypt = DES.CreateDecryptor();
+            CryptoStream cryptostreamDecr = new CryptoStream(fsread,
+               desdecrypt, CryptoStreamMode.Read);
+            if (!File.Exists(sOutputFilename))
+                File.Create(sOutputFilename).Close();
+            StreamWriter fsDecrypted = new StreamWriter(sOutputFilename);
+            fsDecrypted.Write(new StreamReader(cryptostreamDecr).ReadToEnd());
+            fsDecrypted.Flush();
+            fsDecrypted.Close();
+            fsread.Close();
+            //File.Delete(sInputFilename);
         }
     }
 }

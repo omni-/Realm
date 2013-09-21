@@ -12,7 +12,7 @@ namespace Realm
     {
         public static void Initialize()
         {
-            Formatting.type("Version Number - 1.1.8");
+            Formatting.type("Version Number - 1.2.0");
             if (!Save.LoadGame())
             {
                 Formatting.type("\"Greetings. Before we begin, I must know your name.\"");

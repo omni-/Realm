@@ -16,9 +16,6 @@ namespace Realm
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow); private const int HIDE = 0; private const int MAXIMIZE = 3; private const int MINIMIZE = 6; private const int RESTORE = 9;
         static void Main(string[] args)
         {
-            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\save.txt";
-            if (!File.Exists(path))
-                File.Create(path);
             Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight); ShowWindow(ThisConsole, MAXIMIZE);
             Init.Initialize();
         }
