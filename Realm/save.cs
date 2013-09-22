@@ -29,6 +29,7 @@ namespace Realm
                 lines.Add("bp" + bpcounter + "=" + i);
                 bpcounter++;
             }
+            lines.Add("race=" + Main.Player.race);
             if (!Main.Player.primary.Equals(new Item()))
                 lines.Add("primary=" + Main.Player.primary);
             if (!Main.Player.secondary.Equals(new Item()))
@@ -107,6 +108,8 @@ namespace Realm
                             Main.Player.g = Convert.ToInt32(entry.Value);
                         if (entry.Key == "xp")
                             Main.Player.xp = Convert.ToInt32(entry.Value);
+                        if (entry.Key == "race")
+                            Main.Player.race = entry.Value;
                         if (entry.Key == "bp1")
                         {
                             Type atype = Type.GetType(entry.Value);

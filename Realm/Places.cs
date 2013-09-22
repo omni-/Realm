@@ -300,7 +300,7 @@ namespace Realm
             if (Globals.PlayerPosition.y > 0)
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
-                templist.Add('n'); 
+                templist.Add('n');
             templist.Add('v');
             templist.Add('#');
             return templist.ToArray<char>();
@@ -918,7 +918,7 @@ namespace Realm
                     break;
                 case 'g':
                     Formatting.type("The Smith's Guild only has their cumulative project for sale. It's a masterpiece, but very expensive. Buy Bloodmail for 50 gold? (y/n)");
-                    switch(Console.ReadKey().KeyChar)
+                    switch (Console.ReadKey().KeyChar)
                     {
                         case 'y':
                             if (Main.Purchase(50, new bt_plate()))
@@ -1011,11 +1011,11 @@ namespace Realm
                                 Formatting.type("You become enlightened in the ways of the elder wizard Alcywn.");
                                 Formatting.type("Learned 'Curse'!");
                                 Main.Player.abilities.AddCommand(new Combat.Curse("Curse", 'c'));
-                                
                                 break;
                             case 'g':
-                                Formatting.type("Now skilled in the art of stealing, you gain 10% more gold.");
+                                Formatting.type("Now skilled in the art of stealing, you gain 10% more gold. You also feel faster.");
                                 Main.is_theif = true;
+                                Main.Player.spd += 2;
                                 break;
                             case 's':
                                 Formatting.type("You become skilled in the art of sacrifice.");
@@ -1034,10 +1034,10 @@ namespace Realm
                                 break;
                             case 'j':
                                 Formatting.type("You open the book and find dice inside. Do you wish to roll?(y/n)");
-                                switch(Console.ReadKey().KeyChar)
+                                switch (Console.ReadKey().KeyChar)
                                 {
                                     case 'y':
-                                        int abilchance = Combat.Dice.roll(1,6);
+                                        int abilchance = Combat.Dice.roll(1, 6);
                                         if (abilchance == 6)
                                         {
                                             Formatting.type("You feel as if something incredible has happened.");
@@ -1051,13 +1051,13 @@ namespace Realm
                                             Formatting.type("You lose" + abilchance + "hp");
                                         }
                                         break;
-                                        
+
                                     case 'n':
                                         Formatting.type("You feel threatened by the words.");
                                         break;
                                 }
-                        Main.centrallibcounter++;
-                        break;
+                                Main.centrallibcounter++;
+                                break;
                         }
                         Main.centrallibcounter++;
                     }
@@ -1069,7 +1069,7 @@ namespace Realm
                     break;
                 case 'a':
                     Formatting.type("You approach a building with a sigil bearing crossed swords. You suspect this is the weaponsmith. You enter, and he has loads of goodies for sale. Buy Iron Rapier(r, 30), Iron Chainmail(c, 30), Iron Buckler (b, 25), or Bloodthirsty Longsword(l, 50)?");
-                    switch(Console.ReadKey().KeyChar)
+                    switch (Console.ReadKey().KeyChar)
                     {
                         case 'r':
                             Main.Purchase(30, new iron_rapier());
@@ -1127,7 +1127,7 @@ namespace Realm
                     break;
                 case 'i':
                     Formatting.type("The sign above the inn reads 'Donaldius Trumpe'. Stay the night for 15 gold? (y/n)");
-                    switch(Console.ReadKey().KeyChar)
+                    switch (Console.ReadKey().KeyChar)
                     {
                         case 'y':
                             Formatting.type("You feel refreshed, however the bedsheets smelled like cold blooded capitalism and weasely politicians.");
@@ -1143,7 +1143,7 @@ namespace Realm
                     break;
                 case 'o':
                     Formatting.type("You visit the city's monument, which is a tourist attraction for the entire Realm. People are everywhere. You elbow your way through the crowd to get a better look. The monument is a massive sword, stabbed into the ground as if placed there by a giant god. Blue light is pulsing up it like a giant conduit. You spot a secret door in the blade of the sword. Enter (y/n)");
-                    switch(Console.ReadKey().KeyChar)
+                    switch (Console.ReadKey().KeyChar)
                     {
                         case 'y':
                             Formatting.type("The door requires a password.");
@@ -1335,7 +1335,7 @@ namespace Realm
                     break;
                 case 'a':
                     Formatting.type("You visit the arms dealer. It's a very old man selling some very expensive wares. You wonder where he came across such valuables. Buy Bloodthirsty Battleaxe(b, 55), or Bloodthirsty Greatsword(g, 55)?");
-                    switch(Console.ReadKey().KeyChar)
+                    switch (Console.ReadKey().KeyChar)
                     {
                         case 'b':
                             if (Main.Purchase(55, new bt_battleaxe()))
@@ -1427,7 +1427,7 @@ namespace Realm
                     break;
                 case 'g':
                     Formatting.type("You talk to the toothless man holding the wares. You may buy the Void Cloak(v, 150), the Illusory Plate(i, 150), or the Spectral Bulwark(s, 150). Or you may buy all 3(3, 300).");
-                    switch(Console.ReadKey().KeyChar)
+                    switch (Console.ReadKey().KeyChar)
                     {
                         case 'v':
                             if (Main.Purchase(150, new void_cloak()))
@@ -1597,7 +1597,7 @@ namespace Realm
                     return false;
             }
             return true;
-        }    
+        }
     }
 
     public class TwinPaths : Place
@@ -1691,7 +1691,7 @@ namespace Realm
                     return false;
             }
             return true;
-        }    
+        }
     }
 
     public class Ravenkeep : Place
@@ -1736,7 +1736,7 @@ namespace Realm
                         {
                             case 'f':
                                 Formatting.type("You challenge the mad king, and he stands from his obsidian throne, raven-feathered cloak swirling. He laughs a deep booming laugh and draws a wicked looking blade.");
-                                Main.BattleLoop(new RavenKing(), true);
+                                Main.BattleLoop(new RavenKing());
                                 if (Main.Player.backpack.Count <= 10)
                                     Main.Player.backpack.Add(new phantasmal_claymore());
                                 else
@@ -1758,6 +1758,72 @@ namespace Realm
                 case 'l':
                     Formatting.type("Coward.");
                     Globals.PlayerPosition.x -= 1;
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
+    }
+    public class Coaltown : Place
+    {
+        protected override string GetDesc()
+        {
+            return "You find yourself in a town obviously centered around a massive coal mine. You may visit the inn(i), arms dealer(a), or the coal mines(c)";
+        }
+        public override Enemy getEnemyList()
+        {
+            return null;
+        }
+        public override char[] getAvailableCommands()
+        {
+            List<char> templist = new List<char>();
+            if (Main.Player.backpack.Count >= 1)
+                templist.Add('b');
+            if (Main.hasmap)
+                templist.Add('m');
+            if (Globals.PlayerPosition.x > 0)
+                templist.Add('w');
+            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+                templist.Add('e');
+            if (Globals.PlayerPosition.y > 0)
+                templist.Add('s');
+            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+                templist.Add('n');
+            templist.Add('a');
+            templist.Add('i');
+            templist.Add('c');
+            templist.Add('#');
+            return templist.ToArray<char>();
+           
+        }
+
+        public override bool _handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'a':
+                    Formatting.type("You visit the arms dealer. He is old, and the wrinkles in his face are blackened with coal dust.");
+                    break;
+                case 'i':
+                    Formatting.type("Do you wish to stay in the Coaltown Motel for 15 g?(y/n)");
+                    switch (Console.ReadKey().KeyChar)
+                    {
+                        case 'y':
+                            if (Main.Purchase(15))
+                                Formatting.type("Everything in the town, now including you, is coated in alayer of fine black dust, but at least your hp has been restored.");
+                            break;
+                        case 'n':
+                            Formatting.type("You leave.");
+                            break;
+                        default:
+                            break;
+                    }
+                        break;
+                case 'c':
+                    break;
+                case '#':
+                    Save.SaveGame();
                     break;
                 default:
                     return false;

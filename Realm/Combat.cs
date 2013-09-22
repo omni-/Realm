@@ -251,7 +251,7 @@ namespace Realm
             {
                 Enemy target = (Enemy)Data;
                 target.hp -= Dice.roll(1, Main.Player.intl);
-                target.is_cursed = true;
+                target.cursed = true;
                 return true;
             }
         }
@@ -280,7 +280,7 @@ namespace Realm
             public override bool Execute(object Data)
             {
                 Enemy target = (Enemy)Data;
-                Main.Player.is_phased = true;
+                Main.Player.phased = true;
                 return true;
             }
         }
@@ -351,7 +351,7 @@ namespace Realm
                 Enemy target = (Enemy)Data;
                 target.stunned = true;
                 target.on_fire = true;
-                target.is_cursed = true;
+                target.cursed = true;
                 target.hp -= 5;
                 return true;
             }
@@ -376,9 +376,86 @@ namespace Realm
                     target.hp -= Main.Player.atk * 5;
                     target.stunned = true;
                     target.on_fire = true;
-                    target.is_cursed = true;
+                    target.cursed = true;
                 }
                     return true;
+            }
+        }
+        public class Mimic : Command
+        {
+            public Mimic(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                return true;
+            }
+        }
+        public class LayTrap : Command
+        {
+            public LayTrap(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                target.trapped = true;
+                return true;
+            }
+        }
+        public class Safeguard : Command
+        {
+            public Safeguard(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Main.Player.guarded = true;
+                return true;
+            }
+        }
+        public class Rage : Command
+        {
+            public Rage(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                target.hp -= Main.Player.hp;
+                return true;
+            }
+        }
+        public class Lightspeed : Command
+        {
+            public Lightspeed(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                target.hp -= Main.Player.spd;
+                return true;
+            }
+        }
+        public class Nightshade : Command
+        {
+            public Nightshade(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                target.blinded = true;
+                int dmg = Dice.roll(2, Main.Player.atk);
+                target.hp -= dmg;
+                return true;
             }
         }
     }

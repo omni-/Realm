@@ -16,9 +16,11 @@ namespace Realm
         public int spd;
         public int xpdice;
         public int gpdice;
-        public bool is_cursed = false;
+        public bool trapped = false;
+        public bool cursed = false;
         public bool on_fire = false;
         public bool stunned = false;
+        public bool blinded = false;
         public int fire;
         public List<string> abilities;
         
@@ -77,6 +79,7 @@ namespace Realm
             {
                 double damage = Combat.Dice.roll(1, (atk * 2) + 1);
                 dmg = (Convert.ToInt32(damage) - Main.Player.def);
+                dmg += 1;
                 ability_used = "Super Slimy Slam";
             }
             if (dmg <= 0)

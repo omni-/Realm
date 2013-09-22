@@ -29,7 +29,7 @@ namespace Realm
         public static bool is_theif = false;
         public static bool wkingdead = false;
 
-        public static GamePlayer Player = new GamePlayer();
+        public static Realm.Player.GamePlayer Player = new Realm.Player.GamePlayer();
         public static Globals globals = new Globals();
 
         public static bool devmode = false;
@@ -37,12 +37,34 @@ namespace Realm
 
         public static void Tutorial()
         {
+            List<string> racelist = new List<string>{"Human", "Elf", "Rockman", "Giant", "Zephyr", "Shade"};
+            List<string> classlist = new List<string> { "Warrior", "Paladin", "Mage", "Thief" };
             Formatting.type("Welcome, " + Player.name + ", to Realm.");
             Formatting.type("To do anything in Realm, simply press one of the listed commands.");
             Formatting.type("When in combat, select an availible move. All damage is randomized.");
             Formatting.type("While in the backpack, simply select a number corresponding to an item. You may swap this item in or out. Make sure to equip an item once you pick it up!");
             Formatting.type("At any specified time, you may press x, then y. This will cause you to commit suicide.");
             Formatting.type("At any specified time, you may press #. Doing so will save the game.");
+            Formatting.type("In Realm, every player selects a race. Each race gives its own bonuses. You may choose from Human, Elf, Rockman, Giant, Zephyr, or Shade.");
+            Formatting.type("Please enter a race. ");
+            string race = Console.ReadLine();
+            while (!racelist.Contains(race))
+            {
+                Formatting.type("Invalid. Please try again. ");
+                race = Console.ReadLine();
+            }
+            Formatting.type("You have selected " + race + ".");
+            Player.race = race;
+            Formatting.type("Each player also has a class. You may choose from Warrior, Paladin, Mage, or Thief.");
+            Formatting.type("Please enter a class. ");
+            string pclass = Console.ReadLine();
+            while (!classlist.Contains(pclass))
+            {
+                Formatting.type("Invalid. Please try again. ");
+                pclass = Console.ReadLine();
+            }
+            Formatting.type("You have selected " + pclass + ".");
+            Player.pclass = pclass;
             Formatting.type("You are now ready to play Realm. Good luck!");
             Formatting.type("Press any key to continue.");
             Console.ReadKey();
@@ -88,19 +110,19 @@ namespace Realm
                 if (devmode)
                     Formatting.type(Globals.PlayerPosition.x + " " + Globals.PlayerPosition.y);
                 if (!devmode)
-                    Main.Player.applybonus();
+                    Player.applybonus();
                 else
-                    Main.Player.applydevbonus();
-                if (gbooks >= 3 && !Player.abilities.commandChars.Contains('!'))
+                    Player.applydevbonus();
+                if (gbooks >= 3 && !Player.abilities.commandChars.Contains('@'))
                 {
                     Formatting.type("Having read all of the Ramsay books, you are enlightened in the ways of Gordon Ramsay.");
                     Formatting.type("Learned 'Hell's Kitchen'!");
-                    Player.abilities.AddCommand(new Combat.HellsKitchen("Hell's Kitchen", '!'));
+                    Player.abilities.AddCommand(new Combat.HellsKitchen("Hell's Kitchen", '@'));
                 }
                 if (!devmode)
                 {
                     Formatting.type("-------------------------------------", 10);
-                    Formatting.type("Level: " + Player.level, 10);
+                    Formatting.type(Player.name + "(" + Player.race + ")," + " Level " + Player.level + " " + Player.pclass + ":", 10);
                     Formatting.type("HP: " + Player.hp + "/" + Player.maxhp, 10);
                     Formatting.type("Defense: " + Player.def, 10);
                     Formatting.type("Attack: " + Player.atk, 10);
@@ -181,14 +203,14 @@ namespace Realm
                 loop_number++;
             }
         }
-
         public static void BattleLoop(Enemy enemy)
         {
             game_state = 1;
 
             Player.applybonus();
 
-            int mana = 2 + Player.level;
+            int enemydmg = 0;
+            int mana = Player.level;
             Formatting.type("You have entered combat! Ready your weapons!");
             Formatting.type("Level " + enemy.level + " " + enemy.name + ":");
             Formatting.type("-------------------------", 10);
@@ -205,27 +227,28 @@ namespace Realm
                 Formatting.type("//////////////////////");
                 if (is_turn && !Player.stunned)
                 {
-                    if (Main.Player.is_phased)
-                        Main.Player.is_phased = false;
-
+                    if (Player.phased)
+                        Player.phased = false;
                     Formatting.type("\r\nAVAILABLE MOVES:");
                     Formatting.type("=========================", 10);
-                    if (Main.Player.fire >= 3)
-                        Main.Player.on_fire = false;
-                    if (Main.Player.on_fire)
+                    if (Player.fire >= 3)
+                        Player.on_fire = false;
+                    if (Player.on_fire)
                     {
-                        Main.Player.fire++;
+                        Player.fire++;
                         int dmg = Combat.Dice.roll(1, 3);
                         Player.hp -= dmg;
                         Formatting.type("You take " + " fire damage.");
                     }
-                    if (Main.Player.cursed)
+                    if (Player.blinded)
+                        Player.blinded = false;
+                    if (Player.cursed)
                     {
-                        Main.Player.hp -= Combat.Dice.roll(1, 6);
+                        Player.hp -= Combat.Dice.roll(1, 6);
                         Formatting.type("You are cursed!");
                     }
                     int i = 0;
-                    foreach (Realm.Combat.Command c in Main.Player.abilities.commands.Values)
+                    foreach (Realm.Combat.Command c in Player.abilities.commands.Values)
                     {
                         string src = "||   " + c.cmdchar + ". " + c.name;
                         Formatting.type(src, 10);
@@ -250,34 +273,42 @@ namespace Realm
                     }
                     if (ch != 'b')
                         mana--;
-                    Main.Player.abilities.ExecuteCommand(ch, enemy);
+                    if (ch == 'm')
+                    {
+                        Formatting.type("You mimc the enemy's damage!");
+                        enemy.hp -= enemydmg;
+                    }
+                    if (!Player.blinded)
+                        Player.abilities.ExecuteCommand(ch, enemy);
+                    else
+                        Formatting.type("You are blind!");
                     int enemyhp = oldhp - enemy.hp;
                     Formatting.type("The enemy takes " + enemyhp + " damage!");
                     if (enemy.hp <= 0)
                     {
                         Formatting.type("Your have defeated " + enemy.name + "!");
                         enemy.droploot();
-                        MainLoop();
+                        return;
                     }
-                    if (!Main.Player.is_phased)
+                    if (!Player.phased)
                         is_turn = false;
                 }
-                else if (Main.Player.stunned)
+                else if (Player.stunned)
                 {
                     Formatting.type("You are stunned!");
-                    Main.Player.stunned = false;
-                    if (Main.Player.fire >= 3)
-                        Main.Player.on_fire = false;
-                    if (Main.Player.on_fire)
+                    Player.stunned = false;
+                    if (Player.fire >= 3)
+                        Player.on_fire = false;
+                    if (Player.on_fire)
                     {
-                        Main.Player.fire++;
+                        Player.fire++;
                         int dmg = Combat.Dice.roll(1, 3);
                         Player.hp -= dmg;
                         Formatting.type("You take " + " fire damage.");
                     }
-                    if (Main.Player.cursed)
+                    if (Player.cursed)
                     {
-                        Main.Player.hp -= Combat.Dice.roll(1, 6);
+                        Player.hp -= Combat.Dice.roll(1, 6);
                         Formatting.type("You are cursed!");
                     }
                     is_turn = false;
@@ -287,6 +318,12 @@ namespace Realm
                 {
                     if (enemy.fire >= 3)
                         enemy.on_fire = false;
+                    if (Player.guard >= 2)
+                        Player.guarded = false;
+                    if (Player.guarded)
+                        Player.guard++;
+                    if (enemy.blinded)
+                        enemy.blinded = false;
                     if (enemy.on_fire)
                     {
                         enemy.fire++;
@@ -294,16 +331,34 @@ namespace Realm
                         enemy.hp -= dmg;
                         Formatting.type(enemy.name + " takes " + " fire damage.");
                     }
-                    if (enemy.is_cursed)
+                    if (enemy.cursed)
                     {
                         Formatting.type(enemy.name + " is cursed!");
                         enemy.hp -= Combat.Dice.roll(1, 6);
                     }
-                    int oldhp = Main.Player.hp;
+                    if (enemy.trapped)
+                    {
+                        Formatting.type("Your trap has sprung!");
+                        int dmg = (5 + (Player.level / 5) + (Player.intl / 3) + Combat.Dice.roll(1, 5));
+                        enemy.hp -= dmg;
+                        Formatting.type(enemy.name + " takes " + dmg + "damage!");
+                    }
+                    int oldhp = Player.hp;
                     string ability;
-                    enemy.attack(out ability);
-                    Formatting.type(enemy.name + " used " + ability);
-                    Formatting.type("You take " + (oldhp - Main.Player.hp) + " damage!");
+                    if (!Player.guarded && !enemy.blinded)
+                    {
+                        enemy.attack(out ability);
+                        enemydmg = oldhp - Player.hp;
+                        Formatting.type(enemy.name + " used " + ability);
+                        Formatting.type("You take " + enemydmg + " damage!");
+                    }
+                    else
+                    {
+                       if (Player.blinded)
+                            Formatting.type(enemy.name + "is blind!");
+                        else if (Player.guarded)
+                            Formatting.type("Safeguard prevented damage!");
+                    }
                     if (Player.hp <= 0)
                     {
                         End.IsDead = true;
@@ -324,7 +379,7 @@ namespace Realm
                         enemy.hp -= dmg;
                         Formatting.type(enemy.name + " takes " + " fire damage.");
                     }
-                    if (enemy.is_cursed)
+                    if (enemy.cursed)
                     {
                         Formatting.type(enemy.name + " is cursed!");
                         enemy.hp -= Combat.Dice.roll(1, 6);
@@ -334,165 +389,6 @@ namespace Realm
                         Formatting.type("Your have defeated " + enemy.name + "!");
                         enemy.droploot();
                         MainLoop();
-                    }
-                    is_turn = true;
-
-                }
-            }
-        }
-        public static void BattleLoop(Enemy enemy, bool spec)
-        {
-            game_state = 1;
-            if (Player.hp > Player.maxhp)
-                Player.hp = Player.maxhp;
-            Player.applybonus();
-
-            int mana = 2;
-            Formatting.type("You have entered combat! Ready your weapons!");
-            Formatting.type("Level " + enemy.level + " " + enemy.name + ":");
-            Formatting.type("-------------------------", 10);
-            Formatting.type("HP: " + enemy.hp);
-            Formatting.type("Attack: " + enemy.atk);
-            Formatting.type("Defense: " + enemy.def);
-            Formatting.type("-------------------------", 10);
-
-            Formatting.type("\r\nAVAILABLE MOVES:");
-            Formatting.type("=========================", 10);
-            bool is_turn = enemy.spd < Player.spd;
-            while (enemy.hp >= 0)
-            {
-                Formatting.type("//////////////////////");
-                Formatting.type("Enemy HP: " + enemy.hp);
-                Formatting.type("Your HP: " + Player.hp);
-                Formatting.type("//////////////////////");
-                if (is_turn && !Player.stunned)
-                {
-                    if (Main.Player.is_phased)
-                        Main.Player.is_phased = false;
-                    if (Main.Player.fire >= 3)
-                        Main.Player.on_fire = false;
-                    if (Main.Player.on_fire)
-                    {
-                        Main.Player.fire++;
-                        int dmg = Combat.Dice.roll(1, 3);
-                        Player.hp -= dmg;
-                        Formatting.type("You take " + " fire damage.");
-                    }
-                    if (Main.Player.cursed)
-                    {
-                        Main.Player.hp -= Combat.Dice.roll(1, 6);
-                        Formatting.type("You are cursed!");
-                    }
-                    int i = 0;
-                    foreach (Realm.Combat.Command c in Main.Player.abilities.commands.Values)
-                    {
-                        string src = "||   " + c.cmdchar + ". " + c.name + "    ||";
-                        Formatting.type(src, 10);
-                        i++;
-                    }
-                    Formatting.type("=========================", 10);
-                    Formatting.type("");
-
-                    int oldhp = enemy.hp;
-                    char ch = Console.ReadKey().KeyChar;
-                    while (!Player.abilities.commandChars.Contains(ch))
-                    {
-                        Formatting.type("Invalid.");
-                        Formatting.type("");
-                        ch = Console.ReadKey().KeyChar;
-                    }
-                    while (ch != 'b' && mana <= 0)
-                    {
-                        Formatting.type("Out of mana!");
-                        Formatting.type("");
-                        ch = Console.ReadKey().KeyChar;
-                    }
-                    if (ch != 'b')
-                        mana--;
-                    Main.Player.abilities.ExecuteCommand(ch, enemy);
-                    int enemyhp = oldhp - enemy.hp;
-                    Formatting.type("The enemy takes " + enemyhp + " damage!");
-                    if (enemy.hp <= 0)
-                    {
-                        Formatting.type("Your have defeated " + enemy.name + "!");
-                        enemy.droploot();
-                        return;
-                    }
-                    if (!Main.Player.is_phased)
-                        is_turn = false;
-                }
-                else if (Main.Player.stunned)
-                {
-                    Formatting.type("You are stunned!");
-                    Main.Player.stunned = false;
-                    if (Main.Player.fire >= 3)
-                        Main.Player.on_fire = false;
-                    if (Main.Player.on_fire)
-                    {
-                        Main.Player.fire++;
-                        int dmg = Combat.Dice.roll(1, 3);
-                        Player.hp -= dmg;
-                        Formatting.type("You take " + " fire damage.");
-                    }
-                    if (Main.Player.cursed)
-                    {
-                        Main.Player.hp -= Combat.Dice.roll(1, 6);
-                        Formatting.type("You are cursed!");
-                    }
-                    is_turn = false;
-                }
-
-                else if (!is_turn && !enemy.stunned)
-                {
-                    if (enemy.fire >= 3)
-                        enemy.on_fire = false;
-                    if (enemy.on_fire)
-                    {
-                        enemy.fire++;
-                        int dmg = Combat.Dice.roll(1, 3);
-                        enemy.hp -= dmg;
-                        Formatting.type(enemy.name + " takes " + " fire damage.");
-                    }
-                    if (enemy.is_cursed)
-                    {
-                        Formatting.type(enemy.name + " is cursed!");
-                        enemy.hp -= Combat.Dice.roll(1, 6);
-                    }
-                    int oldhp = Main.Player.hp;
-                    string ability;
-                    enemy.attack(out ability);
-                    Formatting.type(enemy.name + " used " + ability);
-                    Formatting.type("You take " + (oldhp - Main.Player.hp) + " damage!");
-                    if (Player.hp <= 0)
-                    {
-                        End.IsDead = true;
-                        End.GameOver();
-                    }
-                    is_turn = true;
-                }
-                else if (enemy.stunned)
-                {
-                    Formatting.type(enemy.name + " is stunned!");
-                    enemy.stunned = false;
-                    if (enemy.fire >= 3)
-                        enemy.on_fire = false;
-                    if (enemy.on_fire)
-                    {
-                        enemy.fire++;
-                        int dmg = Combat.Dice.roll(1, 3);
-                        enemy.hp -= dmg;
-                        Formatting.type(enemy.name + " takes " + " fire damage.");
-                    }
-                    if (enemy.is_cursed)
-                    {
-                        Formatting.type(enemy.name + " is cursed!");
-                        enemy.hp -= Combat.Dice.roll(1, 6);
-                    }
-                    if (enemy.hp <= 0)
-                    {
-                        Formatting.type("Your have defeated " + enemy.name + "!");
-                        enemy.droploot();
-                        return;
                     }
                     is_turn = true;
 
@@ -519,13 +415,13 @@ namespace Realm
                 {
                     case 'y':
                         if (i.slot == 1)
-                            Main.Player.primary = i;
+                            Player.primary = i;
                         else if (i.slot == 2)
-                            Main.Player.secondary = i;
+                            Player.secondary = i;
                         else if (i.slot == 3)
-                            Main.Player.armor = i;
+                            Player.armor = i;
                         else if (i.slot == 4)
-                            Main.Player.accessory = i;
+                            Player.accessory = i;
                         break;
                     case 'd':
                         if (i.slot == 1)
@@ -535,17 +431,17 @@ namespace Realm
                         }
                         else if (i.slot == 2)
                         {
-                            Main.Player.secondary = new Item();
+                            Player.secondary = new Item();
                             Player.backpack.Remove(i);
                         }
                         else if (i.slot == 3)
                         {
-                            Main.Player.armor = new Item();
+                            Player.armor = new Item();
                             Player.backpack.Remove(i);
                         }
                         else if (i.slot == 4)
                         {
-                            Main.Player.accessory = new Item();
+                            Player.accessory = new Item();
                             Player.backpack.Remove(i);
                         }
                         break;
@@ -561,26 +457,26 @@ namespace Realm
             while(loopcontrol)
             {
                 Formatting.type("**********Current Equipment**********");
-                if (!Main.Player.primary.Equals(default(Item)))
+                if (!Player.primary.Equals(default(Item)))
                     Formatting.type("Primary: " + Player.primary.name);
                 else
                     Formatting.type("Primary: None.");
-                if (!Main.Player.secondary.Equals(default(Item)))
+                if (!Player.secondary.Equals(default(Item)))
                     Formatting.type("Secondary: " + Player.secondary.name);
                 else
                     Formatting.type("Secondary: None.");
-                if (!Main.Player.armor.Equals(default(Item)))
+                if (!Player.armor.Equals(default(Item)))
                     Formatting.type("Armor: " + Player.armor.name);
                 else
                     Formatting.type("Armor: None.");
-                if (!Main.Player.accessory.Equals(default(Item)))
+                if (!Player.accessory.Equals(default(Item)))
                     Formatting.type("Accessory: " + Player.accessory.name);
                 else
                     Formatting.type("Accessory: None.");
                 Formatting.type("*************************************");
                 int q = 1;
                 Combat.CommandTable cmd = new Combat.CommandTable();
-                foreach (Item i in Main.Player.backpack)
+                foreach (Item i in Player.backpack)
                 {
                     Formatting.type((q - 1) + ". " + i.name);
                     backpackcommand bpcmd = new backpackcommand(i.name, (char)(q + 47));
@@ -602,7 +498,7 @@ namespace Realm
                 Formatting.type("You recognize the magic man from the alley in Central. It is he who stands before you.");
             Formatting.type("'I am Janus.' The mand before you says. You stand in front of the protetorate, Janus. He says '" + Player.name + ", have you realized that this world is an illusion?' You nod your head. 'You will result in the Realm's demise, you must be purged. Shimmering light gathers around him, and beams of blue light blast out of him.");
             Formatting.type("I regret to say, but we must fight.");
-            BattleLoop(new finalboss(), true);
+            BattleLoop(new finalboss());
             Formatting.type("Janus defeated, the world vanishes and you both are standing on glass in a blank world of black void.");
             Formatting.type("The protectorate kneels on the ground in front of you. 'Do you truly wish to end the illusion?', he says. You look at him without uttering a word. 'Very well, I must ask of you one last favor even though the realm is no more, do not let the realm vanish from within you. Everything around you goes black. (Press any key to continue)");
             Console.ReadKey();

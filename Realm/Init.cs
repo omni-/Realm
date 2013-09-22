@@ -12,7 +12,7 @@ namespace Realm
     {
         public static void Initialize()
         {
-            Formatting.type("Version Number - 1.2.0");
+            Formatting.type("Version Number - 1.3.0");
             if (!Save.LoadGame())
             {
                 Formatting.type("\"Greetings. Before we begin, I must know your name.\"");
@@ -32,6 +32,8 @@ namespace Realm
                     Main.devmode = true;
                     Globals.PlayerPosition.x = 0;
                     Globals.PlayerPosition.y = 5;
+                    Main.Player.race = Console.ReadLine();
+                    Main.Player.pclass = Console.ReadLine();
                     Main.MainLoop();
                 }
                 Globals.PlayerPosition.x = 0;
