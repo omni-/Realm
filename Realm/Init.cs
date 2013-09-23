@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +14,15 @@ namespace Realm
     {
         public static void Initialize()
         {
-            Formatting.type("Version Number - 1.3.0");
+            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            string updaterpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location + "\\updater.exe");
+            Formatting.type("Version Number - 1.3.1");
+            Formatting.type("Press p to download latest version (anything else to cancel). ");
+            if (Console.ReadKey().KeyChar == 'p')
+            {
+                Process.Start(updaterpath);
+                Environment.Exit(0);
+            }
             if (!Save.LoadGame())
             {
                 Formatting.type("\"Greetings. Before we begin, I must know your name.\"");
