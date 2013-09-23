@@ -1580,7 +1580,7 @@ namespace Realm
                                 Formatting.type("Obtained 'Sunburst Saber'!");
                             }
                             break;
-                        case 'i':
+                        case 's':
                             if (Main.Purchase(100, new sb_shield()))
                             {
                                 Formatting.type("The child smiles and hands you the Sunburst Shield.");
@@ -1658,14 +1658,18 @@ namespace Realm
                     switch (Console.ReadKey().KeyChar)
                     {
                         case 'r':
-                            Main.Purchase(150, new sb_chain());
-                            Formatting.type("The man hands you the Sunburst Ringmail.");
-                            Formatting.type("Obtained 'Sunburst Ringmail'!");
+                            if (Main.Purchase(150, new sb_chain()))
+                            {
+                                Formatting.type("The man hands you the Sunburst Ringmail.");
+                                Formatting.type("Obtained 'Sunburst Ringmail'!");
+                            }
                             break;
                         case 'g':
-                            Main.Purchase(150, new sb_gauntlet());
-                            Formatting.type("The man hands you the Sunburst Gauntlet.");
-                            Formatting.type("Obtained 'Sunburst Gauntlet'!");
+                            if (Main.Purchase(150, new sb_gauntlet()))
+                            {
+                                Formatting.type("The man hands you the Sunburst Gauntlet.");
+                                Formatting.type("Obtained 'Sunburst Gauntlet'!");
+                            }
                             break;
                     }
                     break;

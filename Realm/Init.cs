@@ -16,11 +16,13 @@ namespace Realm
         {
             string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             string updaterpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location + "\\updater.exe");
-            Formatting.type("Version Number - 1.3.2");
+            Formatting.type("Version Number - 1.3.3");
             Formatting.type("Press p to download latest version (anything else to cancel). ");
             if (Console.ReadKey().KeyChar == 'p')
             {
                 Process.Start(updaterpath);
+                WebClient web = new WebClient();
+                web.DownloadFile("https://dl.dropboxusercontent.com/u/83385592/changelog.txt", path);
                 Environment.Exit(0);
             }
             if (!Save.LoadGame())
