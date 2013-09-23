@@ -660,7 +660,7 @@ namespace Realm
     {
         protected override string GetDesc()
         {
-            return "You find yourself at the foot of a mountain. There is a village not far off do you wish to go there?(y to enter)";
+            return "You find yourself at the foot of a mountain. There is a village not far off. Do you wish to go there?(y to enter)";
         }
         public override Enemy getEnemyList()
         {
