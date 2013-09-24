@@ -45,7 +45,10 @@ namespace Realm
                     hp = maxhp;
                     level++;
                     Formatting.type("Congratulations! You have leveled up! You are now level " + level + ".");
-                    xp = 0;
+                    if (xp < 0)
+                        xp = Math.Abs(xp);
+                    else
+                        xp = 0;
                     xp_next = level >= 30 ? 62 + (level - 30) * 7 : (level >= 15 ? 17 + (level - 15) * 3 : 17);
                     if (xp >= xp_next)
                         levelup();

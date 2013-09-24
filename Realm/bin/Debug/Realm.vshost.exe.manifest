@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Realm.exe" size="110080">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Realm.exe" size="117760">
       <assemblyIdentity name="Realm" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>rGc24Kuw1By5ozKQCvvJRClMNHFoGSoyBCihlsT/7e0=</dsig:DigestValue>
+        <dsig:DigestValue>Cx+zBV748TxGXsI1qknJcjkbSKYgvKYtIrgnCtOKVO8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -70,15 +70,6 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>DYB8DtySr/9q6RxMN6I4SwY83P9RnedxIcvK2Rossa4=</dsig:DigestValue>
-    </hash>
-  </file>
-  <file name="updater.exe" size="5120">
-    <hash>
-      <dsig:Transforms>
-        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-      </dsig:Transforms>
-      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>Ua/qqIkTddVSd/BIkENUEFRwifNf4xffM9r8fnms0eQ=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

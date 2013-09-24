@@ -40,6 +40,8 @@ namespace Realm
                 lines.Add("accessory=" + Main.Player.accessory);
             lines.Add("level=" + Main.Player.level);
             lines.Add("hp=" + Main.Player.hp);
+            lines.Add("ppx=" + Globals.PlayerPosition.x);
+            lines.Add("ppy=" + Globals.PlayerPosition.y);
             if (Main.hasmap)
                 lines.Add("hasmap=true");
             if (Main.wkingdead)
@@ -96,6 +98,10 @@ namespace Realm
                             Main.Player.name = entry.Value;
                         if (entry.Key == "level")
                             Main.Player.level = Convert.ToInt32(entry.Value);
+                        //if (entry.Key == "ppx")
+                        //    Globals.PlayerPosition.x = Convert.ToInt32(entry.Value);
+                        //if (entry.Key == "ppy")
+                        //    Globals.PlayerPosition.y = Convert.ToInt32(entry.Value);
                         if (entry.Key == "hasmap")
                             Main.hasmap = true;
                         if (entry.Key == "wkingdead")
@@ -207,7 +213,7 @@ namespace Realm
                         if (entry.Key == "Holy Smite")
                             Main.Player.abilities.AddCommand(new Combat.HolySmite("Holy Smite", 'h'));
                         if (entry.Key == "Consume Soul")
-                            Main.Player.abilities.AddCommand(new Combat.ConsumeSoul("Consume Soul", 'e'));
+                            Main.Player.abilities.AddCommand(new Combat.ConsumeSoul("Consume Soul", 'u'));
                         if (entry.Key == "Curse")
                             Main.Player.abilities.AddCommand(new Combat.Curse("Curse", 'c'));
                         if (entry.Key == "Sacrifice")

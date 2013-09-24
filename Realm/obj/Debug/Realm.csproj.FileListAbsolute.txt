@@ -34,3 +34,5 @@ C:\Users\Cooper\Documents\GitHub\Realm\Realm\obj\Debug\Realm.csprojResolveAssemb
 C:\Users\Cooper\Documents\GitHub\Realm\Realm\obj\Debug\Realm.TrustInfo.xml
 C:\Users\Cooper\Documents\GitHub\Realm\Realm\obj\Debug\Realm.exe.manifest
 C:\Users\Cooper\Documents\GitHub\Realm\Realm\obj\Debug\Realm.application
+C:\Users\Cooper\Documents\GitHub\Realm\Realm\obj\Debug\Realm.Properties.Resources.resources
+C:\Users\Cooper\Documents\GitHub\Realm\Realm\obj\Debug\Realm.csproj.GenerateResource.Cache

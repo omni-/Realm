@@ -15,7 +15,7 @@ namespace Realm
             foreach (char c in src)
             {
                 Console.Write(c);
-                Thread.Sleep(speed);
+                Thread.SpinWait(speed * 1000000);
             }
         }
 
@@ -25,7 +25,7 @@ namespace Realm
             foreach (char c in src)
             {
                 Console.Write(c);
-                Thread.Sleep(10);
+                Thread.SpinWait(1000000);
             }
         }
 
@@ -56,6 +56,17 @@ namespace Realm
             Formatting.type("I-----------I-----------I-----------I-----------I-----------I", 1);
             Formatting.type("I-----------I-----------I--KINGDOM--I-----------I-----------I", 1);
             Formatting.type("_____________________________________________________________", 1);
+        }
+        public static string ToUpperFirstLetter(this string source)
+        {
+            if (string.IsNullOrEmpty(source))
+                return string.Empty;
+            // convert to char array of the string
+            char[] letters = source.ToCharArray();
+            // upper case the first char
+            letters[0] = char.ToUpper(letters[0]);
+            // return the array made of the new char array
+            return new string(letters);
         }
     }
 }

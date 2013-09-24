@@ -37,11 +37,11 @@ namespace Realm
 
         public static void Tutorial()
         {
-            List<string> racelist = new List<string>{"Human", "Elf", "Rockman", "Giant", "Zephyr", "Shade"};
-            List<string> classlist = new List<string> { "Warrior", "Paladin", "Mage", "Thief" };
+            List<string> racelist = new List<string>{ "Human", "human", "Elf", "elf", "Rockman", "rockman", "Giant", "giant", "Zephyr", "zephyr", "Shade", "shade" };
+            List<string> classlist = new List<string> { "Warrior", "warrior","Paladin", "paladin", "Mage", "mage", "Thief", "thief" };
             Formatting.type("Welcome, " + Player.name + ", to Realm.");
             Formatting.type("To do anything in Realm, simply press one of the listed commands.");
-            Formatting.type("When in combat, select an availible move. All damage is randomized.");
+            Formatting.type("When in combat, select an availible move. All damage is randomized. Mana is refilled after each fight.");
             Formatting.type("While in the backpack, simply select a number corresponding to an item. You may swap this item in or out. Make sure to equip an item once you pick it up!");
             Formatting.type("At any specified time, you may press x, then y. This will cause you to commit suicide.");
             Formatting.type("At any specified time, you may press #. Doing so will save the game.");
@@ -53,8 +53,8 @@ namespace Realm
                 Formatting.type("Invalid. Please try again. ");
                 race = Console.ReadLine();
             }
-            Formatting.type("You have selected " + race + ".");
-            Player.race = race;
+            Player.race = Formatting.ToUpperFirstLetter(race);
+            Formatting.type("You have selected " + Player.race + ".");
             Formatting.type("Each player also has a class. You may choose from Warrior, Paladin, Mage, or Thief.");
             Formatting.type("Please enter a class. ");
             string pclass = Console.ReadLine();
@@ -63,8 +63,8 @@ namespace Realm
                 Formatting.type("Invalid. Please try again. ");
                 pclass = Console.ReadLine();
             }
-            Formatting.type("You have selected " + pclass + ".");
-            Player.pclass = pclass;
+            Player.pclass = Formatting.ToUpperFirstLetter(pclass);
+            Formatting.type("You have selected " + Player.pclass + ".");
             Formatting.type("You are now ready to play Realm. Good luck!");
             Formatting.type("Press any key to continue.");
             Console.ReadKey();
@@ -121,21 +121,18 @@ namespace Realm
                 }
                 if (!devmode)
                 {
-                    Formatting.type("-------------------------------------", 10);
-                    Formatting.type(Player.name + "(" + Player.race + ")," + " Level " + Player.level + " " + Player.pclass + ":", 10);
-                    Formatting.type("HP: " + Player.hp + "/" + Player.maxhp, 10);
-                    Formatting.type("Defense: " + Player.def, 10);
-                    Formatting.type("Attack: " + Player.atk, 10);
-                    Formatting.type("Speed: " + Player.spd, 10);
-                    Formatting.type("Intelligence: " + Player.intl, 10);
-                    Formatting.type("Gold: " + Player.g, 10);
-                    Formatting.type("Exp to Level: " + (Player.xp_next - Player.xp));
-                    Formatting.type("-------------------------------------", 10);
+                    Formatting.type("-------------------------------------");
+                    Formatting.type(Player.name + "(" + Player.race + ")," + " Level " + Player.level + " " + Player.pclass + ":");
+                    Formatting.type("HP: " + Player.hp + "/" + Player.maxhp);
+                    Formatting.type("Attack: " + Player.atk + " / Defense: " + Player.def + " / Speed: " + Player.spd + " / Intelligence: " + Player.intl);
+                    Formatting.type("Mana: " + (1 + (Player.intl / 10)));
+                    Formatting.type("Gold: " + Player.g + " / Exp to Level: " + (Player.xp_next - Player.xp));
+                    Formatting.type("-------------------------------------");
                 }
 
                 //currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
                 if (!devmode)
-                    Formatting.type(currPlace.Description, 10);
+                    Formatting.type(currPlace.Description);
                 else
                     Formatting.type(currPlace.ToString());
                 char[] currcommands = currPlace.getAvailableCommands();
@@ -210,14 +207,14 @@ namespace Realm
             Player.applybonus();
 
             int enemydmg = 0;
-            int mana = Player.level;
+            int mana = 1 + Player.intl / 10;
             Formatting.type("You have entered combat! Ready your weapons!");
             Formatting.type("Level " + enemy.level + " " + enemy.name + ":");
-            Formatting.type("-------------------------", 10);
+            Formatting.type("-------------------------");
             Formatting.type("HP: " + enemy.hp);
             Formatting.type("Attack: " + enemy.atk);
             Formatting.type("Defense: " + enemy.def);
-            Formatting.type("-------------------------", 10);
+            Formatting.type("-------------------------");
             bool is_turn = enemy.spd < Player.spd;
             while (enemy.hp >= 0)
             {
@@ -230,7 +227,7 @@ namespace Realm
                     if (Player.phased)
                         Player.phased = false;
                     Formatting.type("\r\nAVAILABLE MOVES:");
-                    Formatting.type("=========================", 10);
+                    Formatting.type("=========================");
                     if (Player.fire >= 3)
                         Player.on_fire = false;
                     if (Player.on_fire)
@@ -251,10 +248,10 @@ namespace Realm
                     foreach (Realm.Combat.Command c in Player.abilities.commands.Values)
                     {
                         string src = "||   " + c.cmdchar + ". " + c.name;
-                        Formatting.type(src, 10);
+                        Formatting.type(src);
                         i++;
                     }
-                    Formatting.type("=========================", 10);
+                    Formatting.type("=========================");
                     Formatting.type("");
 
                     int oldhp = enemy.hp;
@@ -288,6 +285,7 @@ namespace Realm
                     {
                         Formatting.type("Your have defeated " + enemy.name + "!");
                         enemy.droploot();
+                        Player.levelup();
                         return;
                     }
                     if (!Player.phased)
@@ -377,7 +375,7 @@ namespace Realm
                         enemy.fire++;
                         int dmg = Combat.Dice.roll(1, 3);
                         enemy.hp -= dmg;
-                        Formatting.type(enemy.name + " takes " + " fire damage.");
+                        Formatting.type(enemy.name + " takes " + dmg + " fire damage.");
                     }
                     if (enemy.cursed)
                     {
@@ -388,7 +386,8 @@ namespace Realm
                     {
                         Formatting.type("Your have defeated " + enemy.name + "!");
                         enemy.droploot();
-                        MainLoop();
+                        Player.levelup();
+                        return;
                     }
                     is_turn = true;
 

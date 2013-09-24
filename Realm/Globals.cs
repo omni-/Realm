@@ -503,7 +503,7 @@ namespace Realm
     {
         public void_cloak()
         {
-            name = "Void Cloack";
+            name = "Void Cloak";
             desc = "Its existence is an oxymoron. It is made from nothing.";
             atkbuff = 0;
             spdbuff = 50;

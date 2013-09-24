@@ -57,8 +57,8 @@ namespace Realm
             atk = 1  + (level / 2);
             def = 0  + (level / 2);
             spd = 0 + (level / 2);
-            xpdice = 10;
-            gpdice = 1;
+            xpdice = 12;
+            gpdice = 10;
             abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("SuperSlimySlam");
@@ -98,8 +98,8 @@ namespace Realm
             atk = 3 + (level / 2);
             def = 1 + (level / 2);
             spd = 1 + (level / 2);
-            xpdice = 15;
-            gpdice = 3;
+            xpdice = 20;
+            gpdice = 20;
             abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("Impale");
@@ -144,8 +144,8 @@ namespace Realm
             atk = 1 + (level / 2);
             def = 0 + (level / 2);
             spd = 3 + (level / 2);
-            xpdice = 18;
-            gpdice = 3;
+            xpdice = 25;
+            gpdice = 25;
             abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("DustStorm");
