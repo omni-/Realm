@@ -30,6 +30,7 @@ namespace Realm
                 bpcounter++;
             }
             lines.Add("race=" + Main.Player.race);
+            lines.Add("class=" + Main.Player.pclass);
             if (!Main.Player.primary.Equals(new Item()))
                 lines.Add("primary=" + Main.Player.primary);
             if (!Main.Player.secondary.Equals(new Item()))
@@ -115,7 +116,19 @@ namespace Realm
                         if (entry.Key == "xp")
                             Main.Player.xp = Convert.ToInt32(entry.Value);
                         if (entry.Key == "race")
-                            Main.Player.race = entry.Value;
+                        {
+                            if (entry.Value != "")
+                                Main.Player.race = entry.Value;
+                            else
+                                Main.Player.race = "Human";
+                        }
+                        if (entry.Key == "class")
+                        {
+                            if (entry.Value != "")
+                                Main.Player.pclass = entry.Value;
+                            else
+                                Main.Player.pclass = "Warrior";
+                        }
                         if (entry.Key == "bp1")
                         {
                             Type atype = Type.GetType(entry.Value);

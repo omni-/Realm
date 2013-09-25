@@ -45,7 +45,7 @@ namespace Realm
                     hp = maxhp;
                     level++;
                     Formatting.type("Congratulations! You have leveled up! You are now level " + level + ".");
-                    if (xp < 0)
+                    if (xp_next < 0)
                         xp = Math.Abs(xp);
                     else
                         xp = 0;
@@ -73,7 +73,9 @@ namespace Realm
                 else if (race == "Rockman")
                     def += (3 + (level / 5));
                 else if (race == "Giant")
-                    hp += (5 + (level / 5));
+                {
+                    maxhp += (5 + (level / 5));
+                }
                 else if (race == "Zephyr")
                     spd += (3 + (level / 5));
                 else if (race == "Shade")
@@ -86,7 +88,7 @@ namespace Realm
                     intl += primary.intlbuff;
                     spd += primary.spdbuff;
                 }
-                else if (level >= 5 && race == "Human" && !abilities.commands.ContainsKey('m'))
+                if (level >= 5 && race == "Human" && !abilities.commands.ContainsKey('m'))
                 {
                     abilities.AddCommand(new Combat.Mimic("Mimic", 'm'));
                     Formatting.type("Learned Human ability Mimic!");

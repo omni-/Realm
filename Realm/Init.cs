@@ -16,8 +16,8 @@ namespace Realm
         {
             string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             string updaterpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location + "\\updater.exe");
-            Formatting.type("Version Number - 1.3.7", 0);
-            Formatting.type("Press p to download latest version (anything else to cancel). ");
+            Formatting.type("Version Number - 1.3.9", 0);
+            Formatting.type("Press p to download latest version. If this is your first time running the game, press p. ", 0);
             if (Console.ReadKey().KeyChar == 'p')
             {
                 Process.Start(updaterpath);

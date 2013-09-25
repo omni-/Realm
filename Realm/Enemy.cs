@@ -53,12 +53,12 @@ namespace Realm
         public Slime()
         {
             name = "Slime";
-            hp = 5 + (level / 2);
-            atk = 1  + (level / 2);
-            def = 0  + (level / 2);
-            spd = 0 + (level / 2);
-            xpdice = 12;
-            gpdice = 10;
+            hp = 5 + level;
+            atk = level < 3 ? 1 : 2 + (level / 2);
+            def = level < 3 ? 0 : 2 + (level / 2);
+            spd = level < 3 ? 0 : 2 + (level / 2);
+            xpdice = 12 - (level / 5);
+            gpdice = 8 - (level / 5);
             abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("SuperSlimySlam");
@@ -99,7 +99,7 @@ namespace Realm
             def = 1 + (level / 2);
             spd = 1 + (level / 2);
             xpdice = 20;
-            gpdice = 20;
+            gpdice = 15;
             abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("Impale");
@@ -117,7 +117,7 @@ namespace Realm
             }
             else if (Combat.DecideAttack(abilities) == "Impale")
             {
-                double damage = Combat.Dice.roll(atk, atk * 2);
+                double damage = Combat.Dice.roll(1, atk * 2);
                 dmg = Convert.ToInt32(damage);
                 ability_used = "Impale";
             }
@@ -145,7 +145,7 @@ namespace Realm
             def = 0 + (level / 2);
             spd = 3 + (level / 2);
             xpdice = 25;
-            gpdice = 25;
+            gpdice = 18;
             abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("DustStorm");
@@ -225,7 +225,7 @@ namespace Realm
         public Drake()
         {
             name = "Drake";
-            hp = 30 + (level / 2);
+            hp = 50 + (level / 2);
             atk = 15 + (level / 2);
             def = 10 + (level / 2);
             spd = 15 + (level / 2);

@@ -129,7 +129,7 @@ namespace Realm
         {
             if (Main.wkingdead)
                 return "There's nothing here. r to leave.";
-            if (Main.wkingcounter <= 1)
+            if (Main.wkingcounter < 1)
             {
                 Main.wkingcounter++;
                 return "King: 'Come, " + Main.Player.name + ". I plan to give you the ultimate gift, eternal respite. You're not sure why he has called you but you don't like it. The Western King approaches and unsheathes his blade emitting a strong aura of bloodlust. He seems to have powers far beyond anything you can imagine. Fight(f) or run(r)?";
@@ -507,6 +507,7 @@ namespace Realm
                             case 'y':
                                 if (Main.Purchase(3))
                                 {
+                                    Main.Player.xp += 10;
                                     Formatting.type("You enter the library. Before you lays a vast emporium of knowledge. You scratch your butt, then look for some comic books or something. 3 books catch your eye. 'The Wizard's Lexicon'(a), 'The Warrior's Code'(b), and 'Codex Pallatinus'(c). Which do you read?");
                                     switch (Console.ReadKey().KeyChar)
                                     {
@@ -549,7 +550,7 @@ namespace Realm
     {
         protected override string GetDesc()
         {
-            return "You arrive at a small town just east of the Western Kingdom. Do you want to visit the town(v) or head to the inn(i)?";
+            return "You arrive at a small town just north of Seaport. Do you want to visit the town(v) or head to the inn(i)?";
         }
         public override Enemy getEnemyList()
         {
@@ -621,7 +622,7 @@ namespace Realm
                     switch (__tempinput)
                     {
                         case 'a':
-                            Formatting.type("The artificer has some magically charged rings for sale. Buy one for 20? (y/n)");
+                            Formatting.type("The artificer has some magically charged rings for sale. Buy one for 15 gold? (y/n)");
                             switch (Console.ReadKey().KeyChar)
                             {
                                 case 'y':
@@ -715,6 +716,7 @@ namespace Realm
                         case 'l':
                             if (Main.ramsaycounter == 0)
                             {
+                                Main.Player.xp += 10;
                                 Formatting.type("There are three books. Do you wish to read Climbing Safety (c), Solomon's Answer (s), or Gordon Ramsay: A Biology (g)");
                                 switch (Console.ReadKey().KeyChar)
                                 {
@@ -730,12 +732,12 @@ namespace Realm
                                                         Formatting.type("You try to enter, but the door requires a password.");
                                                         if (Console.ReadLine() == "Don't Fall")
                                                         {
-                                                            Formatting.type(" You open the door to find a dark room with a suspicious figure conducting suspicious rituals. The man looks flustered and says 'Nice day isn't it?'. As you wonder what anyone would be doing in such a dark room, the man edges his way to the entrance and dashes outside. He forgot to take his book with him. Do you wish to take it? (y/n) ");
+                                                            Formatting.type("You open the door to find a dark room with a suspicious figure conducting suspicious rituals. The man looks flustered and says 'Nice day isn't it?'. As you wonder what anyone would be doing in such a dark room, the man edges his way to the entrance and dashes outside. He forgot to take his book with him. Do you wish to take it? (y/n) ");
                                                             switch (Console.ReadKey().KeyChar)
                                                             {
                                                                 case 'y':
                                                                     Main.Player.abilities.AddCommand(new Combat.ConsumeSoul("Consume Soul", 'u'));
-                                                                    Formatting.type(" Learned 'Consume Soul'!");
+                                                                    Formatting.type("Learned 'Consume Soul'!");
                                                                     break;
                                                                 case 'n':
                                                                     Formatting.type("You remember that you are an exemplary member of society and that you will by no means touch another's belongings without their consent. You leave the room like the good man you are.");
@@ -856,6 +858,7 @@ namespace Realm
                 case 'l':
                     if (Main.nlibcounter == 0)
                     {
+                        Main.Player.xp += 10;
                         Formatting.type("In the royal library you find 'Crescent Path'(c), 'Tale of Sariel'(t), 'History of The Realm'(h), and Gordon ramsay: A Geology(g). Which do you wish to read?");
                         switch (Console.ReadKey().KeyChar)
                         {
@@ -1003,6 +1006,7 @@ namespace Realm
                 case 'l':
                     if (Main.centrallibcounter == 0)
                     {
+                        Main.Player.xp += 10;
                         Formatting.type("This massive building is a monument to human knowledge. You feel dwarfed by its towering presence.");
                         Formatting.type("You arrive at a shelf that draws your attention. There are six books. The first one is a musty tome entitled Alcwyn's Legacy(a). The second one is A Guide to Theivery(g), the third Sacrificial Rite(s). The fourth book is The Void(v). The fifth book is Samael's Game(j). The final book's title ramsay: A Mathematics(r). Which do you read?");
                         switch (Console.ReadKey().KeyChar)
@@ -1264,6 +1268,7 @@ namespace Realm
                 case 'r':
                     if (Main.townfolkcounter == 0)
                     {
+                        Main.Player.xp += 10;
                         Formatting.type("You visit the house of the jobless former librarian. He says there is something very strange about that sword monument in Central. He says you can never go anywhere unarmed. He teaches you a new ability.");
                         Formatting.type("Learned 'Incinerate'!");
                         Main.Player.abilities.AddCommand(new Combat.Incinerate("Incinerate", 'i'));

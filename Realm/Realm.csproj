@@ -88,6 +88,7 @@
     <Compile Include="Formatting.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Init.cs" />
+    <Compile Include="Items.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Places.cs" />
     <Compile Include="Player.cs" />

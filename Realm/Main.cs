@@ -41,6 +41,7 @@ namespace Realm
             List<string> classlist = new List<string> { "Warrior", "warrior","Paladin", "paladin", "Mage", "mage", "Thief", "thief" };
             Formatting.type("Welcome, " + Player.name + ", to Realm.");
             Formatting.type("To do anything in Realm, simply press one of the listed commands.");
+            Formatting.type("Make sure to visit every library! They offer many valuable abilities as well as experience.");
             Formatting.type("When in combat, select an availible move. All damage is randomized. Mana is refilled after each fight.");
             Formatting.type("While in the backpack, simply select a number corresponding to an item. You may swap this item in or out. Make sure to equip an item once you pick it up!");
             Formatting.type("At any specified time, you may press x, then y. This will cause you to commit suicide.");
@@ -54,6 +55,11 @@ namespace Realm
                 race = Console.ReadLine();
             }
             Player.race = Formatting.ToUpperFirstLetter(race);
+            if (Player.race == "Giant")
+            {
+                Player.maxhp = 16;
+                Player.hp = 16;
+            }
             Formatting.type("You have selected " + Player.race + ".");
             Formatting.type("Each player also has a class. You may choose from Warrior, Paladin, Mage, or Thief.");
             Formatting.type("Please enter a class. ");
@@ -89,6 +95,7 @@ namespace Realm
                 if (!Player.abilities.commandChars.Contains('/'))
                     Player.abilities.AddCommand(new Combat.ArrowsofLies("Arrows of Lies", '/'));
             }
+            Player.applybonus();
             while (!End.IsDead)
             {
                 Enemy enemy = new Enemy();
@@ -235,7 +242,7 @@ namespace Realm
                         Player.fire++;
                         int dmg = Combat.Dice.roll(1, 3);
                         Player.hp -= dmg;
-                        Formatting.type("You take " + " fire damage.");
+                        Formatting.type("You take " + dmg + " fire damage.");
                     }
                     if (Player.blinded)
                         Player.blinded = false;
@@ -302,7 +309,7 @@ namespace Realm
                         Player.fire++;
                         int dmg = Combat.Dice.roll(1, 3);
                         Player.hp -= dmg;
-                        Formatting.type("You take " + " fire damage.");
+                        Formatting.type("You take " + dmg + " fire damage.");
                     }
                     if (Player.cursed)
                     {
@@ -327,12 +334,26 @@ namespace Realm
                         enemy.fire++;
                         int dmg = Combat.Dice.roll(1, 3);
                         enemy.hp -= dmg;
-                        Formatting.type(enemy.name + " takes " + " fire damage.");
+                        Formatting.type(enemy.name + " takes " + dmg + " fire damage.");
+                        if (enemy.hp <= 0)
+                        {
+                            Formatting.type("Your have defeated " + enemy.name + "!");
+                            enemy.droploot();
+                            Player.levelup();
+                            return;
+                        }
                     }
                     if (enemy.cursed)
                     {
                         Formatting.type(enemy.name + " is cursed!");
                         enemy.hp -= Combat.Dice.roll(1, 6);
+                        if (enemy.hp <= 0)
+                        {
+                            Formatting.type("Your have defeated " + enemy.name + "!");
+                            enemy.droploot();
+                            Player.levelup();
+                            return;
+                        }
                     }
                     if (enemy.trapped)
                     {
@@ -340,6 +361,20 @@ namespace Realm
                         int dmg = (5 + (Player.level / 5) + (Player.intl / 3) + Combat.Dice.roll(1, 5));
                         enemy.hp -= dmg;
                         Formatting.type(enemy.name + " takes " + dmg + "damage!");
+                        if (enemy.hp <= 0)
+                        {
+                            Formatting.type("Your have defeated " + enemy.name + "!");
+                            enemy.droploot();
+                            Player.levelup();
+                            return;
+                        }
+                    }
+                    if (enemy.hp <= 0)
+                    {
+                        Formatting.type("Your have defeated " + enemy.name + "!");
+                        enemy.droploot();
+                        Player.levelup();
+                        return;
                     }
                     int oldhp = Player.hp;
                     string ability;
@@ -404,10 +439,16 @@ namespace Realm
                 Item i = (Item)Data;
                 Formatting.type(i.name);
                 Formatting.type("Description: " + i.desc);
-                Formatting.type("Attack Buff: " + i.atkbuff);
-                Formatting.type("Defense Buff: " + i.defbuff);
-                Formatting.type("Speed Buff: " + i.spdbuff);
-                Formatting.type("Intelligence Buff: " + i.intlbuff);
+                Formatting.type("Attack Buff: " + i.atkbuff + " / Defense Buff: " + i.defbuff + " / Speed Buff: " + i.spdbuff + " / Intelligence Buff: " + i.intlbuff);
+                if (i.slot == 1)
+                    Formatting.type("Slot: Primary");
+                else if (i.slot == 2)
+                    Formatting.type("Slot: Secondary");
+                else if (i.slot == 3)
+                    Formatting.type("Slot: Armor");
+                else if (i.slot == 4)
+                    Formatting.type("Slot: Accessory");
+                Formatting.type("Tier: " + i.tier);
                 Formatting.type("Enter (y) to equip this item, (d) to destroy and anything else to go back.");
                 char c = Console.ReadKey().KeyChar;
                 switch (c)
@@ -425,22 +466,26 @@ namespace Realm
                     case 'd':
                         if (i.slot == 1)
                         {
-                            Player.primary = new Item();
+                            if (Player.primary == i)
+                                Player.primary = new Item();
                             Player.backpack.Remove(i);
                         }
                         else if (i.slot == 2)
                         {
-                            Player.secondary = new Item();
+                            if (Player.secondary == i)
+                                Player.secondary = new Item();
                             Player.backpack.Remove(i);
                         }
                         else if (i.slot == 3)
                         {
-                            Player.armor = new Item();
+                            if (Player.armor == i)
+                                Player.armor = new Item();
                             Player.backpack.Remove(i);
                         }
                         else if (i.slot == 4)
                         {
-                            Player.accessory = new Item();
+                            if (Player.accessory == i)
+                                Player.accessory = new Item();
                             Player.backpack.Remove(i);
                         }
                         break;
@@ -456,22 +501,10 @@ namespace Realm
             while(loopcontrol)
             {
                 Formatting.type("**********Current Equipment**********");
-                if (!Player.primary.Equals(default(Item)))
-                    Formatting.type("Primary: " + Player.primary.name);
-                else
-                    Formatting.type("Primary: None.");
-                if (!Player.secondary.Equals(default(Item)))
-                    Formatting.type("Secondary: " + Player.secondary.name);
-                else
-                    Formatting.type("Secondary: None.");
-                if (!Player.armor.Equals(default(Item)))
-                    Formatting.type("Armor: " + Player.armor.name);
-                else
-                    Formatting.type("Armor: None.");
-                if (!Player.accessory.Equals(default(Item)))
-                    Formatting.type("Accessory: " + Player.accessory.name);
-                else
-                    Formatting.type("Accessory: None.");
+                Formatting.type("Primary: " + Player.primary.name);
+                Formatting.type("Secondary: " + Player.secondary.name);
+                Formatting.type("Armor: " + Player.armor.name);
+                Formatting.type("Accessory: " + Player.accessory.name);
                 Formatting.type("*************************************");
                 int q = 1;
                 Combat.CommandTable cmd = new Combat.CommandTable();
