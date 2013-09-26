@@ -64,6 +64,8 @@ namespace Realm
             lines.Add("townfolkcounter=" + Main.townfolkcounter);
             lines.Add("nomadcounter=" + Main.nomadcounter);
             lines.Add("minecounter=" + Main.minecounter);
+            lines.Add("frozencounter=" + Main.frozencounter);
+            lines.Add("noobcounter=" + Main.noobcounter);
             lines.Add("g=" + Main.Player.g);
             lines.Add("xp=" + Main.Player.xp);
             string[] linesarray = lines.ToArray<string>();
@@ -239,7 +241,7 @@ namespace Realm
                         if (entry.Key == "Vorpal Blades")
                             Main.Player.abilities.AddCommand(new Combat.VorpalBlades("Vorpal Blades", 'v'));
                         if (entry.Key == "Incinerate")
-                            Main.Player.abilities.AddCommand(new Combat.Incinerate("Incinerate", 'i'));
+                            Main.Player.abilities.AddCommand(new Combat.Incinerate("Incinerate", 'a'));
                         if (entry.Key == "Heavensplitter")
                             Main.Player.abilities.AddCommand(new Combat.Heavensplitter("Heavensplitter", 'z'));
                         if (entry.Key == "Gamble")
@@ -260,6 +262,14 @@ namespace Realm
                             Main.Player.abilities.AddCommand(new Combat.Rage("Rage", 'r'));
                         if (entry.Key == "Hell's Kitchen")
                             Main.Player.abilities.AddCommand(new Combat.HellsKitchen("Hell's Kitchen", '@'));
+                        if (entry.Key == "Ice Chains")
+                            Main.Player.abilities.AddCommand(new Combat.IceChains("Ice Chains", 'i'));
+                        if (entry.Key == "Now You See Me")
+                            Main.Player.abilities.AddCommand(new Combat.NowYouSeeMe("Now You See Me", 'y'));
+                        if (entry.Key == "Illusion")
+                            Main.Player.abilities.AddCommand(new Combat.Illusion("Illusion", '?'));
+                        if (entry.Key == "Pew Pew Pew")
+                            Main.Player.abilities.AddCommand(new Combat.PewPewPew("Pew Pew Pew", 'w'));
                         if (entry.Key == "loopnumber")
                             Main.loop_number = Convert.ToInt32(entry.Value);
                         if (entry.Key == "wkingcounter")
@@ -284,6 +294,10 @@ namespace Realm
                             Main.nomadcounter = Convert.ToInt32(entry.Value);
                         if (entry.Key == "minecounter")
                             Main.minecounter = Convert.ToInt32(entry.Value);
+                        if (entry.Key == "frozencounter")
+                            Main.frozencounter = Convert.ToInt32(entry.Value);
+                        if (entry.Key == "noobcounter")
+                            Main.noobcounter = Convert.ToInt32(entry.Value);
                         if (entry.Key == "is_thief")
                             Main.is_theif = true;
                     }

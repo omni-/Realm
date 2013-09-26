@@ -23,6 +23,8 @@ namespace Realm
         public static int townfolkcounter = 0;
         public static int nomadcounter = 0;
         public static int minecounter = 0;
+        public static int frozencounter = 0;
+        public static int noobcounter = 0;
 
         public static int gbooks = 0;
 
@@ -289,7 +291,16 @@ namespace Realm
                     if (!Player.blinded)
                         Player.abilities.ExecuteCommand(ch, enemy);
                     else
+                    {
                         Formatting.type("You are blind!");
+                        if (Combat.Dice.roll(1, 10) == 1)
+                        {
+                            Formatting.type("By some miracle, you manage to hit them!");
+                            Player.abilities.ExecuteCommand(ch, enemy);
+                            int  blindenemyhp = oldhp - enemy.hp;
+                            Formatting.type("The enemy takes " + blindenemyhp + " damage!");
+                        }
+                    }
                     int enemyhp = oldhp - enemy.hp;
                     Formatting.type("The enemy takes " + enemyhp + " damage!");
                     if (enemy.hp <= 0)
@@ -391,8 +402,18 @@ namespace Realm
                     }
                     else
                     {
-                       if (Player.blinded)
+                        if (Player.blinded)
+                        {
                             Formatting.type(enemy.name + "is blind!");
+                            if (Combat.Dice.roll(1, 10) == 1)
+                            {
+                                Formatting.type("By some miracle, " + enemy.name + " manages to hit you!");
+                                enemy.attack(out ability);
+                                enemydmg = oldhp - Player.hp;
+                                Formatting.type(enemy.name + " used " + ability);
+                                Formatting.type("You take " + enemydmg + " damage!");
+                            }
+                        }
                         else if (Player.guarded)
                             Formatting.type("Safeguard prevented damage!");
                     }

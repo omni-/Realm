@@ -1908,7 +1908,7 @@ namespace Realm
             return true;
         }
     }
-    public class ForzenFjords : Place
+    public class FrozenFjords : Place
     {
         protected override string GetDesc()
         {
@@ -1951,7 +1951,7 @@ namespace Realm
                     {
                         case 'a':
                             if (Main.Purchase(75, new ice_amulet()))
-                                Formatting.type("Obtained 'ICe Amulet'!");
+                                Formatting.type("Obtained 'Ice Amulet'!");
                             break;
                         case 's':
                             if (Main.Purchase(75, new ice_shield()))
@@ -1988,18 +1988,145 @@ namespace Realm
                     }
                     break;
                 case 'l':
-                    Formatting.type("You arrive at a library made of ice, and although it's cold as dead kittens, you decide to go in. 3 books catch your eye. Cold (c), Frost(f), or Ice(i).");
-                    switch(Console.ReadKey().KeyChar)
+                    if (Main.frozencounter == 0)
                     {
-                        case 'c':
-                            Formatting.type("");
+                        Formatting.type("You arrive at a library made of ice, and although it's cold as dead kittens, you decide to go in. 3 books catch your eye. Cold (c), Frost(f), or Ice(i).");
+                        switch (Console.ReadKey().KeyChar)
+                        {
+                            case 'c':
+                                Formatting.type("You pick up the book entitled Cold. You read of the century long winter from the days of old. It kind of scares you, but you feel smarter and faster.");
+                                Main.Player.intl += 2;
+                                Main.Player.spd += 2;
+                                break;
+                            case 'f':
+                                Formatting.type("You pick of the book entitled Frost. You learn of the event that froze over this once-warm town. It terrifies you, but you feel stronger and tougher.");
+                                Main.Player.atk += 1;
+                                Main.Player.def += 1;
+                                break;
+                            case 'i':
+                                Formatting.type("You pick up the book entitled Ice. You learn of the ancient sorcer who was able to cast ice speels by drawing the heat out of the air, and the water from the ground.");
+                                Formatting.type("Learned 'Ice Chains'!");
+                                Main.Player.abilities.AddCommand(new Combat.IceChains("Ice Chains", 'i'));
+                                break;
+                            default:
+                                break;
+                        }
+                        Main.frozencounter++;
+                    }
+                    break;
+                case '#':
+                    Save.SaveGame();
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
+    }
+    public class MagicCity : Place
+    {
+        protected override string GetDesc()
+        {
+            return "You arrive at the fabled City of Magic, although now that you're here, it's a lot less it's cracked up to be. People are pulling rabbits out of hats here, not blasting dragons with fireballs. You do, however, find a bit of the town that's a Wizard's Guild, although not very good wizards reside there. You may go to their magic dealer(a), their inn(i), or their library(l).";
+        }
+        public override Enemy getEnemyList()
+        {
+            return null;
+        }
+        public override char[] getAvailableCommands()
+        {
+            List<char> templist = new List<char>();
+            if (Main.Player.backpack.Count >= 1)
+                templist.Add('b');
+            if (Main.hasmap)
+                templist.Add('m');
+            if (Globals.PlayerPosition.x > 0)
+                templist.Add('w');
+            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+                templist.Add('e');
+            if (Globals.PlayerPosition.y > 0)
+                templist.Add('s');
+            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+                templist.Add('n');
+            templist.Add('a');
+            templist.Add('i');
+            templist.Add('l');
+            templist.Add('#');
+            return templist.ToArray<char>();
+
+        }
+
+        public override bool _handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'a':
+                    Formatting.type("A young man with one of those stereotypical black and white 'wands' is running the shop. You may buy Apprentice Robes(a, 15), Junior Mage Staff(j, 12), Magic For Dummies(m, 10), or Magic Ring(r, 15).");
+                    switch (Console.ReadKey().KeyChar)
+                    {
+                        case 'a':
+                            if (Main.Purchase(15, new m_robes()))
+                                Formatting.type("Obtained 'Apprentice Robes'!");
                             break;
-                        case 'f':
+                        case 'j':
+                            if (Main.Purchase(12, new m_staff()))
+                                Formatting.type("Obtained 'Junior Mage Staff'!");
                             break;
-                        case 'i':
+                        case 'm':
+                            if (Main.Purchase(10, new m_tome()))
+                                Formatting.type("Obtained 'Magic for Dummies'!");
+                            break;
+                        case 'r':
+                            if (Main.Purchase(15, new m_amulet()))
+                                Formatting.type("Obtained 'Magic Ring'!");
                             break;
                         default:
                             break;
+                    }
+                    break;
+                case 'i':
+                    Formatting.type("Do you wish to stay at the Rabbit-Inn-Hat for 12 gold? (y/n)");
+                    switch (Console.ReadKey().KeyChar)
+                    {
+                        case 'y':
+                            if (Main.Purchase(12))
+                            {
+                                Formatting.type("Your health has been restored, but when you tried to pull a sock from your suitcase, and infinite chain of rainbow hankies tied together stopped you from actually getting a sock. So now you only have one.");
+                                Main.Player.hp = Main.Player.maxhp;
+                            }
+                            break;
+                        case 'n':
+                            Formatting.type("You leave.");
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 'l':
+                    if (Main.noobcounter == 0)
+                    {
+                        Formatting.type("You arrive at a library which looks more like Half-Price books than an actual library. You may read Dissapearance(d), the Art of Illusion(i), or Magical Lasers(m).");
+                        switch (Console.ReadKey().KeyChar)
+                        {
+                            case 'd':
+                                Formatting.type("You learn about how the first mages learned to make themselves dissapear.");
+                                Formatting.type("Learned 'Now You See Me'!");
+                                Main.Player.abilities.AddCommand(new Combat.NowYouSeeMe("Now You See Me", 'y'));
+                                break;
+                            case 'i':
+                                Formatting.type("You learn about how the first wizards learnt to decieve people's minds.");
+                                Formatting.type("Learned 'Illusion'!");
+                                Main.Player.abilities.AddCommand(new Combat.Illusion("Illusion", '?'));
+                                break;
+                            case 'l':
+                                Formatting.type("You learn of how to make cool lasers with magic.");
+                                Formatting.type("Learned 'Pew Pew Pew'!");
+                                Main.Player.abilities.AddCommand(new Combat.PewPewPew("Pew Pew Pew", 'w'));
+                                break;
+                            default:
+                                break;
+                        }
+                        Main.noobcounter++;
                     }
                     break;
                 case '#':

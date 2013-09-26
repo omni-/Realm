@@ -16,15 +16,17 @@ namespace Realm
     {
         public static Place[,] map = new Place[,] {
 
-        {new Place(), new Seaport(), new Place(), new IllusionForest(), new Place(), new WKingdom()},
+        {new Place(), new Place(), new Seaport(), new Place(), new IllusionForest(), new Place(), new WKingdom()},
 
-        {new Place(), new Place(), new Valleyburg(), new Place(), new Riverwell(), new NKingdom()},
+        {new Place(), new Valleyburg(), new Place(), new Place(), new Place(), new Riverwell(), new Place()},
         
-        {new SKingdom(), new Nomad(), new CentralKingdom(), new Place(), new Place(), new Place()},
+        {new SKingdom(), new Place(), new MagicCity(), new Place(), new Place(), new Place(), new NKingdom()},
  
-        {new Place(), new TwinPaths(), new Place(), new Newport(), new NMtns(), new Place()},
+        {new Place(), new Place(), new Place(), new CentralKingdom(), new Place(), new NMtns(), new Place()},
+        
+        {new FrozenFjords(), new Place(), new TwinPaths(), new Place(), new Newport(), new Place(), new Place()},
          
-        {new Place(), new Ravenkeep(), new EKingdom(), new Place(), new Place(), new Coaltown()}
+        {new Place(), new Ravenkeep(), new Place(), new EKingdom(), new Place(), new Nomad(), new Coaltown()}
 
         };
 

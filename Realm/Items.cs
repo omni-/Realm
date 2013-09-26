@@ -151,6 +151,54 @@ namespace Realm
         }
     }
     //mediocre tier
+    public class m_robes : Item
+    {
+        public m_robes()
+        {
+            name = "Apprentice Robes";
+            desc = "A soft, vaguely magical cloth worn by mage trainees.";
+            intlbuff = 2;
+            defbuff = 3;
+            tier = 2;
+            slot = 3;
+        }
+    }
+    public class m_staff : Item
+    {
+        public m_staff()
+        {
+            name = "Junior Mage Staff";
+            desc = "A staff given to those who are kinda good at magic.";
+            intlbuff = 4;
+            atkbuff = 2;
+            tier = 2;
+            slot = 1;
+        }
+    }
+    public class m_tome : Item
+    {
+        public m_tome()
+        {
+            name = "Magic for Dummies";
+            desc = "\"Learn Magic in just one week!\"";
+            intlbuff = 3;
+            defbuff = 1;
+            tier = 2;
+            slot = 2;
+        }
+    }
+    public class m_amulet : Item
+    {
+        public m_amulet()
+        {
+            name = "Magic Ring";
+            desc = "A copper ring with a glowing gem on it.";
+            intlbuff = 3;
+            spdbuff = 3;
+            tier = 2;
+            slot = 4;
+        }
+    }
     public class iron_lance : Item
     {
         public iron_lance()
@@ -197,7 +245,7 @@ namespace Realm
 
             name = "Iron Buckler";
             desc = "A lightweight buckler meant for all professions.";
-            defbuff = 3;
+            defbuff = 4;
             tier = 2;
             slot = 2;
         }
@@ -312,7 +360,7 @@ namespace Realm
             name = "Ice Dagger";
             desc = "The user almost seems to teleport, they go so fast.";
             spdbuff = 6;
-            atkbuff = 6;
+            atkbuff = 6; 
             slot = 1;
             tier = 4;
         }

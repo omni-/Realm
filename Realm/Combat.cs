@@ -52,6 +52,13 @@ namespace Realm
             }
             //return abilities[1];
         }
+        public static bool stunchance(int chance)
+        {
+            if (Dice.roll(1, chance) == 1)
+                return true;
+            else
+                return false;
+        }
         public class Command
         {
             public string name;
@@ -332,7 +339,8 @@ namespace Realm
             public override bool Execute(object Data)
             {
                 Enemy target = (Enemy)Data;
-                target.stunned = true;
+                if (stunchance(3))
+                    target.stunned = true;
                 target.on_fire = true;
                 int damage = Dice.roll(1, Main.Player.atk / 2);
                 if (damage <= 0)
@@ -352,7 +360,8 @@ namespace Realm
             public override bool Execute(object Data)
             {
                 Enemy target = (Enemy)Data;
-                target.stunned = true;
+                if (stunchance(2))
+                    target.stunned = true;
                 int damage = (Main.Player.atk) + (Main.Player.def / 3);
                 if (damage <= 0)
                     damage = 1;
@@ -498,7 +507,65 @@ namespace Realm
             public override bool Execute(object Data)
             {
                 Enemy target = (Enemy)Data;
-                int dmg = Dice.roll(8, (Main.Player.intl + Main.Player.def) / 10);
+                int dmg = Dice.roll(9, (Main.Player.intl + Main.Player.def) / 10);
+                target.hp -= dmg;
+                return true;
+            }
+        }
+        public class IceChains : Command
+        {
+            public IceChains(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                int dmg = Dice.roll(6, (Main.Player.intl + Main.Player.atk) / 4);
+                target.stunned = true;
+                target.hp -= dmg;
+                return true;
+            }
+        }
+        public class NowYouSeeMe : Command
+        {
+            public NowYouSeeMe(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                int dmg = Dice.roll(1, Main.Player.intl);
+                target.blinded = true;
+                target.hp -= dmg;
+                return true;
+            }
+        }
+        public class Illusion : Command
+        {
+            public Illusion(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                int dmg = Dice.roll(1, (Main.Player.intl + Main.Player.atk) / 2);
+                target.hp -= dmg;
+                return true;
+            }
+        }
+        public class PewPewPew : Command
+        {
+            public PewPewPew(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                int dmg = Dice.roll(2, Main.Player.intl - 2);
                 target.hp -= dmg;
                 return true;
             }
