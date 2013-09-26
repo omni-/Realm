@@ -23,7 +23,7 @@ namespace Realm
             }
             public static bool misschance(int spd)
             {
-                int misschance = Dice.roll(1, 101 - (spd * 3));
+                int misschance = Dice.roll(1, 101 + (spd * 3));
                 if (misschance == 1)
                 {
                     Formatting.type("Missed!");
@@ -129,7 +129,7 @@ namespace Realm
                     damage *= Main.Player.primary.multiplier;
                 if (damage <= 0)
                     damage = 1;
-                if (Dice.misschance(Main.Player.spd))
+                if (Dice.misschance(target.spd))
                     damage = 0;
                 target.hp -= Convert.ToInt32(damage);
                 return true;
@@ -148,7 +148,7 @@ namespace Realm
                 double damage = Dice.roll(2, Main.Player.intl);
                 if (damage <= 0)
                     damage = 1;
-                if (Combat.Dice.misschance(-Main.Player.spd))
+                if (Dice.misschance(target.spd))
                     damage = 0;
                 target.hp -= Convert.ToInt32(damage);
                 return true;
@@ -165,7 +165,9 @@ namespace Realm
                 // data should be the enemy
                 Enemy target = (Enemy)data;
                 double damage = Dice.roll(2, Main.Player.atk);
-                if (Combat.Dice.misschance(-Main.Player.spd))
+                if (damage <= 0)
+                    damage = 1;
+                if (Dice.misschance(target.spd))
                     damage = 0;
                 target.hp -= Convert.ToInt32(damage);
                 return true;
@@ -184,7 +186,7 @@ namespace Realm
                 double damage = Dice.roll(2, Main.Player.atk * 2 / 3);
                 if (damage <= 0)
                     damage = 1;
-                if (Combat.Dice.misschance(-Main.Player.spd))
+                if (Dice.misschance(target.spd))
                     damage = 0;
                 target.hp -= Convert.ToInt32(damage);
                 Main.Player.hp += Convert.ToInt32(damage / 3);
@@ -205,7 +207,7 @@ namespace Realm
                 double damage = Dice.roll(2, Main.Player.def/2);
                 if (damage <= 0)
                     damage = 1;
-                if (Combat.Dice.misschance(-Main.Player.spd))
+                if (Dice.misschance(target.spd))
                     damage = 0;
                 target.hp -= Convert.ToInt32(damage);
                 return true;
@@ -266,6 +268,10 @@ namespace Realm
             {
                 Enemy target = (Enemy)Data;
                 int dmg = Dice.roll(1, Main.Player.atk / 2);
+                if (dmg <= 0)
+                    dmg = 1;
+                if (Dice.misschance(target.spd))
+                    dmg = 0;
                 target.hp -= dmg;
                 Main.Player.hp -= dmg / 2;
                 return true;
@@ -281,6 +287,7 @@ namespace Realm
             {
                 Enemy target = (Enemy)Data;
                 Main.Player.phased = true;
+                target.hp -= 2;
                 return true;
             }
         }
@@ -293,7 +300,12 @@ namespace Realm
             public override bool Execute(object Data)
             {
                 Enemy target = (Enemy)Data;
-                target.hp -= Dice.roll(1, ((Main.Player.atk/3) + Main.Player.intl/3));
+                int damage = Dice.roll(1, ((Main.Player.atk/3) + Main.Player.intl/3));
+                if (damage <= 0)
+                    damage = 1;
+                if (Dice.misschance(target.spd))
+                    damage = 0;
+                target.hp -= damage;
                 return true;
             }
         }
@@ -322,7 +334,12 @@ namespace Realm
                 Enemy target = (Enemy)Data;
                 target.stunned = true;
                 target.on_fire = true;
-                target.hp -= Dice.roll(1, Main.Player.atk / 2);
+                int damage = Dice.roll(1, Main.Player.atk / 2);
+                if (damage <= 0)
+                    damage = 1;
+                if (Dice.misschance(target.spd))
+                    damage = 0;
+                target.hp -= damage;
                 return true;
             }
         }
@@ -336,7 +353,12 @@ namespace Realm
             {
                 Enemy target = (Enemy)Data;
                 target.stunned = true;
-                target.hp -= (Main.Player.atk) + (Main.Player.def / 3);
+                int damage = (Main.Player.atk) + (Main.Player.def / 3);
+                if (damage <= 0)
+                    damage = 1;
+                if (Dice.misschance(target.spd))
+                    damage = 0;
+                target.hp -= damage;
                 return true;
             }
         }
@@ -426,7 +448,12 @@ namespace Realm
             public override bool Execute(object Data)
             {
                 Enemy target = (Enemy)Data;
-                target.hp -= Main.Player.hp;
+                int damage = (Main.Player.maxhp - Main.Player.hp);
+                if (damage <= 0)
+                    damage = 1;
+                if (Dice.misschance(target.spd))
+                    damage = 0;
+                target.hp -= damage;
                 return true;
             }
         }
@@ -439,7 +466,7 @@ namespace Realm
             public override bool Execute(object Data)
             {
                 Enemy target = (Enemy)Data;
-                target.hp -= Main.Player.spd;
+                target.hp -= Main.Player.spd + Dice.roll(1, Main.Player.spd);
                 return true;
             }
         }
@@ -454,6 +481,10 @@ namespace Realm
                 Enemy target = (Enemy)Data;
                 target.blinded = true;
                 int dmg = Dice.roll(2, Main.Player.atk);
+                if (dmg <= 0)
+                    dmg = 1;
+                if (Dice.misschance(target.spd))
+                    dmg = 0;
                 target.hp -= dmg;
                 return true;
             }

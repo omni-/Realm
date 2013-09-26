@@ -72,19 +72,18 @@ namespace Realm
                 double damage = Combat.Dice.roll(1, atk);
                 if (atk < Main.Player.def)
                     damage = 1;
-                dmg = Convert.ToInt32(damage) - Main.Player.def;
+                dmg = Convert.ToInt32(damage) - (Main.Player.def / 3);
                 ability_used = "Basic Attack";
             }
             else if (Combat.DecideAttack(abilities) == "SuperSlimySlam")
             {
                 double damage = Combat.Dice.roll(1, (atk * 2) + 1);
-                dmg = (Convert.ToInt32(damage) - Main.Player.def);
-                dmg += 1;
+                dmg = (Convert.ToInt32(damage) - Main.Player.def) + 1;
                 ability_used = "Super Slimy Slam";
             }
             if (dmg <= 0)
                 dmg = 1;
-            if (Combat.Dice.misschance(-Main.Player.spd))
+            if (Combat.Dice.misschance(Main.Player.spd))
                 dmg = 0;
             Main.Player.hp -= dmg;
         }
@@ -112,7 +111,7 @@ namespace Realm
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
-                dmg = Math.Max((Convert.ToInt32(damage) - Main.Player.def), 0);
+                dmg = Math.Max((Convert.ToInt32(damage) - (Main.Player.def / 3)), 0);
                 ability_used = "Basic Attack";
             }
             else if (Combat.DecideAttack(abilities) == "Impale")
@@ -130,7 +129,7 @@ namespace Realm
             }
             if (dmg <= 0)
                 dmg = 1;
-            if (Combat.Dice.misschance(-Main.Player.spd))
+            if (Combat.Dice.misschance(Main.Player.spd))
                 dmg = 0;
             Main.Player.hp -= dmg;
         }
@@ -158,7 +157,7 @@ namespace Realm
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
-                dmg = Math.Max((Convert.ToInt32(damage) - Main.Player.def), 0);
+                dmg = Math.Max((Convert.ToInt32(damage) - (Main.Player.def / 3)), 0);
                 ability_used = "Basic Attack";
             }
             else if (Combat.DecideAttack(abilities) == "DustStorm")
@@ -169,13 +168,13 @@ namespace Realm
             }
             else if (Combat.DecideAttack(abilities) == "RavenousPound")
             {
-                double damage = Combat.Dice.roll(3, 2);
+                double damage = Combat.Dice.roll(3, 4);
                 dmg = Convert.ToInt32(damage);
                 ability_used = "Ravenous Pound";
             }
             if (dmg <= 0)
                 dmg = 1;
-            if (Combat.Dice.misschance(-Main.Player.spd))
+            if (Combat.Dice.misschance(Main.Player.spd))
                 dmg = 0;
             Main.Player.hp -= dmg;
         }
@@ -204,7 +203,7 @@ namespace Realm
                 double damage = Combat.Dice.roll(1, atk);
                 if (atk < Main.Player.def)
                     damage = 1;
-                dmg = Convert.ToInt32(damage) - Main.Player.def;
+                dmg = Convert.ToInt32(damage) - -(Main.Player.def / 3);
                 ability_used = "Basic Attack";
             }
             else if (Combat.DecideAttack(abilities) == "Terminate")
@@ -215,7 +214,7 @@ namespace Realm
             }
             if (dmg <= 0)
                 dmg = 1;
-            if (Combat.Dice.misschance(-Main.Player.spd))
+            if (Combat.Dice.misschance(Main.Player.spd))
                 dmg = 0;
             Main.Player.hp -= dmg;
         }
@@ -246,14 +245,14 @@ namespace Realm
                 double damage = Combat.Dice.roll(1, atk);
                 if (atk < Main.Player.def)
                     damage = 1;
-                dmg = Convert.ToInt32(damage) - Main.Player.def;
+                dmg = Convert.ToInt32(damage) - (Main.Player.def / 3);
                 ability_used = "Basic Attack";
             }
             else if (Combat.DecideAttack(abilities) == "Singe")
             {
                 double damage = Combat.Dice.roll(1, atk * 2 / 3);
                 Main.Player.on_fire = true;
-                dmg = Convert.ToInt32(damage) - Main.Player.def;
+                dmg = Convert.ToInt32(damage) - (Main.Player.def / 3);
                 ability_used = "Singe";
             }
             else if (Combat.DecideAttack(abilities) == "Chomp")
@@ -264,7 +263,7 @@ namespace Realm
             }
             if (dmg <= 0)
                 dmg = 1;
-            if (Combat.Dice.misschance(-Main.Player.spd))
+            if (Combat.Dice.misschance(Main.Player.spd))
                 dmg = 0;
             Main.Player.hp -= dmg;
         }
@@ -295,14 +294,14 @@ namespace Realm
                 double damage = Combat.Dice.roll(1, atk);
                 if (atk < Main.Player.def)
                     damage = 1;
-                dmg = Convert.ToInt32(damage) - Main.Player.def;
+                dmg = Convert.ToInt32(damage) - (Main.Player.def / 3);
                 ability_used = "Basic Attack";
             }
             else if (Combat.DecideAttack(abilities) == "Crow Call")
             {
                 double damage = Combat.Dice.roll(2, atk / 3);
                 Main.Player.cursed = true;
-                dmg = Convert.ToInt32(damage) - Main.Player.def;
+                dmg = Convert.ToInt32(damage) - (Main.Player.def / 3);
                 ability_used = "Crow Call";
             }
             else if (Combat.DecideAttack(abilities) == "Murder")
@@ -314,7 +313,7 @@ namespace Realm
             }
             if (dmg <= 0)
                 dmg = 1;
-            if (Combat.Dice.misschance(-Main.Player.spd))
+            if (Combat.Dice.misschance(Main.Player.spd))
                 dmg = 0;
             Main.Player.hp -= dmg;
         }
@@ -345,7 +344,7 @@ namespace Realm
                 double damage = Combat.Dice.roll(1, atk);
                 if (atk < Main.Player.def)
                     damage = 1;
-                dmg = Convert.ToInt32(damage) - Main.Player.def;
+                dmg = Convert.ToInt32(damage) - (Main.Player.def / 3);
                 ability_used = "Basic Attack";
             }
             else if (Combat.DecideAttack(abilities) == "Illusory Slash")
@@ -360,11 +359,11 @@ namespace Realm
                 double damage = Combat.Dice.roll(2, atk / 2);
                 Main.Player.stunned = true;
                 Main.Player.cursed = true;
-                dmg = Convert.ToInt32(damage) - Main.Player.def;
+                dmg = Convert.ToInt32(damage) - (Main.Player.def / 3);
             }
             if (dmg <= 0)
                 dmg = 1;
-            if (Combat.Dice.misschance(-Main.Player.spd))
+            if (Combat.Dice.misschance(Main.Player.spd))
                 dmg = 0;
             Main.Player.hp -= dmg;
         }

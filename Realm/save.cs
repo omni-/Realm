@@ -246,6 +246,20 @@ namespace Realm
                             Main.Player.abilities.AddCommand(new Combat.Gamble("Gamble", '$'));
                         if (entry.Key == "Force Pulse")
                             Main.Player.abilities.AddCommand(new Combat.ForcePulse("Force Pulse", 'p'));
+                        if (entry.Key == "Nightshade")
+                            Main.Player.abilities.AddCommand(new Combat.Nightshade("Nightshade", 'n'));
+                        if (entry.Key == "Safeguard")
+                            Main.Player.abilities.AddCommand(new Combat.Safeguard("Safeguard", 'g'));
+                        if (entry.Key == "Mimic")
+                            Main.Player.abilities.AddCommand(new Combat.Mimic("Mimic", 'm'));
+                        if (entry.Key == "Lay Trap")
+                            Main.Player.abilities.AddCommand(new Combat.LayTrap("Lay Trap", 'l'));
+                        if (entry.Key == "Lightspeed")
+                            Main.Player.abilities.AddCommand(new Combat.Lightspeed("Lightspeed", '!'));
+                        if (entry.Key == "Rage")
+                            Main.Player.abilities.AddCommand(new Combat.Rage("Rage", 'r'));
+                        if (entry.Key == "Hell's Kitchen")
+                            Main.Player.abilities.AddCommand(new Combat.HellsKitchen("Hell's Kitchen", '@'));
                         if (entry.Key == "loopnumber")
                             Main.loop_number = Convert.ToInt32(entry.Value);
                         if (entry.Key == "wkingcounter")
@@ -270,8 +284,6 @@ namespace Realm
                             Main.nomadcounter = Convert.ToInt32(entry.Value);
                         if (entry.Key == "minecounter")
                             Main.minecounter = Convert.ToInt32(entry.Value);
-                        if (entry.Key == "gbooks")
-                            Main.gbooks = Convert.ToInt32(entry.Value);
                         if (entry.Key == "is_thief")
                             Main.is_theif = true;
                     }

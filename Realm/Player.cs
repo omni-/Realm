@@ -39,6 +39,7 @@ namespace Realm
             public Realm.Combat.CommandTable abilities;
             public void levelup()
             {
+                int xp_overlap;
                 xp_next = level >= 20 ? 62 + (level - 20) * 7 : (level >= 10 ? 17 + (level - 10) * 3 : 17);
                 if (xp >= xp_next)
                 {
@@ -46,21 +47,25 @@ namespace Realm
                     level++;
                     Formatting.type("Congratulations! You have leveled up! You are now level " + level + ".");
                     if (xp_next < 0)
-                        xp = Math.Abs(xp);
+                        xp_overlap = Math.Abs(xp);
                     else
-                        xp = 0;
-                    xp_next = level >= 30 ? 62 + (level - 30) * 7 : (level >= 15 ? 17 + (level - 15) * 3 : 17);
+                        xp_overlap = 0;
+                    xp = xp_overlap;
+                    xp_next = (level >= 30 ? 62 + (level - 30) * 7 : (level >= 15 ? 17 + (level - 15) * 3 : 17));
                     if (xp >= xp_next)
                         levelup();
                 }
             }
             public void applybonus()
             {
-                maxhp = 10 + (level);
-                def = 0 + (level / 2);
-                atk = 0 + (level / 2);
-                intl = 0 + (level / 2);
-                spd = 0 + (level / 2);
+                if (race != "Giant")
+                    maxhp = 10 + (level);
+                else
+                    maxhp = 10 + (level + 2);
+                def = 1 + (level / 2);
+                atk = 1 + (level / 2);
+                intl = 1 + (level / 2);
+                spd = 1 + (level / 2);
 
                 if (race == "Human")
                 {
@@ -69,13 +74,9 @@ namespace Realm
                     spd += (1 + (level / 5));
                 }
                 else if (race == "Elf")
-                    intl += (1 + (level / 5));
+                    intl += (3 + (level / 5));
                 else if (race == "Rockman")
                     def += (3 + (level / 5));
-                else if (race == "Giant")
-                {
-                    maxhp += (5 + (level / 5));
-                }
                 else if (race == "Zephyr")
                     spd += (3 + (level / 5));
                 else if (race == "Shade")

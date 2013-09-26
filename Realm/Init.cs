@@ -18,7 +18,7 @@ namespace Realm
             string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string programName = "update.exe";
             string resourceName = "Realm.update.exe";
-            Formatting.type("Version Number - 1.4.1", 0);
+            Formatting.type("Version Number - 1.4.3", 0);
             Formatting.type("Press p to download latest version. If this is your first time running the game, press p. ", 0);
             if (Console.ReadKey().KeyChar == 'p')
             {
@@ -31,7 +31,7 @@ namespace Realm
                 Formatting.type("\"Greetings. Before we begin, I must know your name.\"");
                 Formatting.type("Please enter your name. ");
                 Main.Player.name = Console.ReadLine();
-                if (Main.Player.name == "__dev__")
+                if (Main.Player.name == Main.devstring)
                 {
                     Console.Clear();
                     Main.Player.level = 100;

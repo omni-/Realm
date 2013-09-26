@@ -36,6 +36,8 @@ namespace Realm
         public static bool devmode = false;
         public static bool hasmap = false;
 
+        public static string devstring = "__dev__";
+
         public static void Tutorial()
         {
             List<string> racelist = new List<string>{ "Human", "human", "Elf", "elf", "Rockman", "rockman", "Giant", "giant", "Zephyr", "zephyr", "Shade", "shade" };
@@ -226,8 +228,10 @@ namespace Realm
             while (enemy.hp >= 0)
             {
                 Formatting.type("//////////////////////");
-                Formatting.type("Enemy HP: " + enemy.hp);
                 Formatting.type("Your HP: " + Player.hp);
+                Formatting.type("Your Mana: " + mana);
+                Formatting.type("----------------------");
+                Formatting.type("Enemy HP: " + enemy.hp);
                 Formatting.type("//////////////////////");
                 if (is_turn && !Player.stunned)
                 {
@@ -358,9 +362,9 @@ namespace Realm
                     if (enemy.trapped)
                     {
                         Formatting.type("Your trap has sprung!");
-                        int dmg = (5 + (Player.level / 5) + (Player.intl / 3) + Combat.Dice.roll(1, 5));
+                        int dmg = (Player.level / 5) + (Player.intl / 3) + Combat.Dice.roll(1, 5);
                         enemy.hp -= dmg;
-                        Formatting.type(enemy.name + " takes " + dmg + "damage!");
+                        Formatting.type(enemy.name + " takes " + dmg + " damage!");
                         if (enemy.hp <= 0)
                         {
                             Formatting.type("Your have defeated " + enemy.name + "!");
