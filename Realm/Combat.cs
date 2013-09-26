@@ -458,6 +458,20 @@ namespace Realm
                 return true;
             }
         }
+        public class ForcePulse : Command
+        {
+            public ForcePulse(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                int dmg = Dice.roll(8, (Main.Player.intl + Main.Player.def) / 10);
+                target.hp -= dmg;
+                return true;
+            }
+        }
     }
 }
    

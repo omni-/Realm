@@ -22,6 +22,7 @@ namespace Realm
         public static int nlibcounter = 0;
         public static int townfolkcounter = 0;
         public static int nomadcounter = 0;
+        public static int minecounter = 0;
 
         public static int gbooks = 0;
 
@@ -96,7 +97,7 @@ namespace Realm
                     Player.abilities.AddCommand(new Combat.ArrowsofLies("Arrows of Lies", '/'));
             }
             Player.applybonus();
-            while (!End.IsDead)
+            while (Player.hp > 0)
             {
                 Enemy enemy = new Enemy();
                 Player.levelup();
@@ -157,7 +158,6 @@ namespace Realm
                     char surecommand = Console.ReadKey().KeyChar;
                     if (surecommand == 'y')
                     {
-                        End.IsDead = true;
                         End.GameOver();
                     }
                 }
@@ -393,10 +393,7 @@ namespace Realm
                             Formatting.type("Safeguard prevented damage!");
                     }
                     if (Player.hp <= 0)
-                    {
-                        End.IsDead = true;
                         End.GameOver();
-                    }
                     is_turn = true;
                 }
                 else if (enemy.stunned)

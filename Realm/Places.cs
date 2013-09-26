@@ -382,7 +382,6 @@ namespace Realm
                             {
                                 case 'y':
                                     Formatting.type("You fall in and drown.");
-                                    End.IsDead = true;
                                     End.GameOver();
                                     break;
                                 case 'n':
@@ -1812,7 +1811,24 @@ namespace Realm
             switch (input)
             {
                 case 'a':
-                    Formatting.type("You visit the arms dealer. He is old, and the wrinkles in his face are blackened with coal dust.");
+                    Formatting.type("You visit the arms dealer. He is old, and the wrinkles in his face are blackened with coal dust. As this town is the only source of the precious black mineral in the all of Realm, these ex-miners are very rich. For sale before you are imported wares from the distant land of Avira. You may buy Azurite Cloak(c, 100), Azurite Amulet(a, 110), or Azurite Staff(s, 120).");
+                    switch(Console.ReadKey().KeyChar)
+                    {
+                        case'a':
+                            if (Main.Purchase(110, new a_amulet()))
+                                Formatting.type("Obtained 'Azurite Amulet'!");
+                            break;
+                        case's':
+                            if (Main.Purchase(120, new a_staff()))
+                                Formatting.type("Obtained 'Azurite Staff'!");
+                            break;
+                        case'c':
+                            if (Main.Purchase(100, new a_mail()))
+                                Formatting.type("Obtained 'Azurite Cloth'!");
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 case 'i':
                     Formatting.type("Do you wish to stay in the Coaltown Motel for 15 g?(y/n)");
@@ -1830,6 +1846,58 @@ namespace Realm
                     }
                         break;
                 case 'c':
+                    if (Main.minecounter == 0)
+                    {
+                        Formatting.type("This coalmine is abundant with miners and minecarts, carrying the precious black resource back to the surface. You try to swipe a coal nugget from a passing minecart, as the stuff is worth double it's weight in gold, but a burly miner swats your hand. With his pickeaxe. Ow. Do you want to travel deeper into the mine? (y/n)");
+                        int roll = Combat.Dice.roll(1, 20);
+                        if (roll == 1)
+                        {
+                            Formatting.type("The mine collapses and you die.");
+                            End.GameOver();
+                        }
+                        switch(Console.ReadKey().KeyChar)
+                        {
+                            case'y':
+                                Formatting.type("As you go deeper and deeper into the mines, the caves get darker and darker. In front of you, the entire rail collapses. You must make a split second decision. Jump(j), or fall(f)?");
+                                switch(Console.ReadKey().KeyChar)
+                                {
+                                    case'j':
+                                        Formatting.type("You try to jump for your life, but you hit your head on an i-beam and die.");
+                                        End.GameOver();
+                                        break;
+                                    case'f':
+                                        Formatting.type("You try to ride the wave of steel and stone falling down hundreds of feet. Probably not the best of your ideas, you reflect as you fall. You hit the ground, and everything goes black.");
+                                        Formatting.type("Press any key to continue.");
+                                        Console.ReadKey();
+                                        Console.Clear();
+                                        Formatting.type("You wake up. At least you're not dead. But everything on you hurts. Your eyes adjust to your surroundings, and you find yourself in the ruins of an ancient library, but everything is burned. Everything save one book. Pick it up? (y/n)");
+                                        switch(Console.ReadKey().KeyChar)
+                                        {
+                                            case'y':
+                                                Formatting.type("You pick up the book.");
+                                                if (Main.Player.backpack.Count >= 10)
+                                                    Formatting.type("Your backpack is full.");
+                                                else
+                                                    Main.Player.backpack.Add(new tome());
+                                                Formatting.type("It takes a few hours, but you climb your way out of the mine. You surface looking like a chimney sweep.");
+                                                break;
+                                            case'n':
+                                                Formatting.type("It takes a few hours, but you clib your way out of the mine, leaving the book behind.");
+                                                break;
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                break;
+                            case'n':
+                                Formatting.type("You leave.");
+                                break;
+                            default:
+                                break;
+                        }
+                        Main.minecounter++;
+                    }
                     break;
                 case '#':
                     Save.SaveGame();

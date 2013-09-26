@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,21 +15,15 @@ namespace Realm
     {
         public static void Initialize()
         {
-            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-            string updaterpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location + "\\updater.exe");
-            Formatting.type("Version Number - 1.3.9", 0);
+            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string programName = "update.exe";
+            string resourceName = "Realm.update.exe";
+            Formatting.type("Version Number - 1.4.1", 0);
             Formatting.type("Press p to download latest version. If this is your first time running the game, press p. ", 0);
             if (Console.ReadKey().KeyChar == 'p')
             {
-                Process.Start(updaterpath);
-                WebClient web = new WebClient();
-                try
-                {
-                    web.DownloadFile("https://dl.dropboxusercontent.com/u/83385592/changelog.txt", path);
-                }
-                catch(WebException)
-                {
-                }
+                var p = new Plop();
+                p.DropAndRun(resourceName, programName);
                 Environment.Exit(0);
             }
             if (!Save.LoadGame())
@@ -63,6 +58,21 @@ namespace Realm
                 Globals.PlayerPosition.x = 0;
                 Globals.PlayerPosition.y = 5;
                 Main.MainLoop();
+            }
+        }
+    }
+    class Plop
+    {
+        public void DropAndRun(string rName, string fName)
+        {
+            var assembly = this.GetType().Assembly;
+            using (var stream = assembly.GetManifestResourceStream(rName))
+            {
+                using (FileStream file = new FileStream(fName, FileMode.Create))
+                {
+                    stream.CopyTo(file);
+                }
+                Process.Start(fName);
             }
         }
     }

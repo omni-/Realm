@@ -1,0 +1,6 @@
+C:\Users\Cooper\Documents\GitHub\Realm\update\bin\Debug\update.exe.config
+C:\Users\Cooper\Documents\GitHub\Realm\update\bin\Debug\update.exe
+C:\Users\Cooper\Documents\GitHub\Realm\update\bin\Debug\update.pdb
+C:\Users\Cooper\Documents\GitHub\Realm\update\obj\Debug\update.csprojResolveAssemblyReference.cache
+C:\Users\Cooper\Documents\GitHub\Realm\update\obj\Debug\update.exe
+C:\Users\Cooper\Documents\GitHub\Realm\update\obj\Debug\update.pdb

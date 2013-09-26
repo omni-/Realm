@@ -59,15 +59,5 @@ namespace Realm.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] updater {
-            get {
-                object obj = ResourceManager.GetObject("updater", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

@@ -23,10 +23,8 @@ namespace Realm
         {new SKingdom(), new Nomad(), new CentralKingdom(), new Place(), new Place(), new Place()},
  
         {new Place(), new TwinPaths(), new Place(), new Newport(), new NMtns(), new Place()},
-        
-        //{},
          
-        {new Place(), new Ravenkeep(), new EKingdom(), new Place(), new Place(), new Place()}
+        {new Place(), new Ravenkeep(), new EKingdom(), new Place(), new Place(), new Coaltown()}
 
         };
 

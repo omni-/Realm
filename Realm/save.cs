@@ -63,6 +63,7 @@ namespace Realm
             lines.Add("nlibcounter=" + Main.nlibcounter);
             lines.Add("townfolkcounter=" + Main.townfolkcounter);
             lines.Add("nomadcounter=" + Main.nomadcounter);
+            lines.Add("minecounter=" + Main.minecounter);
             lines.Add("g=" + Main.Player.g);
             lines.Add("xp=" + Main.Player.xp);
             string[] linesarray = lines.ToArray<string>();
@@ -243,6 +244,8 @@ namespace Realm
                             Main.Player.abilities.AddCommand(new Combat.Heavensplitter("Heavensplitter", 'z'));
                         if (entry.Key == "Gamble")
                             Main.Player.abilities.AddCommand(new Combat.Gamble("Gamble", '$'));
+                        if (entry.Key == "Force Pulse")
+                            Main.Player.abilities.AddCommand(new Combat.ForcePulse("Force Pulse", 'p'));
                         if (entry.Key == "loopnumber")
                             Main.loop_number = Convert.ToInt32(entry.Value);
                         if (entry.Key == "wkingcounter")
@@ -265,6 +268,8 @@ namespace Realm
                             Main.townfolkcounter = Convert.ToInt32(entry.Value);
                         if (entry.Key == "nomadcounter")
                             Main.nomadcounter = Convert.ToInt32(entry.Value);
+                        if (entry.Key == "minecounter")
+                            Main.minecounter = Convert.ToInt32(entry.Value);
                         if (entry.Key == "gbooks")
                             Main.gbooks = Convert.ToInt32(entry.Value);
                         if (entry.Key == "is_thief")

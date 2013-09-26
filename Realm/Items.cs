@@ -357,8 +357,13 @@ namespace Realm
     }
     public class tome : Item
     {
+        public void tomeability()
+        {
+            Main.Player.abilities.AddCommand(new Combat.ForcePulse("Force Pulse", 'p'));
+        }
         public tome()
         {
+            tomeability();
             name = "Dusty Tome";
             desc = "An old tome with an azurite gem adorning the cover. It glows with magical power. You can also block punches with it, you suppose.";
             intlbuff = 10;
@@ -367,7 +372,17 @@ namespace Realm
             slot = 2;
         }
     }
-
+    public class a_amulet : Item
+    {
+        public a_amulet()
+        {
+            name = "Azurite Amulet";
+            desc = "An amulet of azurite, pulsating with blue light.";
+            intlbuff = 15;
+            tier = 5;
+            slot = 4;
+        }
+    }
     //excellent tier
     public class ds_amulet : Item
     {
