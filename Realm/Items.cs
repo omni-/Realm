@@ -280,7 +280,53 @@ namespace Realm
             slot = 4;
         }
     }
-    //good tier
+    public class swifites : Item
+    {
+        public swifites()
+        {
+            name = "Icy Boots of Fast";
+            desc = "Although offering little protection, they make you go fast.";
+            spdbuff = 10;
+            defbuff = 3;
+            tier = 4;
+            slot = 3;
+        }
+    }
+    public class ice_amulet : Item
+    {
+        public ice_amulet()
+        {
+            name = "Amulet of Ice";
+            desc = "Makes the slow fast, the fast Sonic.";
+            spdbuff = 8;
+            intlbuff = 2;
+            defbuff = 2;
+            slot = 4;
+            tier = 4;
+        }
+    }
+    public class ice_dagger : Item
+    {
+        public ice_dagger()
+        {
+            name = "Ice Dagger";
+            desc = "The user almost seems to teleport, they go so fast.";
+            spdbuff = 6;
+            atkbuff = 6;
+            slot = 1;
+            tier = 4;
+        }
+    }
+    public class ice_shield : Item
+    {
+        public ice_shield()
+        {
+            name = "Ice Shield";
+            desc = "A shield of ice. Strangely, it weighs nothing, and you feel like you're floating while holding it.";
+            spdbuff = 6;
+            defbuff = 6;
+        }
+    }
     public class p_shield : Item
     {
         public p_shield()

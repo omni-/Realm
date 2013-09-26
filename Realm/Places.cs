@@ -1908,4 +1908,107 @@ namespace Realm
             return true;
         }
     }
+    public class ForzenFjords : Place
+    {
+        protected override string GetDesc()
+        {
+            return "Around you, the air becomes bitter cold. Snow begins to fall. You come upon a glacier. As you are about to turn around and head back, you spot a castle of ice, almost hidden in the snow. You enter the kingdom of frost, and you see a library(l), a weaponsmith(a), and an inn(i). Where do you go?";
+        }
+        public override Enemy getEnemyList()
+        {
+            return null;
+        }
+        public override char[] getAvailableCommands()
+        {
+            List<char> templist = new List<char>();
+            if (Main.Player.backpack.Count >= 1)
+                templist.Add('b');
+            if (Main.hasmap)
+                templist.Add('m');
+            if (Globals.PlayerPosition.x > 0)
+                templist.Add('w');
+            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+                templist.Add('e');
+            if (Globals.PlayerPosition.y > 0)
+                templist.Add('s');
+            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+                templist.Add('n');
+            templist.Add('a');
+            templist.Add('i');
+            templist.Add('l');
+            templist.Add('#');
+            return templist.ToArray<char>();
+
+        }
+
+        public override bool _handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'a':
+                    Formatting.type("A young man with a frosty white beard selling equally frozen gear. You may buy Ice Amulet(a, 75), Icy Boots of Fast(i, 80), Ice Dagger(d, 75), or Ice Shield(s, 75).");
+                    switch (Console.ReadKey().KeyChar)
+                    {
+                        case 'a':
+                            if (Main.Purchase(75, new ice_amulet()))
+                                Formatting.type("Obtained 'ICe Amulet'!");
+                            break;
+                        case 's':
+                            if (Main.Purchase(75, new ice_shield()))
+                                Formatting.type("Obtained 'Ice Shield'!");
+                            break;
+                        case 'd':
+                            if (Main.Purchase(75, new ice_dagger()))
+                                Formatting.type("Obtained 'Ice Dagger'!");
+                            break;
+                        case 'i':
+                            if (Main.Purchase(80, new swifites()))
+                                Formatting.type("Obtained 'Icy Boots of Fast'!");
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 'i':
+                    Formatting.type("Do you wish to stay at the Iceborn Inn for 30 gold? (y/n)");
+                    switch(Console.ReadKey().KeyChar)
+                    {
+                        case 'y':
+                            if (Main.Purchase(30))
+                            {
+                                Formatting.type("Your health has been restored, but you have frostbite in 3 of your toes.");
+                                Main.Player.hp = Main.Player.maxhp;
+                            }
+                            break;
+                        case 'n':
+                            Formatting.type("You leave.");
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 'l':
+                    Formatting.type("You arrive at a library made of ice, and although it's cold as dead kittens, you decide to go in. 3 books catch your eye. Cold (c), Frost(f), or Ice(i).");
+                    switch(Console.ReadKey().KeyChar)
+                    {
+                        case 'c':
+                            Formatting.type("");
+                            break;
+                        case 'f':
+                            break;
+                        case 'i':
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case '#':
+                    Save.SaveGame();
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
+    }
 }
