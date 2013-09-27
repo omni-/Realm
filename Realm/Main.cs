@@ -562,6 +562,39 @@ namespace Realm
         public static void Credits()
         {
             Formatting.type("A child awakes from his sleep and looks out the window feeling fulfilled as if a story has come to a close.");
+            Formatting.type("Press any key to continue.");
+            Console.ReadKey();
+            Console.Clear();
+            Formatting.type("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            Formatting.type("----------------------Credits---------------------");
+            Formatting.type("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            Formatting.type("__________________________________________________");
+            Formatting.type("Executive Developer: Cooper Teixeira");
+            Formatting.type("__________________________________________________");
+            Formatting.type("Secondary Developer: Giorgio Lo");
+            Formatting.type("__________________________________________________");
+            Formatting.type("Executive Producer: Cooper Teixeira");
+            Formatting.type("__________________________________________________");
+            Formatting.type("Co-Producer: Giorgio Lo");
+            Formatting.type("__________________________________________________");
+            Formatting.type("Lead Content Designer: Giorgio Lo");
+            Formatting.type("__________________________________________________");
+            Formatting.type("Secondary Content Designer: Cooper Teixeira");
+            Formatting.type("__________________________________________________");
+            Formatting.type("Chief Tester: Rosemary Rogal");
+            Formatting.type("__________________________________________________");
+            Formatting.type("Special thanks to:");
+            Formatting.type("- Steve Teixeira");
+            Formatting.type("- Paul Pfenning");
+            Formatting.type("- Charlie Catino");
+            Formatting.type("- Bradley Lignoski");
+            Formatting.type("- Alexander Pfenning");
+            Formatting.type("- Ben Boyd");
+            Formatting.type("__________________________________________________");
+            Formatting.type("Copyright(c) 2013");
+            Formatting.type("Press any key to continue.");
+            Console.ReadKey();
+            Environment.Exit(0);
         }
         public static void SammysAdventure()
         {
