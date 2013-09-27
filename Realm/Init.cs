@@ -18,9 +18,9 @@ namespace Realm
             string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string programName = "update.exe";
             string resourceName = "Realm.update.exe";
-            Formatting.type("Version Number - 1.5.0", 0);
-            Formatting.type("Press p to download latest version. If this is your first time running the game, press p. ", 0);
-            if (Console.ReadKey().KeyChar == 'p')
+            Interface.type("Version Number - 1.5.3", 0);
+            Interface.type("Press p to download latest version. If this is your first time running the game, press p. ", 0);
+            if (Interface.readkey().KeyChar == 'p')
             {
                 var p = new Plop();
                 p.DropAndRun(resourceName, programName);
@@ -28,9 +28,9 @@ namespace Realm
             }
             if (!Save.LoadGame())
             {
-                Formatting.type("\"Greetings. Before we begin, I must know your name.\"");
-                Formatting.type("Please enter your name. ");
-                Main.Player.name = Console.ReadLine();
+                Interface.type("\"Greetings. Before we begin, I must know your name.\"");
+                Interface.type("Please enter your name. ");
+                Main.Player.name = Interface.readinput();
                 if (Main.Player.name == Main.devstring)
                 {
                     Console.Clear();
@@ -44,19 +44,19 @@ namespace Realm
                     Main.Player.intl = 1000;
                     Main.devmode = true;
                     Globals.PlayerPosition.x = 0;
-                    Globals.PlayerPosition.y = 5;
-                    Main.Player.race = Console.ReadLine();
-                    Main.Player.pclass = Console.ReadLine();
+                    Globals.PlayerPosition.y = 6;
+                    Main.Player.race = Interface.readinput();
+                    Main.Player.pclass = Interface.readinput();
                     Main.MainLoop();
                 }
                 Globals.PlayerPosition.x = 0;
-                Globals.PlayerPosition.y = 5;
+                Globals.PlayerPosition.y = 6;
                 Main.Tutorial();
             }
             else
             {
                 Globals.PlayerPosition.x = 0;
-                Globals.PlayerPosition.y = 5;
+                Globals.PlayerPosition.y = 6;
                 Main.MainLoop();
             }
         }

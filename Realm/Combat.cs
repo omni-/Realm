@@ -26,7 +26,7 @@ namespace Realm
                 int misschance = Dice.roll(1, 101 + (spd * 3));
                 if (misschance == 1)
                 {
-                    Formatting.type("Missed!");
+                    Interface.type("Missed!");
                     return true;
                 }
                 else
@@ -197,7 +197,7 @@ namespace Realm
                     damage = 0;
                 target.hp -= Convert.ToInt32(damage);
                 Main.Player.hp += Convert.ToInt32(damage / 3);
-                Formatting.type("You gain " + damage + " life.");
+                Interface.type("You gain " + damage + " life.");
                 return true;
             }
         }

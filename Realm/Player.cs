@@ -45,7 +45,7 @@ namespace Realm
                 {
                     hp = maxhp;
                     level++;
-                    Formatting.type("Congratulations! You have leveled up! You are now level " + level + ".");
+                    Interface.type("Congratulations! You have leveled up! You are now level " + level + ".");
                     if (xp_next < 0)
                         xp_overlap = Math.Abs(xp);
                     else
@@ -58,10 +58,10 @@ namespace Realm
             }
             public void applybonus()
             {
-                if (race != "Giant")
-                    maxhp = 10 + (level);
+                if (race == "Giant")
+                    maxhp = 12 + (level + 2);
                 else
-                    maxhp = 10 + (level + 2);
+                    maxhp = 9 + level;
                 def = 1 + (level / 2);
                 atk = 1 + (level / 2);
                 intl = 1 + (level / 2);
@@ -92,32 +92,32 @@ namespace Realm
                 if (level >= 5 && race == "Human" && !abilities.commands.ContainsKey('m'))
                 {
                     abilities.AddCommand(new Combat.Mimic("Mimic", 'm'));
-                    Formatting.type("Learned Human ability Mimic!");
+                    Interface.type("Learned Human ability Mimic!");
                 }
                 else if (level >= 5 && race == "Elf" && !abilities.commands.ContainsKey('l'))
                 {
                     abilities.AddCommand(new Combat.LayTrap("Lay Trap", 'l'));
-                    Formatting.type("Learned Elf ability Lay Trap!");
+                    Interface.type("Learned Elf ability Lay Trap!");
                 }
                 else if (level >= 5 && race == "Rockman" && !abilities.commands.ContainsKey('g'))
                 {
                     abilities.AddCommand(new Combat.Safeguard("Safeguard", 'g'));
-                    Formatting.type("Learned Rockman ability Safeguard!");
+                    Interface.type("Learned Rockman ability Safeguard!");
                 }
                 else if (level >= 5 && race == "Giant" && !abilities.commands.ContainsKey('r'))
                 {
                     abilities.AddCommand(new Combat.Rage("Rage", 'r'));
-                    Formatting.type("Learned Giant ability Rage!");
+                    Interface.type("Learned Giant ability Rage!");
                 }
                 else if (level >= 5 && race == "Zephyr" && !abilities.commands.ContainsKey('!'))
                 {
                     abilities.AddCommand(new Combat.Lightspeed("Lightspeed", '!'));
-                    Formatting.type("Learned Zephyr ability Lightspeed!");
+                    Interface.type("Learned Zephyr ability Lightspeed!");
                 }
                 else if (level >= 5 && race == "Shade" && !abilities.commands.ContainsKey('n'))
                 {
                     abilities.AddCommand(new Combat.Nightshade("Nightshade", 'n'));
-                    Formatting.type("Learned Shade ability Nightshade!");
+                    Interface.type("Learned Shade ability Nightshade!");
                 }
 
                 if (pclass == "Warrior")

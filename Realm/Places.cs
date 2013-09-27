@@ -75,9 +75,9 @@ namespace Realm
                 inputHandled = _handleInput(input);
                 if (!inputHandled)
                 {
-                    Formatting.type("Invalid.");
-                    Formatting.type("");
-                    input = Console.ReadKey().KeyChar;
+                    Interface.type("Invalid.");
+                    Interface.type("");
+                    input = Interface.readkey().KeyChar;
                 }
             }
         }
@@ -107,7 +107,7 @@ namespace Realm
                     break;
                 case 'm':
                     if (Main.hasmap)
-                        Formatting.drawmap();
+                        Interface.drawmap();
                     break;
                 case '#':
                     Save.SaveGame();
@@ -157,11 +157,11 @@ namespace Realm
                 {
                     case 'f':
                         Main.BattleLoop(new WesternKing());
-                        Formatting.type("Somehow, you managed to beat the Western King. *ahem* Cheater *ahem*");
+                        Interface.type("Somehow, you managed to beat the Western King. *ahem* Cheater *ahem*");
                         Main.wkingdead = true;
                         break;
                     case 'r':
-                        Formatting.type("You escaped the Western King, but you're pretty damn lost now.");
+                        Interface.type("You escaped the Western King, but you're pretty damn lost now.");
                         Globals.PlayerPosition.y -= 2;
                         Main.MainLoop();
                         break;
@@ -177,7 +177,7 @@ namespace Realm
                 switch (input)
                 {
                     case 'r':
-                        Formatting.type("You leave.");
+                        Interface.type("You leave.");
                         Globals.PlayerPosition.y -= 1;
                         Main.MainLoop();
                         break;
@@ -231,7 +231,7 @@ namespace Realm
                     break;
                 case 'm':
                     if (Main.hasmap)
-                        Formatting.drawmap();
+                        Interface.drawmap();
                     break;
                 case 'n':
                     Globals.PlayerPosition.y += 1;
@@ -245,29 +245,29 @@ namespace Realm
                 case 'z':
                     if (Main.forrestcounter == 0)
                     {
-                        Formatting.type("You decide to look around. You find a trail leading to a clearing. Once in the  clearing, you see a suit of cardboard armor held together with duct tape, a refrigerator box, and a cardboad tube. Pick them up? Your current commands are y, n");
-                        Formatting.type("");
-                        char tempinput = Console.ReadKey().KeyChar;
+                        Interface.type("You decide to look around. You find a trail leading to a clearing. Once in the  clearing, you see a suit of cardboard armor held together with duct tape, a refrigerator box, and a cardboad tube. Pick them up? Your current commands are y, n");
+                        Interface.type("");
+                        char tempinput = Interface.readkey().KeyChar;
                         switch (tempinput)
                         {
                             case 'y':
-                                Formatting.type("Amid the -trash- gear on the ground, you find a tile with the letter 'G' on it.");
+                                Interface.type("Amid the -trash- gear on the ground, you find a tile with the letter 'G' on it.");
                                 Main.Player.backpack.Add(new cardboard_armor());
-                                Formatting.type("Obtained 'Cardboard Armor'!");
+                                Interface.type("Obtained 'Cardboard Armor'!");
                                 Main.Player.backpack.Add(new cardboard_sword());
-                                Formatting.type("Obtained 'Cardboard Shield'!");
+                                Interface.type("Obtained 'Cardboard Shield'!");
                                 Main.Player.backpack.Add(new cardboard_shield());
-                                Formatting.type("Obtained 'Cardboard Shield'!");
+                                Interface.type("Obtained 'Cardboard Shield'!");
                                 Main.forrestcounter++;
                                 break;
                             case 'n':
-                                Formatting.type("\r\nLoser.");
+                                Interface.type("\r\nLoser.");
                                 break;
                         }
                     }
                     else
                     {
-                        Formatting.type("You've already been here!");
+                        Interface.type("You've already been here!");
                     }
                     break;
                 case 'b':
@@ -318,7 +318,7 @@ namespace Realm
                     break;
                 case 'm':
                     if (Main.hasmap)
-                        Formatting.drawmap();
+                        Interface.drawmap();
                     break;
                 case 'n':
                     Globals.PlayerPosition.y += 1;
@@ -333,59 +333,59 @@ namespace Realm
                     Globals.PlayerPosition.y -= 1;
                     break;
                 case 'v':
-                    Formatting.type("There is an inn(i) and an arms dealer(a). Or you can investigate the well(w).");
-                    Formatting.type("");
-                    char tempinput = Console.ReadKey().KeyChar;
+                    Interface.type("There is an inn(i) and an arms dealer(a). Or you can investigate the well(w).");
+                    Interface.type("");
+                    char tempinput = Interface.readkey().KeyChar;
                     switch (tempinput)
                     {
                         case 'i':
-                            Formatting.type("Innkeep: \"It will cost you 3 gold. Are you sure?\"(y/n)");
-                            char _tempinput = Console.ReadKey().KeyChar;
+                            Interface.type("Innkeep: \"It will cost you 3 gold. Are you sure?\"(y/n)");
+                            char _tempinput = Interface.readkey().KeyChar;
                             switch (_tempinput)
                             {
                                 case 'y':
                                     if (Main.Purchase(3))
                                     {
-                                        Formatting.type("Your health has been fully restored, although you suspect you have lice.");
+                                        Interface.type("Your health has been fully restored, although you suspect you have lice.");
                                         Main.Player.hp = Main.Player.maxhp;
                                     }
                                     break;
                                 case 'n':
-                                    Formatting.type("You leave the inn.");
+                                    Interface.type("You leave the inn.");
                                     break;
                             }
                             break;
                         case 'a':
-                            Formatting.type("You visit the arms dealer. He has naught to sell but a wooden staff and a plastic ring. Buy both for 11 gold? (y/n)");
-                            char __tempinput = Console.ReadKey().KeyChar;
+                            Interface.type("You visit the arms dealer. He has naught to sell but a wooden staff and a plastic ring. Buy both for 11 gold? (y/n)");
+                            char __tempinput = Interface.readkey().KeyChar;
                             switch (__tempinput)
                             {
                                 case 'y':
                                     if (Main.Purchase(11, new wood_staff()))
                                     {
-                                        Formatting.type("Obtained 'Wood Staff'!");
+                                        Interface.type("Obtained 'Wood Staff'!");
                                         Main.Player.backpack.Add(new plastic_ring());
-                                        Formatting.type("Obtained 'Plastic Ring'!");
-                                        Formatting.type("On the inside of the ring, the letter 'o' is embossed.");
-                                        Formatting.type("You buy the staff and the ring. He grins, and you know you've been ripped off.");
+                                        Interface.type("Obtained 'Plastic Ring'!");
+                                        Interface.type("On the inside of the ring, the letter 'o' is embossed.");
+                                        Interface.type("You buy the staff and the ring. He grins, and you know you've been ripped off.");
                                     }
                                     break;
                                 case 'n':
-                                    Formatting.type("You leave the shop.");
+                                    Interface.type("You leave the shop.");
                                     break;
                             }
                             break;
                         case 'w':
-                            Formatting.type("Do you want to look inside the well?(y/n)");
-                            char ___tempinput = Console.ReadKey().KeyChar;
+                            Interface.type("Do you want to look inside the well?(y/n)");
+                            char ___tempinput = Interface.readkey().KeyChar;
                             switch (___tempinput)
                             {
                                 case 'y':
-                                    Formatting.type("You fall in and drown.");
+                                    Interface.type("You fall in and drown.");
                                     End.GameOver();
                                     break;
                                 case 'n':
-                                    Formatting.type("You leave.");
+                                    Interface.type("You leave.");
                                     break;
                             }
                             break;
@@ -441,7 +441,7 @@ namespace Realm
                     break;
                 case 'm':
                     if (Main.hasmap)
-                        Formatting.drawmap();
+                        Interface.drawmap();
                     break;
                 case 'n':
                     Globals.PlayerPosition.y += 1;
@@ -453,44 +453,44 @@ namespace Realm
                     Globals.PlayerPosition.y -= 1;
                     break;
                 case 'i':
-                    Formatting.type("Innkeep: \"It will cost you 5 gold. Are you sure?\"(y/n)");
-                    char _tempinput = Console.ReadKey().KeyChar;
+                    Interface.type("Innkeep: \"It will cost you 5 gold. Are you sure?\"(y/n)");
+                    char _tempinput = Interface.readkey().KeyChar;
                     switch (_tempinput)
                     {
                         case 'y':
                             if (Main.Purchase(3))
                             {
-                                Formatting.type("Your health has been fully restored, although the matress was as hard as stale crackers and your back kinda hurts.");
-                                Formatting.type("As you're leaving the inn, you notice the letter 'd' in the coffee grounds from the espresso you had that morning.");
+                                Interface.type("Your health has been fully restored, although the matress was as hard as stale crackers and your back kinda hurts.");
+                                Interface.type("As you're leaving the inn, you notice the letter 'd' in the coffee grounds from the espresso you had that morning.");
                                 Main.Player.hp = Main.Player.maxhp;
                             }
                             break;
                         case 'n':
-                            Formatting.type("You leave the inn.");
+                            Interface.type("You leave the inn.");
                             break;
                     }
                     break;
                 case 'a':
-                    Formatting.type("You visit the arms dealer. He's out of stock except for an iron lance(l, $15) and an iron buckler(b, $10). (n to leave)");
-                    char __tempinput = Console.ReadKey().KeyChar;
+                    Interface.type("You visit the arms dealer. He's out of stock except for an iron lance(l, $15) and an iron buckler(b, $10). (n to leave)");
+                    char __tempinput = Interface.readkey().KeyChar;
                     switch (__tempinput)
                     {
                         case 'l':
                             if (Main.Purchase(15, new iron_lance()))
                             {
-                                Formatting.type("It's almost as if he doesn't even see you.");
-                                Formatting.type("Obtained 'Iron Lance'!");
+                                Interface.type("It's almost as if he doesn't even see you.");
+                                Interface.type("Obtained 'Iron Lance'!");
                             }
                             break;
                         case 'b':
                             if (Main.Purchase(10, new iron_buckler()))
                             {
-                                Formatting.type("It's almost as if he doesn't even see you.");
-                                Formatting.type("Obtained 'Iron Buckler'!");
+                                Interface.type("It's almost as if he doesn't even see you.");
+                                Interface.type("Obtained 'Iron Buckler'!");
                             }
                             break;
                         case 'n':
-                            Formatting.type("You leave.");
+                            Interface.type("You leave.");
                             break;
                         default:
                             break;
@@ -499,42 +499,42 @@ namespace Realm
                 case 'l':
                     if (Main.libcounter == 0)
                     {
-                        Formatting.type("You see a massive building with columns the size of a house. This is obivously the town's main attraction. Nerds are streaming in and out like a river. You try to go inside, but you're stopped at the door. The enterance fee is 3 g. Pay? (y/n)");
-                        char ___tempinput = Console.ReadKey().KeyChar;
+                        Interface.type("You see a massive building with columns the size of a house. This is obivously the town's main attraction. Nerds are streaming in and out like a river. You try to go inside, but you're stopped at the door. The enterance fee is 3 g. Pay? (y/n)");
+                        char ___tempinput = Interface.readkey().KeyChar;
                         switch (___tempinput)
                         {
                             case 'y':
                                 if (Main.Purchase(3))
                                 {
                                     Main.Player.xp += 10;
-                                    Formatting.type("You enter the library. Before you lays a vast emporium of knowledge. You scratch your butt, then look for some comic books or something. 3 books catch your eye. 'The Wizard's Lexicon'(a), 'The Warrior's Code'(b), and 'Codex Pallatinus'(c). Which do you read?");
-                                    switch (Console.ReadKey().KeyChar)
+                                    Interface.type("You enter the library. Before you lays a vast emporium of knowledge. You scratch your butt, then look for some comic books or something. 3 books catch your eye. 'The Wizard's Lexicon'(a), 'The Warrior's Code'(b), and 'Codex Pallatinus'(c). Which do you read?");
+                                    switch (Interface.readkey().KeyChar)
                                     {
                                         case 'a':
-                                            Formatting.type("You read of the maegi of old. As you flip through, something catches your eye. You see what looks to be ancient writing, but you somehow understand it.");
+                                            Interface.type("You read of the maegi of old. As you flip through, something catches your eye. You see what looks to be ancient writing, but you somehow understand it.");
                                             Main.Player.abilities.AddCommand(new Combat.EnergyOverload("Energy Overload", 'e'));
-                                            Formatting.type("Learned 'Energy Overload!'");
+                                            Interface.type("Learned 'Energy Overload!'");
                                             break;
                                         case 'b':
-                                            Formatting.type("You pore over the pages, and see a diagram of an ancient technique, lost to the ages.");
+                                            Interface.type("You pore over the pages, and see a diagram of an ancient technique, lost to the ages.");
                                             Main.Player.abilities.AddCommand(new Combat.BladeDash("Blade Dash", 'd'));
-                                            Formatting.type("Learned 'Blade Dash'!");
+                                            Interface.type("Learned 'Blade Dash'!");
                                             break;
                                         case 'c':
-                                            Formatting.type("You squint your eyes to see the tiny text. This tome convinces you of the existence of Lord Luxferre, the Bringer of Light. The book teaches you the importance of protecting others.");
+                                            Interface.type("You squint your eyes to see the tiny text. This tome convinces you of the existence of Lord Luxferre, the Bringer of Light. The book teaches you the importance of protecting others.");
                                             Main.Player.abilities.AddCommand(new Combat.HolySmite("Holy Smite", 'h'));
                                             break;
                                     }
                                 }
                                 break;
                             case 'n':
-                                Formatting.type("You leave.");
+                                Interface.type("You leave.");
                                 break;
                         }
                         Main.libcounter++;
                     }
                     else
-                        Formatting.type("The library is closed.");
+                        Interface.type("The library is closed.");
                     break;
                 case 'b':
                     Main.BackpackLoop();
@@ -584,7 +584,7 @@ namespace Realm
                     break;
                 case 'm':
                     if (Main.hasmap)
-                        Formatting.drawmap();
+                        Interface.drawmap();
                     break;
                 case 'n':
                     Globals.PlayerPosition.y += 1;
@@ -599,48 +599,48 @@ namespace Realm
                     Globals.PlayerPosition.x -= 1;
                     break;
                 case 'i':
-                    Formatting.type("Innkeep: \"It will cost you 5 gold. Are you sure?\"(y/n)");
-                    char _tempinput = Console.ReadKey().KeyChar;
+                    Interface.type("Innkeep: \"It will cost you 5 gold. Are you sure?\"(y/n)");
+                    char _tempinput = Interface.readkey().KeyChar;
                     switch (_tempinput)
                     {
                         case 'y':
                             if (Main.Purchase(3))
                             {
-                                Formatting.type("Your health has been fully restored, although the matress smelled of mildew, and so do your clothes.");
+                                Interface.type("Your health has been fully restored, although the matress smelled of mildew, and so do your clothes.");
                                 Main.Player.hp = Main.Player.maxhp;
                             }
                             break;
                         case 'n':
-                            Formatting.type("You leave the inn.");
+                            Interface.type("You leave the inn.");
                             break;
                     }
                     break;
                 case 'v':
-                    Formatting.type("You visit the town. You may choose to visit with the townsfolk(t), or head to the artificer(a).");
-                    char __tempinput = Console.ReadKey().KeyChar;
+                    Interface.type("You visit the town. You may choose to visit with the townsfolk(t), or head to the artificer(a).");
+                    char __tempinput = Interface.readkey().KeyChar;
                     switch (__tempinput)
                     {
                         case 'a':
-                            Formatting.type("The artificer has some magically charged rings for sale. Buy one for 15 gold? (y/n)");
-                            switch (Console.ReadKey().KeyChar)
+                            Interface.type("The artificer has some magically charged rings for sale. Buy one for 15 gold? (y/n)");
+                            switch (Interface.readkey().KeyChar)
                             {
                                 case 'y':
                                     if (Main.Purchase(15, new iron_band()))
                                     {
-                                        Formatting.type("He smiles weakly and thanks you.");
-                                        Formatting.type("Obtained 'Iron Band'!");
+                                        Interface.type("He smiles weakly and thanks you.");
+                                        Interface.type("Obtained 'Iron Band'!");
                                     }
                                     break;
                                 case 'n':
-                                    Formatting.type("You leave.");
+                                    Interface.type("You leave.");
                                     break;
                                 default:
                                     break;
                             }
                             break;
                         case 't':
-                            Formatting.type("You talk to a villager. He muses about the fact that sometimes, reality doesn't feel real at all. Puzzled by his comment, you walk away.");
-                            Formatting.type("A paper flaps out of his cloak as he walks away. On it is nothing but the letter 'w'.");
+                            Interface.type("You talk to a villager. He muses about the fact that sometimes, reality doesn't feel real at all. Puzzled by his comment, you walk away.");
+                            Interface.type("A paper flaps out of his cloak as he walks away. On it is nothing but the letter 'w'.");
                             break;
                         default:
                             break;
@@ -694,7 +694,7 @@ namespace Realm
                     break;
                 case 'm':
                     if (Main.hasmap)
-                        Formatting.drawmap();
+                        Interface.drawmap();
                     break;
                 case 'n':
                     Globals.PlayerPosition.y += 1;
@@ -709,74 +709,74 @@ namespace Realm
                     Globals.PlayerPosition.x -= 1;
                     break;
                 case 'y':
-                    Formatting.type("You see a library(l) and a weaponsmith(w). Which do you wish to enter?");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("You see a library(l) and a weaponsmith(w). Which do you wish to enter?");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'l':
                             if (Main.ramsaycounter == 0)
                             {
                                 Main.Player.xp += 10;
-                                Formatting.type("There are three books. Do you wish to read Climbing Safety (c), Solomon's Answer (s), or Gordon Ramsay: A Biology (g)");
-                                switch (Console.ReadKey().KeyChar)
+                                Interface.type("There are three books. Do you wish to read Climbing Safety (c), Solomon's Answer (s), or Gordon Ramsay: A Biology (g)");
+                                switch (Interface.readkey().KeyChar)
                                 {
                                     case 'c':
-                                        Formatting.type("Climbing mountains requires absolute safety. Rule #1: Don't Fall(.....this book seems pretty thick. Do you wish to continue reading?(y/n))");
-                                        switch (Console.ReadKey().KeyChar)
+                                        Interface.type("Climbing mountains requires absolute safety. Rule #1: Don't Fall(.....this book seems pretty thick. Do you wish to continue reading?(y/n))");
+                                        switch (Interface.readkey().KeyChar)
                                         {
                                             case 'y':
-                                                Formatting.type("As you silently become informed about safety, you notice that a segment of the wall is opening itself up to your far right. Do you wish to enter?(y/n)");
-                                                switch (Console.ReadKey().KeyChar)
+                                                Interface.type("As you silently become informed about safety, you notice that a segment of the wall is opening itself up to your far right. Do you wish to enter?(y/n)");
+                                                switch (Interface.readkey().KeyChar)
                                                 {
                                                     case 'y':
-                                                        Formatting.type("You try to enter, but the door requires a password.");
-                                                        if (Console.ReadLine() == "Don't Fall")
+                                                        Interface.type("You try to enter, but the door requires a password.");
+                                                        if (Interface.readinput() == "Don't Fall")
                                                         {
-                                                            Formatting.type("You open the door to find a dark room with a suspicious figure conducting suspicious rituals. The man looks flustered and says 'Nice day isn't it?'. As you wonder what anyone would be doing in such a dark room, the man edges his way to the entrance and dashes outside. He forgot to take his book with him. Do you wish to take it? (y/n) ");
-                                                            switch (Console.ReadKey().KeyChar)
+                                                            Interface.type("You open the door to find a dark room with a suspicious figure conducting suspicious rituals. The man looks flustered and says 'Nice day isn't it?'. As you wonder what anyone would be doing in such a dark room, the man edges his way to the entrance and dashes outside. He forgot to take his book with him. Do you wish to take it? (y/n) ");
+                                                            switch (Interface.readkey().KeyChar)
                                                             {
                                                                 case 'y':
                                                                     Main.Player.abilities.AddCommand(new Combat.ConsumeSoul("Consume Soul", 'u'));
-                                                                    Formatting.type("Learned 'Consume Soul'!");
+                                                                    Interface.type("Learned 'Consume Soul'!");
                                                                     break;
                                                                 case 'n':
-                                                                    Formatting.type("You remember that you are an exemplary member of society and that you will by no means touch another's belongings without their consent. You leave the room like the good man you are.");
+                                                                    Interface.type("You remember that you are an exemplary member of society and that you will by no means touch another's belongings without their consent. You leave the room like the good man you are.");
                                                                     break;
                                                             }
                                                         }
                                                         else
                                                         {
-                                                            Formatting.type("Password incorrect.");
+                                                            Interface.type("Password incorrect.");
                                                             break;
                                                         }
                                                         break;
                                                     case 'n':
-                                                        Formatting.type("You did not see anything out of the ordinary. You have never seen anything out of the ordinary. As you leave you makes sure to shut the door behind you because you did not see anything out of the ordinary.");
+                                                        Interface.type("You did not see anything out of the ordinary. You have never seen anything out of the ordinary. As you leave you makes sure to shut the door behind you because you did not see anything out of the ordinary.");
                                                         break;
                                                 }
                                                 break;
                                             case 'n':
-                                                Formatting.type("You believe that you already know enough about safety. Put the book back in it's spot in the bookshelf?(y/n)");
-                                                switch (Console.ReadKey().KeyChar)
+                                                Interface.type("You believe that you already know enough about safety. Put the book back in it's spot in the bookshelf?(y/n)");
+                                                switch (Interface.readkey().KeyChar)
                                                 {
                                                     case 'y':
-                                                        Formatting.type("You insert the book back in it's righteous position. You feel good about doing a good deed.");
+                                                        Interface.type("You insert the book back in it's righteous position. You feel good about doing a good deed.");
                                                         break;
                                                     case 'n':
                                                         Main.Player.hp -= 2;
-                                                        Formatting.type("You are trash. You are the pondscum of society. Repent and pay with your life. You take 2 damage.");
+                                                        Interface.type("You are trash. You are the pondscum of society. Repent and pay with your life. You take 2 damage.");
                                                         break;
                                                 }
                                                 break;
                                         }
                                         break;
                                     case 's':
-                                        Formatting.type("You don't know how to read this language, however you do find a crumpled up map of the realm in the back of the book.");
-                                        Formatting.type("Obtained 'Map'!");
+                                        Interface.type("You don't know how to read this language, however you do find a crumpled up map of the realm in the back of the book.");
+                                        Interface.type("Obtained 'Map'!");
                                         Main.hasmap = true;
                                         break;
                                     case 'g':
                                         Main.Player.intl += 1;
-                                        Formatting.type("You are touched by the art of cooking. Being forged in the flame of cooking, your ability to think up vicious insults has improved. Your intelligence has improved a little");
+                                        Interface.type("You are touched by the art of cooking. Being forged in the flame of cooking, your ability to think up vicious insults has improved. Your intelligence has improved a little");
                                         Main.gbooks++;
                                         break;
                                 }
@@ -785,12 +785,12 @@ namespace Realm
                             }
                             else
                             {
-                                Formatting.type("The library is closed, but you find a signed version of Gordon ramsay's book.");
+                                Interface.type("The library is closed, but you find a signed version of Gordon ramsay's book.");
                                 break;
                             }
                         case 'w':
-                            Formatting.type("You realize that you don't speak the same language as the shopkeeper. You take all of his peppermint candy and leave.");
-                            Formatting.type("Before you toss it on the floor like the scumbad you are, you notice one of the candy wrappers has an apostrophe on the inside.");
+                            Interface.type("You realize that you don't speak the same language as the shopkeeper. You take all of his peppermint candy and leave.");
+                            Interface.type("Before you toss it on the floor like the scumbad you are, you notice one of the candy wrappers has an apostrophe on the inside.");
                             break;
                     }
                     break;
@@ -843,7 +843,7 @@ namespace Realm
                     break;
                 case 'm':
                     if (Main.hasmap)
-                        Formatting.drawmap();
+                        Interface.drawmap();
                     break;
                 case 'e':
                     Globals.PlayerPosition.x += 1;
@@ -858,36 +858,36 @@ namespace Realm
                     if (Main.nlibcounter == 0)
                     {
                         Main.Player.xp += 10;
-                        Formatting.type("In the royal library you find 'Crescent Path'(c), 'Tale of Sariel'(t), 'History of The Realm'(h), and Gordon ramsay: A Geology(g). Which do you wish to read?");
-                        switch (Console.ReadKey().KeyChar)
+                        Interface.type("In the royal library you find 'Crescent Path'(c), 'Tale of Sariel'(t), 'History of The Realm'(h), and Gordon ramsay: A Geology(g). Which do you wish to read?");
+                        switch (Interface.readkey().KeyChar)
                         {
                             case 'c':
-                                Formatting.type(" The book reads 'In the land of the central sands.......(This book is incredibly long. If you wish to complete this book, it may cost you.");
-                                switch (Console.ReadKey().KeyChar)
+                                Interface.type(" The book reads 'In the land of the central sands.......(This book is incredibly long. If you wish to complete this book, it may cost you.");
+                                switch (Interface.readkey().KeyChar)
                                 {
                                     case 'y':
                                         Main.Player.hp -= 1;
                                         Main.Player.spd += 3;
-                                        Formatting.type("You are exhausted from finishing the book, but you feel like your speed has increased a little.");
+                                        Interface.type("You are exhausted from finishing the book, but you feel like your speed has increased a little.");
                                         break;
                                     case 'n':
-                                        Formatting.type("You decide that completing this book is not worth the time. Do you wish to put the book back in it's original spot on the bookshelf?(y/n)");
-                                        switch (Console.ReadKey().KeyChar)
+                                        Interface.type("You decide that completing this book is not worth the time. Do you wish to put the book back in it's original spot on the bookshelf?(y/n)");
+                                        switch (Interface.readkey().KeyChar)
                                         {
                                             case 'y':
-                                                Formatting.type("You place the book back in it's original position. You daydream about a perfect society where all of mankind would put books back in bookshelves.");
+                                                Interface.type("You place the book back in it's original position. You daydream about a perfect society where all of mankind would put books back in bookshelves.");
                                                 break;
                                             case 'n':
 
-                                                Formatting.type("Are you the trash of society?");
-                                                switch (Console.ReadKey().KeyChar)
+                                                Interface.type("Are you the trash of society?");
+                                                switch (Interface.readkey().KeyChar)
                                                 {
                                                     case 'y':
                                                         Main.Player.hp -= 3;
-                                                        Formatting.type("You lose 3 hp. Dirtbag.");
+                                                        Interface.type("You lose 3 hp. Dirtbag.");
                                                         break;
                                                     case 'n':
-                                                        Formatting.type("You place the book back in the bookshelf.");
+                                                        Interface.type("You place the book back in the bookshelf.");
                                                         break;
                                                 }
                                                 break;
@@ -896,16 +896,16 @@ namespace Realm
                                 }
                                 break;
                             case 't':
-                                Formatting.type("You read of the exploits of the ancient hero Sariel, and his philosophies of protecting others.");
-                                Formatting.type("Learned 'Dawnstrike'!");
+                                Interface.type("You read of the exploits of the ancient hero Sariel, and his philosophies of protecting others.");
+                                Interface.type("Learned 'Dawnstrike'!");
                                 Main.Player.abilities.AddCommand(new Combat.Dawnstrike("Dawnstrike", 't'));
                                 break;
                             case 'h':
-                                Formatting.type("You read 5000 pages on the history of the realm. You're not sure why you did that, but you feel smarter.");
+                                Interface.type("You read 5000 pages on the history of the realm. You're not sure why you did that, but you feel smarter.");
                                 Main.Player.intl += 2;
                                 break;
                             case 'g':
-                                Formatting.type("You learn of the layers of granite and basalt on Planet ramsay.");
+                                Interface.type("You learn of the layers of granite and basalt on Planet ramsay.");
                                 Main.Player.def += 1;
                                 Main.gbooks++;
                                 break;
@@ -914,20 +914,20 @@ namespace Realm
                     }
                     else
                     {
-                        Formatting.type("The library is closed.");
+                        Interface.type("The library is closed.");
                         break;
                     }
                     break;
                 case 'g':
-                    Formatting.type("The Smith's Guild only has their cumulative project for sale. It's a masterpiece, but very expensive. Buy Bloodmail for 50 gold? (y/n)");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("The Smith's Guild only has their cumulative project for sale. It's a masterpiece, but very expensive. Buy Bloodmail for 50 gold? (y/n)");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'y':
                             if (Main.Purchase(50, new bt_plate()))
-                                Formatting.type("Obtained 'Bloodmail'!");
+                                Interface.type("Obtained 'Bloodmail'!");
                             break;
                         case 'n':
-                            Formatting.type("You leave.");
+                            Interface.type("You leave.");
                             break;
                     }
                     break;
@@ -987,7 +987,7 @@ namespace Realm
                     break;
                 case 'm':
                     if (Main.hasmap)
-                        Formatting.drawmap();
+                        Interface.drawmap();
                     break;
                 case 'n':
                     Globals.PlayerPosition.y += 1;
@@ -1006,57 +1006,57 @@ namespace Realm
                     if (Main.centrallibcounter == 0)
                     {
                         Main.Player.xp += 10;
-                        Formatting.type("This massive building is a monument to human knowledge. You feel dwarfed by its towering presence.");
-                        Formatting.type("You arrive at a shelf that draws your attention. There are six books. The first one is a musty tome entitled Alcwyn's Legacy(a). The second one is A Guide to Theivery(g), the third Sacrificial Rite(s). The fourth book is The Void(v). The fifth book is Samael's Game(j). The final book's title ramsay: A Mathematics(r). Which do you read?");
-                        switch (Console.ReadKey().KeyChar)
+                        Interface.type("This massive building is a monument to human knowledge. You feel dwarfed by its towering presence.");
+                        Interface.type("You arrive at a shelf that draws your attention. There are six books. The first one is a musty tome entitled Alcwyn's Legacy(a). The second one is A Guide to Theivery(g), the third Sacrificial Rite(s). The fourth book is The Void(v). The fifth book is Samael's Game(j). The final book's title ramsay: A Mathematics(r). Which do you read?");
+                        switch (Interface.readkey().KeyChar)
                         {
                             case 'a':
-                                Formatting.type("You become enlightened in the ways of the elder wizard Alcywn.");
-                                Formatting.type("Learned 'Curse'!");
+                                Interface.type("You become enlightened in the ways of the elder wizard Alcywn.");
+                                Interface.type("Learned 'Curse'!");
                                 Main.Player.abilities.AddCommand(new Combat.Curse("Curse", 'c'));
                                 break;
                             case 'g':
-                                Formatting.type("Now skilled in the art of stealing, you gain 10% more gold. You also feel faster.");
+                                Interface.type("Now skilled in the art of stealing, you gain 10% more gold. You also feel faster.");
                                 Main.is_theif = true;
                                 Main.Player.spd += 2;
                                 break;
                             case 's':
-                                Formatting.type("You become skilled in the art of sacrifice.");
-                                Formatting.type("Learned 'Sacrifice'!");
+                                Interface.type("You become skilled in the art of sacrifice.");
+                                Interface.type("Learned 'Sacrifice'!");
                                 Main.Player.abilities.AddCommand(new Combat.Sacrifice("Sacrifice", 's'));
                                 break;
                             case 'v':
-                                Formatting.type("You learn of the Void. You can phase in and out of reality.");
-                                Formatting.type("Learned 'Phase'!");
+                                Interface.type("You learn of the Void. You can phase in and out of reality.");
+                                Interface.type("Learned 'Phase'!");
                                 Main.Player.abilities.AddCommand(new Combat.Phase("Phase", 'p'));
                                 break;
                             case 'r':
-                                Formatting.type("You become educated on the mathematics of cooking.");
+                                Interface.type("You become educated on the mathematics of cooking.");
                                 Main.Player.intl += 1;
                                 Main.gbooks++;
                                 break;
                             case 'j':
-                                Formatting.type("You open the book and find dice inside. Do you wish to roll?(y/n)");
-                                switch (Console.ReadKey().KeyChar)
+                                Interface.type("You open the book and find dice inside. Do you wish to roll?(y/n)");
+                                switch (Interface.readkey().KeyChar)
                                 {
                                     case 'y':
                                         int abilchance = Combat.Dice.roll(1, 6);
                                         if (abilchance == 6)
                                         {
-                                            Formatting.type("You feel as if something incredible has happened.");
-                                            Formatting.type("Learned 'Gamble'!");
+                                            Interface.type("You feel as if something incredible has happened.");
+                                            Interface.type("Learned 'Gamble'!");
                                             Main.Player.abilities.AddCommand(new Combat.Gamble("Gamble", '$'));
                                         }
                                         else
                                         {
-                                            Formatting.type("Wow you roll a" + abilchance);
+                                            Interface.type("Wow you roll a" + abilchance);
                                             Main.Player.hp -= abilchance;
-                                            Formatting.type("You lose" + abilchance + "hp");
+                                            Interface.type("You lose" + abilchance + "hp");
                                         }
                                         break;
 
                                     case 'n':
-                                        Formatting.type("You feel threatened by the words.");
+                                        Interface.type("You feel threatened by the words.");
                                         break;
                                 }
                                 Main.centrallibcounter++;
@@ -1066,29 +1066,29 @@ namespace Realm
                     }
                     else
                     {
-                        Formatting.type("The library is closed.");
+                        Interface.type("The library is closed.");
                         break;
                     }
                     break;
                 case 'a':
-                    Formatting.type("You approach a building with a sigil bearing crossed swords. You suspect this is the weaponsmith. You enter, and he has loads of goodies for sale. Buy Iron Rapier(r, 30), Iron Chainmail(c, 30), Iron Buckler (b, 25), or Bloodthirsty Longsword(l, 50)?");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("You approach a building with a sigil bearing crossed swords. You suspect this is the weaponsmith. You enter, and he has loads of goodies for sale. Buy Iron Rapier(r, 30), Iron Chainmail(c, 30), Iron Buckler (b, 25), or Bloodthirsty Longsword(l, 50)?");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'r':
                             Main.Purchase(30, new iron_rapier());
-                            Formatting.type("Obtained 'Iron Rapier'!");
+                            Interface.type("Obtained 'Iron Rapier'!");
                             break;
                         case 'c':
                             Main.Purchase(30, new iron_mail());
-                            Formatting.type("Obtained 'Iron Chainmail!'!");
+                            Interface.type("Obtained 'Iron Chainmail!'!");
                             break;
                         case 'b':
                             Main.Purchase(25, new iron_buckler());
-                            Formatting.type("Obtained 'Iron Buckler'!");
+                            Interface.type("Obtained 'Iron Buckler'!");
                             break;
                         case 'l':
                             Main.Purchase(50, new bt_longsword());
-                            Formatting.type("Obatined 'Bloodthirsty Longsword'!");
+                            Interface.type("Obatined 'Bloodthirsty Longsword'!");
                             break;
                         default:
                             break;
@@ -1097,24 +1097,24 @@ namespace Realm
                 case 'q':
                     if (Main.magiccounter == 0)
                     {
-                        Formatting.type("You arrive at a shifty magic dealer in a back alley. He says, 'Hey! " + Main.Player.name + "! I can sell you this Blood Amulet(b, 50), a new ability(a, 50), or secret (s, 50). You game? You're not sure how he knows your name, but it freaks you out. (b, a, s)");
-                        switch (Console.ReadKey().KeyChar)
+                        Interface.type("You arrive at a shifty magic dealer in a back alley. He says, 'Hey! " + Main.Player.name + "! I can sell you this Blood Amulet(b, 50), a new ability(a, 50), or secret (s, 50). You game? You're not sure how he knows your name, but it freaks you out. (b, a, s)");
+                        switch (Interface.readkey().KeyChar)
                         {
                             case 'b':
                                 if (Main.Purchase(50, new blood_amulet()))
-                                    Formatting.type("Obtained 'Blood Amulet'!");
+                                    Interface.type("Obtained 'Blood Amulet'!");
                                 break;
                             case 'a':
                                 if (Main.Purchase(50))
                                 {
-                                    Formatting.type("He holds out his hand, and reality appears to bend around it. Kind of like the Degauss button on monitors from the 90's.");
+                                    Interface.type("He holds out his hand, and reality appears to bend around it. Kind of like the Degauss button on monitors from the 90's.");
                                     Main.Player.abilities.AddCommand(new Combat.VorpalBlades("Vorpal Blades", 'v'));
-                                    Formatting.type("Learned 'Vorpal Blade'!");
+                                    Interface.type("Learned 'Vorpal Blade'!");
                                 }
                                 break;
                             case 's':
                                 if (Main.Purchase(50))
-                                    Formatting.type("'I have a secret to tell you. Everything you know is wrong.' He holds out his hand, and reality appears to bend around it. Kind of like the Degauss button on monitors from the 90's. 'See this?' he says. 'This is what's known as the Flux. Everything is from the Flux, and controlled by the Flux. Learn to control it, and you control reality.'. he dissapears througha shimmering portal and leaves you there mystified.");
+                                    Interface.type("'I have a secret to tell you. Everything you know is wrong.' He holds out his hand, and reality appears to bend around it. Kind of like the Degauss button on monitors from the 90's. 'See this?' he says. 'This is what's known as the Flux. Everything is from the Flux, and controlled by the Flux. Learn to control it, and you control reality.'. he dissapears througha shimmering portal and leaves you there mystified.");
                                 break;
                         }
                         Main.magiccounter++;
@@ -1122,38 +1122,38 @@ namespace Realm
                     }
                     else
                     {
-                        Formatting.type("You look for the magic man, but he's gone.");
+                        Interface.type("You look for the magic man, but he's gone.");
                         break;
                     }
                 case 'b':
                     Main.BackpackLoop();
                     break;
                 case 'i':
-                    Formatting.type("The sign above the inn reads 'Donaldius Trumpe'. Stay the night for 15 gold? (y/n)");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("The sign above the inn reads 'Donaldius Trumpe'. Stay the night for 15 gold? (y/n)");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'y':
-                            Formatting.type("You feel refreshed, however the bedsheets smelled like cold blooded capitalism and weasely politicians.");
+                            Interface.type("You feel refreshed, however the bedsheets smelled like cold blooded capitalism and weasely politicians.");
                             Main.Purchase(15);
                             Main.Player.hp = Main.Player.maxhp;
                             break;
                         case 'n':
-                            Formatting.type("You leave the posh hotel.");
+                            Interface.type("You leave the posh hotel.");
                             break;
                         default:
                             break;
                     }
                     break;
                 case 'o':
-                    Formatting.type("You visit the city's monument, which is a tourist attraction for the entire Realm. People are everywhere. You elbow your way through the crowd to get a better look. The monument is a massive sword, stabbed into the ground as if placed there by a giant god. Blue light is pulsing up it like a giant conduit. You spot a secret door in the blade of the sword. Enter (y/n)");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("You visit the city's monument, which is a tourist attraction for the entire Realm. People are everywhere. You elbow your way through the crowd to get a better look. The monument is a massive sword, stabbed into the ground as if placed there by a giant god. Blue light is pulsing up it like a giant conduit. You spot a secret door in the blade of the sword. Enter (y/n)");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'y':
-                            Formatting.type("The door requires a password.");
-                            if (Console.ReadLine() == "God's Will")
+                            Interface.type("The door requires a password.");
+                            if (Interface.readinput() == "God's Will")
                                 Main.Endgame();
                             else
-                                Formatting.type("The door remains shut.");
+                                Interface.type("The door remains shut.");
                             break;
                         case 'n':
                             break;
@@ -1209,7 +1209,7 @@ namespace Realm
                     break;
                 case 'm':
                     if (Main.hasmap)
-                        Formatting.drawmap();
+                        Interface.drawmap();
                     break;
                 case 'n':
                     Globals.PlayerPosition.y += 1;
@@ -1221,24 +1221,24 @@ namespace Realm
                     Globals.PlayerPosition.x -= 1;
                     break;
                 case 'a':
-                    Formatting.type("The arms dealer has a small stand, but his wares are valuable. You may buy Darksteel Amulet(100, a), Darksteel Kris(80, k), Darksteel Kite Shield(s, 100), or Darksteel Scalemail(c, 110).");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("The arms dealer has a small stand, but his wares are valuable. You may buy Darksteel Amulet(100, a), Darksteel Kris(80, k), Darksteel Kite Shield(s, 100), or Darksteel Scalemail(c, 110).");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'a':
                             if (Main.Purchase(100, new ds_amulet()))
-                                Formatting.type("Obtained 'Darksteel Amulet'!");
+                                Interface.type("Obtained 'Darksteel Amulet'!");
                             break;
                         case 'c':
                             if (Main.Purchase(110, new ds_scale()))
-                                Formatting.type("Obatined 'Darksteel Scalemail'!");
+                                Interface.type("Obatined 'Darksteel Scalemail'!");
                             break;
                         case 'k':
                             if (Main.Purchase(80, new ds_kris()))
-                                Formatting.type("Obtained 'Darksteel Kris!'!");
+                                Interface.type("Obtained 'Darksteel Kris!'!");
                             break;
                         case 's':
                             if (Main.Purchase(100, new ds_kite()))
-                                Formatting.type("Obtained 'Darksteel Kite Shield'!");
+                                Interface.type("Obtained 'Darksteel Kite Shield'!");
                             break;
                         default:
                             break;
@@ -1249,16 +1249,16 @@ namespace Realm
                     Main.BackpackLoop();
                     break;
                 case 'i':
-                    Formatting.type("The inn is burned, but still in use. Stay the night for 20 gold? (y/n)");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("The inn is burned, but still in use. Stay the night for 20 gold? (y/n)");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'y':
-                            Formatting.type("You feel refreshed, although smelling of ash.");
+                            Interface.type("You feel refreshed, although smelling of ash.");
                             Main.Purchase(20);
                             Main.Player.hp = Main.Player.maxhp;
                             break;
                         case 'n':
-                            Formatting.type("You leave the inn.");
+                            Interface.type("You leave the inn.");
                             break;
                         default:
                             break;
@@ -1268,14 +1268,14 @@ namespace Realm
                     if (Main.townfolkcounter == 0)
                     {
                         Main.Player.xp += 10;
-                        Formatting.type("You visit the house of the jobless former librarian. He says there is something very strange about that sword monument in Central. He says you can never go anywhere unarmed. He teaches you a new ability.");
-                        Formatting.type("Learned 'Incinerate'!");
+                        Interface.type("You visit the house of the jobless former librarian. He says there is something very strange about that sword monument in Central. He says you can never go anywhere unarmed. He teaches you a new ability.");
+                        Interface.type("Learned 'Incinerate'!");
                         Main.Player.abilities.AddCommand(new Combat.Incinerate("Incinerate", 'i'));
-                        Formatting.type("As you're leaving, you notice the letter 'l' burned into the doorknob.");
+                        Interface.type("As you're leaving, you notice the letter 'l' burned into the doorknob.");
                         Main.townfolkcounter++;
                     }
                     else
-                        Formatting.type("You look for the librarian, but he's not there.");
+                        Interface.type("You look for the librarian, but he's not there.");
                     break;
                 default:
                     return false;
@@ -1323,7 +1323,7 @@ namespace Realm
                     break;
                 case 'm':
                     if (Main.hasmap)
-                        Formatting.drawmap();
+                        Interface.drawmap();
                     break;
                 case 'n':
                     Globals.PlayerPosition.y += 1;
@@ -1338,18 +1338,18 @@ namespace Realm
                     Globals.PlayerPosition.y -= 1;
                     break;
                 case 'a':
-                    Formatting.type("You visit the arms dealer. It's a very old man selling some very expensive wares. You wonder where he came across such valuables. Buy Bloodthirsty Battleaxe(b, 55), or Bloodthirsty Greatsword(g, 55)?");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("You visit the arms dealer. It's a very old man selling some very expensive wares. You wonder where he came across such valuables. Buy Bloodthirsty Battleaxe(b, 55), or Bloodthirsty Greatsword(g, 55)?");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'b':
                             if (Main.Purchase(55, new bt_battleaxe()))
-                                Formatting.type("Obtained 'Bloodthirsty Battleaxe'!");
-                            Formatting.type("The old man grins.");
+                                Interface.type("Obtained 'Bloodthirsty Battleaxe'!");
+                            Interface.type("The old man grins.");
                             break;
                         case 'g':
                             if (Main.Purchase(55, new bt_greatsword()))
-                                Formatting.type("Obtained 'Bloodthirsty Greatsword'!");
-                            Formatting.type("The old man grins.");
+                                Interface.type("Obtained 'Bloodthirsty Greatsword'!");
+                            Interface.type("The old man grins.");
                             break;
                     }
                     break;
@@ -1357,16 +1357,16 @@ namespace Realm
                     Main.BackpackLoop();
                     break;
                 case 'i':
-                    Formatting.type("Stay at the average-ass hotel for 15 gold?(y/n)");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("Stay at the average-ass hotel for 15 gold?(y/n)");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'y':
                             if (Main.Purchase(15))
                                 Main.Player.hp = Main.Player.maxhp;
-                            Formatting.type("As you're leaving you pick up a scrabble tile off of the floor. It is a blank. (' ').");
+                            Interface.type("As you're leaving you pick up a scrabble tile off of the floor. It is a blank. (' ').");
                             break;
                         case 'n':
-                            Formatting.type("You leave.");
+                            Interface.type("You leave.");
                             break;
                     }
                     break;
@@ -1415,7 +1415,7 @@ namespace Realm
                     break;
                 case 'm':
                     if (Main.hasmap)
-                        Formatting.drawmap();
+                        Interface.drawmap();
                     break;
                 case 'n':
                     Globals.PlayerPosition.y += 1;
@@ -1430,51 +1430,51 @@ namespace Realm
                     Globals.PlayerPosition.y -= 1;
                     break;
                 case 'g':
-                    Formatting.type("You talk to the toothless man holding the wares. You may buy the Void Cloak(v, 150), the Illusory Plate(i, 150), or the Spectral Bulwark(s, 150). Or you may buy all 3(3, 300).");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("You talk to the toothless man holding the wares. You may buy the Void Cloak(v, 150), the Illusory Plate(i, 150), or the Spectral Bulwark(s, 150). Or you may buy all 3(3, 300).");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'v':
                             if (Main.Purchase(150, new void_cloak()))
                             {
-                                Formatting.type("The toothless man reverently hands you artifact.");
-                                Formatting.type("Obtained 'Void Cloak'!");
+                                Interface.type("The toothless man reverently hands you artifact.");
+                                Interface.type("Obtained 'Void Cloak'!");
                             }
                             break;
                         case 'i':
                             if (Main.Purchase(150, new illusory_plate()))
                             {
-                                Formatting.type("The toothless man reverently hands you artifact.");
-                                Formatting.type("Obtained 'Illusory Plate'!");
+                                Interface.type("The toothless man reverently hands you artifact.");
+                                Interface.type("Obtained 'Illusory Plate'!");
                             }
                             break;
                         case 's':
                             if (Main.Purchase(150, new spectral_bulwark()))
                             {
-                                Formatting.type("The toothless man reverently hands you artifact.");
-                                Formatting.type("Obtained 'Spectral Bulwark'!");
+                                Interface.type("The toothless man reverently hands you artifact.");
+                                Interface.type("Obtained 'Spectral Bulwark'!");
                             }
                             break;
                         case '3':
                             if (Main.Purchase(300, new void_cloak()))
                             {
-                                Formatting.type("Obtained 'Void Cloak'!");
-                                Formatting.type("Obtained 'Spectral Bulwark'!");
-                                Formatting.type("Obtained 'Illusory Plate'!");
+                                Interface.type("Obtained 'Void Cloak'!");
+                                Interface.type("Obtained 'Spectral Bulwark'!");
+                                Interface.type("Obtained 'Illusory Plate'!");
 
                                 if (Main.Player.backpack.Count <= 10)
                                     Main.Player.backpack.Add(new void_cloak());
                                 else
-                                    Formatting.type("Not enough space.");
+                                    Interface.type("Not enough space.");
 
                                 if (Main.Player.backpack.Count <= 10)
                                     Main.Player.backpack.Add(new spectral_bulwark());
                                 else
-                                    Formatting.type("Not enough space.");
+                                    Interface.type("Not enough space.");
 
                                 if (Main.Player.backpack.Count <= 10)
                                     Main.Player.backpack.Add(new illusory_plate());
                                 else
-                                    Formatting.type("Not enough space.");
+                                    Interface.type("Not enough space.");
                             }
                             break;
                     }
@@ -1482,15 +1482,15 @@ namespace Realm
                 case 'k':
                     if (Main.nomadcounter == 0)
                     {
-                        Formatting.type("You visit their Elder King, or Sage Kaiser, as they call him. He offers to teach you an ability for 50 gold. (y/n)");
-                        switch (Console.ReadKey().KeyChar)
+                        Interface.type("You visit their Elder King, or Sage Kaiser, as they call him. He offers to teach you an ability for 50 gold. (y/n)");
+                        switch (Interface.readkey().KeyChar)
                         {
                             case 'y':
                                 if (Main.Purchase(50))
                                 {
-                                    Formatting.type("You say yes, and he holds up hand, and some strange runes on his hand begin to glow.");
-                                    Formatting.type("Learned 'Heavensplitter'!");
-                                    Formatting.type("The old man also hands you a rune with the letter 's' inscribed.");
+                                    Interface.type("You say yes, and he holds up hand, and some strange runes on his hand begin to glow.");
+                                    Interface.type("Learned 'Heavensplitter'!");
+                                    Interface.type("The old man also hands you a rune with the letter 's' inscribed.");
                                     Main.Player.abilities.AddCommand(new Combat.Heavensplitter("Heavensplitter", 'z'));
                                     Main.nomadcounter++;
                                 }
@@ -1498,7 +1498,7 @@ namespace Realm
                         }
                     }
                     else
-                        Formatting.type("He already taught you that ability. He has nothing more to offer.");
+                        Interface.type("He already taught you that ability. He has nothing more to offer.");
                     break;
                 case 'b':
                     Main.BackpackLoop();
@@ -1548,7 +1548,7 @@ namespace Realm
                     break;
                 case 'm':
                     if (Main.hasmap)
-                        Formatting.drawmap();
+                        Interface.drawmap();
                     break;
                 case 'n':
                     Globals.PlayerPosition.y += 1;
@@ -1560,35 +1560,35 @@ namespace Realm
                     Globals.PlayerPosition.y -= 1;
                     break;
                 case 'i':
-                    Formatting.type("Stay at the luxurious hotel for 40 gold?(y/n)");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("Stay at the luxurious hotel for 40 gold?(y/n)");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'y':
                             if (Main.Purchase(40))
                                 Main.Player.hp = Main.Player.maxhp;
-                            Formatting.type("As you're leaving you take all the free soap.");
+                            Interface.type("As you're leaving you take all the free soap.");
                             break;
                         case 'n':
-                            Formatting.type("You leave.");
+                            Interface.type("You leave.");
                             break;
                     }
                     break;
                 case 'a':
-                    Formatting.type("You visit the arms dealer. It's being manned by a child. Buy Sunburst Saber(120, v) or Suburst Shield(100, s).");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("You visit the arms dealer. It's being manned by a child. Buy Sunburst Saber(120, v) or Suburst Shield(100, s).");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'v':
                             if (Main.Purchase(120, new sb_saber()))
                             {
-                                Formatting.type("The child smiles gleefully and hands you the Sunburst Saber.");
-                                Formatting.type("Obtained 'Sunburst Saber'!");
+                                Interface.type("The child smiles gleefully and hands you the Sunburst Saber.");
+                                Interface.type("Obtained 'Sunburst Saber'!");
                             }
                             break;
                         case 's':
                             if (Main.Purchase(100, new sb_shield()))
                             {
-                                Formatting.type("The child smiles and hands you the Sunburst Shield.");
-                                Formatting.type("Obtained 'Sunburst Shield'!");
+                                Interface.type("The child smiles and hands you the Sunburst Shield.");
+                                Interface.type("Obtained 'Sunburst Shield'!");
                             }
                             break;
                     }
@@ -1643,7 +1643,7 @@ namespace Realm
                     break;
                 case 'm':
                     if (Main.hasmap)
-                        Formatting.drawmap();
+                        Interface.drawmap();
                     break;
                 case 'n':
                     Globals.PlayerPosition.y += 1;
@@ -1658,36 +1658,36 @@ namespace Realm
                     Globals.PlayerPosition.y -= 1;
                     break;
                 case 'a':
-                    Formatting.type("An average guy manages the shop. You can buy a Sunburst Ringmail(150) and a Sunburst Gauntlet(150).(r/g)");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("An average guy manages the shop. You can buy a Sunburst Ringmail(150) and a Sunburst Gauntlet(150).(r/g)");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'r':
                             if (Main.Purchase(150, new sb_chain()))
                             {
-                                Formatting.type("The man hands you the Sunburst Ringmail.");
-                                Formatting.type("Obtained 'Sunburst Ringmail'!");
+                                Interface.type("The man hands you the Sunburst Ringmail.");
+                                Interface.type("Obtained 'Sunburst Ringmail'!");
                             }
                             break;
                         case 'g':
                             if (Main.Purchase(150, new sb_gauntlet()))
                             {
-                                Formatting.type("The man hands you the Sunburst Gauntlet.");
-                                Formatting.type("Obtained 'Sunburst Gauntlet'!");
+                                Interface.type("The man hands you the Sunburst Gauntlet.");
+                                Interface.type("Obtained 'Sunburst Gauntlet'!");
                             }
                             break;
                     }
                     break;
                 case 'i':
-                    Formatting.type("Stay at the overpriced hotel for 60 gold?(y/n)");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("Stay at the overpriced hotel for 60 gold?(y/n)");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'y':
                             if (Main.Purchase(60))
                                 Main.Player.hp = Main.Player.maxhp;
-                            Formatting.type("As you're leaving you set fire to the bathroom. You see a sign on the door that reads 'Romney 2012', and one of the tiles on the bathroom floor reads 'i'.");
+                            Interface.type("As you're leaving you set fire to the bathroom. You see a sign on the door that reads 'Romney 2012', and one of the tiles on the bathroom floor reads 'i'.");
                             break;
                         case 'n':
-                            Formatting.type("You leave.");
+                            Interface.type("You leave.");
                             break;
                     }
                     break;
@@ -1733,38 +1733,38 @@ namespace Realm
                     break;
                 case 'm':
                     if (Main.hasmap)
-                        Formatting.drawmap();
+                        Interface.drawmap();
                     break;
                 case 'c':
                     if (!Main.raven_dead)
                     {
-                        Formatting.type("You climb 18 flights of obsidian stairs. You're kind of huffing an puffing at this point, but you stand before the mad king who rules RavenKeep.");
-                        Formatting.type("Challenge him, or run? (f/r).");
-                        switch (Console.ReadKey().KeyChar)
+                        Interface.type("You climb 18 flights of obsidian stairs. You're kind of huffing an puffing at this point, but you stand before the mad king who rules RavenKeep.");
+                        Interface.type("Challenge him, or run? (f/r).");
+                        switch (Interface.readkey().KeyChar)
                         {
                             case 'f':
-                                Formatting.type("You challenge the mad king, and he stands from his obsidian throne, raven-feathered cloak swirling. He laughs a deep booming laugh and draws a wicked looking blade.");
+                                Interface.type("You challenge the mad king, and he stands from his obsidian throne, raven-feathered cloak swirling. He laughs a deep booming laugh and draws a wicked looking blade.");
                                 Main.BattleLoop(new RavenKing());
                                 if (Main.Player.backpack.Count <= 10)
                                     Main.Player.backpack.Add(new phantasmal_claymore());
                                 else
-                                    Formatting.type("Not enough space.");
-                                Formatting.type("The king falls to the ground, defeated. You pick up his night colored sword form the ground, and in your hand it changes to a shimmering blue claymore.");
-                                Formatting.type("Obtained 'Phantasmal Claymore'!");
-                                Formatting.type("A blue portal opens up with the glowing letter 'l' above it. You yell 'Jeronimo!' and jump through.");
+                                    Interface.type("Not enough space.");
+                                Interface.type("The king falls to the ground, defeated. You pick up his night colored sword form the ground, and in your hand it changes to a shimmering blue claymore.");
+                                Interface.type("Obtained 'Phantasmal Claymore'!");
+                                Interface.type("A blue portal opens up with the glowing letter 'l' above it. You yell 'Jeronimo!' and jump through.");
                                 Globals.PlayerPosition.x = 2;
                                 Globals.PlayerPosition.y = 2;
                                 break;
                             case 'r':
-                                Formatting.type("You run back down the stairs like this sissy cRAVEN you are.");
+                                Interface.type("You run back down the stairs like this sissy cRAVEN you are.");
                                 break;
                         }
                     }
                     else
-                        Formatting.type("There's no one here.");
+                        Interface.type("There's no one here.");
                     break;
                 case 'l':
-                    Formatting.type("Coward.");
+                    Interface.type("Coward.");
                     Globals.PlayerPosition.x -= 1;
                     break;
                 default:
@@ -1810,36 +1810,48 @@ namespace Realm
         {
             switch (input)
             {
+                case 'n':
+                    Globals.PlayerPosition.y += 1;
+                    break;
+                case 'e':
+                    Globals.PlayerPosition.x += 1;
+                    break;
+                case 's':
+                    Globals.PlayerPosition.y -= 1;
+                    break;
+                case 'w':
+                    Globals.PlayerPosition.x -= 1;
+                    break;
                 case 'a':
-                    Formatting.type("You visit the arms dealer. He is old, and the wrinkles in his face are blackened with coal dust. As this town is the only source of the precious black mineral in the all of Realm, these ex-miners are very rich. For sale before you are imported wares from the distant land of Avira. You may buy Azurite Cloak(c, 100), Azurite Amulet(a, 110), or Azurite Staff(s, 120).");
-                    switch(Console.ReadKey().KeyChar)
+                    Interface.type("You visit the arms dealer. He is old, and the wrinkles in his face are blackened with coal dust. As this town is the only source of the precious black mineral in the all of Realm, these ex-miners are very rich. For sale before you are imported wares from the distant land of Avira. You may buy Azurite Cloak(c, 100), Azurite Amulet(a, 110), or Azurite Staff(s, 120).");
+                    switch(Interface.readkey().KeyChar)
                     {
                         case'a':
                             if (Main.Purchase(110, new a_amulet()))
-                                Formatting.type("Obtained 'Azurite Amulet'!");
+                                Interface.type("Obtained 'Azurite Amulet'!");
                             break;
                         case's':
                             if (Main.Purchase(120, new a_staff()))
-                                Formatting.type("Obtained 'Azurite Staff'!");
+                                Interface.type("Obtained 'Azurite Staff'!");
                             break;
                         case'c':
                             if (Main.Purchase(100, new a_mail()))
-                                Formatting.type("Obtained 'Azurite Cloth'!");
+                                Interface.type("Obtained 'Azurite Cloth'!");
                             break;
                         default:
                             break;
                     }
                     break;
                 case 'i':
-                    Formatting.type("Do you wish to stay in the Coaltown Motel for 15 g?(y/n)");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("Do you wish to stay in the Coaltown Motel for 15 g?(y/n)");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'y':
                             if (Main.Purchase(15))
-                                Formatting.type("Everything in the town, now including you, is coated in alayer of fine black dust, but at least your hp has been restored.");
+                                Interface.type("Everything in the town, now including you, is coated in alayer of fine black dust, but at least your hp has been restored.");
                             break;
                         case 'n':
-                            Formatting.type("You leave.");
+                            Interface.type("You leave.");
                             break;
                         default:
                             break;
@@ -1848,41 +1860,41 @@ namespace Realm
                 case 'c':
                     if (Main.minecounter == 0)
                     {
-                        Formatting.type("This coalmine is abundant with miners and minecarts, carrying the precious black resource back to the surface. You try to swipe a coal nugget from a passing minecart, as the stuff is worth double it's weight in gold, but a burly miner swats your hand. With his pickeaxe. Ow. Do you want to travel deeper into the mine? (y/n)");
+                        Interface.type("This coalmine is abundant with miners and minecarts, carrying the precious black resource back to the surface. You try to swipe a coal nugget from a passing minecart, as the stuff is worth double it's weight in gold, but a burly miner swats your hand. With his pickeaxe. Ow. Do you want to travel deeper into the mine? (y/n)");
                         int roll = Combat.Dice.roll(1, 20);
                         if (roll == 1)
                         {
-                            Formatting.type("The mine collapses and you die.");
+                            Interface.type("The mine collapses and you die.");
                             End.GameOver();
                         }
-                        switch(Console.ReadKey().KeyChar)
+                        switch(Interface.readkey().KeyChar)
                         {
                             case'y':
-                                Formatting.type("As you go deeper and deeper into the mines, the caves get darker and darker. In front of you, the entire rail collapses. You must make a split second decision. Jump(j), or fall(f)?");
-                                switch(Console.ReadKey().KeyChar)
+                                Interface.type("As you go deeper and deeper into the mines, the caves get darker and darker. In front of you, the entire rail collapses. You must make a split second decision. Jump(j), or fall(f)?");
+                                switch(Interface.readkey().KeyChar)
                                 {
                                     case'j':
-                                        Formatting.type("You try to jump for your life, but you hit your head on an i-beam and die.");
+                                        Interface.type("You try to jump for your life, but you hit your head on an i-beam and die.");
                                         End.GameOver();
                                         break;
                                     case'f':
-                                        Formatting.type("You try to ride the wave of steel and stone falling down hundreds of feet. Probably not the best of your ideas, you reflect as you fall. You hit the ground, and everything goes black.");
-                                        Formatting.type("Press any key to continue.");
-                                        Console.ReadKey();
+                                        Interface.type("You try to ride the wave of steel and stone falling down hundreds of feet. Probably not the best of your ideas, you reflect as you fall. You hit the ground, and everything goes black.");
+                                        Interface.type("Press any key to continue.");
+                                        Interface.readkey();
                                         Console.Clear();
-                                        Formatting.type("You wake up. At least you're not dead. But everything on you hurts. Your eyes adjust to your surroundings, and you find yourself in the ruins of an ancient library, but everything is burned. Everything save one book. Pick it up? (y/n)");
-                                        switch(Console.ReadKey().KeyChar)
+                                        Interface.type("You wake up. At least you're not dead. But everything on you hurts. Your eyes adjust to your surroundings, and you find yourself in the ruins of an ancient library, but everything is burned. Everything save one book. Pick it up? (y/n)");
+                                        switch(Interface.readkey().KeyChar)
                                         {
                                             case'y':
-                                                Formatting.type("You pick up the book.");
+                                                Interface.type("You pick up the book.");
                                                 if (Main.Player.backpack.Count >= 10)
-                                                    Formatting.type("Your backpack is full.");
+                                                    Interface.type("Your backpack is full.");
                                                 else
                                                     Main.Player.backpack.Add(new tome());
-                                                Formatting.type("It takes a few hours, but you climb your way out of the mine. You surface looking like a chimney sweep.");
+                                                Interface.type("It takes a few hours, but you climb your way out of the mine. You surface looking like a chimney sweep.");
                                                 break;
                                             case'n':
-                                                Formatting.type("It takes a few hours, but you clib your way out of the mine, leaving the book behind.");
+                                                Interface.type("It takes a few hours, but you clib your way out of the mine, leaving the book behind.");
                                                 break;
                                         }
                                         break;
@@ -1891,7 +1903,7 @@ namespace Realm
                                 }
                                 break;
                             case'n':
-                                Formatting.type("You leave.");
+                                Interface.type("You leave.");
                                 break;
                             default:
                                 break;
@@ -1945,43 +1957,55 @@ namespace Realm
         {
             switch (input)
             {
+                case 'n':
+                    Globals.PlayerPosition.y += 1;
+                    break;
+                case 'e':
+                    Globals.PlayerPosition.x += 1;
+                    break;
+                case 's':
+                    Globals.PlayerPosition.y -= 1;
+                    break;
+                case 'w':
+                    Globals.PlayerPosition.x -= 1;
+                    break;
                 case 'a':
-                    Formatting.type("A young man with a frosty white beard selling equally frozen gear. You may buy Ice Amulet(a, 75), Icy Boots of Fast(i, 80), Ice Dagger(d, 75), or Ice Shield(s, 75).");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("A young man with a frosty white beard selling equally frozen gear. You may buy Ice Amulet(a, 75), Icy Boots of Fast(i, 80), Ice Dagger(d, 75), or Ice Shield(s, 75).");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'a':
                             if (Main.Purchase(75, new ice_amulet()))
-                                Formatting.type("Obtained 'Ice Amulet'!");
+                                Interface.type("Obtained 'Ice Amulet'!");
                             break;
                         case 's':
                             if (Main.Purchase(75, new ice_shield()))
-                                Formatting.type("Obtained 'Ice Shield'!");
+                                Interface.type("Obtained 'Ice Shield'!");
                             break;
                         case 'd':
                             if (Main.Purchase(75, new ice_dagger()))
-                                Formatting.type("Obtained 'Ice Dagger'!");
+                                Interface.type("Obtained 'Ice Dagger'!");
                             break;
                         case 'i':
                             if (Main.Purchase(80, new swifites()))
-                                Formatting.type("Obtained 'Icy Boots of Fast'!");
+                                Interface.type("Obtained 'Icy Boots of Fast'!");
                             break;
                         default:
                             break;
                     }
                     break;
                 case 'i':
-                    Formatting.type("Do you wish to stay at the Iceborn Inn for 30 gold? (y/n)");
-                    switch(Console.ReadKey().KeyChar)
+                    Interface.type("Do you wish to stay at the Iceborn Inn for 30 gold? (y/n)");
+                    switch(Interface.readkey().KeyChar)
                     {
                         case 'y':
                             if (Main.Purchase(30))
                             {
-                                Formatting.type("Your health has been restored, but you have frostbite in 3 of your toes.");
+                                Interface.type("Your health has been restored, but you have frostbite in 3 of your toes.");
                                 Main.Player.hp = Main.Player.maxhp;
                             }
                             break;
                         case 'n':
-                            Formatting.type("You leave.");
+                            Interface.type("You leave.");
                             break;
                         default:
                             break;
@@ -1990,22 +2014,22 @@ namespace Realm
                 case 'l':
                     if (Main.frozencounter == 0)
                     {
-                        Formatting.type("You arrive at a library made of ice, and although it's cold as dead kittens, you decide to go in. 3 books catch your eye. Cold (c), Frost(f), or Ice(i).");
-                        switch (Console.ReadKey().KeyChar)
+                        Interface.type("You arrive at a library made of ice, and although it's cold as dead kittens, you decide to go in. 3 books catch your eye. Cold (c), Frost(f), or Ice(i).");
+                        switch (Interface.readkey().KeyChar)
                         {
                             case 'c':
-                                Formatting.type("You pick up the book entitled Cold. You read of the century long winter from the days of old. It kind of scares you, but you feel smarter and faster.");
+                                Interface.type("You pick up the book entitled Cold. You read of the century long winter from the days of old. It kind of scares you, but you feel smarter and faster.");
                                 Main.Player.intl += 2;
                                 Main.Player.spd += 2;
                                 break;
                             case 'f':
-                                Formatting.type("You pick of the book entitled Frost. You learn of the event that froze over this once-warm town. It terrifies you, but you feel stronger and tougher.");
+                                Interface.type("You pick of the book entitled Frost. You learn of the event that froze over this once-warm town. It terrifies you, but you feel stronger and tougher.");
                                 Main.Player.atk += 1;
                                 Main.Player.def += 1;
                                 break;
                             case 'i':
-                                Formatting.type("You pick up the book entitled Ice. You learn of the ancient sorcer who was able to cast ice speels by drawing the heat out of the air, and the water from the ground.");
-                                Formatting.type("Learned 'Ice Chains'!");
+                                Interface.type("You pick up the book entitled Ice. You learn of the ancient sorcer who was able to cast ice speels by drawing the heat out of the air, and the water from the ground.");
+                                Interface.type("Learned 'Ice Chains'!");
                                 Main.Player.abilities.AddCommand(new Combat.IceChains("Ice Chains", 'i'));
                                 break;
                             default:
@@ -2013,6 +2037,8 @@ namespace Realm
                         }
                         Main.frozencounter++;
                     }
+                    else
+                        Interface.type("The doors are frozen shut.");
                     break;
                 case '#':
                     Save.SaveGame();
@@ -2060,43 +2086,55 @@ namespace Realm
         {
             switch (input)
             {
+                case 'n':
+                    Globals.PlayerPosition.y += 1;
+                    break;
+                case 'e':
+                    Globals.PlayerPosition.x += 1;
+                    break;
+                case 's':
+                    Globals.PlayerPosition.y -= 1;
+                    break;
+                case 'w':
+                    Globals.PlayerPosition.x -= 1;
+                    break;
                 case 'a':
-                    Formatting.type("A young man with one of those stereotypical black and white 'wands' is running the shop. You may buy Apprentice Robes(a, 15), Junior Mage Staff(j, 12), Magic For Dummies(m, 10), or Magic Ring(r, 15).");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("A young man with one of those stereotypical black and white 'wands' is running the shop. You may buy Apprentice Robes(a, 15), Junior Mage Staff(j, 12), Magic For Dummies(m, 10), or Magic Ring(r, 15).");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'a':
                             if (Main.Purchase(15, new m_robes()))
-                                Formatting.type("Obtained 'Apprentice Robes'!");
+                                Interface.type("Obtained 'Apprentice Robes'!");
                             break;
                         case 'j':
                             if (Main.Purchase(12, new m_staff()))
-                                Formatting.type("Obtained 'Junior Mage Staff'!");
+                                Interface.type("Obtained 'Junior Mage Staff'!");
                             break;
                         case 'm':
                             if (Main.Purchase(10, new m_tome()))
-                                Formatting.type("Obtained 'Magic for Dummies'!");
+                                Interface.type("Obtained 'Magic for Dummies'!");
                             break;
                         case 'r':
                             if (Main.Purchase(15, new m_amulet()))
-                                Formatting.type("Obtained 'Magic Ring'!");
+                                Interface.type("Obtained 'Magic Ring'!");
                             break;
                         default:
                             break;
                     }
                     break;
                 case 'i':
-                    Formatting.type("Do you wish to stay at the Rabbit-Inn-Hat for 12 gold? (y/n)");
-                    switch (Console.ReadKey().KeyChar)
+                    Interface.type("Do you wish to stay at the Rabbit-Inn-Hat for 12 gold? (y/n)");
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'y':
                             if (Main.Purchase(12))
                             {
-                                Formatting.type("Your health has been restored, but when you tried to pull a sock from your suitcase, and infinite chain of rainbow hankies tied together stopped you from actually getting a sock. So now you only have one.");
+                                Interface.type("Your health has been restored, but when you tried to pull a sock from your suitcase, and infinite chain of rainbow hankies tied together stopped you from actually getting a sock. So now you only have one.");
                                 Main.Player.hp = Main.Player.maxhp;
                             }
                             break;
                         case 'n':
-                            Formatting.type("You leave.");
+                            Interface.type("You leave.");
                             break;
                         default:
                             break;
@@ -2105,22 +2143,22 @@ namespace Realm
                 case 'l':
                     if (Main.noobcounter == 0)
                     {
-                        Formatting.type("You arrive at a library which looks more like Half-Price books than an actual library. You may read Dissapearance(d), the Art of Illusion(i), or Magical Lasers(m).");
-                        switch (Console.ReadKey().KeyChar)
+                        Interface.type("You arrive at a library which looks more like Half-Price books than an actual library. You may read Dissapearance(d), the Art of Illusion(i), or Magical Lasers(m).");
+                        switch (Interface.readkey().KeyChar)
                         {
                             case 'd':
-                                Formatting.type("You learn about how the first mages learned to make themselves dissapear.");
-                                Formatting.type("Learned 'Now You See Me'!");
+                                Interface.type("You learn about how the first mages learned to make themselves dissapear.");
+                                Interface.type("Learned 'Now You See Me'!");
                                 Main.Player.abilities.AddCommand(new Combat.NowYouSeeMe("Now You See Me", 'y'));
                                 break;
                             case 'i':
-                                Formatting.type("You learn about how the first wizards learnt to decieve people's minds.");
-                                Formatting.type("Learned 'Illusion'!");
+                                Interface.type("You learn about how the first wizards learnt to decieve people's minds.");
+                                Interface.type("Learned 'Illusion'!");
                                 Main.Player.abilities.AddCommand(new Combat.Illusion("Illusion", '?'));
                                 break;
                             case 'l':
-                                Formatting.type("You learn of how to make cool lasers with magic.");
-                                Formatting.type("Learned 'Pew Pew Pew'!");
+                                Interface.type("You learn of how to make cool lasers with magic.");
+                                Interface.type("Learned 'Pew Pew Pew'!");
                                 Main.Player.abilities.AddCommand(new Combat.PewPewPew("Pew Pew Pew", 'w'));
                                 break;
                             default:
@@ -2128,6 +2166,8 @@ namespace Realm
                         }
                         Main.noobcounter++;
                     }
+                    else
+                        Interface.type("The library is cloed.");
                     break;
                 case '#':
                     Save.SaveGame();

@@ -32,14 +32,14 @@ namespace Realm
         public virtual void droploot()
         {
             int gold = Combat.Dice.roll(1, gpdice);
-            Formatting.type("You gain " + gold + " gold.");
+            Interface.type("You gain " + gold + " gold.");
             if (!Main.is_theif)
                 Main.Player.g += gold;
             else
                 Main.Player.g += (gold + (gold / 10));
 
             int xp = Combat.Dice.roll(1, xpdice);
-            Formatting.type("You gained " + xp + " xp.");
+            Interface.type("You gained " + xp + " xp.");
             Main.Player.xp += xp;
         }
         public Enemy()
@@ -70,8 +70,6 @@ namespace Realm
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
-                if (atk < Main.Player.def)
-                    damage = 1;
                 dmg = Convert.ToInt32(damage) - (Main.Player.def / 3);
                 ability_used = "Basic Attack";
             }
@@ -201,15 +199,13 @@ namespace Realm
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
-                if (atk < Main.Player.def)
-                    damage = 1;
                 dmg = Convert.ToInt32(damage) - -(Main.Player.def / 3);
                 ability_used = "Basic Attack";
             }
             else if (Combat.DecideAttack(abilities) == "Terminate")
             {
                 double damage = Combat.Dice.roll(atk, atk * 2);
-                dmg = Convert.ToInt32(damage) - Main.Player.def;
+                dmg = Convert.ToInt32(damage) - (Main.Player.def / 3);
                 ability_used = "Terminate";
             }
             if (dmg <= 0)
@@ -243,8 +239,6 @@ namespace Realm
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
-                if (atk < Main.Player.def)
-                    damage = 1;
                 dmg = Convert.ToInt32(damage) - (Main.Player.def / 3);
                 ability_used = "Basic Attack";
             }
@@ -292,8 +286,6 @@ namespace Realm
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
-                if (atk < Main.Player.def)
-                    damage = 1;
                 dmg = Convert.ToInt32(damage) - (Main.Player.def / 3);
                 ability_used = "Basic Attack";
             }
@@ -342,8 +334,6 @@ namespace Realm
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
-                if (atk < Main.Player.def)
-                    damage = 1;
                 dmg = Convert.ToInt32(damage) - (Main.Player.def / 3);
                 ability_used = "Basic Attack";
             }

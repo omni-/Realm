@@ -44,43 +44,43 @@ namespace Realm
         {
             List<string> racelist = new List<string>{ "Human", "human", "Elf", "elf", "Rockman", "rockman", "Giant", "giant", "Zephyr", "zephyr", "Shade", "shade" };
             List<string> classlist = new List<string> { "Warrior", "warrior","Paladin", "paladin", "Mage", "mage", "Thief", "thief" };
-            Formatting.type("Welcome, " + Player.name + ", to Realm.");
-            Formatting.type("To do anything in Realm, simply press one of the listed commands.");
-            Formatting.type("Make sure to visit every library! They offer many valuable abilities as well as experience.");
-            Formatting.type("When in combat, select an availible move. All damage is randomized. Mana is refilled after each fight.");
-            Formatting.type("While in the backpack, simply select a number corresponding to an item. You may swap this item in or out. Make sure to equip an item once you pick it up!");
-            Formatting.type("At any specified time, you may press x, then y. This will cause you to commit suicide.");
-            Formatting.type("At any specified time, you may press #. Doing so will save the game.");
-            Formatting.type("In Realm, every player selects a race. Each race gives its own bonuses. You may choose from Human, Elf, Rockman, Giant, Zephyr, or Shade.");
-            Formatting.type("Please enter a race. ");
-            string race = Console.ReadLine();
+            Interface.type("Welcome, " + Player.name + ", to Realm.");
+            Interface.type("To do anything in Realm, simply press one of the listed commands.");
+            Interface.type("Make sure to visit every library! They offer many valuable abilities as well as experience.");
+            Interface.type("When in combat, select an availible move. All damage is randomized. Mana is refilled after each fight.");
+            Interface.type("While in the backpack, simply select a number corresponding to an item. You may swap this item in or out. Make sure to equip an item once you pick it up!");
+            Interface.type("At any specified time, you may press x, then y. This will cause you to commit suicide.");
+            Interface.type("At any specified time, you may press #. Doing so will save the game.");
+            Interface.type("In Realm, every player selects a race. Each race gives its own bonuses. You may choose from Human, Elf, Rockman, Giant, Zephyr, or Shade.");
+            Interface.type("Please enter a race. ");
+            string race = Interface.readinput();
             while (!racelist.Contains(race))
             {
-                Formatting.type("Invalid. Please try again. ");
-                race = Console.ReadLine();
+                Interface.type("Invalid. Please try again. ");
+                race = Interface.readinput();
             }
-            Player.race = Formatting.ToUpperFirstLetter(race);
+            Player.race = Interface.ToUpperFirstLetter(race);
             if (Player.race == "Giant")
             {
                 Player.maxhp = 16;
                 Player.hp = 16;
             }
-            Formatting.type("You have selected " + Player.race + ".");
-            Formatting.type("Each player also has a class. You may choose from Warrior, Paladin, Mage, or Thief.");
-            Formatting.type("Please enter a class. ");
-            string pclass = Console.ReadLine();
+            Interface.type("You have selected " + Player.race + ".");
+            Interface.type("Each player also has a class. You may choose from Warrior, Paladin, Mage, or Thief.");
+            Interface.type("Please enter a class. ");
+            string pclass = Interface.readinput();
             while (!classlist.Contains(pclass))
             {
-                Formatting.type("Invalid. Please try again. ");
-                pclass = Console.ReadLine();
+                Interface.type("Invalid. Please try again. ");
+                pclass = Interface.readinput();
             }
-            Player.pclass = Formatting.ToUpperFirstLetter(pclass);
-            Formatting.type("You have selected " + Player.pclass + ".");
-            Formatting.type("You are now ready to play Realm. Good luck!");
-            Formatting.type("Press any key to continue.");
-            Console.ReadKey();
+            Player.pclass = Interface.ToUpperFirstLetter(pclass);
+            Interface.type("You have selected " + Player.pclass + ".");
+            Interface.type("You are now ready to play Realm. Good luck!");
+            Interface.type("Press any key to continue.");
+            Interface.readkey();
             Globals.PlayerPosition.x = 0;
-            Globals.PlayerPosition.y = 5;
+            Globals.PlayerPosition.y = 6;
             MainLoop();
         }
         public static void MainLoop()
@@ -120,46 +120,46 @@ namespace Realm
                     if (!Player.abilities.commandChars.Contains('*'))
                         Player.abilities.AddCommand(new Combat.EndtheIllusion("End the Illusion", '*'));
                 if (devmode)
-                    Formatting.type(Globals.PlayerPosition.x + " " + Globals.PlayerPosition.y);
+                    Interface.type(Globals.PlayerPosition.x + " " + Globals.PlayerPosition.y);
                 if (!devmode)
                     Player.applybonus();
                 else
                     Player.applydevbonus();
                 if (gbooks >= 3 && !Player.abilities.commandChars.Contains('@'))
                 {
-                    Formatting.type("Having read all of the Ramsay books, you are enlightened in the ways of Gordon Ramsay.");
-                    Formatting.type("Learned 'Hell's Kitchen'!");
+                    Interface.type("Having read all of the Ramsay books, you are enlightened in the ways of Gordon Ramsay.");
+                    Interface.type("Learned 'Hell's Kitchen'!");
                     Player.abilities.AddCommand(new Combat.HellsKitchen("Hell's Kitchen", '@'));
                 }
                 if (!devmode)
                 {
-                    Formatting.type("-------------------------------------");
-                    Formatting.type(Player.name + "(" + Player.race + ")," + " Level " + Player.level + " " + Player.pclass + ":");
-                    Formatting.type("HP: " + Player.hp + "/" + Player.maxhp);
-                    Formatting.type("Attack: " + Player.atk + " / Defense: " + Player.def + " / Speed: " + Player.spd + " / Intelligence: " + Player.intl);
-                    Formatting.type("Mana: " + (1 + (Player.intl / 10)));
-                    Formatting.type("Gold: " + Player.g + " / Exp to Level: " + (Player.xp_next - Player.xp));
-                    Formatting.type("-------------------------------------");
+                    Interface.type("-------------------------------------");
+                    Interface.type(Player.name + "(" + Player.race + ")," + " Level " + Player.level + " " + Player.pclass + ":");
+                    Interface.type("HP: " + Player.hp + "/" + Player.maxhp);
+                    Interface.type("Attack: " + Player.atk + " / Defense: " + Player.def + " / Speed: " + Player.spd + " / Intelligence: " + Player.intl);
+                    Interface.type("Mana: " + (1 + (Player.intl / 10)));
+                    Interface.type("Gold: " + Player.g + " / Exp to Level: " + (Player.xp_next - Player.xp));
+                    Interface.type("-------------------------------------");
                 }
 
                 //currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
                 if (!devmode)
-                    Formatting.type(currPlace.Description);
+                    Interface.type(currPlace.Description);
                 else
-                    Formatting.type(currPlace.ToString());
+                    Interface.type(currPlace.ToString());
                 char[] currcommands = currPlace.getAvailableCommands();
                 Console.Write("\r\nYour current commands are x");
                 foreach (char c in currcommands)
                 {
                     Console.Write(", {0}", c);
                 }
-                Formatting.type("");
+                Interface.type("");
 
-                ConsoleKeyInfo command = Console.ReadKey();
+                ConsoleKeyInfo command = Interface.readkey();
                 if (command.KeyChar == 'x')
                 {
-                    Formatting.type("\r\nAre you sure?");
-                    char surecommand = Console.ReadKey().KeyChar;
+                    Interface.type("\r\nAre you sure?");
+                    char surecommand = Interface.readkey().KeyChar;
                     if (surecommand == 'y')
                     {
                         End.GameOver();
@@ -169,39 +169,39 @@ namespace Realm
                     Environment.Exit(0);
                 else if (command.KeyChar == '-' && devmode)
                 {
-                    string input = Console.ReadLine();
+                    string input = Interface.readinput();
                     if (input == "e")
                         Endgame();
                     else if (input == "c")
                     {
-                        string combat_input = Console.ReadLine();
+                        string combat_input = Interface.readinput();
                         Type etype = Type.GetType("Realm." + combat_input);
                         Enemy e = (Enemy)Activator.CreateInstance(etype);
                         BattleLoop(e);
                     }
                     else if (input == "n")
-                        Player.name = Console.ReadLine();
+                        Player.name = Interface.readinput();
                     else if (input == "a")
                     {
-                        string add_input = Console.ReadLine();
+                        string add_input = Interface.readinput();
                         Type atype = Type.GetType("Realm." + add_input);
                         Item i = (Item)Activator.CreateInstance(atype);
                         if (Player.backpack.Count <= 10)
                             Player.backpack.Add(i);
                         else
-                            Formatting.type("Not enough space.");
-                        Formatting.type("Obtained '" + i.name + "'!");
+                            Interface.type("Not enough space.");
+                        Interface.type("Obtained '" + i.name + "'!");
                     }
                     else if (input == "p")
                     {
-                        string p_input = Console.ReadLine();
+                        string p_input = Interface.readinput();
                         Type atype = Type.GetType("Realm." + p_input);
                         Item i = (Item)Activator.CreateInstance(atype);
                         Player.primary = i;
                     }
                     else if (input == "t")
                     {
-                        string place_input = Console.ReadLine();
+                        string place_input = Interface.readinput();
                         Type ptype = Type.GetType("Realm." + place_input);
                         Place p = (Place)Activator.CreateInstance(ptype);
                     }
@@ -219,28 +219,28 @@ namespace Realm
 
             int enemydmg = 0;
             int mana = 1 + Player.intl / 10;
-            Formatting.type("You have entered combat! Ready your weapons!");
-            Formatting.type("Level " + enemy.level + " " + enemy.name + ":");
-            Formatting.type("-------------------------");
-            Formatting.type("HP: " + enemy.hp);
-            Formatting.type("Attack: " + enemy.atk);
-            Formatting.type("Defense: " + enemy.def);
-            Formatting.type("-------------------------");
+            Interface.type("You have entered combat! Ready your weapons!");
+            Interface.type("Level " + enemy.level + " " + enemy.name + ":");
+            Interface.type("-------------------------");
+            Interface.type("HP: " + enemy.hp);
+            Interface.type("Attack: " + enemy.atk);
+            Interface.type("Defense: " + enemy.def);
+            Interface.type("-------------------------");
             bool is_turn = enemy.spd < Player.spd;
             while (enemy.hp >= 0)
             {
-                Formatting.type("//////////////////////");
-                Formatting.type("Your HP: " + Player.hp);
-                Formatting.type("Your Mana: " + mana);
-                Formatting.type("----------------------");
-                Formatting.type("Enemy HP: " + enemy.hp);
-                Formatting.type("//////////////////////");
+                Interface.type("//////////////////////");
+                Interface.type("Your HP: " + Player.hp);
+                Interface.type("Your Mana: " + mana);
+                Interface.type("----------------------");
+                Interface.type("Enemy HP: " + enemy.hp);
+                Interface.type("//////////////////////");
                 if (is_turn && !Player.stunned)
                 {
                     if (Player.phased)
                         Player.phased = false;
-                    Formatting.type("\r\nAVAILABLE MOVES:");
-                    Formatting.type("=========================");
+                    Interface.type("\r\nAVAILABLE MOVES:");
+                    Interface.type("=========================");
                     if (Player.fire >= 3)
                         Player.on_fire = false;
                     if (Player.on_fire)
@@ -248,64 +248,64 @@ namespace Realm
                         Player.fire++;
                         int dmg = Combat.Dice.roll(1, 3);
                         Player.hp -= dmg;
-                        Formatting.type("You take " + dmg + " fire damage.");
+                        Interface.type("You take " + dmg + " fire damage.");
                     }
                     if (Player.blinded)
                         Player.blinded = false;
                     if (Player.cursed)
                     {
                         Player.hp -= Combat.Dice.roll(1, 6);
-                        Formatting.type("You are cursed!");
+                        Interface.type("You are cursed!");
                     }
                     int i = 0;
                     foreach (Realm.Combat.Command c in Player.abilities.commands.Values)
                     {
                         string src = "||   " + c.cmdchar + ". " + c.name;
-                        Formatting.type(src);
+                        Interface.type(src);
                         i++;
                     }
-                    Formatting.type("=========================");
-                    Formatting.type("");
+                    Interface.type("=========================");
+                    Interface.type("");
 
                     int oldhp = enemy.hp;
-                    char ch = Console.ReadKey().KeyChar;
+                    char ch = Interface.readkey().KeyChar;
                     while (!Player.abilities.commandChars.Contains(ch))
                     {
-                        Formatting.type("Invalid.");
-                        Formatting.type("");
-                        ch = Console.ReadKey().KeyChar;
+                        Interface.type("Invalid.");
+                        Interface.type("");
+                        ch = Interface.readkey().KeyChar;
                     }
                     while (ch != 'b' && mana <= 0)
                     {
-                        Formatting.type("Out of mana!");
-                        Formatting.type("");
-                        ch = Console.ReadKey().KeyChar;
+                        Interface.type("Out of mana!");
+                        Interface.type("");
+                        ch = Interface.readkey().KeyChar;
                     }
                     if (ch != 'b')
                         mana--;
                     if (ch == 'm')
                     {
-                        Formatting.type("You mimc the enemy's damage!");
+                        Interface.type("You mimc the enemy's damage!");
                         enemy.hp -= enemydmg;
                     }
                     if (!Player.blinded)
                         Player.abilities.ExecuteCommand(ch, enemy);
                     else
                     {
-                        Formatting.type("You are blind!");
+                        Interface.type("You are blind!");
                         if (Combat.Dice.roll(1, 10) == 1)
                         {
-                            Formatting.type("By some miracle, you manage to hit them!");
+                            Interface.type("By some miracle, you manage to hit them!");
                             Player.abilities.ExecuteCommand(ch, enemy);
                             int  blindenemyhp = oldhp - enemy.hp;
-                            Formatting.type("The enemy takes " + blindenemyhp + " damage!");
+                            Interface.type("The enemy takes " + blindenemyhp + " damage!");
                         }
                     }
                     int enemyhp = oldhp - enemy.hp;
-                    Formatting.type("The enemy takes " + enemyhp + " damage!");
+                    Interface.type("The enemy takes " + enemyhp + " damage!");
                     if (enemy.hp <= 0)
                     {
-                        Formatting.type("Your have defeated " + enemy.name + "!");
+                        Interface.type("Your have defeated " + enemy.name + "!");
                         enemy.droploot();
                         Player.levelup();
                         return;
@@ -315,7 +315,7 @@ namespace Realm
                 }
                 else if (Player.stunned)
                 {
-                    Formatting.type("You are stunned!");
+                    Interface.type("You are stunned!");
                     Player.stunned = false;
                     if (Player.fire >= 3)
                         Player.on_fire = false;
@@ -324,12 +324,12 @@ namespace Realm
                         Player.fire++;
                         int dmg = Combat.Dice.roll(1, 3);
                         Player.hp -= dmg;
-                        Formatting.type("You take " + dmg + " fire damage.");
+                        Interface.type("You take " + dmg + " fire damage.");
                     }
                     if (Player.cursed)
                     {
                         Player.hp -= Combat.Dice.roll(1, 6);
-                        Formatting.type("You are cursed!");
+                        Interface.type("You are cursed!");
                     }
                     is_turn = false;
                 }
@@ -349,10 +349,10 @@ namespace Realm
                         enemy.fire++;
                         int dmg = Combat.Dice.roll(1, 3);
                         enemy.hp -= dmg;
-                        Formatting.type(enemy.name + " takes " + dmg + " fire damage.");
+                        Interface.type(enemy.name + " takes " + dmg + " fire damage.");
                         if (enemy.hp <= 0)
                         {
-                            Formatting.type("Your have defeated " + enemy.name + "!");
+                            Interface.type("Your have defeated " + enemy.name + "!");
                             enemy.droploot();
                             Player.levelup();
                             return;
@@ -360,11 +360,11 @@ namespace Realm
                     }
                     if (enemy.cursed)
                     {
-                        Formatting.type(enemy.name + " is cursed!");
+                        Interface.type(enemy.name + " is cursed!");
                         enemy.hp -= Combat.Dice.roll(1, 6);
                         if (enemy.hp <= 0)
                         {
-                            Formatting.type("Your have defeated " + enemy.name + "!");
+                            Interface.type("Your have defeated " + enemy.name + "!");
                             enemy.droploot();
                             Player.levelup();
                             return;
@@ -372,13 +372,13 @@ namespace Realm
                     }
                     if (enemy.trapped)
                     {
-                        Formatting.type("Your trap has sprung!");
+                        Interface.type("Your trap has sprung!");
                         int dmg = (Player.level / 5) + (Player.intl / 3) + Combat.Dice.roll(1, 5);
                         enemy.hp -= dmg;
-                        Formatting.type(enemy.name + " takes " + dmg + " damage!");
+                        Interface.type(enemy.name + " takes " + dmg + " damage!");
                         if (enemy.hp <= 0)
                         {
-                            Formatting.type("Your have defeated " + enemy.name + "!");
+                            Interface.type("Your have defeated " + enemy.name + "!");
                             enemy.droploot();
                             Player.levelup();
                             return;
@@ -386,7 +386,7 @@ namespace Realm
                     }
                     if (enemy.hp <= 0)
                     {
-                        Formatting.type("Your have defeated " + enemy.name + "!");
+                        Interface.type("Your have defeated " + enemy.name + "!");
                         enemy.droploot();
                         Player.levelup();
                         return;
@@ -397,25 +397,25 @@ namespace Realm
                     {
                         enemy.attack(out ability);
                         enemydmg = oldhp - Player.hp;
-                        Formatting.type(enemy.name + " used " + ability);
-                        Formatting.type("You take " + enemydmg + " damage!");
+                        Interface.type(enemy.name + " used " + ability);
+                        Interface.type("You take " + enemydmg + " damage!");
                     }
                     else
                     {
                         if (Player.blinded)
                         {
-                            Formatting.type(enemy.name + "is blind!");
+                            Interface.type(enemy.name + "is blind!");
                             if (Combat.Dice.roll(1, 10) == 1)
                             {
-                                Formatting.type("By some miracle, " + enemy.name + " manages to hit you!");
+                                Interface.type("By some miracle, " + enemy.name + " manages to hit you!");
                                 enemy.attack(out ability);
                                 enemydmg = oldhp - Player.hp;
-                                Formatting.type(enemy.name + " used " + ability);
-                                Formatting.type("You take " + enemydmg + " damage!");
+                                Interface.type(enemy.name + " used " + ability);
+                                Interface.type("You take " + enemydmg + " damage!");
                             }
                         }
                         else if (Player.guarded)
-                            Formatting.type("Safeguard prevented damage!");
+                            Interface.type("Safeguard prevented damage!");
                     }
                     if (Player.hp <= 0)
                         End.GameOver();
@@ -423,7 +423,7 @@ namespace Realm
                 }
                 else if (enemy.stunned)
                 {
-                    Formatting.type(enemy.name + " is stunned!");
+                    Interface.type(enemy.name + " is stunned!");
                     enemy.stunned = false;
                     if (enemy.fire >= 3)
                         enemy.on_fire = false;
@@ -432,16 +432,16 @@ namespace Realm
                         enemy.fire++;
                         int dmg = Combat.Dice.roll(1, 3);
                         enemy.hp -= dmg;
-                        Formatting.type(enemy.name + " takes " + dmg + " fire damage.");
+                        Interface.type(enemy.name + " takes " + dmg + " fire damage.");
                     }
                     if (enemy.cursed)
                     {
-                        Formatting.type(enemy.name + " is cursed!");
+                        Interface.type(enemy.name + " is cursed!");
                         enemy.hp -= Combat.Dice.roll(1, 6);
                     }
                     if (enemy.hp <= 0)
                     {
-                        Formatting.type("Your have defeated " + enemy.name + "!");
+                        Interface.type("Your have defeated " + enemy.name + "!");
                         enemy.droploot();
                         Player.levelup();
                         return;
@@ -459,20 +459,20 @@ namespace Realm
             public override bool Execute(object Data)
             {
                 Item i = (Item)Data;
-                Formatting.type(i.name);
-                Formatting.type("Description: " + i.desc);
-                Formatting.type("Attack Buff: " + i.atkbuff + " / Defense Buff: " + i.defbuff + " / Speed Buff: " + i.spdbuff + " / Intelligence Buff: " + i.intlbuff);
+                Interface.type(i.name);
+                Interface.type("Description: " + i.desc);
+                Interface.type("Attack Buff: " + i.atkbuff + " / Defense Buff: " + i.defbuff + " / Speed Buff: " + i.spdbuff + " / Intelligence Buff: " + i.intlbuff);
                 if (i.slot == 1)
-                    Formatting.type("Slot: Primary");
+                    Interface.type("Slot: Primary");
                 else if (i.slot == 2)
-                    Formatting.type("Slot: Secondary");
+                    Interface.type("Slot: Secondary");
                 else if (i.slot == 3)
-                    Formatting.type("Slot: Armor");
+                    Interface.type("Slot: Armor");
                 else if (i.slot == 4)
-                    Formatting.type("Slot: Accessory");
-                Formatting.type("Tier: " + i.tier);
-                Formatting.type("Enter (y) to equip this item, (d) to destroy and anything else to go back.");
-                char c = Console.ReadKey().KeyChar;
+                    Interface.type("Slot: Accessory");
+                Interface.type("Tier: " + i.tier);
+                Interface.type("Enter (y) to equip this item, (d) to destroy and anything else to go back.");
+                char c = Interface.readkey().KeyChar;
                 switch (c)
                 {
                     case 'y':
@@ -522,23 +522,23 @@ namespace Realm
             bool loopcontrol = true;
             while(loopcontrol)
             {
-                Formatting.type("**********Current Equipment**********");
-                Formatting.type("Primary: " + Player.primary.name);
-                Formatting.type("Secondary: " + Player.secondary.name);
-                Formatting.type("Armor: " + Player.armor.name);
-                Formatting.type("Accessory: " + Player.accessory.name);
-                Formatting.type("*************************************");
+                Interface.type("**********Current Equipment**********");
+                Interface.type("Primary: " + Player.primary.name);
+                Interface.type("Secondary: " + Player.secondary.name);
+                Interface.type("Armor: " + Player.armor.name);
+                Interface.type("Accessory: " + Player.accessory.name);
+                Interface.type("*************************************");
                 int q = 1;
                 Combat.CommandTable cmd = new Combat.CommandTable();
                 foreach (Item i in Player.backpack)
                 {
-                    Formatting.type((q - 1) + ". " + i.name);
+                    Interface.type((q - 1) + ". " + i.name);
                     backpackcommand bpcmd = new backpackcommand(i.name, (char)(q + 47));
                     cmd.AddCommand(bpcmd);
                     q++;
                 }
-                Formatting.type("");
-                char ch = Console.ReadKey().KeyChar;
+                Interface.type("");
+                char ch = Interface.readkey().KeyChar;
                 if (!cmd.commandChars.Contains(ch))
                     break;
                 //if (ch == '1')
@@ -549,51 +549,51 @@ namespace Realm
         public static void Endgame()
         {
             if (magiccounter >= 1)
-                Formatting.type("You recognize the magic man from the alley in Central. It is he who stands before you.");
-            Formatting.type("'I am Janus.' The mand before you says. You stand in front of the protetorate, Janus. He says '" + Player.name + ", have you realized that this world is an illusion?' You nod your head. 'You will result in the Realm's demise, you must be purged. Shimmering light gathers around him, and beams of blue light blast out of him.");
-            Formatting.type("I regret to say, but we must fight.");
+                Interface.type("You recognize the magic man from the alley in Central. It is he who stands before you.");
+            Interface.type("'I am Janus.' The mand before you says. You stand in front of the protetorate, Janus. He says '" + Player.name + ", have you realized that this world is an illusion?' You nod your head. 'You will result in the Realm's demise, you must be purged. Shimmering light gathers around him, and beams of blue light blast out of him.");
+            Interface.type("I regret to say, but we must fight.");
             BattleLoop(new finalboss());
-            Formatting.type("Janus defeated, the world vanishes and you both are standing on glass in a blank world of black void.");
-            Formatting.type("The protectorate kneels on the ground in front of you. 'Do you truly wish to end the illusion?', he says. You look at him without uttering a word. 'Very well, I must ask of you one last favor even though the realm is no more, do not let the realm vanish from within you. Everything around you goes black. (Press any key to continue)");
-            Console.ReadKey();
+            Interface.type("Janus defeated, the world vanishes and you both are standing on glass in a blank world of black void.");
+            Interface.type("The protectorate kneels on the ground in front of you. 'Do you truly wish to end the illusion?', he says. You look at him without uttering a word. 'Very well, I must ask of you one last favor even though the realm is no more, do not let the realm vanish from within you. Everything around you goes black. (Press any key to continue)");
+            Interface.readkey();
             Console.Clear();
             Credits();
         }
         public static void Credits()
         {
-            Formatting.type("A child awakes from his sleep and looks out the window feeling fulfilled as if a story has come to a close.");
-            Formatting.type("Press any key to continue.");
-            Console.ReadKey();
+            Interface.type("A child awakes from his sleep and looks out the window feeling fulfilled as if a story has come to a close.");
+            Interface.type("Press any key to continue.");
+            Interface.readkey();
             Console.Clear();
-            Formatting.type("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            Formatting.type("----------------------Credits---------------------");
-            Formatting.type("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            Formatting.type("__________________________________________________");
-            Formatting.type("Executive Developer: Cooper Teixeira");
-            Formatting.type("__________________________________________________");
-            Formatting.type("Secondary Developer: Giorgio Lo");
-            Formatting.type("__________________________________________________");
-            Formatting.type("Executive Producer: Cooper Teixeira");
-            Formatting.type("__________________________________________________");
-            Formatting.type("Co-Producer: Giorgio Lo");
-            Formatting.type("__________________________________________________");
-            Formatting.type("Lead Content Designer: Giorgio Lo");
-            Formatting.type("__________________________________________________");
-            Formatting.type("Secondary Content Designer: Cooper Teixeira");
-            Formatting.type("__________________________________________________");
-            Formatting.type("Chief Tester: Rosemary Rogal");
-            Formatting.type("__________________________________________________");
-            Formatting.type("Special thanks to:");
-            Formatting.type("- Steve Teixeira");
-            Formatting.type("- Paul Pfenning");
-            Formatting.type("- Charlie Catino");
-            Formatting.type("- Bradley Lignoski");
-            Formatting.type("- Alexander Pfenning");
-            Formatting.type("- Ben Boyd");
-            Formatting.type("__________________________________________________");
-            Formatting.type("Copyright(c) 2013");
-            Formatting.type("Press any key to continue.");
-            Console.ReadKey();
+            Interface.type("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            Interface.type("----------------------Credits---------------------");
+            Interface.type("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            Interface.type("__________________________________________________");
+            Interface.type("Executive Developer: Cooper Teixeira");
+            Interface.type("__________________________________________________");
+            Interface.type("Secondary Developer: Giorgio Lo");
+            Interface.type("__________________________________________________");
+            Interface.type("Executive Producer: Cooper Teixeira");
+            Interface.type("__________________________________________________");
+            Interface.type("Co-Producer: Giorgio Lo");
+            Interface.type("__________________________________________________");
+            Interface.type("Lead Content Designer: Giorgio Lo");
+            Interface.type("__________________________________________________");
+            Interface.type("Secondary Content Designer: Cooper Teixeira");
+            Interface.type("__________________________________________________");
+            Interface.type("Chief Tester: Rosemary Rogal");
+            Interface.type("__________________________________________________");
+            Interface.type("Special thanks to:");
+            Interface.type("- Steve Teixeira");
+            Interface.type("- Paul Pfenning");
+            Interface.type("- Charlie Catino");
+            Interface.type("- Bradley Lignoski");
+            Interface.type("- Alexander Pfenning");
+            Interface.type("- Ben Boyd");
+            Interface.type("__________________________________________________");
+            Interface.type("Copyright(c) 2013");
+            Interface.type("Press any key to continue.");
+            Interface.readkey();
             Environment.Exit(0);
         }
         public static void SammysAdventure()
@@ -604,7 +604,7 @@ namespace Realm
         {
             if (cost > Player.g)
             {
-                Formatting.type("You don't have enough gold.");
+                Interface.type("You don't have enough gold.");
                 return false;
             }
             else
@@ -621,12 +621,12 @@ namespace Realm
                 if (Player.backpack.Count <= 10)
                     Player.backpack.Add(i);
                 else
-                    Formatting.type("Not enough space.");
+                    Interface.type("Not enough space.");
                 return true;
             }
             else
             {
-                Formatting.type("You don't have enough gold.");
+                Interface.type("You don't have enough gold.");
                 return false;
             }
         }

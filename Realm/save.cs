@@ -17,7 +17,7 @@ namespace Realm
 
             string tpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm";
             string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\save.rlm";
-            Formatting.type("Saving...");
+            Interface.type("Saving...");
             List<string> lines = new List<string>();
             lines.Add("name=" + Main.Player.name);
             foreach (Combat.Command c in Main.Player.abilities.commands.Values)
@@ -70,7 +70,7 @@ namespace Realm
             lines.Add("xp=" + Main.Player.xp);
             string[] linesarray = lines.ToArray<string>();
             File.WriteAllLines(tpath, linesarray);
-            Formatting.type("Done.");
+            Interface.type("Done.");
             EncryptFile(tpath, path, key);
         }
         public static bool LoadGame()
@@ -81,7 +81,7 @@ namespace Realm
             {
                 if (!File.Exists(path))
                     return false;
-                Formatting.type("Loading Save...");
+                Interface.type("Loading Save...");
                 DecryptFile(path, tpath, key);
                 Dictionary<string, string> vals = new Dictionary<string, string>();
                 string line;
@@ -120,14 +120,14 @@ namespace Realm
                             Main.Player.xp = Convert.ToInt32(entry.Value);
                         if (entry.Key == "race")
                         {
-                            if (entry.Value != "")
+                            if (!String.IsNullOrEmpty(entry.Value))
                                 Main.Player.race = entry.Value;
                             else
                                 Main.Player.race = "Human";
                         }
                         if (entry.Key == "class")
                         {
-                            if (entry.Value != "")
+                            if (!String.IsNullOrEmpty(entry.Value))
                                 Main.Player.pclass = entry.Value;
                             else
                                 Main.Player.pclass = "Warrior";
@@ -301,7 +301,7 @@ namespace Realm
                         if (entry.Key == "is_thief")
                             Main.is_theif = true;
                     }
-                    Formatting.type("Done.");
+                    Interface.type("Done.");
                     file.Close();
                     File.Delete(tpath);
                     return true;
@@ -309,8 +309,8 @@ namespace Realm
             }
             catch (IOException e)
             {
-                Formatting.type("Load failed.");
-                Formatting.type(e.ToString(), 0);
+                Interface.type("Load failed.");
+                Interface.type(e.ToString(), 0);
                 return false;
             }
         }
