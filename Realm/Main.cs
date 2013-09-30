@@ -42,8 +42,8 @@ namespace Realm
 
         public static void Tutorial()
         {
-            List<string> racelist = new List<string>{ "Human", "human", "Elf", "elf", "Rockman", "rockman", "Giant", "giant", "Zephyr", "zephyr", "Shade", "shade" };
-            List<string> classlist = new List<string> { "Warrior", "warrior","Paladin", "paladin", "Mage", "mage", "Thief", "thief" };
+            List<string> racelist = new List<string>{ "human", "elf", "rockman", "giant", "zephyr", "shade" };
+            List<string> classlist = new List<string> { "warrior", "paladin", "mage", "thief" };
             Interface.type("Welcome, " + Player.name + ", to Realm.");
             Interface.type("To do anything in Realm, simply press one of the listed commands.");
             Interface.type("Make sure to visit every library! They offer many valuable abilities as well as experience.");
@@ -59,13 +59,8 @@ namespace Realm
                 Interface.type("Invalid. Please try again. ");
                 race = Interface.readinput();
             }
-            Player.race = Interface.ToUpperFirstLetter(race);
-            if (Player.race == "Giant")
-            {
-                Player.maxhp = 16;
-                Player.hp = 16;
-            }
-            Interface.type("You have selected " + Player.race + ".");
+            Player.race = race;
+            Interface.type("You have selected " + Interface.ToUpperFirstLetter(Player.race) + ".");
             Interface.type("Each player also has a class. You may choose from Warrior, Paladin, Mage, or Thief.");
             Interface.type("Please enter a class. ");
             string pclass = Interface.readinput();
@@ -74,13 +69,15 @@ namespace Realm
                 Interface.type("Invalid. Please try again. ");
                 pclass = Interface.readinput();
             }
-            Player.pclass = Interface.ToUpperFirstLetter(pclass);
-            Interface.type("You have selected " + Player.pclass + ".");
+            Player.pclass = pclass;
+            Interface.type("You have selected " + Interface.ToUpperFirstLetter(Player.pclass) + ".");
             Interface.type("You are now ready to play Realm. Good luck!");
             Interface.type("Press any key to continue.");
             Interface.readkey();
             Globals.PlayerPosition.x = 0;
             Globals.PlayerPosition.y = 6;
+            if (Player.race == "giant")
+                Player.hp = 15;
             MainLoop();
         }
         public static void MainLoop()
@@ -94,11 +91,6 @@ namespace Realm
                 Player.armor = new illusory_plate();
                 Player.accessory = new void_cloak();
                 hasmap = true;
-            }
-            if (Player.primary.Equals(new wood_staff()) && Player.secondary.Equals(new slwscreen()) && Player.armor.Equals(new sonictee()) && Player.accessory.Equals(new fmBP()))
-            {
-                if (!Player.abilities.commandChars.Contains('/'))
-                    Player.abilities.AddCommand(new Combat.ArrowsofLies("Arrows of Lies", '/'));
             }
             Player.applybonus();
             while (Player.hp > 0)
@@ -116,9 +108,14 @@ namespace Realm
                         BattleLoop(enemy);
                     }
                 }
-                if (Player.primary.Equals(new phantasmal_claymore()) && Player.secondary.Equals(new spectral_bulwark()) && Player.armor.Equals(new illusory_plate()) && Player.accessory.Equals(new void_cloak()))
-                    if (!Player.abilities.commandChars.Contains('*'))
-                        Player.abilities.AddCommand(new Combat.EndtheIllusion("End the Illusion", '*'));
+                Item pc = new phantasmal_claymore();
+                Item sb = new spectral_bulwark();
+                Item ip = new illusory_plate();
+                Item vc = new void_cloak();
+                if (!String.IsNullOrEmpty(Player.primary.name) && !String.IsNullOrEmpty(Player.secondary.name) && !String.IsNullOrEmpty(Player.armor.name) && !String.IsNullOrEmpty(Player.accessory.name))
+                    if (Player.primary.name.Equals(pc.name) && Player.secondary.name.Equals(sb.name) && Player.armor.name.Equals(ip.name) && Player.accessory.name.Equals(vc.name))
+                        if (!Player.abilities.commandChars.Contains('*'))
+                            Player.abilities.AddCommand(new Combat.EndtheIllusion("End the Illusion", '*'));
                 if (devmode)
                     Interface.type(Globals.PlayerPosition.x + " " + Globals.PlayerPosition.y);
                 if (!devmode)
@@ -134,7 +131,7 @@ namespace Realm
                 if (!devmode)
                 {
                     Interface.type("-------------------------------------");
-                    Interface.type(Player.name + "(" + Player.race + ")," + " Level " + Player.level + " " + Player.pclass + ":");
+                    Interface.type(Player.name + "(" + Interface.ToUpperFirstLetter(Player.race) + ")," + " Level " + Player.level + " " + Interface.ToUpperFirstLetter(Player.pclass) + ":");
                     Interface.type("HP: " + Player.hp + "/" + Player.maxhp);
                     Interface.type("Attack: " + Player.atk + " / Defense: " + Player.def + " / Speed: " + Player.spd + " / Intelligence: " + Player.intl);
                     Interface.type("Mana: " + (1 + (Player.intl / 10)));
@@ -205,6 +202,10 @@ namespace Realm
                         Type ptype = Type.GetType("Realm." + place_input);
                         Place p = (Place)Activator.CreateInstance(ptype);
                     }
+                    else if (input == "l")
+                    {
+                        int level = Convert.ToInt32(Interface.readinput());
+                    }
                 }
                 else
                     currPlace.handleInput(command.KeyChar);
@@ -241,6 +242,16 @@ namespace Realm
                         Player.phased = false;
                     Interface.type("\r\nAVAILABLE MOVES:");
                     Interface.type("=========================");
+                    int i = 0;
+                    foreach (Realm.Combat.Command c in Player.abilities.commands.Values)
+                    {
+                        string src = "||   " + c.cmdchar + ". " + c.name;
+                        Interface.type(src);
+                        i++;
+                    }
+                    Interface.type("=========================");
+                    Interface.type("");
+
                     if (Player.fire >= 3)
                         Player.on_fire = false;
                     if (Player.on_fire)
@@ -257,15 +268,6 @@ namespace Realm
                         Player.hp -= Combat.Dice.roll(1, 6);
                         Interface.type("You are cursed!");
                     }
-                    int i = 0;
-                    foreach (Realm.Combat.Command c in Player.abilities.commands.Values)
-                    {
-                        string src = "||   " + c.cmdchar + ". " + c.name;
-                        Interface.type(src);
-                        i++;
-                    }
-                    Interface.type("=========================");
-                    Interface.type("");
 
                     int oldhp = enemy.hp;
                     char ch = Interface.readkey().KeyChar;
@@ -451,6 +453,104 @@ namespace Realm
                 }
             }
         }
+        public static void CaveLoop()
+        {
+            caveplace currPlace = new caveplace();
+            Player.applybonus();
+            while (Player.hp > 0)
+            {
+                Enemy enemy = new Enemy();
+                Player.levelup();
+                currPlace = Globals.cavemap[Globals.CavePosition];
+                if (Player.hp > Player.maxhp)
+                    Player.hp = Player.maxhp;
+                if (Combat.CheckBattle() && currPlace.getEnemyList() != null)
+                {
+                    enemy = currPlace.getEnemyList();
+                    BattleLoop(enemy);
+                }
+                if (!devmode)
+                    Player.applybonus();
+                else
+                    Player.applydevbonus();
+                if (!devmode)
+                {
+                    Interface.type("-------------------------------------");
+                    Interface.type(Player.name + "(" + Player.race + ")," + " Level " + Player.level + " " + Player.pclass + ":");
+                    Interface.type("HP: " + Player.hp + "/" + Player.maxhp);
+                    Interface.type("Attack: " + Player.atk + " / Defense: " + Player.def + " / Speed: " + Player.spd + " / Intelligence: " + Player.intl);
+                    Interface.type("Mana: " + (1 + (Player.intl / 10)));
+                    Interface.type("Gold: " + Player.g + " / Exp to Level: " + (Player.xp_next - Player.xp));
+                    Interface.type("-------------------------------------");
+                }
+                if (!devmode)
+                    Interface.type(currPlace.Description);
+                else
+                    Interface.type(currPlace.ToString());
+                char[] currcommands = currPlace.getAvailableCommands();
+                Console.Write("\r\nYour current commands are x");
+                foreach (char c in currcommands)
+                {
+                    Console.Write(", {0}", c);
+                }
+                Interface.type("");
+
+                ConsoleKeyInfo command = Interface.readkey();
+                if (command.KeyChar == 'x')
+                {
+                    Interface.type("\r\nAre you sure?");
+                    char surecommand = Interface.readkey().KeyChar;
+                    if (surecommand == 'y')
+                    {
+                        End.GameOver();
+                    }
+                }
+                else if (command.Key == ConsoleKey.Escape)
+                    Environment.Exit(0);
+                else if (command.KeyChar == '-' && devmode)
+                {
+                    string input = Interface.readinput();
+                    if (input == "e")
+                        Endgame();
+                    else if (input == "c")
+                    {
+                        string combat_input = Interface.readinput();
+                        Type etype = Type.GetType("Realm." + combat_input);
+                        Enemy e = (Enemy)Activator.CreateInstance(etype);
+                        BattleLoop(e);
+                    }
+                    else if (input == "n")
+                        Player.name = Interface.readinput();
+                    else if (input == "a")
+                    {
+                        string add_input = Interface.readinput();
+                        Type atype = Type.GetType("Realm." + add_input);
+                        Item i = (Item)Activator.CreateInstance(atype);
+                        if (Player.backpack.Count <= 10)
+                            Player.backpack.Add(i);
+                        else
+                            Interface.type("Not enough space.");
+                        Interface.type("Obtained '" + i.name + "'!");
+                    }
+                    else if (input == "p")
+                    {
+                        string p_input = Interface.readinput();
+                        Type atype = Type.GetType("Realm." + p_input);
+                        Item i = (Item)Activator.CreateInstance(atype);
+                        Player.primary = i;
+                    }
+                    else if (input == "t")
+                    {
+                        string place_input = Interface.readinput();
+                        Type ptype = Type.GetType("Realm." + place_input);
+                        Place p = (Place)Activator.CreateInstance(ptype);
+                    }
+                }
+                else
+                    currPlace.handleInput(command.KeyChar);
+                loop_number++;
+            }
+        }
         public class backpackcommand : Combat.Command
         {
             public backpackcommand(string aname, char cmd): base(aname, cmd)
@@ -583,8 +683,17 @@ namespace Realm
             Interface.type("__________________________________________________");
             Interface.type("Chief Tester: Rosemary Rogal");
             Interface.type("__________________________________________________");
+            Interface.type("Lead Art Designer: Rosemary Rogal");
+            Interface.type("__________________________________________________");
+            Interface.type("Secondary Art Designer: Giorgio Lo");
+            Interface.type("__________________________________________________");
+            Interface.type("Secondary Art Designer: Cooper Teixeira");
+            Interface.type("__________________________________________________");
+            Interface.type("Concept Artist: Rosemary Rogal");
+            Interface.type("__________________________________________________");
             Interface.type("Special thanks to:");
             Interface.type("- Steve Teixeira");
+            Interface.type("- Ryan Teixeira");
             Interface.type("- Paul Pfenning");
             Interface.type("- Charlie Catino");
             Interface.type("- Bradley Lignoski");

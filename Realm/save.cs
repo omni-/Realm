@@ -123,14 +123,14 @@ namespace Realm
                             if (!String.IsNullOrEmpty(entry.Value))
                                 Main.Player.race = entry.Value;
                             else
-                                Main.Player.race = "Human";
+                                Main.Player.race = "human";
                         }
                         if (entry.Key == "class")
                         {
                             if (!String.IsNullOrEmpty(entry.Value))
                                 Main.Player.pclass = entry.Value;
                             else
-                                Main.Player.pclass = "Warrior";
+                                Main.Player.pclass = "warrior";
                         }
                         if (entry.Key == "bp1")
                         {
@@ -247,7 +247,7 @@ namespace Realm
                         if (entry.Key == "Gamble")
                             Main.Player.abilities.AddCommand(new Combat.Gamble("Gamble", '$'));
                         if (entry.Key == "Force Pulse")
-                            Main.Player.abilities.AddCommand(new Combat.ForcePulse("Force Pulse", 'p'));
+                            Main.Player.abilities.AddCommand(new Combat.ForcePulse("Force Pulse", 'f'));
                         if (entry.Key == "Nightshade")
                             Main.Player.abilities.AddCommand(new Combat.Nightshade("Nightshade", 'n'));
                         if (entry.Key == "Safeguard")
@@ -308,6 +308,12 @@ namespace Realm
                 }
             }
             catch (IOException e)
+            {
+                Interface.type("Load failed.");
+                Interface.type(e.ToString(), 0);
+                return false;
+            }
+            catch (ArgumentException e)
             {
                 Interface.type("Load failed.");
                 Interface.type(e.ToString(), 0);

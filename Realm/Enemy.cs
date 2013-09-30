@@ -358,4 +358,131 @@ namespace Realm
             Main.Player.hp -= dmg;
         }
     }
+    public class cavespider : Enemy
+    {
+        public cavespider()
+        {
+            name = "Cave Spider";
+            hp = 20 + (level / 2);
+            atk = 10 + (level / 2);
+            def = 5 + (level / 2);
+            spd = 6 + (level / 2);
+            xpdice = 30 + (level / 2);
+            gpdice = 30 + (level / 2);
+            abilities = new List<string>();
+            abilities.Add("BasicAttack");
+            abilities.Add("Poison Bite");
+            abilities.Add("Cocoon");
+
+        }
+        public override void attack(out string ability_used)
+        {
+            ability_used = "";
+            int dmg = 0;
+            if (Combat.DecideAttack(abilities) == "BasicAttack")
+            {
+                double damage = Combat.Dice.roll(1, atk);
+                dmg = Convert.ToInt32(damage) - (Main.Player.def / 3);
+                ability_used = "Basic Attack";
+            }
+            else if (Combat.DecideAttack(abilities) == "Poison Bite")
+            {
+                double damage = Combat.Dice.roll(1, atk);
+                Main.Player.cursed = true;
+                dmg = Convert.ToInt32(damage);
+                ability_used = "Posion Bite";
+            }
+            else if (Combat.DecideAttack(abilities) == "Cocoon")
+            {
+                Main.Player.stunned = true;
+                dmg = 2;
+            }
+            if (dmg <= 0)
+                dmg = 1;
+            if (Combat.Dice.misschance(Main.Player.spd))
+                dmg = 0;
+            Main.Player.hp -= dmg;
+        }
+    }
+    public class cavebat : Enemy
+    {
+        public cavebat()
+        {
+            name = "Cave Bat";
+            hp = 10 + (level / 2);
+            atk = 6 + (level / 2);
+            def = 3 + (level / 2);
+            spd = 4 + (level / 2);
+            xpdice = 15 + (level / 2);
+            gpdice = 15 + (level / 2);
+            abilities = new List<string>();
+            abilities.Add("BasicAttack");
+            abilities.Add("Screech");
+        }
+        public override void attack(out string ability_used)
+        {
+            ability_used = "";
+            int dmg = 0;
+            if (Combat.DecideAttack(abilities) == "BasicAttack")
+            {
+                double damage = Combat.Dice.roll(1, atk);
+                dmg = Convert.ToInt32(damage) - (Main.Player.def / 3);
+                ability_used = "Basic Attack";
+            }
+            else if (Combat.DecideAttack(abilities) == "Screech")
+            {
+                if (Combat.stunchance(3))
+                    Main.Player.stunned = true;
+                dmg = 3;
+            }
+            if (dmg <= 0)
+                dmg = 1;
+            if (Combat.Dice.misschance(Main.Player.spd))
+                dmg = 0;
+            Main.Player.hp -= dmg;
+        }
+    }
+    public class Dragon : Enemy
+    {
+        public Dragon()
+        {
+            name = "Tyrone the Dragon";
+            hp = 100 + (level / 2);
+            atk = 50 + (level / 2);
+            def = 25 + (level / 2);
+            spd = 30 + (level / 2);
+            xpdice = 300 + (level / 2);
+            gpdice = 75 + (level / 2);
+            abilities = new List<string>();
+            abilities.Add("BasicAttack");
+            abilities.Add("Flame Breath");
+            abilities.Add("Cursed Claw");
+        }
+        public override void attack(out string ability_used)
+        {
+            ability_used = "";
+            int dmg = 0;
+            if (Combat.DecideAttack(abilities) == "BasicAttack")
+            {
+                double damage = Combat.Dice.roll(1, atk);
+                dmg = Convert.ToInt32(damage) - (Main.Player.def / 3);
+                ability_used = "Basic Attack";
+            }
+            else if (Combat.DecideAttack(abilities) == "Flame Breath")
+            {
+                Main.Player.on_fire = true;
+                dmg = Combat.Dice.roll(1, atk / 2);
+            }
+            else if (Combat.DecideAttack(abilities) == "Cursed Claw")
+            {
+                Main.Player.cursed = true;
+                dmg = Combat.Dice.roll(2, 20);
+            }
+            if (dmg <= 0)
+                dmg = 1;
+            if (Combat.Dice.misschance(Main.Player.spd))
+                dmg = 0;
+            Main.Player.hp -= dmg;
+        }
+    }
 }

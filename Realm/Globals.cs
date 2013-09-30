@@ -30,6 +30,26 @@ namespace Realm
 
         };
 
+        public static caveplace[] cavemap = new caveplace[5];
+        public static List<caveplace> cavelist = new List<caveplace> { new caveplace(), new caveplace(), new crystal(), new mushrooms() };
+        public static int CavePosition;
         public static Point PlayerPosition;
+        public static void gencave()
+        {
+            Random rand = new Random();
+            caveplace curr;
+            for (int i = 0; i < 5; i++)
+            {
+                if (cavelist.Count > 1)
+                    curr = cavelist[Combat.Dice.roll(1, cavelist.Count - 1)];
+                else if (cavelist.Count == 1)
+                    curr = cavelist[0];
+                else
+                    break;
+                cavemap[i] = curr;
+                cavelist.Remove(curr);
+            }
+            cavemap[4] = new dragon();
+        }
     }
 }

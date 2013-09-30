@@ -18,7 +18,7 @@ namespace Realm
             string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string programName = "update.exe";
             string resourceName = "Realm.update.exe";
-            Interface.type("Version Number - 1.5.3", 0);
+            Interface.type("Version Number - 1.6.2", 0);
             Interface.type("Press p to download latest version. If this is your first time running the game, press p. ", 0);
             if (Interface.readkey().KeyChar == 'p')
             {
@@ -26,11 +26,12 @@ namespace Realm
                 p.DropAndRun(resourceName, programName);
                 Environment.Exit(0);
             }
+            Globals.gencave();
             if (!Save.LoadGame())
             {
                 Interface.type("\"Greetings. Before we begin, I must know your name.\"");
                 Interface.type("Please enter your name. ");
-                Main.Player.name = Interface.readinput();
+                Main.Player.name = Interface.readinput(true);
                 if (Main.Player.name == Main.devstring)
                 {
                     Console.Clear();

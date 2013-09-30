@@ -196,8 +196,9 @@ namespace Realm
                 if (Dice.misschance(target.spd))
                     damage = 0;
                 target.hp -= Convert.ToInt32(damage);
-                Main.Player.hp += Convert.ToInt32(damage / 3);
-                Interface.type("You gain " + damage + " life.");
+                int heal = Convert.ToInt32(damage / 3);
+                Main.Player.hp += heal;
+                Interface.type("You gain " + heal + " life.");
                 return true;
             }
         }

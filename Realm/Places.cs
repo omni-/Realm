@@ -53,20 +53,6 @@ namespace Realm
             templist.Add('#');
             return templist.ToArray<char>();
         }
-
-        private bool IsValid(char cmd)
-        {
-            bool IsFound = false;
-            char[] cmdlist = getAvailableCommands();
-            foreach (char c in cmdlist)
-            {
-                IsFound = c == cmd;
-                if (IsFound)
-                    break;
-            }
-            return IsFound;
-        }
-
         public virtual void handleInput(char input)
         {
             bool inputHandled = false;
@@ -729,7 +715,7 @@ namespace Realm
                                                 {
                                                     case 'y':
                                                         Interface.type("You try to enter, but the door requires a password.");
-                                                        if (Interface.readinput() == "Don't Fall")
+                                                        if (Interface.readinput() == "don't fall")
                                                         {
                                                             Interface.type("You open the door to find a dark room with a suspicious figure conducting suspicious rituals. The man looks flustered and says 'Nice day isn't it?'. As you wonder what anyone would be doing in such a dark room, the man edges his way to the entrance and dashes outside. He forgot to take his book with him. Do you wish to take it? (y/n) ");
                                                             switch (Interface.readkey().KeyChar)
@@ -1150,7 +1136,7 @@ namespace Realm
                     {
                         case 'y':
                             Interface.type("The door requires a password.");
-                            if (Interface.readinput() == "God's Will")
+                            if (Interface.readinput(true) == "God's Will")
                                 Main.Endgame();
                             else
                                 Interface.type("The door remains shut.");
@@ -1270,7 +1256,7 @@ namespace Realm
                         Main.Player.xp += 10;
                         Interface.type("You visit the house of the jobless former librarian. He says there is something very strange about that sword monument in Central. He says you can never go anywhere unarmed. He teaches you a new ability.");
                         Interface.type("Learned 'Incinerate'!");
-                        Main.Player.abilities.AddCommand(new Combat.Incinerate("Incinerate", 'i'));
+                        Main.Player.abilities.AddCommand(new Combat.Incinerate("Incinerate", 'a'));
                         Interface.type("As you're leaving, you notice the letter 'l' burned into the doorknob.");
                         Main.townfolkcounter++;
                     }
@@ -1752,8 +1738,8 @@ namespace Realm
                                 Interface.type("The king falls to the ground, defeated. You pick up his night colored sword form the ground, and in your hand it changes to a shimmering blue claymore.");
                                 Interface.type("Obtained 'Phantasmal Claymore'!");
                                 Interface.type("A blue portal opens up with the glowing letter 'l' above it. You yell 'Jeronimo!' and jump through.");
-                                Globals.PlayerPosition.x = 2;
-                                Globals.PlayerPosition.y = 2;
+                                Globals.PlayerPosition.x = 3;
+                                Globals.PlayerPosition.y = 3;
                                 break;
                             case 'r':
                                 Interface.type("You run back down the stairs like this sissy cRAVEN you are.");
@@ -1792,8 +1778,6 @@ namespace Realm
                 templist.Add('m');
             if (Globals.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
-                templist.Add('e');
             if (Globals.PlayerPosition.y > 0)
                 templist.Add('s');
             if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
@@ -1810,12 +1794,6 @@ namespace Realm
         {
             switch (input)
             {
-                case 'n':
-                    Globals.PlayerPosition.y += 1;
-                    break;
-                case 'e':
-                    Globals.PlayerPosition.x += 1;
-                    break;
                 case 's':
                     Globals.PlayerPosition.y -= 1;
                     break;
@@ -1858,58 +1836,71 @@ namespace Realm
                     }
                         break;
                 case 'c':
-                    if (Main.minecounter == 0)
-                    {
-                        Interface.type("This coalmine is abundant with miners and minecarts, carrying the precious black resource back to the surface. You try to swipe a coal nugget from a passing minecart, as the stuff is worth double it's weight in gold, but a burly miner swats your hand. With his pickeaxe. Ow. Do you want to travel deeper into the mine? (y/n)");
-                        int roll = Combat.Dice.roll(1, 20);
-                        if (roll == 1)
+                        if (Main.minecounter == 0)
                         {
-                            Interface.type("The mine collapses and you die.");
-                            End.GameOver();
+                            Interface.type("This coalmine is abundant with miners and minecarts, carrying the precious black resource back to the surface. You try to swipe a coal nugget from a passing minecart, as the stuff is worth double it's weight in gold, but a burly miner swats your hand. With his pickeaxe. Ow. Do you want to travel deeper into the mine? (y/n)");
+                            int roll = Combat.Dice.roll(1, 20);
+                            if (roll == 1)
+                            {
+                                Interface.type("The mine collapses and you die.");
+                                End.GameOver();
+                            }
+                            switch (Interface.readkey().KeyChar)
+                            {
+                                case 'y':
+                                    Interface.type("As you go deeper and deeper into the mines, the caves get darker and darker. In front of you, the entire rail collapses. You must make a split second decision. Jump(j), or fall(f)?");
+                                    switch (Interface.readkey().KeyChar)
+                                    {
+                                        case 'j':
+                                            Interface.type("You try to jump for your life, but you hit your head on an i-beam and die.");
+                                            End.GameOver();
+                                            break;
+                                        case 'f':
+                                            Interface.type("You try to ride the wave of steel and stone falling down hundreds of feet. Probably not the best of your ideas, you reflect as you fall. You hit the ground, and everything goes black.");
+                                            Interface.type("Press any key to continue.");
+                                            Interface.readkey();
+                                            Console.Clear();
+                                            if (Main.Player.level <= 10)
+                                            {
+                                                Interface.type("You find yourself in a mysterious glowing cave.");
+                                                Main.CaveLoop();
+                                            }
+                                            else
+                                            {
+                                                Interface.type("You wake up. At least you're not dead. But everything on you hurts. Your eyes adjust to your surroundings, and you find yourself in the ruins of an ancient library, but everything is burned. Everything save one book. Pick it up? (y/n)");
+                                                switch (Interface.readkey().KeyChar)
+                                                {
+                                                    case 'y':
+                                                        if (Main.Player.backpack.Count >= 10)
+                                                            Interface.type("Your backpack is full.");
+                                                        else
+                                                        {
+                                                            Main.Player.backpack.Add(new tome());
+                                                            Interface.type("You pick up the book.");
+                                                            Interface.type("Learned 'Force Pulse'!");
+                                                        }
+                                                        Interface.type("It takes a few hours, but you climb your way out of the mine. You surface looking like a chimney sweep.");
+                                                        break;
+                                                    case 'n':
+                                                        Interface.type("It takes a few hours, but you climb your way out of the mine, leaving the book behind.");
+                                                        break;
+                                                }
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                                case 'n':
+                                    Interface.type("You leave.");
+                                    break;
+                                default:
+                                    break;
+                            }
+                            Main.minecounter++;
                         }
-                        switch(Interface.readkey().KeyChar)
-                        {
-                            case'y':
-                                Interface.type("As you go deeper and deeper into the mines, the caves get darker and darker. In front of you, the entire rail collapses. You must make a split second decision. Jump(j), or fall(f)?");
-                                switch(Interface.readkey().KeyChar)
-                                {
-                                    case'j':
-                                        Interface.type("You try to jump for your life, but you hit your head on an i-beam and die.");
-                                        End.GameOver();
-                                        break;
-                                    case'f':
-                                        Interface.type("You try to ride the wave of steel and stone falling down hundreds of feet. Probably not the best of your ideas, you reflect as you fall. You hit the ground, and everything goes black.");
-                                        Interface.type("Press any key to continue.");
-                                        Interface.readkey();
-                                        Console.Clear();
-                                        Interface.type("You wake up. At least you're not dead. But everything on you hurts. Your eyes adjust to your surroundings, and you find yourself in the ruins of an ancient library, but everything is burned. Everything save one book. Pick it up? (y/n)");
-                                        switch(Interface.readkey().KeyChar)
-                                        {
-                                            case'y':
-                                                Interface.type("You pick up the book.");
-                                                if (Main.Player.backpack.Count >= 10)
-                                                    Interface.type("Your backpack is full.");
-                                                else
-                                                    Main.Player.backpack.Add(new tome());
-                                                Interface.type("It takes a few hours, but you climb your way out of the mine. You surface looking like a chimney sweep.");
-                                                break;
-                                            case'n':
-                                                Interface.type("It takes a few hours, but you clib your way out of the mine, leaving the book behind.");
-                                                break;
-                                        }
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                break;
-                            case'n':
-                                Interface.type("You leave.");
-                                break;
-                            default:
-                                break;
-                        }
-                        Main.minecounter++;
-                    }
+                        else
+                            Interface.type("The mine collapsed!");
                     break;
                 case '#':
                     Save.SaveGame();
@@ -2086,11 +2077,11 @@ namespace Realm
         {
             switch (input)
             {
-                case 'n':
-                    Globals.PlayerPosition.y += 1;
-                    break;
                 case 'e':
                     Globals.PlayerPosition.x += 1;
+                    break;
+                case 'n':
+                    Globals.PlayerPosition.y += 1;
                     break;
                 case 's':
                     Globals.PlayerPosition.y -= 1;
@@ -2156,7 +2147,7 @@ namespace Realm
                                 Interface.type("Learned 'Illusion'!");
                                 Main.Player.abilities.AddCommand(new Combat.Illusion("Illusion", '?'));
                                 break;
-                            case 'l':
+                            case 'm':
                                 Interface.type("You learn of how to make cool lasers with magic.");
                                 Interface.type("Learned 'Pew Pew Pew'!");
                                 Main.Player.abilities.AddCommand(new Combat.PewPewPew("Pew Pew Pew", 'w'));
@@ -2168,6 +2159,251 @@ namespace Realm
                     }
                     else
                         Interface.type("The library is cloed.");
+                    break;
+                case '#':
+                    Save.SaveGame();
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
+    }
+    public class caveplace
+    {
+        public Random rand;
+        public int q;
+        public Globals globals = new Globals();
+        public List<Enemy> enemylist = new List<Enemy>();
+
+        protected virtual string GetDesc()
+        {
+            return "It's really dark here.";
+        }
+        public string Description
+        {
+            get { return GetDesc(); }
+        }
+        public virtual Enemy getEnemyList()
+        {
+            List<Enemy> templist = new List<Enemy>();
+            templist.Add(new Slime());
+            if (Main.Player.level >= 3)
+                templist.Add(new cavebat());
+            if (Main.Player.level >= 5)
+                templist.Add(new cavespider());
+            int randint = rand.Next(1, templist.Count + 1);
+
+            return templist[randint - 1];
+        }
+        public virtual char[] getAvailableCommands()
+        {
+            List<char> templist = new List<char>();
+            if (Main.Player.backpack.Count > 0)
+                templist.Add('b');
+            templist.Add('f');
+            templist.Add('#');
+            return templist.ToArray<char>();
+        }
+        public virtual void handleInput(char input)
+        {
+            bool inputHandled = false;
+            while (!inputHandled)
+            {
+                inputHandled = _handleInput(input);
+                if (!inputHandled)
+                {
+                    Interface.type("Invalid.");
+                    Interface.type("");
+                    input = Interface.readkey().KeyChar;
+                }
+            }
+        }
+        public virtual bool _handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'f':
+                    if (Globals.CavePosition < Globals.cavemap.GetUpperBound(0))
+                        Globals.CavePosition += 1;
+                    break;
+                case 'b':
+                    if (Main.Player.backpack.Count > 0)
+                        Main.BackpackLoop();
+                    break;
+                case '#':
+                    Save.SaveGame();
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
+        public caveplace()
+        {
+            rand = new Random();
+        }
+    }
+    public class crystal : caveplace
+    {
+        protected override string GetDesc()
+        {
+            return "You arrive in an opening in the tunnel, and you are surrounded by beautiful crystals. You may attempt to harvest them(h), or press on(f).";
+        }
+        public override bool _handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'h':
+                    if (Combat.Dice.roll(1, 2) == 1)
+                    {
+                        Main.Player.hp -= 2;
+                        Interface.type("You cut yourself trying to harvest the crystals and give up.");
+                    }
+                    else
+                    {
+                        Interface.type("As you harvest them, the crystals glow, and energy seeps through your veins and into your brain. Your vision becomes very bright, and you feel enlightened.");
+                        Main.Player.intl += 3;
+                    }
+                    break;
+                case 'f':
+                    if (Globals.CavePosition < Globals.cavemap.GetUpperBound(0))
+                        Globals.CavePosition += 1;
+                    break;
+                case 'b':
+                    if (Main.Player.backpack.Count > 0)
+                        Main.BackpackLoop();
+                    break;
+                case '#':
+                    Save.SaveGame();
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
+    }
+    public class mushrooms : caveplace
+    {
+        protected override string GetDesc()
+        {
+            return "The tunnel widens, and the chamber you are in is aglow with weird mushrooms. You may attempt to consume them(c), or press on(f).";
+        }
+        public override bool _handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'c':
+                    int roll = Combat.Dice.roll(1, 4);
+                    if (roll == 1)
+                    {
+                        Main.Player.hp -= 5;
+                        Interface.type("Bad trip! You puke blood everywhere and take heavy damage.");
+                    }
+                    else if (roll == 2)
+                    {
+                        Interface.type("You feel like you just drank 6 espressi, and you're bouncing off the walls.");
+                        Main.Player.spd += 3;
+                    }
+                    else if (roll == 3)
+                    {
+                        Interface.type("Nothing happens, except you're less hungry now.");
+                        Main.Player.hp += 1;
+                    }
+                    else if (roll == 4)
+                    {
+                        Interface.type("The mushroom you just ate was a hypersteroid. You grow taller, your muscles bigger, and all in less than a minute. It's kind of painful though.");
+                        Main.Player.maxhp += 2;
+                        Main.Player.atk += 1;
+                    }
+                    break;
+                case 'f':
+                    if (Globals.CavePosition < Globals.cavemap.GetUpperBound(0))
+                        Globals.CavePosition += 1;
+                    break;
+                case 'b':
+                    if (Main.Player.backpack.Count > 0)
+                        Main.BackpackLoop();
+                    break;
+                case '#':
+                    Save.SaveGame();
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
+    }
+    public class spring : caveplace
+    {
+        protected override string GetDesc()
+        {
+            return "In your journey through the cave, you come across a spring of water. You can drink it(d), or press on(f).";
+        }
+        public override bool _handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'd':
+                    int roll = Combat.Dice.roll(1, 2);
+                    if (roll == 1)
+                    {
+                        Main.Player.hp -= 10;
+                        Interface.type("The water isn't actually water. It's arsenic.");
+                    }
+                    else
+                    {
+                        Interface.type("This is the most delicous water you have ever tasted. Your health has been fully restored.");
+                        Main.Player.hp = Main.Player.maxhp;
+                    }
+                    break;
+                case 'f':
+                    if (Globals.CavePosition < Globals.cavemap.GetUpperBound(0))
+                        Globals.CavePosition += 1;
+                    break;
+                case 'b':
+                    if (Main.Player.backpack.Count > 0)
+                        Main.BackpackLoop();
+                    break;
+                case '#':
+                    Save.SaveGame();
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        }
+    }
+    public class dragon : caveplace
+    {
+        protected override string GetDesc()
+        {
+            return "You happen upon a sleeping dragon guarding a mountain of gold. You see an exit behind it. You try to kill the dragon and take the gold(k), or you can try to sneak around it(s)..";
+        }
+        public override bool _handleInput(char input)
+        {
+            switch (input)
+            {
+                case 'k':
+                    Main.BattleLoop(new Dragon());
+                    Interface.type("You escape the cave! You find youself in a sewer, and when you finally pull yourself out, you're in Central.");
+                    Globals.PlayerPosition.y = 3;
+                    Globals.PlayerPosition.x = 3;
+                    Main.MainLoop();
+                    break;
+                case 's':
+                    if (Combat.Dice.roll(1, 10) == 1)
+                        Main.BattleLoop(new Dragon());
+                    else
+                        Interface.type("You successfully snuck past the dragon!");
+                    Interface.type("You escape the cave! You find youself in a sewer, and when you finally pull yourself out, you're in Central.");
+                    Globals.PlayerPosition.y = 3;
+                    Globals.PlayerPosition.x = 3;
+                    //Main.MainLoop();
+                    break;
+                case 'b':
+                    if (Main.Player.backpack.Count > 0)
+                        Main.BackpackLoop();
                     break;
                 case '#':
                     Save.SaveGame();
