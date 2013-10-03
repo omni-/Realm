@@ -82,10 +82,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backpack.cs" />
+    <Compile Include="Cave.cs" />
     <Compile Include="Combat.cs" />
     <Compile Include="End.cs" />
     <Compile Include="Enemy.cs" />
-    <Compile Include="Globals.cs" />
+    <Compile Include="Map.cs" />
     <Compile Include="Interface.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Items.cs" />

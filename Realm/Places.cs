@@ -10,7 +10,7 @@ namespace Realm
     {
         public Random rand;
         public int q;
-        public Globals globals = new Globals();
+        public Map globals = new Map();
         public List<Enemy> enemylist = new List<Enemy>();
 
         protected virtual string GetDesc()
@@ -38,13 +38,13 @@ namespace Realm
         public virtual char[] getAvailableCommands()
         {
             List<char> templist = new List<char>();
-            if (Globals.PlayerPosition.x > 0)
+            if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+            if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
                 templist.Add('e');
-            if (Globals.PlayerPosition.y > 0)
+            if (Map.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+            if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             if (Main.Player.backpack.Count > 0)
                 templist.Add('b');
@@ -72,24 +72,24 @@ namespace Realm
             switch (input)
             {
                 case 'n':
-                    if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
-                        Globals.PlayerPosition.y += 1;
+                    if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
+                        Map.PlayerPosition.y += 1;
                     break;
                 case 'e':
-                    if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
-                        Globals.PlayerPosition.x += 1;
+                    if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
+                        Map.PlayerPosition.x += 1;
                     break;
                 case 's':
-                    if (Globals.PlayerPosition.y > 0)
-                        Globals.PlayerPosition.y -= 1;
+                    if (Map.PlayerPosition.y > 0)
+                        Map.PlayerPosition.y -= 1;
                     break;
                 case 'w':
-                    if (Globals.PlayerPosition.x > 0)
-                        Globals.PlayerPosition.x -= 1;
+                    if (Map.PlayerPosition.x > 0)
+                        Map.PlayerPosition.x -= 1;
                     break;
                 case 'b':
                     if (Main.Player.backpack.Count > 0)
-                        Main.BackpackLoop();
+                        Backpack.BackpackLoop();
                     break;
                 case 'm':
                     if (Main.hasmap)
@@ -142,13 +142,13 @@ namespace Realm
                 switch (input)
                 {
                     case 'f':
-                        Main.BattleLoop(new WesternKing());
+                        Combat.BattleLoop(new WesternKing());
                         Interface.type("Somehow, you managed to beat the Western King. *ahem* Cheater *ahem*");
                         Main.wkingdead = true;
                         break;
                     case 'r':
                         Interface.type("You escaped the Western King, but you're pretty damn lost now.");
-                        Globals.PlayerPosition.y -= 2;
+                        Map.PlayerPosition.y -= 2;
                         Main.MainLoop();
                         break;
                     case '#':
@@ -164,7 +164,7 @@ namespace Realm
                 {
                     case 'r':
                         Interface.type("You leave.");
-                        Globals.PlayerPosition.y -= 1;
+                        Map.PlayerPosition.y -= 1;
                         Main.MainLoop();
                         break;
                     case '#':
@@ -195,13 +195,13 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
-            if (Globals.PlayerPosition.x > 0)
+            if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+            if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
                 templist.Add('e');
-            if (Globals.PlayerPosition.y > 0)
+            if (Map.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+            if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('z');
             templist.Add('#');
@@ -220,13 +220,13 @@ namespace Realm
                         Interface.drawmap();
                     break;
                 case 'n':
-                    Globals.PlayerPosition.y += 1;
+                    Map.PlayerPosition.y += 1;
                     break;
                 case 'e':
-                    Globals.PlayerPosition.x += 1;
+                    Map.PlayerPosition.x += 1;
                     break;
                 case 's':
-                    Globals.PlayerPosition.y -= 1;
+                    Map.PlayerPosition.y -= 1;
                     break;
                 case 'z':
                     if (Main.forrestcounter == 0)
@@ -257,7 +257,7 @@ namespace Realm
                     }
                     break;
                 case 'b':
-                    Main.BackpackLoop();
+                    Backpack.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -279,13 +279,13 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
-            if (Globals.PlayerPosition.x > 0)
+            if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+            if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
                 templist.Add('e');
-            if (Globals.PlayerPosition.y > 0)
+            if (Map.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+            if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('v');
             templist.Add('#');
@@ -307,16 +307,16 @@ namespace Realm
                         Interface.drawmap();
                     break;
                 case 'n':
-                    Globals.PlayerPosition.y += 1;
+                    Map.PlayerPosition.y += 1;
                     break;
                 case 'e':
-                    Globals.PlayerPosition.x += 1;
+                    Map.PlayerPosition.x += 1;
                     break;
                 case 'w':
-                    Globals.PlayerPosition.x -= 1;
+                    Map.PlayerPosition.x -= 1;
                     break;
                 case 's':
-                    Globals.PlayerPosition.y -= 1;
+                    Map.PlayerPosition.y -= 1;
                     break;
                 case 'v':
                     Interface.type("There is an inn(i) and an arms dealer(a). Or you can investigate the well(w).");
@@ -330,7 +330,7 @@ namespace Realm
                             switch (_tempinput)
                             {
                                 case 'y':
-                                    if (Main.Purchase(3))
+                                    if (Player.Purchase(3))
                                     {
                                         Interface.type("Your health has been fully restored, although you suspect you have lice.");
                                         Main.Player.hp = Main.Player.maxhp;
@@ -347,7 +347,7 @@ namespace Realm
                             switch (__tempinput)
                             {
                                 case 'y':
-                                    if (Main.Purchase(11, new wood_staff()))
+                                    if (Player.Purchase(11, new wood_staff()))
                                     {
                                         Interface.type("Obtained 'Wood Staff'!");
                                         Main.Player.backpack.Add(new plastic_ring());
@@ -378,7 +378,7 @@ namespace Realm
                     }
                     break;
                 case 'b':
-                    Main.BackpackLoop();
+                    Backpack.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -404,13 +404,13 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
-            if (Globals.PlayerPosition.x > 0)
+            if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+            if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
                 templist.Add('e');
-            if (Globals.PlayerPosition.y > 0)
+            if (Map.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+            if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('#');
             templist.Add('a');
@@ -430,13 +430,13 @@ namespace Realm
                         Interface.drawmap();
                     break;
                 case 'n':
-                    Globals.PlayerPosition.y += 1;
+                    Map.PlayerPosition.y += 1;
                     break;
                 case 'e':
-                    Globals.PlayerPosition.x += 1;
+                    Map.PlayerPosition.x += 1;
                     break;
                 case 's':
-                    Globals.PlayerPosition.y -= 1;
+                    Map.PlayerPosition.y -= 1;
                     break;
                 case 'i':
                     Interface.type("Innkeep: \"It will cost you 5 gold. Are you sure?\"(y/n)");
@@ -444,7 +444,7 @@ namespace Realm
                     switch (_tempinput)
                     {
                         case 'y':
-                            if (Main.Purchase(3))
+                            if (Player.Purchase(3))
                             {
                                 Interface.type("Your health has been fully restored, although the matress was as hard as stale crackers and your back kinda hurts.");
                                 Interface.type("As you're leaving the inn, you notice the letter 'd' in the coffee grounds from the espresso you had that morning.");
@@ -462,14 +462,14 @@ namespace Realm
                     switch (__tempinput)
                     {
                         case 'l':
-                            if (Main.Purchase(15, new iron_lance()))
+                            if (Player.Purchase(15, new iron_lance()))
                             {
                                 Interface.type("It's almost as if he doesn't even see you.");
                                 Interface.type("Obtained 'Iron Lance'!");
                             }
                             break;
                         case 'b':
-                            if (Main.Purchase(10, new iron_buckler()))
+                            if (Player.Purchase(10, new iron_buckler()))
                             {
                                 Interface.type("It's almost as if he doesn't even see you.");
                                 Interface.type("Obtained 'Iron Buckler'!");
@@ -490,7 +490,7 @@ namespace Realm
                         switch (___tempinput)
                         {
                             case 'y':
-                                if (Main.Purchase(3))
+                                if (Player.Purchase(3))
                                 {
                                     Main.Player.xp += 10;
                                     Interface.type("You enter the library. Before you lays a vast emporium of knowledge. You scratch your butt, then look for some comic books or something. 3 books catch your eye. 'The Wizard's Lexicon'(a), 'The Warrior's Code'(b), and 'Codex Pallatinus'(c). Which do you read?");
@@ -523,7 +523,7 @@ namespace Realm
                         Interface.type("The library is closed.");
                     break;
                 case 'b':
-                    Main.BackpackLoop();
+                    Backpack.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -535,7 +535,7 @@ namespace Realm
     {
         protected override string GetDesc()
         {
-            return "You arrive at a small town just north of Seaport. Do you want to visit the town(v) or head to the inn(i)?";
+            return "You arrive at a small town situated between two valleys. Do you want to visit the town(v) or head to the inn(i)?";
         }
         public override Enemy getEnemyList()
         {
@@ -548,13 +548,13 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
-            if (Globals.PlayerPosition.x > 0)
+            if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+            if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
                 templist.Add('e');
-            if (Globals.PlayerPosition.y > 0)
+            if (Map.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+            if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('#');
             templist.Add('i');
@@ -573,16 +573,16 @@ namespace Realm
                         Interface.drawmap();
                     break;
                 case 'n':
-                    Globals.PlayerPosition.y += 1;
+                    Map.PlayerPosition.y += 1;
                     break;
                 case 'e':
-                    Globals.PlayerPosition.x += 1;
+                    Map.PlayerPosition.x += 1;
                     break;
                 case 's':
-                    Globals.PlayerPosition.y -= 1;
+                    Map.PlayerPosition.y -= 1;
                     break;
                 case 'w':
-                    Globals.PlayerPosition.x -= 1;
+                    Map.PlayerPosition.x -= 1;
                     break;
                 case 'i':
                     Interface.type("Innkeep: \"It will cost you 5 gold. Are you sure?\"(y/n)");
@@ -590,7 +590,7 @@ namespace Realm
                     switch (_tempinput)
                     {
                         case 'y':
-                            if (Main.Purchase(3))
+                            if (Player.Purchase(3))
                             {
                                 Interface.type("Your health has been fully restored, although the matress smelled of mildew, and so do your clothes.");
                                 Main.Player.hp = Main.Player.maxhp;
@@ -611,7 +611,7 @@ namespace Realm
                             switch (Interface.readkey().KeyChar)
                             {
                                 case 'y':
-                                    if (Main.Purchase(15, new iron_band()))
+                                    if (Player.Purchase(15, new iron_band()))
                                     {
                                         Interface.type("He smiles weakly and thanks you.");
                                         Interface.type("Obtained 'Iron Band'!");
@@ -633,7 +633,7 @@ namespace Realm
                     }
                     break;
                 case 'b':
-                    Main.BackpackLoop();
+                    Backpack.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -659,13 +659,13 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
-            if (Globals.PlayerPosition.x > 0)
+            if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+            if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
                 templist.Add('e');
-            if (Globals.PlayerPosition.y > 0)
+            if (Map.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+            if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('#');
             templist.Add('y');
@@ -683,19 +683,19 @@ namespace Realm
                         Interface.drawmap();
                     break;
                 case 'n':
-                    Globals.PlayerPosition.y += 1;
+                    Map.PlayerPosition.y += 1;
                     break;
                 case 'e':
-                    Globals.PlayerPosition.x += 1;
+                    Map.PlayerPosition.x += 1;
                     break;
                 case 's':
-                    Globals.PlayerPosition.y -= 1;
+                    Map.PlayerPosition.y -= 1;
                     break;
                 case 'w':
-                    Globals.PlayerPosition.x -= 1;
+                    Map.PlayerPosition.x -= 1;
                     break;
                 case 'y':
-                    Interface.type("You see a library(l) and a weaponsmith(w). Which do you wish to enter?");
+                    Interface.type("You see a library(l) and a weapon shop(w). Which do you wish to enter?");
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'l':
@@ -761,7 +761,7 @@ namespace Realm
                                         Main.hasmap = true;
                                         break;
                                     case 'g':
-                                        Main.Player.intl += 1;
+                                        Main.Player.intlbuff += 1;
                                         Interface.type("You are touched by the art of cooking. Being forged in the flame of cooking, your ability to think up vicious insults has improved. Your intelligence has improved a little");
                                         Main.gbooks++;
                                         break;
@@ -781,7 +781,7 @@ namespace Realm
                     }
                     break;
                 case 'b':
-                    Main.BackpackLoop();
+                    Backpack.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -807,13 +807,13 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
-            if (Globals.PlayerPosition.x > 0)
+            if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+            if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
                 templist.Add('e');
-            if (Globals.PlayerPosition.y > 0)
+            if (Map.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+            if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('#');
             templist.Add('l');
@@ -832,13 +832,13 @@ namespace Realm
                         Interface.drawmap();
                     break;
                 case 'e':
-                    Globals.PlayerPosition.x += 1;
+                    Map.PlayerPosition.x += 1;
                     break;
                 case 's':
-                    Globals.PlayerPosition.y -= 1;
+                    Map.PlayerPosition.y -= 1;
                     break;
                 case 'w':
-                    Globals.PlayerPosition.x -= 1;
+                    Map.PlayerPosition.x -= 1;
                     break;
                 case 'l':
                     if (Main.nlibcounter == 0)
@@ -853,7 +853,7 @@ namespace Realm
                                 {
                                     case 'y':
                                         Main.Player.hp -= 1;
-                                        Main.Player.spd += 3;
+                                        Main.Player.spdbuff += 3;
                                         Interface.type("You are exhausted from finishing the book, but you feel like your speed has increased a little.");
                                         break;
                                     case 'n':
@@ -888,11 +888,11 @@ namespace Realm
                                 break;
                             case 'h':
                                 Interface.type("You read 5000 pages on the history of the realm. You're not sure why you did that, but you feel smarter.");
-                                Main.Player.intl += 2;
+                                Main.Player.intlbuff += 2;
                                 break;
                             case 'g':
                                 Interface.type("You learn of the layers of granite and basalt on Planet ramsay.");
-                                Main.Player.def += 1;
+                                Main.Player.defbuff += 1;
                                 Main.gbooks++;
                                 break;
                         }
@@ -909,7 +909,7 @@ namespace Realm
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'y':
-                            if (Main.Purchase(50, new bt_plate()))
+                            if (Player.Purchase(50, new bt_plate()))
                                 Interface.type("Obtained 'Bloodmail'!");
                             break;
                         case 'n':
@@ -922,7 +922,7 @@ namespace Realm
                 case 'p':
                     break;
                 case 'b':
-                    Main.BackpackLoop();
+                    Backpack.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -948,13 +948,13 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
-            if (Globals.PlayerPosition.x > 0)
+            if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+            if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
                 templist.Add('e');
-            if (Globals.PlayerPosition.y > 0)
+            if (Map.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+            if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('#');
             templist.Add('a');
@@ -976,16 +976,16 @@ namespace Realm
                         Interface.drawmap();
                     break;
                 case 'n':
-                    Globals.PlayerPosition.y += 1;
+                    Map.PlayerPosition.y += 1;
                     break;
                 case 'e':
-                    Globals.PlayerPosition.x += 1;
+                    Map.PlayerPosition.x += 1;
                     break;
                 case 's':
-                    Globals.PlayerPosition.y -= 1;
+                    Map.PlayerPosition.y -= 1;
                     break;
                 case 'w':
-                    Globals.PlayerPosition.x -= 1;
+                    Map.PlayerPosition.x -= 1;
                     break;
 
                 case 'l':
@@ -1004,7 +1004,7 @@ namespace Realm
                             case 'g':
                                 Interface.type("Now skilled in the art of stealing, you gain 10% more gold. You also feel faster.");
                                 Main.is_theif = true;
-                                Main.Player.spd += 2;
+                                Main.Player.spdbuff += 2;
                                 break;
                             case 's':
                                 Interface.type("You become skilled in the art of sacrifice.");
@@ -1018,7 +1018,7 @@ namespace Realm
                                 break;
                             case 'r':
                                 Interface.type("You become educated on the mathematics of cooking.");
-                                Main.Player.intl += 1;
+                                Main.Player.intlbuff += 1;
                                 Main.gbooks++;
                                 break;
                             case 'j':
@@ -1061,19 +1061,19 @@ namespace Realm
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'r':
-                            Main.Purchase(30, new iron_rapier());
+                            Player.Purchase(30, new iron_rapier());
                             Interface.type("Obtained 'Iron Rapier'!");
                             break;
                         case 'c':
-                            Main.Purchase(30, new iron_mail());
+                            Player.Purchase(30, new iron_mail());
                             Interface.type("Obtained 'Iron Chainmail!'!");
                             break;
                         case 'b':
-                            Main.Purchase(25, new iron_buckler());
+                            Player.Purchase(25, new iron_buckler());
                             Interface.type("Obtained 'Iron Buckler'!");
                             break;
                         case 'l':
-                            Main.Purchase(50, new bt_longsword());
+                            Player.Purchase(50, new bt_longsword());
                             Interface.type("Obatined 'Bloodthirsty Longsword'!");
                             break;
                         default:
@@ -1087,11 +1087,11 @@ namespace Realm
                         switch (Interface.readkey().KeyChar)
                         {
                             case 'b':
-                                if (Main.Purchase(50, new blood_amulet()))
+                                if (Player.Purchase(50, new blood_amulet()))
                                     Interface.type("Obtained 'Blood Amulet'!");
                                 break;
                             case 'a':
-                                if (Main.Purchase(50))
+                                if (Player.Purchase(50))
                                 {
                                     Interface.type("He holds out his hand, and reality appears to bend around it. Kind of like the Degauss button on monitors from the 90's.");
                                     Main.Player.abilities.AddCommand(new Combat.VorpalBlades("Vorpal Blades", 'v'));
@@ -1099,7 +1099,7 @@ namespace Realm
                                 }
                                 break;
                             case 's':
-                                if (Main.Purchase(50))
+                                if (Player.Purchase(50))
                                     Interface.type("'I have a secret to tell you. Everything you know is wrong.' He holds out his hand, and reality appears to bend around it. Kind of like the Degauss button on monitors from the 90's. 'See this?' he says. 'This is what's known as the Flux. Everything is from the Flux, and controlled by the Flux. Learn to control it, and you control reality.'. he dissapears througha shimmering portal and leaves you there mystified.");
                                 break;
                         }
@@ -1112,7 +1112,7 @@ namespace Realm
                         break;
                     }
                 case 'b':
-                    Main.BackpackLoop();
+                    Backpack.BackpackLoop();
                     break;
                 case 'i':
                     Interface.type("The sign above the inn reads 'Donaldius Trumpe'. Stay the night for 15 gold? (y/n)");
@@ -1120,7 +1120,7 @@ namespace Realm
                     {
                         case 'y':
                             Interface.type("You feel refreshed, however the bedsheets smelled like cold blooded capitalism and weasely politicians.");
-                            Main.Purchase(15);
+                            Player.Purchase(15);
                             Main.Player.hp = Main.Player.maxhp;
                             break;
                         case 'n':
@@ -1137,7 +1137,7 @@ namespace Realm
                         case 'y':
                             Interface.type("The door requires a password.");
                             if (Interface.readinput(true) == "God's Will")
-                                Main.Endgame();
+                                End.Endgame();
                             else
                                 Interface.type("The door remains shut.");
                             break;
@@ -1170,13 +1170,13 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
-            if (Globals.PlayerPosition.x > 0)
+            if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+            if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
                 templist.Add('e');
-            if (Globals.PlayerPosition.y > 0)
+            if (Map.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+            if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('#');
             templist.Add('a');
@@ -1198,32 +1198,32 @@ namespace Realm
                         Interface.drawmap();
                     break;
                 case 'n':
-                    Globals.PlayerPosition.y += 1;
+                    Map.PlayerPosition.y += 1;
                     break;
                 case 'e':
-                    Globals.PlayerPosition.x += 1;
+                    Map.PlayerPosition.x += 1;
                     break;
                 case 'w':
-                    Globals.PlayerPosition.x -= 1;
+                    Map.PlayerPosition.x -= 1;
                     break;
                 case 'a':
                     Interface.type("The arms dealer has a small stand, but his wares are valuable. You may buy Darksteel Amulet(100, a), Darksteel Kris(80, k), Darksteel Kite Shield(s, 100), or Darksteel Scalemail(c, 110).");
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'a':
-                            if (Main.Purchase(100, new ds_amulet()))
+                            if (Player.Purchase(100, new ds_amulet()))
                                 Interface.type("Obtained 'Darksteel Amulet'!");
                             break;
                         case 'c':
-                            if (Main.Purchase(110, new ds_scale()))
+                            if (Player.Purchase(110, new ds_scale()))
                                 Interface.type("Obatined 'Darksteel Scalemail'!");
                             break;
                         case 'k':
-                            if (Main.Purchase(80, new ds_kris()))
+                            if (Player.Purchase(80, new ds_kris()))
                                 Interface.type("Obtained 'Darksteel Kris!'!");
                             break;
                         case 's':
-                            if (Main.Purchase(100, new ds_kite()))
+                            if (Player.Purchase(100, new ds_kite()))
                                 Interface.type("Obtained 'Darksteel Kite Shield'!");
                             break;
                         default:
@@ -1232,7 +1232,7 @@ namespace Realm
                     break;
 
                 case 'b':
-                    Main.BackpackLoop();
+                    Backpack.BackpackLoop();
                     break;
                 case 'i':
                     Interface.type("The inn is burned, but still in use. Stay the night for 20 gold? (y/n)");
@@ -1240,7 +1240,7 @@ namespace Realm
                     {
                         case 'y':
                             Interface.type("You feel refreshed, although smelling of ash.");
-                            Main.Purchase(20);
+                            Player.Purchase(20);
                             Main.Player.hp = Main.Player.maxhp;
                             break;
                         case 'n':
@@ -1287,13 +1287,13 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
-            if (Globals.PlayerPosition.x > 0)
+            if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+            if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
                 templist.Add('e');
-            if (Globals.PlayerPosition.y > 0)
+            if (Map.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+            if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('#');
             templist.Add('a');
@@ -1312,42 +1312,42 @@ namespace Realm
                         Interface.drawmap();
                     break;
                 case 'n':
-                    Globals.PlayerPosition.y += 1;
+                    Map.PlayerPosition.y += 1;
                     break;
                 case 'e':
-                    Globals.PlayerPosition.x += 1;
+                    Map.PlayerPosition.x += 1;
                     break;
                 case 'w':
-                    Globals.PlayerPosition.x -= 1;
+                    Map.PlayerPosition.x -= 1;
                     break;
                 case 's':
-                    Globals.PlayerPosition.y -= 1;
+                    Map.PlayerPosition.y -= 1;
                     break;
                 case 'a':
                     Interface.type("You visit the arms dealer. It's a very old man selling some very expensive wares. You wonder where he came across such valuables. Buy Bloodthirsty Battleaxe(b, 55), or Bloodthirsty Greatsword(g, 55)?");
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'b':
-                            if (Main.Purchase(55, new bt_battleaxe()))
+                            if (Player.Purchase(55, new bt_battleaxe()))
                                 Interface.type("Obtained 'Bloodthirsty Battleaxe'!");
                             Interface.type("The old man grins.");
                             break;
                         case 'g':
-                            if (Main.Purchase(55, new bt_greatsword()))
+                            if (Player.Purchase(55, new bt_greatsword()))
                                 Interface.type("Obtained 'Bloodthirsty Greatsword'!");
                             Interface.type("The old man grins.");
                             break;
                     }
                     break;
                 case 'b':
-                    Main.BackpackLoop();
+                    Backpack.BackpackLoop();
                     break;
                 case 'i':
                     Interface.type("Stay at the average-ass hotel for 15 gold?(y/n)");
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'y':
-                            if (Main.Purchase(15))
+                            if (Player.Purchase(15))
                                 Main.Player.hp = Main.Player.maxhp;
                             Interface.type("As you're leaving you pick up a scrabble tile off of the floor. It is a blank. (' ').");
                             break;
@@ -1379,13 +1379,13 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
-            if (Globals.PlayerPosition.x > 0)
+            if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+            if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
                 templist.Add('e');
-            if (Globals.PlayerPosition.y > 0)
+            if (Map.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+            if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('#');
             templist.Add('a');
@@ -1404,44 +1404,44 @@ namespace Realm
                         Interface.drawmap();
                     break;
                 case 'n':
-                    Globals.PlayerPosition.y += 1;
+                    Map.PlayerPosition.y += 1;
                     break;
                 case 'e':
-                    Globals.PlayerPosition.x += 1;
+                    Map.PlayerPosition.x += 1;
                     break;
                 case 'w':
-                    Globals.PlayerPosition.x -= 1;
+                    Map.PlayerPosition.x -= 1;
                     break;
                 case 's':
-                    Globals.PlayerPosition.y -= 1;
+                    Map.PlayerPosition.y -= 1;
                     break;
                 case 'g':
                     Interface.type("You talk to the toothless man holding the wares. You may buy the Void Cloak(v, 150), the Illusory Plate(i, 150), or the Spectral Bulwark(s, 150). Or you may buy all 3(3, 300).");
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'v':
-                            if (Main.Purchase(150, new void_cloak()))
+                            if (Player.Purchase(150, new void_cloak()))
                             {
                                 Interface.type("The toothless man reverently hands you artifact.");
                                 Interface.type("Obtained 'Void Cloak'!");
                             }
                             break;
                         case 'i':
-                            if (Main.Purchase(150, new illusory_plate()))
+                            if (Player.Purchase(150, new illusory_plate()))
                             {
                                 Interface.type("The toothless man reverently hands you artifact.");
                                 Interface.type("Obtained 'Illusory Plate'!");
                             }
                             break;
                         case 's':
-                            if (Main.Purchase(150, new spectral_bulwark()))
+                            if (Player.Purchase(150, new spectral_bulwark()))
                             {
                                 Interface.type("The toothless man reverently hands you artifact.");
                                 Interface.type("Obtained 'Spectral Bulwark'!");
                             }
                             break;
                         case '3':
-                            if (Main.Purchase(300, new void_cloak()))
+                            if (Player.Purchase(300, new void_cloak()))
                             {
                                 Interface.type("Obtained 'Void Cloak'!");
                                 Interface.type("Obtained 'Spectral Bulwark'!");
@@ -1472,7 +1472,7 @@ namespace Realm
                         switch (Interface.readkey().KeyChar)
                         {
                             case 'y':
-                                if (Main.Purchase(50))
+                                if (Player.Purchase(50))
                                 {
                                     Interface.type("You say yes, and he holds up hand, and some strange runes on his hand begin to glow.");
                                     Interface.type("Learned 'Heavensplitter'!");
@@ -1487,7 +1487,7 @@ namespace Realm
                         Interface.type("He already taught you that ability. He has nothing more to offer.");
                     break;
                 case 'b':
-                    Main.BackpackLoop();
+                    Backpack.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -1512,13 +1512,13 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
-            if (Globals.PlayerPosition.x > 0)
+            if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+            if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
                 templist.Add('e');
-            if (Globals.PlayerPosition.y > 0)
+            if (Map.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+            if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('#');
             templist.Add('a');
@@ -1537,20 +1537,20 @@ namespace Realm
                         Interface.drawmap();
                     break;
                 case 'n':
-                    Globals.PlayerPosition.y += 1;
+                    Map.PlayerPosition.y += 1;
                     break;
                 case 'w':
-                    Globals.PlayerPosition.x -= 1;
+                    Map.PlayerPosition.x -= 1;
                     break;
                 case 's':
-                    Globals.PlayerPosition.y -= 1;
+                    Map.PlayerPosition.y -= 1;
                     break;
                 case 'i':
                     Interface.type("Stay at the luxurious hotel for 40 gold?(y/n)");
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'y':
-                            if (Main.Purchase(40))
+                            if (Player.Purchase(40))
                                 Main.Player.hp = Main.Player.maxhp;
                             Interface.type("As you're leaving you take all the free soap.");
                             break;
@@ -1564,14 +1564,14 @@ namespace Realm
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'v':
-                            if (Main.Purchase(120, new sb_saber()))
+                            if (Player.Purchase(120, new sb_saber()))
                             {
                                 Interface.type("The child smiles gleefully and hands you the Sunburst Saber.");
                                 Interface.type("Obtained 'Sunburst Saber'!");
                             }
                             break;
                         case 's':
-                            if (Main.Purchase(100, new sb_shield()))
+                            if (Player.Purchase(100, new sb_shield()))
                             {
                                 Interface.type("The child smiles and hands you the Sunburst Shield.");
                                 Interface.type("Obtained 'Sunburst Shield'!");
@@ -1581,7 +1581,7 @@ namespace Realm
                     break;
                 case 'b':
                     if (Main.Player.backpack.Count > 0)
-                        Main.BackpackLoop();
+                        Backpack.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -1607,13 +1607,13 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
-            if (Globals.PlayerPosition.x > 0)
+            if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+            if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
                 templist.Add('e');
-            if (Globals.PlayerPosition.y > 0)
+            if (Map.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+            if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('#');
             templist.Add('a');
@@ -1632,30 +1632,30 @@ namespace Realm
                         Interface.drawmap();
                     break;
                 case 'n':
-                    Globals.PlayerPosition.y += 1;
+                    Map.PlayerPosition.y += 1;
                     break;
                 case 'e':
-                    Globals.PlayerPosition.x += 1;
+                    Map.PlayerPosition.x += 1;
                     break;
                 case 'w':
-                    Globals.PlayerPosition.x -= 1;
+                    Map.PlayerPosition.x -= 1;
                     break;
                 case 's':
-                    Globals.PlayerPosition.y -= 1;
+                    Map.PlayerPosition.y -= 1;
                     break;
                 case 'a':
                     Interface.type("An average guy manages the shop. You can buy a Sunburst Ringmail(150) and a Sunburst Gauntlet(150).(r/g)");
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'r':
-                            if (Main.Purchase(150, new sb_chain()))
+                            if (Player.Purchase(150, new sb_chain()))
                             {
                                 Interface.type("The man hands you the Sunburst Ringmail.");
                                 Interface.type("Obtained 'Sunburst Ringmail'!");
                             }
                             break;
                         case 'g':
-                            if (Main.Purchase(150, new sb_gauntlet()))
+                            if (Player.Purchase(150, new sb_gauntlet()))
                             {
                                 Interface.type("The man hands you the Sunburst Gauntlet.");
                                 Interface.type("Obtained 'Sunburst Gauntlet'!");
@@ -1668,7 +1668,7 @@ namespace Realm
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'y':
-                            if (Main.Purchase(60))
+                            if (Player.Purchase(60))
                                 Main.Player.hp = Main.Player.maxhp;
                             Interface.type("As you're leaving you set fire to the bathroom. You see a sign on the door that reads 'Romney 2012', and one of the tiles on the bathroom floor reads 'i'.");
                             break;
@@ -1679,7 +1679,7 @@ namespace Realm
                     break;
                 case 'b':
                     if (Main.Player.backpack.Count > 0)
-                        Main.BackpackLoop();
+                        Backpack.BackpackLoop();
                     break;
                 default:
                     return false;
@@ -1730,7 +1730,7 @@ namespace Realm
                         {
                             case 'f':
                                 Interface.type("You challenge the mad king, and he stands from his obsidian throne, raven-feathered cloak swirling. He laughs a deep booming laugh and draws a wicked looking blade.");
-                                Main.BattleLoop(new RavenKing());
+                                Combat.BattleLoop(new RavenKing());
                                 if (Main.Player.backpack.Count <= 10)
                                     Main.Player.backpack.Add(new phantasmal_claymore());
                                 else
@@ -1738,8 +1738,8 @@ namespace Realm
                                 Interface.type("The king falls to the ground, defeated. You pick up his night colored sword form the ground, and in your hand it changes to a shimmering blue claymore.");
                                 Interface.type("Obtained 'Phantasmal Claymore'!");
                                 Interface.type("A blue portal opens up with the glowing letter 'l' above it. You yell 'Jeronimo!' and jump through.");
-                                Globals.PlayerPosition.x = 3;
-                                Globals.PlayerPosition.y = 3;
+                                Map.PlayerPosition.x = 3;
+                                Map.PlayerPosition.y = 3;
                                 break;
                             case 'r':
                                 Interface.type("You run back down the stairs like this sissy cRAVEN you are.");
@@ -1751,7 +1751,7 @@ namespace Realm
                     break;
                 case 'l':
                     Interface.type("Coward.");
-                    Globals.PlayerPosition.x -= 1;
+                    Map.PlayerPosition.x -= 1;
                     break;
                 default:
                     return false;
@@ -1776,11 +1776,11 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
-            if (Globals.PlayerPosition.x > 0)
+            if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.y > 0)
+            if (Map.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+            if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('a');
             templist.Add('i');
@@ -1795,25 +1795,25 @@ namespace Realm
             switch (input)
             {
                 case 's':
-                    Globals.PlayerPosition.y -= 1;
+                    Map.PlayerPosition.y -= 1;
                     break;
                 case 'w':
-                    Globals.PlayerPosition.x -= 1;
+                    Map.PlayerPosition.x -= 1;
                     break;
                 case 'a':
                     Interface.type("You visit the arms dealer. He is old, and the wrinkles in his face are blackened with coal dust. As this town is the only source of the precious black mineral in the all of Realm, these ex-miners are very rich. For sale before you are imported wares from the distant land of Avira. You may buy Azurite Cloak(c, 100), Azurite Amulet(a, 110), or Azurite Staff(s, 120).");
                     switch(Interface.readkey().KeyChar)
                     {
                         case'a':
-                            if (Main.Purchase(110, new a_amulet()))
+                            if (Player.Purchase(110, new a_amulet()))
                                 Interface.type("Obtained 'Azurite Amulet'!");
                             break;
                         case's':
-                            if (Main.Purchase(120, new a_staff()))
+                            if (Player.Purchase(120, new a_staff()))
                                 Interface.type("Obtained 'Azurite Staff'!");
                             break;
                         case'c':
-                            if (Main.Purchase(100, new a_mail()))
+                            if (Player.Purchase(100, new a_mail()))
                                 Interface.type("Obtained 'Azurite Cloth'!");
                             break;
                         default:
@@ -1825,7 +1825,7 @@ namespace Realm
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'y':
-                            if (Main.Purchase(15))
+                            if (Player.Purchase(15))
                                 Interface.type("Everything in the town, now including you, is coated in alayer of fine black dust, but at least your hp has been restored.");
                             break;
                         case 'n':
@@ -1839,7 +1839,7 @@ namespace Realm
                         if (Main.minecounter == 0)
                         {
                             Interface.type("This coalmine is abundant with miners and minecarts, carrying the precious black resource back to the surface. You try to swipe a coal nugget from a passing minecart, as the stuff is worth double it's weight in gold, but a burly miner swats your hand. With his pickeaxe. Ow. Do you want to travel deeper into the mine? (y/n)");
-                            int roll = Combat.Dice.roll(1, 20);
+                            int roll = Combat.Dice.roll(1, 10);
                             if (roll == 1)
                             {
                                 Interface.type("The mine collapses and you die.");
@@ -1856,35 +1856,43 @@ namespace Realm
                                             End.GameOver();
                                             break;
                                         case 'f':
-                                            Interface.type("You try to ride the wave of steel and stone falling down hundreds of feet. Probably not the best of your ideas, you reflect as you fall. You hit the ground, and everything goes black.");
-                                            Interface.type("Press any key to continue.");
-                                            Interface.readkey();
-                                            Console.Clear();
-                                            if (Main.Player.level <= 10)
+                                            if (Combat.Dice.roll(1, 5) == 1)
                                             {
-                                                Interface.type("You find yourself in a mysterious glowing cave.");
-                                                Main.CaveLoop();
+                                                Interface.type("You try to ride the wave of steel and stone falling down hundreds of feet. Probably not the best of your ideas, you reflect as you fall. You hit the ground, and everything goes black.");
+                                                Interface.type("Press any key to continue.");
+                                                Interface.readkey();
+                                                Console.Clear();
+                                                if (Combat.Dice.roll(1, 5) == 1)
+                                                {
+                                                    Interface.type("You find yourself in a mysterious glowing cave.");
+                                                    Cave.CaveLoop();
+                                                }
+                                                else
+                                                {
+                                                    Interface.type("You wake up. At least you're not dead. But everything on you hurts. Your eyes adjust to your surroundings, and you find yourself in the ruins of an ancient library, but everything is burned. Everything save one book. Pick it up? (y/n)");
+                                                    switch (Interface.readkey().KeyChar)
+                                                    {
+                                                        case 'y':
+                                                            if (Main.Player.backpack.Count >= 10)
+                                                                Interface.type("Your backpack is full.");
+                                                            else
+                                                            {
+                                                                Main.Player.backpack.Add(new tome());
+                                                                Interface.type("You pick up the book.");
+                                                                Interface.type("Learned 'Force Pulse'!");
+                                                            }
+                                                            Interface.type("It takes a few hours, but you climb your way out of the mine. You surface looking like a chimney sweep.");
+                                                            break;
+                                                        case 'n':
+                                                            Interface.type("It takes a few hours, but you climb your way out of the mine, leaving the book behind.");
+                                                            break;
+                                                    }
+                                                }
                                             }
                                             else
                                             {
-                                                Interface.type("You wake up. At least you're not dead. But everything on you hurts. Your eyes adjust to your surroundings, and you find yourself in the ruins of an ancient library, but everything is burned. Everything save one book. Pick it up? (y/n)");
-                                                switch (Interface.readkey().KeyChar)
-                                                {
-                                                    case 'y':
-                                                        if (Main.Player.backpack.Count >= 10)
-                                                            Interface.type("Your backpack is full.");
-                                                        else
-                                                        {
-                                                            Main.Player.backpack.Add(new tome());
-                                                            Interface.type("You pick up the book.");
-                                                            Interface.type("Learned 'Force Pulse'!");
-                                                        }
-                                                        Interface.type("It takes a few hours, but you climb your way out of the mine. You surface looking like a chimney sweep.");
-                                                        break;
-                                                    case 'n':
-                                                        Interface.type("It takes a few hours, but you climb your way out of the mine, leaving the book behind.");
-                                                        break;
-                                                }
+                                                Interface.type("You hit your head and die.");
+                                                End.GameOver();
                                             }
                                             break;
                                         default:
@@ -1928,13 +1936,13 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
-            if (Globals.PlayerPosition.x > 0)
+            if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+            if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
                 templist.Add('e');
-            if (Globals.PlayerPosition.y > 0)
+            if (Map.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+            if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('a');
             templist.Add('i');
@@ -1949,35 +1957,35 @@ namespace Realm
             switch (input)
             {
                 case 'n':
-                    Globals.PlayerPosition.y += 1;
+                    Map.PlayerPosition.y += 1;
                     break;
                 case 'e':
-                    Globals.PlayerPosition.x += 1;
+                    Map.PlayerPosition.x += 1;
                     break;
                 case 's':
-                    Globals.PlayerPosition.y -= 1;
+                    Map.PlayerPosition.y -= 1;
                     break;
                 case 'w':
-                    Globals.PlayerPosition.x -= 1;
+                    Map.PlayerPosition.x -= 1;
                     break;
                 case 'a':
                     Interface.type("A young man with a frosty white beard selling equally frozen gear. You may buy Ice Amulet(a, 75), Icy Boots of Fast(i, 80), Ice Dagger(d, 75), or Ice Shield(s, 75).");
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'a':
-                            if (Main.Purchase(75, new ice_amulet()))
+                            if (Player.Purchase(75, new ice_amulet()))
                                 Interface.type("Obtained 'Ice Amulet'!");
                             break;
                         case 's':
-                            if (Main.Purchase(75, new ice_shield()))
+                            if (Player.Purchase(75, new ice_shield()))
                                 Interface.type("Obtained 'Ice Shield'!");
                             break;
                         case 'd':
-                            if (Main.Purchase(75, new ice_dagger()))
+                            if (Player.Purchase(75, new ice_dagger()))
                                 Interface.type("Obtained 'Ice Dagger'!");
                             break;
                         case 'i':
-                            if (Main.Purchase(80, new swifites()))
+                            if (Player.Purchase(80, new swifites()))
                                 Interface.type("Obtained 'Icy Boots of Fast'!");
                             break;
                         default:
@@ -1989,7 +1997,7 @@ namespace Realm
                     switch(Interface.readkey().KeyChar)
                     {
                         case 'y':
-                            if (Main.Purchase(30))
+                            if (Player.Purchase(30))
                             {
                                 Interface.type("Your health has been restored, but you have frostbite in 3 of your toes.");
                                 Main.Player.hp = Main.Player.maxhp;
@@ -2010,16 +2018,16 @@ namespace Realm
                         {
                             case 'c':
                                 Interface.type("You pick up the book entitled Cold. You read of the century long winter from the days of old. It kind of scares you, but you feel smarter and faster.");
-                                Main.Player.intl += 2;
-                                Main.Player.spd += 2;
+                                Main.Player.intlbuff += 2;
+                                Main.Player.spdbuff += 2;
                                 break;
                             case 'f':
                                 Interface.type("You pick of the book entitled Frost. You learn of the event that froze over this once-warm town. It terrifies you, but you feel stronger and tougher.");
-                                Main.Player.atk += 1;
-                                Main.Player.def += 1;
+                                Main.Player.atkbuff += 1;
+                                Main.Player.defbuff += 1;
                                 break;
                             case 'i':
-                                Interface.type("You pick up the book entitled Ice. You learn of the ancient sorcer who was able to cast ice speels by drawing the heat out of the air, and the water from the ground.");
+                                Interface.type("You pick up the book entitled Ice. You learn of the ancient sorcer who was able to cast ice spells by drawing the heat out of the air, and the water from the ground.");
                                 Interface.type("Learned 'Ice Chains'!");
                                 Main.Player.abilities.AddCommand(new Combat.IceChains("Ice Chains", 'i'));
                                 break;
@@ -2057,13 +2065,13 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
-            if (Globals.PlayerPosition.x > 0)
+            if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
-            if (Globals.PlayerPosition.x < Globals.map.GetUpperBound(0))
+            if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
                 templist.Add('e');
-            if (Globals.PlayerPosition.y > 0)
+            if (Map.PlayerPosition.y > 0)
                 templist.Add('s');
-            if (Globals.PlayerPosition.y < Globals.map.GetUpperBound(1))
+            if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('a');
             templist.Add('i');
@@ -2078,35 +2086,35 @@ namespace Realm
             switch (input)
             {
                 case 'e':
-                    Globals.PlayerPosition.x += 1;
+                    Map.PlayerPosition.x += 1;
                     break;
                 case 'n':
-                    Globals.PlayerPosition.y += 1;
+                    Map.PlayerPosition.y += 1;
                     break;
                 case 's':
-                    Globals.PlayerPosition.y -= 1;
+                    Map.PlayerPosition.y -= 1;
                     break;
                 case 'w':
-                    Globals.PlayerPosition.x -= 1;
+                    Map.PlayerPosition.x -= 1;
                     break;
                 case 'a':
                     Interface.type("A young man with one of those stereotypical black and white 'wands' is running the shop. You may buy Apprentice Robes(a, 15), Junior Mage Staff(j, 12), Magic For Dummies(m, 10), or Magic Ring(r, 15).");
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'a':
-                            if (Main.Purchase(15, new m_robes()))
+                            if (Player.Purchase(15, new m_robes()))
                                 Interface.type("Obtained 'Apprentice Robes'!");
                             break;
                         case 'j':
-                            if (Main.Purchase(12, new m_staff()))
+                            if (Player.Purchase(12, new m_staff()))
                                 Interface.type("Obtained 'Junior Mage Staff'!");
                             break;
                         case 'm':
-                            if (Main.Purchase(10, new m_tome()))
+                            if (Player.Purchase(10, new m_tome()))
                                 Interface.type("Obtained 'Magic for Dummies'!");
                             break;
                         case 'r':
-                            if (Main.Purchase(15, new m_amulet()))
+                            if (Player.Purchase(15, new m_amulet()))
                                 Interface.type("Obtained 'Magic Ring'!");
                             break;
                         default:
@@ -2118,7 +2126,7 @@ namespace Realm
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'y':
-                            if (Main.Purchase(12))
+                            if (Player.Purchase(12))
                             {
                                 Interface.type("Your health has been restored, but when you tried to pull a sock from your suitcase, and infinite chain of rainbow hankies tied together stopped you from actually getting a sock. So now you only have one.");
                                 Main.Player.hp = Main.Player.maxhp;
@@ -2173,7 +2181,7 @@ namespace Realm
     {
         public Random rand;
         public int q;
-        public Globals globals = new Globals();
+        public Map globals = new Map();
         public List<Enemy> enemylist = new List<Enemy>();
 
         protected virtual string GetDesc()
@@ -2224,12 +2232,12 @@ namespace Realm
             switch (input)
             {
                 case 'f':
-                    if (Globals.CavePosition < Globals.cavemap.GetUpperBound(0))
-                        Globals.CavePosition += 1;
+                    if (Map.CavePosition < Map.cavemap.GetUpperBound(0))
+                        Map.CavePosition += 1;
                     break;
                 case 'b':
                     if (Main.Player.backpack.Count > 0)
-                        Main.BackpackLoop();
+                        Backpack.BackpackLoop();
                     break;
                 case '#':
                     Save.SaveGame();
@@ -2263,16 +2271,16 @@ namespace Realm
                     else
                     {
                         Interface.type("As you harvest them, the crystals glow, and energy seeps through your veins and into your brain. Your vision becomes very bright, and you feel enlightened.");
-                        Main.Player.intl += 3;
+                        Main.Player.intlbuff += 3;
                     }
                     break;
                 case 'f':
-                    if (Globals.CavePosition < Globals.cavemap.GetUpperBound(0))
-                        Globals.CavePosition += 1;
+                    if (Map.CavePosition < Map.cavemap.GetUpperBound(0))
+                        Map.CavePosition += 1;
                     break;
                 case 'b':
                     if (Main.Player.backpack.Count > 0)
-                        Main.BackpackLoop();
+                        Backpack.BackpackLoop();
                     break;
                 case '#':
                     Save.SaveGame();
@@ -2299,11 +2307,13 @@ namespace Realm
                     {
                         Main.Player.hp -= 5;
                         Interface.type("Bad trip! You puke blood everywhere and take heavy damage.");
+                        if (Main.Player.hp <= 0)
+                            End.GameOver();
                     }
                     else if (roll == 2)
                     {
                         Interface.type("You feel like you just drank 6 espressi, and you're bouncing off the walls.");
-                        Main.Player.spd += 3;
+                        Main.Player.spdbuff += 3;
                     }
                     else if (roll == 3)
                     {
@@ -2314,16 +2324,16 @@ namespace Realm
                     {
                         Interface.type("The mushroom you just ate was a hypersteroid. You grow taller, your muscles bigger, and all in less than a minute. It's kind of painful though.");
                         Main.Player.maxhp += 2;
-                        Main.Player.atk += 1;
+                        Main.Player.atkbuff += 1;
                     }
                     break;
                 case 'f':
-                    if (Globals.CavePosition < Globals.cavemap.GetUpperBound(0))
-                        Globals.CavePosition += 1;
+                    if (Map.CavePosition < Map.cavemap.GetUpperBound(0))
+                        Map.CavePosition += 1;
                     break;
                 case 'b':
                     if (Main.Player.backpack.Count > 0)
-                        Main.BackpackLoop();
+                        Backpack.BackpackLoop();
                     break;
                 case '#':
                     Save.SaveGame();
@@ -2348,8 +2358,10 @@ namespace Realm
                     int roll = Combat.Dice.roll(1, 2);
                     if (roll == 1)
                     {
-                        Main.Player.hp -= 10;
+                        Main.Player.hp -= 7;
                         Interface.type("The water isn't actually water. It's arsenic.");
+                        if (Main.Player.hp <= 0)
+                            End.GameOver();
                     }
                     else
                     {
@@ -2358,12 +2370,12 @@ namespace Realm
                     }
                     break;
                 case 'f':
-                    if (Globals.CavePosition < Globals.cavemap.GetUpperBound(0))
-                        Globals.CavePosition += 1;
+                    if (Map.CavePosition < Map.cavemap.GetUpperBound(0))
+                        Map.CavePosition += 1;
                     break;
                 case 'b':
                     if (Main.Player.backpack.Count > 0)
-                        Main.BackpackLoop();
+                        Backpack.BackpackLoop();
                     break;
                 case '#':
                     Save.SaveGame();
@@ -2385,25 +2397,25 @@ namespace Realm
             switch (input)
             {
                 case 'k':
-                    Main.BattleLoop(new Dragon());
+                    Combat.BattleLoop(new Dragon());
                     Interface.type("You escape the cave! You find youself in a sewer, and when you finally pull yourself out, you're in Central.");
-                    Globals.PlayerPosition.y = 3;
-                    Globals.PlayerPosition.x = 3;
+                    Map.PlayerPosition.y = 3;
+                    Map.PlayerPosition.x = 3;
                     Main.MainLoop();
                     break;
                 case 's':
                     if (Combat.Dice.roll(1, 10) == 1)
-                        Main.BattleLoop(new Dragon());
+                        Combat.BattleLoop(new Dragon());
                     else
                         Interface.type("You successfully snuck past the dragon!");
                     Interface.type("You escape the cave! You find youself in a sewer, and when you finally pull yourself out, you're in Central.");
-                    Globals.PlayerPosition.y = 3;
-                    Globals.PlayerPosition.x = 3;
+                    Map.PlayerPosition.y = 3;
+                    Map.PlayerPosition.x = 3;
                     //Main.MainLoop();
                     break;
                 case 'b':
                     if (Main.Player.backpack.Count > 0)
-                        Main.BackpackLoop();
+                        Backpack.BackpackLoop();
                     break;
                 case '#':
                     Save.SaveGame();

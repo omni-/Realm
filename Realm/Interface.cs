@@ -11,33 +11,52 @@ namespace Realm
     {
         public static void type(string src, int speed)
         {
+            Main.is_typing = true;
             Console.WriteLine("\r\n");
             foreach (char c in src)
             {
                 Console.Write(c);
                 Thread.SpinWait(speed * 1000000);
             }
+            Main.is_typing = false;
         }
 
         public static void type(string src)
         {
+            Main.is_typing = true;
             Console.WriteLine("\r\n");
             foreach (char c in src)
             {
                 Console.Write(c);
                 Thread.SpinWait(1000000);
             }
+            Main.is_typing = false;
         }
         public static ConsoleKeyInfo readkey()
         {
+            while (Main.is_typing)
+            {
+                while (Console.KeyAvailable) Console.ReadKey(true);
+                ConsoleKeyInfo key = Console.ReadKey(true);
+            }
             return Console.ReadKey();
         }
         public static string readinput()
         {
+            while (Main.is_typing)
+            {
+                while (Console.KeyAvailable) Console.ReadKey(true);
+                ConsoleKeyInfo key = Console.ReadKey(true);
+            }
             return Console.ReadLine().ToLower();
         }
         public static string readinput(bool ExactSpelling)
         {
+            while (Main.is_typing)
+            {
+                while (Console.KeyAvailable) Console.ReadKey(true);
+                ConsoleKeyInfo key = Console.ReadKey(true);
+            }
             return Console.ReadLine();
         }
         public static void drawmap()

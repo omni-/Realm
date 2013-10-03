@@ -17,7 +17,8 @@ namespace update
             try
             {
                 WebClient webClient = new WebClient();
-                //webClient.OpenWrite("https://dl.dropboxusercontent.com/u/83385592/Realm.exe");
+                webClient.OpenRead("https://dl.dropboxusercontent.com/u/83385592/Realm.exe");
+                webClient.OpenWrite("https://dl.dropboxusercontent.com/u/83385592/Realm.exe");
                 webClient.DownloadFile("https://dl.dropboxusercontent.com/u/83385592/Realm.exe", path);
                 Process.Start(path);
                 Environment.Exit(0);

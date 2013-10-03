@@ -16,6 +16,10 @@ namespace Realm
             public int atk;
             public int intl;
             public int def;
+            public int intlbuff = 0;
+            public int defbuff = 0;
+            public int atkbuff = 0;
+            public int spdbuff = 0;
             public string pclass;
             public string race;
             public string name;
@@ -58,24 +62,29 @@ namespace Realm
             }
             public void applybonus()
             {
+                atk = 1 + atkbuff;
+                def = 1 + defbuff;
+                spd = 1 + spdbuff;
+                intl = 0 + intlbuff;
+
                 if (race == "giant")
                     maxhp = 12 + (level + 2);
                 else
                     maxhp = 9 + level;
                 if (race == "human")
                 {
-                    def += (1 + (level / 5));
-                    atk += (1 + (level / 5));
-                    spd += (1 + (level / 5));
+                    def = (1 + (level / 5));
+                    atk = (1 + (level / 5));
+                    spd = (1 + (level / 5));
                 }
                 else if (race == "elf")
-                    intl += (3 + (level / 2));
+                    intl = (3 + (level / 2));
                 else if (race == "rockman")
-                    def += (3 + (level / 2));
+                    def = (3 + (level / 2));
                 else if (race == "zephyr")
-                    spd += (3 + (level / 2));
+                    spd = (3 + (level / 2));
                 else if (race == "shade")
-                    atk += (3 + (level / 2));
+                    atk = (3 + (level / 2));
 
                 if (!primary.Equals(default(Item)))
                 {
@@ -146,7 +155,6 @@ namespace Realm
                     intl += accessory.intlbuff;
                     spd += accessory.spdbuff;
                 }
-
             }
             public void applydevbonus()
             {
@@ -193,6 +201,36 @@ namespace Realm
                 backpack = new List<Item>();
                 abilities = new Realm.Combat.CommandTable();
                 abilities.AddCommand(new Combat.BasicAttack("Basic Attack", 'b'));
+            }
+        }
+        public static bool Purchase(int cost)
+        {
+            if (cost > Main.Player.g)
+            {
+                Interface.type("You don't have enough gold.");
+                return false;
+            }
+            else
+            {
+                Main.Player.g -= cost;
+                return true;
+            }
+        }
+        public static bool Purchase(int cost, Item i)
+        {
+            if (cost <= Main.Player.g)
+            {
+                Main.Player.g -= cost;
+                if (Main.Player.backpack.Count <= 10)
+                    Main.Player.backpack.Add(i);
+                else
+                    Interface.type("Not enough space.");
+                return true;
+            }
+            else
+            {
+                Interface.type("You don't have enough gold.");
+                return false;
             }
         }
     }

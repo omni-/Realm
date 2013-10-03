@@ -26,7 +26,7 @@ namespace Realm
                 p.DropAndRun(resourceName, programName);
                 Environment.Exit(0);
             }
-            Globals.gencave();
+            Map.gencave();
             if (!Save.LoadGame())
             {
                 Interface.type("\"Greetings. Before we begin, I must know your name.\"");
@@ -44,20 +44,20 @@ namespace Realm
                     Main.Player.spd = 1000;
                     Main.Player.intl = 1000;
                     Main.devmode = true;
-                    Globals.PlayerPosition.x = 0;
-                    Globals.PlayerPosition.y = 6;
+                    Map.PlayerPosition.x = 0;
+                    Map.PlayerPosition.y = 6;
                     Main.Player.race = Interface.readinput();
                     Main.Player.pclass = Interface.readinput();
                     Main.MainLoop();
                 }
-                Globals.PlayerPosition.x = 0;
-                Globals.PlayerPosition.y = 6;
+                Map.PlayerPosition.x = 0;
+                Map.PlayerPosition.y = 6;
                 Main.Tutorial();
             }
             else
             {
-                Globals.PlayerPosition.x = 0;
-                Globals.PlayerPosition.y = 6;
+                Map.PlayerPosition.x = 0;
+                Map.PlayerPosition.y = 6;
                 Main.MainLoop();
             }
         }

@@ -9,6 +9,251 @@ namespace Realm
 {
     public class Combat
     {
+        public static void BattleLoop(Enemy enemy)
+        {
+            Main.game_state = 1;
+
+            Main.Player.applybonus();
+
+            int enemydmg = 0;
+            int mana = 1 + Main.Player.intl / 10;
+            Interface.type("You have entered combat! Ready your weapons!");
+            Interface.type("Level " + enemy.level + " " + enemy.name + ":");
+            Interface.type("-------------------------");
+            Interface.type("HP: " + enemy.hp);
+            Interface.type("Attack: " + enemy.atk);
+            Interface.type("Defense: " + enemy.def);
+            Interface.type("-------------------------");
+            bool is_turn = enemy.spd < Main.Player.spd;
+            while (enemy.hp >= 0)
+            {
+                Interface.type("//////////////////////");
+                Interface.type("Your HP: " + Main.Player.hp);
+                Interface.type("Your Mana: " + mana);
+                Interface.type("----------------------");
+                Interface.type("Enemy HP: " + enemy.hp);
+                Interface.type("//////////////////////");
+                if (is_turn && !Main.Player.stunned)
+                {
+                    if (Main.Player.phased)
+                        Main.Player.phased = false;
+                    Interface.type("\r\nAVAILABLE MOVES:");
+                    Interface.type("=========================");
+                    int i = 0;
+                    foreach (Realm.Combat.Command c in Main.Player.abilities.commands.Values)
+                    {
+                        string src = "||   " + c.cmdchar + ". " + c.name;
+                        Interface.type(src);
+                        i++;
+                    }
+                    Interface.type("=========================");
+                    Interface.type("");
+
+                    if (Main.Player.fire >= 3)
+                        Main.Player.on_fire = false;
+                    if (Main.Player.on_fire)
+                    {
+                        Main.Player.fire++;
+                        int dmg = Combat.Dice.roll(1, 3);
+                        Main.Player.hp -= dmg;
+                        Interface.type("You take " + dmg + " fire damage.");
+                    }
+                    if (Main.Player.blinded)
+                        Main.Player.blinded = false;
+                    if (Main.Player.cursed)
+                    {
+                        Main.Player.hp -= Combat.Dice.roll(1, 6);
+                        Interface.type("You are cursed!");
+                    }
+
+                    int oldhp = enemy.hp;
+                    char ch = Interface.readkey().KeyChar;
+                    while (!Main.Player.abilities.commandChars.Contains(ch))
+                    {
+                        Interface.type("Invalid.");
+                        Interface.type("");
+                        ch = Interface.readkey().KeyChar;
+                    }
+                    while (ch != 'b' && mana <= 0)
+                    {
+                        Interface.type("Out of mana!");
+                        Interface.type("");
+                        ch = Interface.readkey().KeyChar;
+                    }
+                    if (ch != 'b')
+                        mana--;
+                    if (ch == 'm')
+                    {
+                        Interface.type("You mimc the enemy's damage!");
+                        enemy.hp -= enemydmg;
+                    }
+                    if (!Main.Player.blinded)
+                        Main.Player.abilities.ExecuteCommand(ch, enemy);
+                    else
+                    {
+                        Interface.type("You are blind!");
+                        if (Combat.Dice.roll(1, 10) == 1)
+                        {
+                            Interface.type("By some miracle, you manage to hit them!");
+                            Main.Player.abilities.ExecuteCommand(ch, enemy);
+                            int blindenemyhp = oldhp - enemy.hp;
+                            Interface.type("The enemy takes " + blindenemyhp + " damage!");
+                        }
+                    }
+                    int enemyhp = oldhp - enemy.hp;
+                    Interface.type("The enemy takes " + enemyhp + " damage!");
+                    if (enemy.hp <= 0)
+                    {
+                        Interface.type("Your have defeated " + enemy.name + "!");
+                        enemy.droploot();
+                        Main.Player.levelup();
+                        return;
+                    }
+                    if (!Main.Player.phased)
+                        is_turn = false;
+                }
+                else if (Main.Player.stunned)
+                {
+                    Interface.type("You are stunned!");
+                    Main.Player.stunned = false;
+                    if (Main.Player.fire >= 3)
+                        Main.Player.on_fire = false;
+                    if (Main.Player.on_fire)
+                    {
+                        Main.Player.fire++;
+                        int dmg = Combat.Dice.roll(1, 3);
+                        Main.Player.hp -= dmg;
+                        Interface.type("You take " + dmg + " fire damage.");
+                    }
+                    if (Main.Player.cursed)
+                    {
+                        Main.Player.hp -= Combat.Dice.roll(1, 6);
+                        Interface.type("You are cursed!");
+                    }
+                    is_turn = false;
+                }
+
+                else if (!is_turn && !enemy.stunned)
+                {
+                    if (enemy.fire >= 3)
+                        enemy.on_fire = false;
+                    if (Main.Player.guard >= 2)
+                        Main.Player.guarded = false;
+                    if (Main.Player.guarded)
+                        Main.Player.guard++;
+                    if (enemy.blinded)
+                        enemy.blinded = false;
+                    if (enemy.on_fire)
+                    {
+                        enemy.fire++;
+                        int dmg = Combat.Dice.roll(1, 3);
+                        enemy.hp -= dmg;
+                        Interface.type(enemy.name + " takes " + dmg + " fire damage.");
+                        if (enemy.hp <= 0)
+                        {
+                            Interface.type("Your have defeated " + enemy.name + "!");
+                            enemy.droploot();
+                            Main.Player.levelup();
+                            return;
+                        }
+                    }
+                    if (enemy.cursed)
+                    {
+                        Interface.type(enemy.name + " is cursed!");
+                        enemy.hp -= Combat.Dice.roll(1, 6);
+                        if (enemy.hp <= 0)
+                        {
+                            Interface.type("Your have defeated " + enemy.name + "!");
+                            enemy.droploot();
+                            Main.Player.levelup();
+                            return;
+                        }
+                    }
+                    if (enemy.trapped)
+                    {
+                        Interface.type("Your trap has sprung!");
+                        int dmg = (Main.Player.level / 5) + (Main.Player.intl / 3) + Combat.Dice.roll(1, 5);
+                        enemy.hp -= dmg;
+                        Interface.type(enemy.name + " takes " + dmg + " damage!");
+                        if (enemy.hp <= 0)
+                        {
+                            Interface.type("Your have defeated " + enemy.name + "!");
+                            enemy.droploot();
+                            Main.Player.levelup();
+                            return;
+                        }
+                    }
+                    if (enemy.hp <= 0)
+                    {
+                        Interface.type("Your have defeated " + enemy.name + "!");
+                        enemy.droploot();
+                        Main.Player.levelup();
+                        return;
+                    }
+                    int oldhp = Main.Player.hp;
+                    string ability;
+                    if (!Main.Player.guarded && !enemy.blinded)
+                    {
+                        enemy.attack(out ability);
+                        enemydmg = oldhp - Main.Player.hp;
+                        Interface.type(enemy.name + " used " + ability);
+                        Interface.type("You take " + enemydmg + " damage!");
+                    }
+                    else
+                    {
+                        if (Main.Player.blinded)
+                        {
+                            Interface.type(enemy.name + "is blind!");
+                            if (Combat.Dice.roll(1, 10) == 1)
+                            {
+                                Interface.type("By some miracle, " + enemy.name + " manages to hit you!");
+                                enemy.attack(out ability);
+                                enemydmg = oldhp - Main.Player.hp;
+                                Interface.type(enemy.name + " used " + ability);
+                                Interface.type("You take " + enemydmg + " damage!");
+                            }
+                        }
+                        else if (Main.Player.guarded)
+                            Interface.type("Safeguard prevented damage!");
+                    }
+                    if (Main.Player.hp <= 0)
+                        End.GameOver();
+                    is_turn = true;
+                }
+                else if (enemy.stunned)
+                {
+                    Interface.type(enemy.name + " is stunned!");
+                    enemy.stunned = false;
+                    if (enemy.fire >= 3)
+                        enemy.on_fire = false;
+                    if (enemy.on_fire)
+                    {
+                        enemy.fire++;
+                        int dmg = Combat.Dice.roll(1, 3);
+                        enemy.hp -= dmg;
+                        Interface.type(enemy.name + " takes " + dmg + " fire damage.");
+                    }
+                    if (enemy.cursed)
+                    {
+                        Interface.type(enemy.name + " is cursed!");
+                        enemy.hp -= Combat.Dice.roll(1, 6);
+                    }
+                    if (enemy.hp <= 0)
+                    {
+                        Interface.type("Your have defeated " + enemy.name + "!");
+                        enemy.droploot();
+                        Main.Player.levelup();
+                        return;
+                    }
+                    is_turn = true;
+
+                }
+            }
+        }
+        public static void SammysAdventure()
+        {
+
+        }
         public static class Dice
         {
             public static int roll(int numdice, int numsides)
@@ -522,8 +767,10 @@ namespace Realm
             public override bool Execute(object Data)
             {
                 Enemy target = (Enemy)Data;
-                int dmg = Dice.roll(6, (Main.Player.intl + Main.Player.atk) / 4);
-                target.stunned = true;
+                int dmg = Dice.roll(6, (Main.Player.intl + Main.Player.atk) / 6);
+                int stun = Dice.roll(1, 5);
+                if (stun == 1 || stun == 2 || stun == 3 || stun == 4)
+                    target.stunned = true;
                 target.hp -= dmg;
                 return true;
             }
@@ -566,7 +813,7 @@ namespace Realm
             public override bool Execute(object Data)
             {
                 Enemy target = (Enemy)Data;
-                int dmg = Dice.roll(2, Main.Player.intl - 2);
+                int dmg = Dice.roll(2, Main.Player.intl) - 2;
                 target.hp -= dmg;
                 return true;
             }

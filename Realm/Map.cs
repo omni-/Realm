@@ -12,7 +12,7 @@ namespace Realm
         public int x;
         public int y;
     }
-    public class Globals
+    public class Map
     {
         public static Place[,] map = new Place[,] {
 
