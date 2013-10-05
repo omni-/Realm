@@ -43,10 +43,10 @@ namespace Realm
             lines.Add("hp=" + Main.Player.hp);
             lines.Add("ppx=" + Map.PlayerPosition.x);
             lines.Add("ppy=" + Map.PlayerPosition.y);
-            lines.Add("intlbuff=" + Main.Player.intlbuff);
-            lines.Add("atkbuff=" + Main.Player.atkbuff);
-            lines.Add("defbuff=" + Main.Player.defbuff);
-            lines.Add("spdbuff=" + Main.Player.spdbuff);
+            lines.Add("intlbuff=" + Main.intlbuff);
+            lines.Add("atkbuff=" + Main.atkbuff);
+            lines.Add("defbuff=" + Main.defbuff);
+            lines.Add("spdbuff=" + Main.spdbuff);
             if (Main.hasmap)
                 lines.Add("hasmap=true");
             if (Main.wkingdead)
@@ -305,13 +305,13 @@ namespace Realm
                         if (entry.Key == "is_thief")
                             Main.is_theif = true;
                         if (entry.Key == "intlbuff")
-                            Main.Player.intlbuff = Convert.ToInt32(entry.Value);
+                            Main.intlbuff = Convert.ToInt32(entry.Value);
                         if (entry.Key == "atkbuff")
-                            Main.Player.atkbuff = Convert.ToInt32(entry.Value);
+                            Main.atkbuff = Convert.ToInt32(entry.Value);
                         if (entry.Key == "defbuff")
-                            Main.Player.defbuff = Convert.ToInt32(entry.Value);
+                            Main.defbuff = Convert.ToInt32(entry.Value);
                         if (entry.Key == "spdbuff")
-                            Main.Player.spdbuff = Convert.ToInt32(entry.Value);
+                            Main.spdbuff = Convert.ToInt32(entry.Value);
                     }
                     Interface.type("Done.");
                     file.Close();

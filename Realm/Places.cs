@@ -761,7 +761,7 @@ namespace Realm
                                         Main.hasmap = true;
                                         break;
                                     case 'g':
-                                        Main.Player.intlbuff += 1;
+                                        Main.intlbuff += 1;
                                         Interface.type("You are touched by the art of cooking. Being forged in the flame of cooking, your ability to think up vicious insults has improved. Your intelligence has improved a little");
                                         Main.gbooks++;
                                         break;
@@ -853,7 +853,7 @@ namespace Realm
                                 {
                                     case 'y':
                                         Main.Player.hp -= 1;
-                                        Main.Player.spdbuff += 3;
+                                        Main.spdbuff += 3;
                                         Interface.type("You are exhausted from finishing the book, but you feel like your speed has increased a little.");
                                         break;
                                     case 'n':
@@ -888,11 +888,11 @@ namespace Realm
                                 break;
                             case 'h':
                                 Interface.type("You read 5000 pages on the history of the realm. You're not sure why you did that, but you feel smarter.");
-                                Main.Player.intlbuff += 2;
+                                Main.intlbuff += 2;
                                 break;
                             case 'g':
                                 Interface.type("You learn of the layers of granite and basalt on Planet ramsay.");
-                                Main.Player.defbuff += 1;
+                                Main.defbuff += 1;
                                 Main.gbooks++;
                                 break;
                         }
@@ -1004,7 +1004,7 @@ namespace Realm
                             case 'g':
                                 Interface.type("Now skilled in the art of stealing, you gain 10% more gold. You also feel faster.");
                                 Main.is_theif = true;
-                                Main.Player.spdbuff += 2;
+                                Main.spdbuff += 2;
                                 break;
                             case 's':
                                 Interface.type("You become skilled in the art of sacrifice.");
@@ -1018,7 +1018,7 @@ namespace Realm
                                 break;
                             case 'r':
                                 Interface.type("You become educated on the mathematics of cooking.");
-                                Main.Player.intlbuff += 1;
+                                Main.intlbuff += 1;
                                 Main.gbooks++;
                                 break;
                             case 'j':
@@ -1856,13 +1856,11 @@ namespace Realm
                                             End.GameOver();
                                             break;
                                         case 'f':
-                                            if (Combat.Dice.roll(1, 5) == 1)
-                                            {
                                                 Interface.type("You try to ride the wave of steel and stone falling down hundreds of feet. Probably not the best of your ideas, you reflect as you fall. You hit the ground, and everything goes black.");
                                                 Interface.type("Press any key to continue.");
                                                 Interface.readkey();
                                                 Console.Clear();
-                                                if (Combat.Dice.roll(1, 5) == 1)
+                                                if (Combat.Dice.roll(1, 3) == 1)
                                                 {
                                                     Interface.type("You find yourself in a mysterious glowing cave.");
                                                     Cave.CaveLoop();
@@ -1888,12 +1886,6 @@ namespace Realm
                                                             break;
                                                     }
                                                 }
-                                            }
-                                            else
-                                            {
-                                                Interface.type("You hit your head and die.");
-                                                End.GameOver();
-                                            }
                                             break;
                                         default:
                                             break;
@@ -1962,9 +1954,6 @@ namespace Realm
                 case 'e':
                     Map.PlayerPosition.x += 1;
                     break;
-                case 's':
-                    Map.PlayerPosition.y -= 1;
-                    break;
                 case 'w':
                     Map.PlayerPosition.x -= 1;
                     break;
@@ -2018,13 +2007,13 @@ namespace Realm
                         {
                             case 'c':
                                 Interface.type("You pick up the book entitled Cold. You read of the century long winter from the days of old. It kind of scares you, but you feel smarter and faster.");
-                                Main.Player.intlbuff += 2;
-                                Main.Player.spdbuff += 2;
+                                Main.intlbuff += 2;
+                                Main.spdbuff += 2;
                                 break;
                             case 'f':
                                 Interface.type("You pick of the book entitled Frost. You learn of the event that froze over this once-warm town. It terrifies you, but you feel stronger and tougher.");
-                                Main.Player.atkbuff += 1;
-                                Main.Player.defbuff += 1;
+                                Main.atkbuff += 2;
+                                Main.defbuff += 2;
                                 break;
                             case 'i':
                                 Interface.type("You pick up the book entitled Ice. You learn of the ancient sorcer who was able to cast ice spells by drawing the heat out of the air, and the water from the ground.");
@@ -2034,6 +2023,7 @@ namespace Realm
                             default:
                                 break;
                         }
+                        Main.Player.xp += 10;
                         Main.frozencounter++;
                     }
                     else
@@ -2163,6 +2153,7 @@ namespace Realm
                             default:
                                 break;
                         }
+                        Main.Player.xp += 10;
                         Main.noobcounter++;
                     }
                     else
@@ -2271,7 +2262,7 @@ namespace Realm
                     else
                     {
                         Interface.type("As you harvest them, the crystals glow, and energy seeps through your veins and into your brain. Your vision becomes very bright, and you feel enlightened.");
-                        Main.Player.intlbuff += 3;
+                        Main.intlbuff += 3;
                     }
                     break;
                 case 'f':
@@ -2313,7 +2304,7 @@ namespace Realm
                     else if (roll == 2)
                     {
                         Interface.type("You feel like you just drank 6 espressi, and you're bouncing off the walls.");
-                        Main.Player.spdbuff += 3;
+                        Main.spdbuff += 3;
                     }
                     else if (roll == 3)
                     {
@@ -2324,7 +2315,7 @@ namespace Realm
                     {
                         Interface.type("The mushroom you just ate was a hypersteroid. You grow taller, your muscles bigger, and all in less than a minute. It's kind of painful though.");
                         Main.Player.maxhp += 2;
-                        Main.Player.atkbuff += 1;
+                        Main.atkbuff += 1;
                     }
                     break;
                 case 'f':

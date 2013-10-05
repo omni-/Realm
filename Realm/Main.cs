@@ -27,7 +27,12 @@ namespace Realm
         public static int noobcounter = 0;
 
         public static int gbooks = 0;
-     
+
+        public static int intlbuff = 0;
+        public static int defbuff = 0;
+        public static int atkbuff = 0;
+        public static int spdbuff = 0;
+
         public static bool raven_dead = false;
         public static bool is_theif = false;
         public static bool wkingdead = false;
@@ -95,9 +100,9 @@ namespace Realm
                 Player.accessory = new void_cloak();
                 hasmap = true;
             }
-            Player.applybonus();
             while (Player.hp > 0)
             {
+                Player.applybonus();
                 Enemy enemy = new Enemy();
                 Player.levelup();
                 currPlace = Map.map[Map.PlayerPosition.x, Map.PlayerPosition.y];

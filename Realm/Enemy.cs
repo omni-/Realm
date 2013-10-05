@@ -220,12 +220,12 @@ namespace Realm
         public Drake()
         {
             name = "Drake";
-            hp = 50 + (level / 2);
-            atk = 15 + (level / 2);
+            hp = 30 + (level / 2);
+            atk = 12 + (level / 2);
             def = 10 + (level / 2);
-            spd = 15 + (level / 2);
-            xpdice = 75;
-            gpdice = 75;
+            spd = 10 + (level / 2);
+            xpdice = 35;
+            gpdice = 35;
             abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("Singe");

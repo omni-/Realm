@@ -18,7 +18,7 @@ namespace Realm
             string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             string programName = "update.exe";
             string resourceName = "Realm.update.exe";
-            Interface.type("Version Number - 1.6.2", 0);
+            Interface.type("Version Number - 1.6.3", 0);
             Interface.type("Press p to download latest version. If this is your first time running the game, press p. ", 0);
             if (Interface.readkey().KeyChar == 'p')
             {

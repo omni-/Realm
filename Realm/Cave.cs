@@ -33,7 +33,7 @@ namespace Realm
                     Interface.type("-------------------------------------");
                     Interface.type(Main.Player.name + "(" + Main.Player.race + ")," + " Level " + Main.Player.level + " " + Main.Player.pclass + ":");
                     Interface.type("HP: " + Main.Player.hp + "/" + Main.Player.maxhp);
-                    Interface.type("Attack: " + Main.Player.atk + " / Defense: " + Main.Player.def + " / Speed: " + Main.Player.spd + " / Intelligence: " + Main.Player.intl);
+                    Interface.type("Attack: " + Main.Player.atk + " / Defense: " + Main.Player.def + " / Speed: " + Main.spdbuff + " / Intelligence: " + Main.Player.intl);
                     Interface.type("Mana: " + (1 + (Main.Player.intl / 10)));
                     Interface.type("Gold: " + Main.Player.g + " / Exp to Level: " + (Main.Player.xp_next - Main.Player.xp));
                     Interface.type("-------------------------------------");
@@ -42,13 +42,6 @@ namespace Realm
                     Interface.type(currPlace.Description);
                 else
                     Interface.type(currPlace.ToString());
-                char[] currcommands = currPlace.getAvailableCommands();
-                Console.Write("\r\nYour current commands are x");
-                foreach (char c in currcommands)
-                {
-                    Console.Write(", {0}", c);
-                }
-                Interface.type("");
 
                 ConsoleKeyInfo command = Interface.readkey();
                 if (command.KeyChar == 'x')

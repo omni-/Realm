@@ -16,10 +16,6 @@ namespace Realm
             public int atk;
             public int intl;
             public int def;
-            public int intlbuff = 0;
-            public int defbuff = 0;
-            public int atkbuff = 0;
-            public int spdbuff = 0;
             public string pclass;
             public string race;
             public string name;
@@ -55,18 +51,17 @@ namespace Realm
                     else
                         xp_overlap = 0;
                     xp = xp_overlap;
-                    xp_next = (level >= 30 ? 62 + (level - 30) * 7 : (level >= 15 ? 17 + (level - 15) * 3 : 17));
+                    xp_next = (level >= 20 ? 62 + (level - 30) * 7 : (level >= 10 ? 17 + (level - 10) * 3 : 17));
                     if (xp >= xp_next)
                         levelup();
                 }
             }
             public void applybonus()
             {
-                atk = 1 + atkbuff;
-                def = 1 + defbuff;
-                spd = 1 + spdbuff;
-                intl = 0 + intlbuff;
-
+                atk = 1;
+                def = 1;
+                spd = 1;
+                intl = 0;
                 if (race == "giant")
                     maxhp = 12 + (level + 2);
                 else
@@ -85,6 +80,11 @@ namespace Realm
                     spd = (3 + (level / 2));
                 else if (race == "shade")
                     atk = (3 + (level / 2));
+                atk += Main.atkbuff;
+                def += Main.defbuff;
+                spd += Main.spdbuff;
+                intl += Main.intlbuff;
+
 
                 if (!primary.Equals(default(Item)))
                 {
