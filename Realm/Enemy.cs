@@ -254,6 +254,7 @@ namespace Realm
                 double damage = Combat.Dice.roll(2, atk);
                 Main.Player.stunned = true;
                 dmg = Convert.ToInt32(damage) - Main.Player.def;
+                ability_used = "Chomp";
             }
             if (dmg <= 0)
                 dmg = 1;

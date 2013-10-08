@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Realm.exe" size="148480">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Realm.exe" size="148992">
       <assemblyIdentity name="Realm" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>6Hbucjb4WdlT3TvHKOxnCH1tQsWHDcDTwcZBpUbLXEg=</dsig:DigestValue>
+        <dsig:DigestValue>lKSnsuDiuCky51GFHclvp1mQJu5SbnoUlW2GX9s8FNE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

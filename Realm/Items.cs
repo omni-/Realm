@@ -373,6 +373,8 @@ namespace Realm
             desc = "A shield of ice. Strangely, it weighs nothing, and you feel like you're floating while holding it.";
             spdbuff = 6;
             defbuff = 6;
+            slot = 2;
+            tier = 4;
         }
     }
     public class p_shield : Item
