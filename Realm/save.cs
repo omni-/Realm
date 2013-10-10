@@ -17,7 +17,7 @@ namespace Realm
 
             string tpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm";
             string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\save.rlm";
-            Interface.type("Saving...");
+            Interface.type("Saving...", ConsoleColor.White);
             List<string> lines = new List<string>();
             lines.Add("name=" + Main.Player.name);
             foreach (Combat.Command c in Main.Player.abilities.commands.Values)
@@ -74,7 +74,7 @@ namespace Realm
             lines.Add("xp=" + Main.Player.xp);
             string[] linesarray = lines.ToArray<string>();
             File.WriteAllLines(tpath, linesarray);
-            Interface.type("Done.");
+            Interface.type("Done.", ConsoleColor.White);
             EncryptFile(tpath, path, key);
         }
         public static bool LoadGame()
@@ -85,7 +85,7 @@ namespace Realm
             {
                 if (!File.Exists(path))
                     return false;
-                Interface.type("Loading Save...");
+                Interface.type("Loading Save...", ConsoleColor.White);
                 DecryptFile(path, tpath, key);
                 Dictionary<string, string> vals = new Dictionary<string, string>();
                 string line;
@@ -100,7 +100,20 @@ namespace Realm
                     {
                         if (entry.Key == "devmode")
                         {
-                            throw new Exception("Devmode detected. Save file not loaded.");
+                            Exception devmode = new Exception("Devmode detected. Save file deleted");
+                            try
+                            {
+                                throw devmode;
+                            }
+                            catch(Exception e)
+                            {
+                                Interface.type(devmode.ToString(), ConsoleColor.White);
+                                if (File.Exists(path))
+                                    File.Delete(path);
+                                Interface.type("Press any key to continue.", ConsoleColor.White);
+                                Interface.readkey();
+                                Environment.Exit(0);
+                            }
                         }
                         if (entry.Key == "name")
                             Main.Player.name = entry.Value;
@@ -313,7 +326,7 @@ namespace Realm
                         if (entry.Key == "spdbuff")
                             Main.spdbuff = Convert.ToInt32(entry.Value);
                     }
-                    Interface.type("Done.");
+                    Interface.type("Done.", ConsoleColor.White);
                     file.Close();
                     File.Delete(tpath);
                     return true;
@@ -321,13 +334,13 @@ namespace Realm
             }
             catch (IOException e)
             {
-                Interface.type("Load failed.");
+                Interface.type("Load failed.", ConsoleColor.White);
                 Interface.type(e.ToString(), 0);
                 return false;
             }
             catch (ArgumentException e)
             {
-                Interface.type("Load failed.");
+                Interface.type("Load failed.", ConsoleColor.White);
                 Interface.type(e.ToString(), 0);
                 return false;
             }

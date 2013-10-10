@@ -78,6 +78,7 @@ namespace Realm
         public static void BackpackLoop()
         {
             bool loopcontrol = true;
+            Console.BackgroundColor = ConsoleColor.DarkYellow;
             while (loopcontrol)
             {
                 Interface.type("**********Current Equipment**********");
@@ -103,6 +104,7 @@ namespace Realm
                 //    cmd.ExecuteCommand('1', 1);
                 cmd.ExecuteCommand(ch, Main.Player.backpack[(int)Char.GetNumericValue(ch)]);
             }
+            Console.ResetColor();
         }
     }
 }

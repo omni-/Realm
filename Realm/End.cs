@@ -11,7 +11,7 @@ namespace Realm
     {   
         public static void GameOver()
         {
-            Interface.type("Game Over. Press any key to exit, esc during non-combat to exit. Your save has been deleted.");
+            Interface.type("Game Over. Press any key to exit, esc during non-combat to exit. Your save has been deleted.", ConsoleColor.DarkRed);
             string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\save.rlm";
             if (File.Exists(path))
                 File.Delete(path);
@@ -34,46 +34,46 @@ namespace Realm
         public static void Credits()
         {
             Interface.type("A child awakes from his sleep and looks out the window feeling fulfilled as if a story has come to a close.");
-            Interface.type("Press any key to continue.");
+            Interface.type("Press any key to continue.", ConsoleColor.White);
             Interface.readkey();
             Console.Clear();
-            Interface.type("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            Interface.type("----------------------Credits---------------------");
-            Interface.type("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-            Interface.type("__________________________________________________");
-            Interface.type("Executive Developer: Cooper Teixeira");
-            Interface.type("__________________________________________________");
-            Interface.type("Secondary Developer: Giorgio Lo");
-            Interface.type("__________________________________________________");
-            Interface.type("Executive Producer: Cooper Teixeira");
-            Interface.type("__________________________________________________");
-            Interface.type("Co-Producer: Giorgio Lo");
-            Interface.type("__________________________________________________");
-            Interface.type("Lead Content Designer: Giorgio Lo");
-            Interface.type("__________________________________________________");
+            Interface.type("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", ConsoleColor.DarkMagenta);
+            Interface.type("----------------------Credits---------------------", ConsoleColor.DarkMagenta);
+            Interface.type("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", ConsoleColor.DarkMagenta);
+            Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
+            Interface.type("Executive Developer: Cooper Teixeira", ConsoleColor.Yellow);
+            Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
+            Interface.type("Secondary Developer: Giorgio Lo", ConsoleColor.Yellow);
+            Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
+            Interface.type("Executive Producer: Cooper Teixeira", ConsoleColor.Yellow);
+            Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
+            Interface.type("Co-Producer: Giorgio Lo", ConsoleColor.Yellow);
+            Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
+            Interface.type("Lead Content Designer: Giorgio Lo", ConsoleColor.Yellow);
+            Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
             Interface.type("Secondary Content Designer: Cooper Teixeira");
-            Interface.type("__________________________________________________");
-            Interface.type("Chief Tester: Rosemary Rogal");
-            Interface.type("__________________________________________________");
-            Interface.type("Lead Art Designer: Rosemary Rogal");
-            Interface.type("__________________________________________________");
-            Interface.type("Secondary Art Designer: Giorgio Lo");
-            Interface.type("__________________________________________________");
-            Interface.type("Secondary Art Designer: Cooper Teixeira");
-            Interface.type("__________________________________________________");
-            Interface.type("Concept Artist: Rosemary Rogal");
-            Interface.type("__________________________________________________");
-            Interface.type("Special thanks to:");
-            Interface.type("- Steve Teixeira");
-            Interface.type("- Ryan Teixeira");
-            Interface.type("- Paul Pfenning");
-            Interface.type("- Charlie Catino");
-            Interface.type("- Bradley Lignoski");
-            Interface.type("- Alexander Pfenning");
-            Interface.type("- Ben Boyd");
-            Interface.type("__________________________________________________");
-            Interface.type("Copyright(c) 2013");
-            Interface.type("Press any key to continue.");
+            Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
+            Interface.type("Chief Tester: Rosemary Rogal", ConsoleColor.Yellow);
+            Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
+            Interface.type("Lead Art Designer: Rosemary Rogal", ConsoleColor.Yellow);
+            Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
+            Interface.type("Secondary Art Designer: Giorgio Lo", ConsoleColor.Yellow);
+            Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
+            Interface.type("Secondary Art Designer: Cooper Teixeira", ConsoleColor.Yellow);
+            Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
+            Interface.type("Concept Artist: Rosemary Rogal", ConsoleColor.Yellow);
+            Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
+            Interface.type("Special thanks to:", ConsoleColor.DarkMagenta);
+            Interface.type("- Steve Teixeira", ConsoleColor.Yellow);
+            Interface.type("- Ryan Teixeira", ConsoleColor.Yellow);
+            Interface.type("- Paul Pfenning", ConsoleColor.Yellow);
+            Interface.type("- Charlie Catino", ConsoleColor.Yellow);
+            Interface.type("- Bradley Lignoski", ConsoleColor.Yellow);
+            Interface.type("- Alexander Pfenning", ConsoleColor.Yellow);
+            Interface.type("- Ben Boyd", ConsoleColor.Yellow);
+            Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
+            Interface.type("Copyright(c) 2013", ConsoleColor.White);
+            Interface.type("Press any key to continue.", ConsoleColor.White);
             Interface.readkey();
             Environment.Exit(0);
         }

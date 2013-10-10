@@ -45,7 +45,7 @@ namespace Realm
                 {
                     level++;
                     hp = maxhp;
-                    Interface.type("Congratulations! You have leveled up! You are now level " + level + ".");
+                    Interface.type("Congratulations! You have leveled up! You are now level " + level + ".", true);
                     if (xp_next < 0)
                         xp_overlap = Math.Abs(xp_next);
                     else
@@ -96,32 +96,32 @@ namespace Realm
                 if (level >= 5 && race == "human" && !abilities.commands.ContainsKey('m'))
                 {
                     abilities.AddCommand(new Combat.Mimic("Mimic", 'm'));
-                    Interface.type("Learned human ability Mimic!");
+                    Interface.type("Learned human ability Mimic!", ConsoleColor.Cyan);
                 }
                 else if (level >= 5 && race == "elf" && !abilities.commands.ContainsKey('l'))
                 {
                     abilities.AddCommand(new Combat.LayTrap("Lay Trap", 'l'));
-                    Interface.type("Learned Elf ability Lay Trap!");
+                    Interface.type("Learned Elf ability Lay Trap!", ConsoleColor.Cyan);
                 }
                 else if (level >= 5 && race == "rockman" && !abilities.commands.ContainsKey('g'))
                 {
                     abilities.AddCommand(new Combat.Safeguard("Safeguard", 'g'));
-                    Interface.type("Learned rockman ability Safeguard!");
+                    Interface.type("Learned rockman ability Safeguard!", ConsoleColor.Cyan);
                 }
                 else if (level >= 5 && race == "giant" && !abilities.commands.ContainsKey('r'))
                 {
                     abilities.AddCommand(new Combat.Rage("Rage", 'r'));
-                    Interface.type("Learned Giant ability Rage!");
+                    Interface.type("Learned Giant ability Rage!", ConsoleColor.Cyan);
                 }
                 else if (level >= 5 && race == "zephyr" && !abilities.commands.ContainsKey('!'))
                 {
                     abilities.AddCommand(new Combat.Lightspeed("Lightspeed", '!'));
-                    Interface.type("Learned zephyr ability Lightspeed!");
+                    Interface.type("Learned zephyr ability Lightspeed!", ConsoleColor.Cyan);
                 }
                 else if (level >= 5 && race == "shade" && !abilities.commands.ContainsKey('n'))
                 {
                     abilities.AddCommand(new Combat.Nightshade("Nightshade", 'n'));
-                    Interface.type("Learned shade ability Nightshade!");
+                    Interface.type("Learned shade ability Nightshade!", ConsoleColor.Cyan);
                 }
 
                 if (pclass == "warrior")

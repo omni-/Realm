@@ -51,6 +51,7 @@ namespace Realm
             if (Main.hasmap)
                 templist.Add('m');
             templist.Add('#');
+            templist.Add('v');
             return templist.ToArray<char>();
         }
         public virtual void handleInput(char input)
@@ -74,6 +75,9 @@ namespace Realm
                 case 'n':
                     if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                         Map.PlayerPosition.y += 1;
+                    break;
+                case 'v':
+                    Interface.typeStats();
                     break;
                 case 'e':
                     if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
@@ -118,7 +122,7 @@ namespace Realm
             if (Main.wkingcounter < 1)
             {
                 Main.wkingcounter++;
-                return "King: 'Come, " + Main.Player.name + ". I plan to give you the ultimate gift, eternal respite. You're not sure why he has called you but you don't like it. The Western King approaches and unsheathes his blade emitting a strong aura of bloodlust. He seems to have powers far beyond anything you can imagine. Fight(f) or run(r)?";
+                return "King: 'Come, for I plan to give you the ultimate gift, eternal respite. You're not sure why he has called you but you don't like it. The Western King approaches and unsheathes his blade emitting a strong aura of bloodlust. He seems to have powers far beyond anything you can imagine. Fight(f) or run(r)?";
             }
             else
                 return "King: 'Back so soon? Do you want to fight now, coward?'";
@@ -130,9 +134,9 @@ namespace Realm
         public override char[] getAvailableCommands()
         {
             if (!Main.wkingdead)
-                return new char[] { 'f', 'r', '#' };
+                return new char[] { 'f', 'r', 'v', '#' };
             else
-                return new char[] { 'r', '#' };
+                return new char[] { 'r', 'v', '#' };
         }
 
         public override bool _handleInput(char input)
@@ -141,6 +145,9 @@ namespace Realm
             {
                 switch (input)
                 {
+                    case 'v':
+                        Interface.typeStats();
+                        break;
                     case 'f':
                         Combat.BattleLoop(new WesternKing());
                         Interface.type("Somehow, you managed to beat the Western King. *ahem* Cheater *ahem*");
@@ -203,6 +210,7 @@ namespace Realm
                 templist.Add('s');
             if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('v');
             templist.Add('z');
             templist.Add('#');
             return templist.ToArray<char>();
@@ -212,6 +220,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case '#':
                     Save.SaveGame();
                     break;
@@ -239,11 +250,11 @@ namespace Realm
                             case 'y':
                                 Interface.type("Amid the -trash- gear on the ground, you find a tile with the letter 'G' on it.");
                                 Main.Player.backpack.Add(new cardboard_armor());
-                                Interface.type("Obtained 'Cardboard Armor'!");
+                                Interface.type("Obtained 'Cardboard Armor'!", ConsoleColor.Green);
                                 Main.Player.backpack.Add(new cardboard_sword());
-                                Interface.type("Obtained 'Cardboard Shield'!");
+                                Interface.type("Obtained 'Cardboard Shield'!", ConsoleColor.Green);
                                 Main.Player.backpack.Add(new cardboard_shield());
-                                Interface.type("Obtained 'Cardboard Shield'!");
+                                Interface.type("Obtained 'Cardboard Shield'!", ConsoleColor.Green);
                                 Main.forrestcounter++;
                                 break;
                             case 'n':
@@ -270,7 +281,7 @@ namespace Realm
     {
         protected override string GetDesc()
         {
-            return "You come across a river town centered around a massive well full of magically enriched electrolyte water. And the good stuff. Do you want to go north(n), south(s), east(e), west(w), backpack(b), or visit the town(v)";
+            return "You come across a river town centered around a massive well full of magically enriched electrolyte water. And the good stuff. Do you want to go north(n), south(s), east(e), west(w), backpack(b), or visit the town(t)";
         }
         public override char[] getAvailableCommands()
         {
@@ -288,6 +299,7 @@ namespace Realm
             if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
             templist.Add('v');
+            templist.Add('t');
             templist.Add('#');
             return templist.ToArray<char>();
         }
@@ -299,6 +311,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case '#':
                     Save.SaveGame();
                     break;
@@ -318,7 +333,7 @@ namespace Realm
                 case 's':
                     Map.PlayerPosition.y -= 1;
                     break;
-                case 'v':
+                case 't':
                     Interface.type("There is an inn(i) and an arms dealer(a). Or you can investigate the well(w).");
                     Interface.type("");
                     char tempinput = Interface.readkey().KeyChar;
@@ -349,9 +364,9 @@ namespace Realm
                                 case 'y':
                                     if (Player.Purchase(11, new wood_staff()))
                                     {
-                                        Interface.type("Obtained 'Wood Staff'!");
+                                        Interface.type("Obtained 'Wood Staff'!", ConsoleColor.Green);
                                         Main.Player.backpack.Add(new plastic_ring());
-                                        Interface.type("Obtained 'Plastic Ring'!");
+                                        Interface.type("Obtained 'Plastic Ring'!", ConsoleColor.Green);
                                         Interface.type("On the inside of the ring, the letter 'o' is embossed.");
                                         Interface.type("You buy the staff and the ring. He grins, and you know you've been ripped off.");
                                     }
@@ -412,6 +427,7 @@ namespace Realm
                 templist.Add('s');
             if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('v');
             templist.Add('#');
             templist.Add('a');
             templist.Add('l');
@@ -422,6 +438,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case '#':
                     Save.SaveGame();
                     break;
@@ -465,14 +484,14 @@ namespace Realm
                             if (Player.Purchase(15, new iron_lance()))
                             {
                                 Interface.type("It's almost as if he doesn't even see you.");
-                                Interface.type("Obtained 'Iron Lance'!");
+                                Interface.type("Obtained 'Iron Lance'!", ConsoleColor.Green);
                             }
                             break;
                         case 'b':
                             if (Player.Purchase(10, new iron_buckler()))
                             {
                                 Interface.type("It's almost as if he doesn't even see you.");
-                                Interface.type("Obtained 'Iron Buckler'!");
+                                Interface.type("Obtained 'Iron Buckler'!", ConsoleColor.Green);
                             }
                             break;
                         case 'n':
@@ -499,16 +518,17 @@ namespace Realm
                                         case 'a':
                                             Interface.type("You read of the maegi of old. As you flip through, something catches your eye. You see what looks to be ancient writing, but you somehow understand it.");
                                             Main.Player.abilities.AddCommand(new Combat.EnergyOverload("Energy Overload", 'e'));
-                                            Interface.type("Learned 'Energy Overload!'");
+                                            Interface.type("Learned 'Energy Overload!'", ConsoleColor.Cyan);
                                             break;
                                         case 'b':
                                             Interface.type("You pore over the pages, and see a diagram of an ancient technique, lost to the ages.");
                                             Main.Player.abilities.AddCommand(new Combat.BladeDash("Blade Dash", 'd'));
-                                            Interface.type("Learned 'Blade Dash'!");
+                                            Interface.type("Learned 'Blade Dash'!", ConsoleColor.Cyan);
                                             break;
                                         case 'c':
                                             Interface.type("You squint your eyes to see the tiny text. This tome convinces you of the existence of Lord Luxferre, the Bringer of Light. The book teaches you the importance of protecting others.");
                                             Main.Player.abilities.AddCommand(new Combat.HolySmite("Holy Smite", 'h'));
+                                            Interface.type("Learned 'Holy Smite'!", ConsoleColor.Cyan);
                                             break;
                                     }
                                 }
@@ -535,7 +555,7 @@ namespace Realm
     {
         protected override string GetDesc()
         {
-            return "You arrive at a small town situated between two valleys. Do you want to visit the town(v) or head to the inn(i)?";
+            return "You arrive at a small town situated between two valleys. Do you want to visit the town(t) or head to the inn(i)?";
         }
         public override Enemy getEnemyList()
         {
@@ -556,15 +576,19 @@ namespace Realm
                 templist.Add('s');
             if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('v');
             templist.Add('#');
             templist.Add('i');
-            templist.Add('v');
+            templist.Add('t');
             return templist.ToArray<char>();
         }
         public override bool _handleInput(char input)
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case '#':
                     Save.SaveGame();
                     break;
@@ -601,7 +625,7 @@ namespace Realm
                             break;
                     }
                     break;
-                case 'v':
+                case 't':
                     Interface.type("You visit the town. You may choose to visit with the townsfolk(t), or head to the artificer(a).");
                     char __tempinput = Interface.readkey().KeyChar;
                     switch (__tempinput)
@@ -614,7 +638,7 @@ namespace Realm
                                     if (Player.Purchase(15, new iron_band()))
                                     {
                                         Interface.type("He smiles weakly and thanks you.");
-                                        Interface.type("Obtained 'Iron Band'!");
+                                        Interface.type("Obtained 'Iron Band'!", ConsoleColor.Green);
                                     }
                                     break;
                                 case 'n':
@@ -667,6 +691,7 @@ namespace Realm
                 templist.Add('s');
             if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('v');
             templist.Add('#');
             templist.Add('y');
             return templist.ToArray<char>();
@@ -675,6 +700,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case '#':
                     Save.SaveGame();
                     break;
@@ -722,7 +750,7 @@ namespace Realm
                                                             {
                                                                 case 'y':
                                                                     Main.Player.abilities.AddCommand(new Combat.ConsumeSoul("Consume Soul", 'u'));
-                                                                    Interface.type("Learned 'Consume Soul'!");
+                                                                    Interface.type("Learned 'Consume Soul'!", ConsoleColor.Cyan);
                                                                     break;
                                                                 case 'n':
                                                                     Interface.type("You remember that you are an exemplary member of society and that you will by no means touch another's belongings without their consent. You leave the room like the good man you are.");
@@ -749,7 +777,7 @@ namespace Realm
                                                         break;
                                                     case 'n':
                                                         Main.Player.hp -= 2;
-                                                        Interface.type("You are trash. You are the pondscum of society. Repent and pay with your life. You take 2 damage.");
+                                                        Interface.type("You are trash. You are the pondscum of society. Repent and pay with your life. You take 2 damage.", ConsoleColor.Red);
                                                         break;
                                                 }
                                                 break;
@@ -757,12 +785,12 @@ namespace Realm
                                         break;
                                     case 's':
                                         Interface.type("You don't know how to read this language, however you do find a crumpled up map of the realm in the back of the book.");
-                                        Interface.type("Obtained 'Map'!");
+                                        Interface.type("Obtained 'Map'!", ConsoleColor.Green);
                                         Main.hasmap = true;
                                         break;
                                     case 'g':
                                         Main.intlbuff += 1;
-                                        Interface.type("You are touched by the art of cooking. Being forged in the flame of cooking, your ability to think up vicious insults has improved. Your intelligence has improved a little");
+                                        Interface.type("You are touched by the art of cooking. Being forged in the flame of cooking, your ability to think up vicious insults has improved. Your intelligence has improved a little", ConsoleColor.Blue);
                                         Main.gbooks++;
                                         break;
                                 }
@@ -815,6 +843,7 @@ namespace Realm
                 templist.Add('s');
             if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('v');
             templist.Add('#');
             templist.Add('l');
             templist.Add('g');
@@ -824,6 +853,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case '#':
                     Save.SaveGame();
                     break;
@@ -854,7 +886,8 @@ namespace Realm
                                     case 'y':
                                         Main.Player.hp -= 1;
                                         Main.spdbuff += 3;
-                                        Interface.type("You are exhausted from finishing the book, but you feel like your speed has increased a little.");
+                                        Interface.type("You are exhausted from finishing the book, ", ConsoleColor.Red);
+                                        Interface.typeOnSameLine("but you feel like your speed has increased a little.", ConsoleColor.Blue);
                                         break;
                                     case 'n':
                                         Interface.type("You decide that completing this book is not worth the time. Do you wish to put the book back in it's original spot on the bookshelf?(y/n)");
@@ -870,7 +903,7 @@ namespace Realm
                                                 {
                                                     case 'y':
                                                         Main.Player.hp -= 3;
-                                                        Interface.type("You lose 3 hp. Dirtbag.");
+                                                        Interface.type("You lose 3 hp. Dirtbag.", ConsoleColor.Red);
                                                         break;
                                                     case 'n':
                                                         Interface.type("You place the book back in the bookshelf.");
@@ -883,15 +916,15 @@ namespace Realm
                                 break;
                             case 't':
                                 Interface.type("You read of the exploits of the ancient hero Sariel, and his philosophies of protecting others.");
-                                Interface.type("Learned 'Dawnstrike'!");
+                                Interface.type("Learned 'Dawnstrike'!", ConsoleColor.Cyan);
                                 Main.Player.abilities.AddCommand(new Combat.Dawnstrike("Dawnstrike", 't'));
                                 break;
                             case 'h':
-                                Interface.type("You read 5000 pages on the history of the realm. You're not sure why you did that, but you feel smarter.");
+                                Interface.type("You read 5000 pages on the history of the realm. You're not sure why you did that, but you feel smarter.", ConsoleColor.Blue);
                                 Main.intlbuff += 2;
                                 break;
                             case 'g':
-                                Interface.type("You learn of the layers of granite and basalt on Planet ramsay.");
+                                Interface.type("You learn of the layers of granite and basalt on Planet Ramsay. You feel tougher.", ConsoleColor.Blue);
                                 Main.defbuff += 1;
                                 Main.gbooks++;
                                 break;
@@ -910,7 +943,7 @@ namespace Realm
                     {
                         case 'y':
                             if (Player.Purchase(50, new bt_plate()))
-                                Interface.type("Obtained 'Bloodmail'!");
+                                Interface.type("Obtained 'Bloodmail'!", ConsoleColor.Green);
                             break;
                         case 'n':
                             Interface.type("You leave.");
@@ -956,6 +989,7 @@ namespace Realm
                 templist.Add('s');
             if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('v');
             templist.Add('#');
             templist.Add('a');
             templist.Add('l');
@@ -968,6 +1002,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case '#':
                     Save.SaveGame();
                     break;
@@ -998,26 +1035,26 @@ namespace Realm
                         {
                             case 'a':
                                 Interface.type("You become enlightened in the ways of the elder wizard Alcywn.");
-                                Interface.type("Learned 'Curse'!");
+                                Interface.type("Learned 'Curse'!", ConsoleColor.Cyan);
                                 Main.Player.abilities.AddCommand(new Combat.Curse("Curse", 'c'));
                                 break;
                             case 'g':
-                                Interface.type("Now skilled in the art of stealing, you gain 10% more gold. You also feel faster.");
+                                Interface.type("Now skilled in the art of stealing, you gain 10% more gold. You also feel faster.", ConsoleColor.Blue);
                                 Main.is_theif = true;
                                 Main.spdbuff += 2;
                                 break;
                             case 's':
                                 Interface.type("You become skilled in the art of sacrifice.");
-                                Interface.type("Learned 'Sacrifice'!");
+                                Interface.type("Learned 'Sacrifice'!", ConsoleColor.Cyan);
                                 Main.Player.abilities.AddCommand(new Combat.Sacrifice("Sacrifice", 's'));
                                 break;
                             case 'v':
                                 Interface.type("You learn of the Void. You can phase in and out of reality.");
-                                Interface.type("Learned 'Phase'!");
+                                Interface.type("Learned 'Phase'!", ConsoleColor.Cyan);
                                 Main.Player.abilities.AddCommand(new Combat.Phase("Phase", 'p'));
                                 break;
                             case 'r':
-                                Interface.type("You become educated on the mathematics of cooking.");
+                                Interface.type("You become educated on the mathematics of cooking.", ConsoleColor.Blue);
                                 Main.intlbuff += 1;
                                 Main.gbooks++;
                                 break;
@@ -1030,14 +1067,14 @@ namespace Realm
                                         if (abilchance == 6)
                                         {
                                             Interface.type("You feel as if something incredible has happened.");
-                                            Interface.type("Learned 'Gamble'!");
+                                            Interface.type("Learned 'Gamble'!", ConsoleColor.Cyan);
                                             Main.Player.abilities.AddCommand(new Combat.Gamble("Gamble", '$'));
                                         }
                                         else
                                         {
                                             Interface.type("Wow you roll a" + abilchance);
                                             Main.Player.hp -= abilchance;
-                                            Interface.type("You lose" + abilchance + "hp");
+                                            Interface.type("You lose" + abilchance + "hp", ConsoleColor.Red);
                                         }
                                         break;
 
@@ -1062,19 +1099,19 @@ namespace Realm
                     {
                         case 'r':
                             Player.Purchase(30, new iron_rapier());
-                            Interface.type("Obtained 'Iron Rapier'!");
+                            Interface.type("Obtained 'Iron Rapier'!", ConsoleColor.Green);
                             break;
                         case 'c':
                             Player.Purchase(30, new iron_mail());
-                            Interface.type("Obtained 'Iron Chainmail!'!");
+                            Interface.type("Obtained 'Iron Chainmail!'!", ConsoleColor.Green);
                             break;
                         case 'b':
                             Player.Purchase(25, new iron_buckler());
-                            Interface.type("Obtained 'Iron Buckler'!");
+                            Interface.type("Obtained 'Iron Buckler'!", ConsoleColor.Green);
                             break;
                         case 'l':
                             Player.Purchase(50, new bt_longsword());
-                            Interface.type("Obatined 'Bloodthirsty Longsword'!");
+                            Interface.type("Obatined 'Bloodthirsty Longsword'!", ConsoleColor.Green);
                             break;
                         default:
                             break;
@@ -1083,19 +1120,21 @@ namespace Realm
                 case 'q':
                     if (Main.magiccounter == 0)
                     {
-                        Interface.type("You arrive at a shifty magic dealer in a back alley. He says, 'Hey! " + Main.Player.name + "! I can sell you this Blood Amulet(b, 50), a new ability(a, 50), or secret (s, 50). You game? You're not sure how he knows your name, but it freaks you out. (b, a, s)");
+                        Interface.type("You arrive at a shifty magic dealer in a back alley. He says, 'Hey! ");
+                        Interface.typeOnSameLine(Main.Player.name, ConsoleColor.White);
+                        Interface.typeOnSameLine("! I can sell you this Blood Amulet(b, 50), a new ability(a, 50), or secret (s, 50). You game? You're not sure how he knows your name, but it freaks you out. (b, a, s)");
                         switch (Interface.readkey().KeyChar)
                         {
                             case 'b':
                                 if (Player.Purchase(50, new blood_amulet()))
-                                    Interface.type("Obtained 'Blood Amulet'!");
+                                    Interface.type("Obtained 'Blood Amulet'!", ConsoleColor.Green);
                                 break;
                             case 'a':
                                 if (Player.Purchase(50))
                                 {
                                     Interface.type("He holds out his hand, and reality appears to bend around it. Kind of like the Degauss button on monitors from the 90's.");
                                     Main.Player.abilities.AddCommand(new Combat.VorpalBlades("Vorpal Blades", 'v'));
-                                    Interface.type("Learned 'Vorpal Blade'!");
+                                    Interface.type("Learned 'Vorpal Blade'!", ConsoleColor.Cyan);
                                 }
                                 break;
                             case 's':
@@ -1178,6 +1217,7 @@ namespace Realm
                 templist.Add('s');
             if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('v');
             templist.Add('#');
             templist.Add('a');
             templist.Add('l');
@@ -1190,6 +1230,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case '#':
                     Save.SaveGame();
                     break;
@@ -1212,19 +1255,19 @@ namespace Realm
                     {
                         case 'a':
                             if (Player.Purchase(100, new ds_amulet()))
-                                Interface.type("Obtained 'Darksteel Amulet'!");
+                                Interface.type("Obtained 'Darksteel Amulet'!", ConsoleColor.Green);
                             break;
                         case 'c':
                             if (Player.Purchase(110, new ds_scale()))
-                                Interface.type("Obatined 'Darksteel Scalemail'!");
+                                Interface.type("Obatined 'Darksteel Scalemail'!", ConsoleColor.Green);
                             break;
                         case 'k':
                             if (Player.Purchase(80, new ds_kris()))
-                                Interface.type("Obtained 'Darksteel Kris!'!");
+                                Interface.type("Obtained 'Darksteel Kris!'!", ConsoleColor.Green);
                             break;
                         case 's':
                             if (Player.Purchase(100, new ds_kite()))
-                                Interface.type("Obtained 'Darksteel Kite Shield'!");
+                                Interface.type("Obtained 'Darksteel Kite Shield'!", ConsoleColor.Green);
                             break;
                         default:
                             break;
@@ -1255,7 +1298,7 @@ namespace Realm
                     {
                         Main.Player.xp += 10;
                         Interface.type("You visit the house of the jobless former librarian. He says there is something very strange about that sword monument in Central. He says you can never go anywhere unarmed. He teaches you a new ability.");
-                        Interface.type("Learned 'Incinerate'!");
+                        Interface.type("Learned 'Incinerate'!", ConsoleColor.Cyan);
                         Main.Player.abilities.AddCommand(new Combat.Incinerate("Incinerate", 'a'));
                         Interface.type("As you're leaving, you notice the letter 'l' burned into the doorknob.");
                         Main.townfolkcounter++;
@@ -1295,6 +1338,7 @@ namespace Realm
                 templist.Add('s');
             if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('v');
             templist.Add('#');
             templist.Add('a');
             templist.Add('i');
@@ -1304,6 +1348,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case '#':
                     Save.SaveGame();
                     break;
@@ -1329,12 +1376,12 @@ namespace Realm
                     {
                         case 'b':
                             if (Player.Purchase(55, new bt_battleaxe()))
-                                Interface.type("Obtained 'Bloodthirsty Battleaxe'!");
+                                Interface.type("Obtained 'Bloodthirsty Battleaxe'!", ConsoleColor.Green);
                             Interface.type("The old man grins.");
                             break;
                         case 'g':
                             if (Player.Purchase(55, new bt_greatsword()))
-                                Interface.type("Obtained 'Bloodthirsty Greatsword'!");
+                                Interface.type("Obtained 'Bloodthirsty Greatsword'!", ConsoleColor.Green);
                             Interface.type("The old man grins.");
                             break;
                     }
@@ -1387,6 +1434,7 @@ namespace Realm
                 templist.Add('s');
             if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('v');
             templist.Add('#');
             templist.Add('a');
             templist.Add('k');
@@ -1396,6 +1444,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case '#':
                     Save.SaveGame();
                     break;
@@ -1416,36 +1467,36 @@ namespace Realm
                     Map.PlayerPosition.y -= 1;
                     break;
                 case 'g':
-                    Interface.type("You talk to the toothless man holding the wares. You may buy the Void Cloak(v, 150), the Illusory Plate(i, 150), or the Spectral Bulwark(s, 150). Or you may buy all 3(3, 300).");
+                    Interface.type("You talk to the toothless man holding the wares. You may buy the Void Cloak(c, 150), the Illusory Plate(i, 150), or the Spectral Bulwark(s, 150). Or you may buy all 3(3, 300).");
                     switch (Interface.readkey().KeyChar)
                     {
-                        case 'v':
+                        case 'c':
                             if (Player.Purchase(150, new void_cloak()))
                             {
                                 Interface.type("The toothless man reverently hands you artifact.");
-                                Interface.type("Obtained 'Void Cloak'!");
+                                Interface.type("Obtained 'Void Cloak'!", ConsoleColor.Green);
                             }
                             break;
                         case 'i':
                             if (Player.Purchase(150, new illusory_plate()))
                             {
                                 Interface.type("The toothless man reverently hands you artifact.");
-                                Interface.type("Obtained 'Illusory Plate'!");
+                                Interface.type("Obtained 'Illusory Plate'!", ConsoleColor.Green);
                             }
                             break;
                         case 's':
                             if (Player.Purchase(150, new spectral_bulwark()))
                             {
                                 Interface.type("The toothless man reverently hands you artifact.");
-                                Interface.type("Obtained 'Spectral Bulwark'!");
+                                Interface.type("Obtained 'Spectral Bulwark'!", ConsoleColor.Green);
                             }
                             break;
                         case '3':
                             if (Player.Purchase(300, new void_cloak()))
                             {
-                                Interface.type("Obtained 'Void Cloak'!");
-                                Interface.type("Obtained 'Spectral Bulwark'!");
-                                Interface.type("Obtained 'Illusory Plate'!");
+                                Interface.type("Obtained 'Void Cloak'!", ConsoleColor.Green);
+                                Interface.type("Obtained 'Spectral Bulwark'!", ConsoleColor.Green);
+                                Interface.type("Obtained 'Illusory Plate'!", ConsoleColor.Green);
 
                                 if (Main.Player.backpack.Count <= 10)
                                     Main.Player.backpack.Add(new void_cloak());
@@ -1475,7 +1526,7 @@ namespace Realm
                                 if (Player.Purchase(50))
                                 {
                                     Interface.type("You say yes, and he holds up hand, and some strange runes on his hand begin to glow.");
-                                    Interface.type("Learned 'Heavensplitter'!");
+                                    Interface.type("Learned 'Heavensplitter'!", ConsoleColor.Cyan);
                                     Interface.type("The old man also hands you a rune with the letter 's' inscribed.");
                                     Main.Player.abilities.AddCommand(new Combat.Heavensplitter("Heavensplitter", 'z'));
                                     Main.nomadcounter++;
@@ -1520,6 +1571,7 @@ namespace Realm
                 templist.Add('s');
             if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('v');
             templist.Add('#');
             templist.Add('a');
             templist.Add('i');
@@ -1529,6 +1581,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case '#':
                     Save.SaveGame();
                     break;
@@ -1560,21 +1615,21 @@ namespace Realm
                     }
                     break;
                 case 'a':
-                    Interface.type("You visit the arms dealer. It's being manned by a child. Buy Sunburst Saber(120, v) or Suburst Shield(100, s).");
+                    Interface.type("You visit the arms dealer. It's being manned by a child. Buy Sunburst Saber(120, a) or Suburst Shield(100, s).");
                     switch (Interface.readkey().KeyChar)
                     {
-                        case 'v':
+                        case 'a':
                             if (Player.Purchase(120, new sb_saber()))
                             {
                                 Interface.type("The child smiles gleefully and hands you the Sunburst Saber.");
-                                Interface.type("Obtained 'Sunburst Saber'!");
+                                Interface.type("Obtained 'Sunburst Saber'!", ConsoleColor.Green);
                             }
                             break;
                         case 's':
                             if (Player.Purchase(100, new sb_shield()))
                             {
                                 Interface.type("The child smiles and hands you the Sunburst Shield.");
-                                Interface.type("Obtained 'Sunburst Shield'!");
+                                Interface.type("Obtained 'Sunburst Shield'!", ConsoleColor.Green);
                             }
                             break;
                     }
@@ -1615,6 +1670,7 @@ namespace Realm
                 templist.Add('s');
             if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('v');
             templist.Add('#');
             templist.Add('a');
             templist.Add('i');
@@ -1624,6 +1680,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case '#':
                     Save.SaveGame();
                     break;
@@ -1651,14 +1710,14 @@ namespace Realm
                             if (Player.Purchase(150, new sb_chain()))
                             {
                                 Interface.type("The man hands you the Sunburst Ringmail.");
-                                Interface.type("Obtained 'Sunburst Ringmail'!");
+                                Interface.type("Obtained 'Sunburst Ringmail'!", ConsoleColor.Green);
                             }
                             break;
                         case 'g':
                             if (Player.Purchase(150, new sb_gauntlet()))
                             {
                                 Interface.type("The man hands you the Sunburst Gauntlet.");
-                                Interface.type("Obtained 'Sunburst Gauntlet'!");
+                                Interface.type("Obtained 'Sunburst Gauntlet'!", ConsoleColor.Green);
                             }
                             break;
                     }
@@ -1705,6 +1764,7 @@ namespace Realm
                 templist.Add('b');
             if (Main.hasmap)
                 templist.Add('m');
+            templist.Add('v');
             templist.Add('#');
             templist.Add('c');
             templist.Add('l');
@@ -1714,6 +1774,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case '#':
                     Save.SaveGame();
                     break;
@@ -1736,7 +1799,7 @@ namespace Realm
                                 else
                                     Interface.type("Not enough space.");
                                 Interface.type("The king falls to the ground, defeated. You pick up his night colored sword form the ground, and in your hand it changes to a shimmering blue claymore.");
-                                Interface.type("Obtained 'Phantasmal Claymore'!");
+                                Interface.type("Obtained 'Phantasmal Claymore'!", ConsoleColor.Green);
                                 Interface.type("A blue portal opens up with the glowing letter 'l' above it. You yell 'Jeronimo!' and jump through.");
                                 Map.PlayerPosition.x = 3;
                                 Map.PlayerPosition.y = 3;
@@ -1782,6 +1845,7 @@ namespace Realm
                 templist.Add('s');
             if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('v');
             templist.Add('a');
             templist.Add('i');
             templist.Add('c');
@@ -1794,6 +1858,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case 's':
                     Map.PlayerPosition.y -= 1;
                     break;
@@ -1806,15 +1873,15 @@ namespace Realm
                     {
                         case'a':
                             if (Player.Purchase(110, new a_amulet()))
-                                Interface.type("Obtained 'Azurite Amulet'!");
+                                Interface.type("Obtained 'Azurite Amulet'!", ConsoleColor.Green);
                             break;
                         case's':
                             if (Player.Purchase(120, new a_staff()))
-                                Interface.type("Obtained 'Azurite Staff'!");
+                                Interface.type("Obtained 'Azurite Staff'!", ConsoleColor.Green);
                             break;
                         case'c':
                             if (Player.Purchase(100, new a_mail()))
-                                Interface.type("Obtained 'Azurite Cloth'!");
+                                Interface.type("Obtained 'Azurite Cloth'!", ConsoleColor.Green);
                             break;
                         default:
                             break;
@@ -1857,7 +1924,7 @@ namespace Realm
                                             break;
                                         case 'f':
                                                 Interface.type("You try to ride the wave of steel and stone falling down hundreds of feet. Probably not the best of your ideas, you reflect as you fall. You hit the ground, and everything goes black.");
-                                                Interface.type("Press any key to continue.");
+                                                Interface.type("Press any key to continue.", ConsoleColor.White);
                                                 Interface.readkey();
                                                 Console.Clear();
                                                 if (Combat.Dice.roll(1, 3) == 1)
@@ -1877,7 +1944,7 @@ namespace Realm
                                                             {
                                                                 Main.Player.backpack.Add(new tome());
                                                                 Interface.type("You pick up the book.");
-                                                                Interface.type("Learned 'Force Pulse'!");
+                                                                Interface.type("Learned 'Force Pulse'!", ConsoleColor.Cyan);
                                                             }
                                                             Interface.type("It takes a few hours, but you climb your way out of the mine. You surface looking like a chimney sweep.");
                                                             break;
@@ -1936,6 +2003,7 @@ namespace Realm
                 templist.Add('s');
             if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('v');
             templist.Add('a');
             templist.Add('i');
             templist.Add('l');
@@ -1948,6 +2016,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case 'n':
                     Map.PlayerPosition.y += 1;
                     break;
@@ -1963,19 +2034,19 @@ namespace Realm
                     {
                         case 'a':
                             if (Player.Purchase(75, new ice_amulet()))
-                                Interface.type("Obtained 'Ice Amulet'!");
+                                Interface.type("Obtained 'Ice Amulet'!", ConsoleColor.Green);
                             break;
                         case 's':
                             if (Player.Purchase(75, new ice_shield()))
-                                Interface.type("Obtained 'Ice Shield'!");
+                                Interface.type("Obtained 'Ice Shield'!", ConsoleColor.Green);
                             break;
                         case 'd':
                             if (Player.Purchase(75, new ice_dagger()))
-                                Interface.type("Obtained 'Ice Dagger'!");
+                                Interface.type("Obtained 'Ice Dagger'!", ConsoleColor.Green);
                             break;
                         case 'i':
                             if (Player.Purchase(80, new swifites()))
-                                Interface.type("Obtained 'Icy Boots of Fast'!");
+                                Interface.type("Obtained 'Icy Boots of Fast'!", ConsoleColor.Green);
                             break;
                         default:
                             break;
@@ -2006,18 +2077,18 @@ namespace Realm
                         switch (Interface.readkey().KeyChar)
                         {
                             case 'c':
-                                Interface.type("You pick up the book entitled Cold. You read of the century long winter from the days of old. It kind of scares you, but you feel smarter and faster.");
+                                Interface.type("You pick up the book entitled Cold. You read of the century long winter from the days of old. It kind of scares you, but you feel smarter and faster.", ConsoleColor.Blue);
                                 Main.intlbuff += 2;
                                 Main.spdbuff += 2;
                                 break;
                             case 'f':
-                                Interface.type("You pick of the book entitled Frost. You learn of the event that froze over this once-warm town. It terrifies you, but you feel stronger and tougher.");
+                                Interface.type("You pick of the book entitled Frost. You learn of the event that froze over this once-warm town. It terrifies you, but you feel stronger and tougher.", ConsoleColor.Blue);
                                 Main.atkbuff += 2;
                                 Main.defbuff += 2;
                                 break;
                             case 'i':
                                 Interface.type("You pick up the book entitled Ice. You learn of the ancient sorcer who was able to cast ice spells by drawing the heat out of the air, and the water from the ground.");
-                                Interface.type("Learned 'Ice Chains'!");
+                                Interface.type("Learned 'Ice Chains'!", ConsoleColor.Cyan);
                                 Main.Player.abilities.AddCommand(new Combat.IceChains("Ice Chains", 'i'));
                                 break;
                             default:
@@ -2063,6 +2134,7 @@ namespace Realm
                 templist.Add('s');
             if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
                 templist.Add('n');
+            templist.Add('v');
             templist.Add('a');
             templist.Add('i');
             templist.Add('l');
@@ -2075,6 +2147,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case 'e':
                     Map.PlayerPosition.x += 1;
                     break;
@@ -2093,19 +2168,19 @@ namespace Realm
                     {
                         case 'a':
                             if (Player.Purchase(15, new m_robes()))
-                                Interface.type("Obtained 'Apprentice Robes'!");
+                                Interface.type("Obtained 'Apprentice Robes'!", ConsoleColor.Green);
                             break;
                         case 'j':
                             if (Player.Purchase(12, new m_staff()))
-                                Interface.type("Obtained 'Junior Mage Staff'!");
+                                Interface.type("Obtained 'Junior Mage Staff'!", ConsoleColor.Green);
                             break;
                         case 'm':
                             if (Player.Purchase(10, new m_tome()))
-                                Interface.type("Obtained 'Magic for Dummies'!");
+                                Interface.type("Obtained 'Magic for Dummies'!", ConsoleColor.Green);
                             break;
                         case 'r':
                             if (Player.Purchase(15, new m_amulet()))
-                                Interface.type("Obtained 'Magic Ring'!");
+                                Interface.type("Obtained 'Magic Ring'!", ConsoleColor.Green);
                             break;
                         default:
                             break;
@@ -2137,17 +2212,17 @@ namespace Realm
                         {
                             case 'd':
                                 Interface.type("You learn about how the first mages learned to make themselves dissapear.");
-                                Interface.type("Learned 'Now You See Me'!");
+                                Interface.type("Learned 'Now You See Me'!", ConsoleColor.Cyan);
                                 Main.Player.abilities.AddCommand(new Combat.NowYouSeeMe("Now You See Me", 'y'));
                                 break;
                             case 'i':
                                 Interface.type("You learn about how the first wizards learnt to decieve people's minds.");
-                                Interface.type("Learned 'Illusion'!");
+                                Interface.type("Learned 'Illusion'!", ConsoleColor.Cyan);
                                 Main.Player.abilities.AddCommand(new Combat.Illusion("Illusion", '?'));
                                 break;
                             case 'm':
                                 Interface.type("You learn of how to make cool lasers with magic.");
-                                Interface.type("Learned 'Pew Pew Pew'!");
+                                Interface.type("Learned 'Pew Pew Pew'!", ConsoleColor.Cyan);
                                 Main.Player.abilities.AddCommand(new Combat.PewPewPew("Pew Pew Pew", 'w'));
                                 break;
                             default:
@@ -2200,6 +2275,7 @@ namespace Realm
             List<char> templist = new List<char>();
             if (Main.Player.backpack.Count > 0)
                 templist.Add('b');
+            templist.Add('v');
             templist.Add('f');
             templist.Add('#');
             return templist.ToArray<char>();
@@ -2222,6 +2298,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case 'f':
                     if (Map.CavePosition < Map.cavemap.GetUpperBound(0))
                         Map.CavePosition += 1;
@@ -2253,15 +2332,18 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case 'h':
                     if (Combat.Dice.roll(1, 2) == 1)
                     {
                         Main.Player.hp -= 2;
-                        Interface.type("You cut yourself trying to harvest the crystals and give up.");
+                        Interface.type("You cut yourself trying to harvest the crystals and give up.", ConsoleColor.Red);
                     }
                     else
                     {
-                        Interface.type("As you harvest them, the crystals glow, and energy seeps through your veins and into your brain. Your vision becomes very bright, and you feel enlightened.");
+                        Interface.type("As you harvest them, the crystals glow, and energy seeps through your veins and into your brain. Your vision becomes very bright, and you feel enlightened.", ConsoleColor.Blue);
                         Main.intlbuff += 3;
                     }
                     break;
@@ -2292,18 +2374,21 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case 'c':
                     int roll = Combat.Dice.roll(1, 4);
                     if (roll == 1)
                     {
                         Main.Player.hp -= 5;
-                        Interface.type("Bad trip! You puke blood everywhere and take heavy damage.");
+                        Interface.type("Bad trip! You puke blood everywhere and take heavy damage.", ConsoleColor.Red);
                         if (Main.Player.hp <= 0)
                             End.GameOver();
                     }
                     else if (roll == 2)
                     {
-                        Interface.type("You feel like you just drank 6 espressi, and you're bouncing off the walls.");
+                        Interface.type("You feel like you just drank 6 espressi, and you're bouncing off the walls.", ConsoleColor.Blue);
                         Main.spdbuff += 3;
                     }
                     else if (roll == 3)
@@ -2313,7 +2398,7 @@ namespace Realm
                     }
                     else if (roll == 4)
                     {
-                        Interface.type("The mushroom you just ate was a hypersteroid. You grow taller, your muscles bigger, and all in less than a minute. It's kind of painful though.");
+                        Interface.type("The mushroom you just ate was a hypersteroid. You grow taller, your muscles bigger, and all in less than a minute. It's kind of painful though.", ConsoleColor.Blue);
                         Main.Player.maxhp += 2;
                         Main.atkbuff += 1;
                     }
@@ -2345,12 +2430,15 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case 'd':
                     int roll = Combat.Dice.roll(1, 2);
                     if (roll == 1)
                     {
                         Main.Player.hp -= 7;
-                        Interface.type("The water isn't actually water. It's arsenic.");
+                        Interface.type("The water isn't actually water. It's arsenic.", ConsoleColor.Red);
                         if (Main.Player.hp <= 0)
                             End.GameOver();
                     }
@@ -2387,6 +2475,9 @@ namespace Realm
         {
             switch (input)
             {
+                case 'v':
+                    Interface.typeStats();
+                    break;
                 case 'k':
                     Combat.BattleLoop(new Dragon());
                     Interface.type("You escape the cave! You find youself in a sewer, and when you finally pull yourself out, you're in Central.");

@@ -51,8 +51,11 @@ namespace Realm
             List<string> racelist = new List<string>{ "human", "elf", "rockman", "giant", "zephyr", "shade" };
             List<string> classlist = new List<string> { "warrior", "paladin", "mage", "thief" };
             is_typing = true;
-            Interface.type("Welcome, " + Player.name + ", to Realm.");
+            Interface.type("Welcome, ");
+            Interface.typeOnSameLine(Player.name, ConsoleColor.White);
+            Interface.typeOnSameLine(", to Realm.");
             Interface.type("To do anything in Realm, simply press one of the listed commands.");
+            Interface.type("If at any time, you wish to you view you stats, press 'v'");
             Interface.type("Make sure to visit every library! They offer many valuable abilities as well as experience.");
             Interface.type("When in combat, select an availible move. All damage is randomized. Mana is refilled after each fight.");
             Interface.type("While in the backpack, simply select a number corresponding to an item. You may swap this item in or out. Make sure to equip an item once you pick it up!");
@@ -68,7 +71,7 @@ namespace Realm
                 race = Interface.readinput();
             }
             Player.race = race;
-            Interface.type("You have selected " + Interface.ToUpperFirstLetter(Player.race) + ".");
+            Interface.type("You have selected " + Interface.ToUpperFirstLetter(Player.race) + ".", ConsoleColor.Magenta);
             Interface.type("Each player also has a class. You may choose from Warrior, Paladin, Mage, or Thief.");
             Interface.type("Please enter a class. ");
             string pclass = Interface.readinput();
@@ -78,9 +81,9 @@ namespace Realm
                 pclass = Interface.readinput();
             }
             Player.pclass = pclass;
-            Interface.type("You have selected " + Interface.ToUpperFirstLetter(Player.pclass) + ".");
+            Interface.type("You have selected " + Interface.ToUpperFirstLetter(Player.pclass) + ".", ConsoleColor.Magenta);
             Interface.type("You are now ready to play Realm. Good luck!");
-            Interface.type("Press any key to continue.");
+            Interface.type("Press any key to continue.", ConsoleColor.White);
             Interface.readkey();
             Map.PlayerPosition.x = 0;
             Map.PlayerPosition.y = 6;
@@ -94,6 +97,7 @@ namespace Realm
             Place currPlace;
             if (devmode)
             {
+                Interface.type("Dev Powers!", ConsoleColor.DarkMagenta);
                 Player.primary = new phantasmal_claymore();
                 Player.secondary = new spectral_bulwark();
                 Player.armor = new illusory_plate();
@@ -133,20 +137,9 @@ namespace Realm
                 if (gbooks >= 3 && !Player.abilities.commandChars.Contains('@'))
                 {
                     Interface.type("Having read all of the Ramsay books, you are enlightened in the ways of Gordon Ramsay.");
-                    Interface.type("Learned 'Hell's Kitchen'!");
+                    Interface.type("Learned 'Hell's Kitchen'!", ConsoleColor.Cyan);
                     Player.abilities.AddCommand(new Combat.HellsKitchen("Hell's Kitchen", '@'));
                 }
-                if (!devmode)
-                {
-                    Interface.type("-------------------------------------");
-                    Interface.type(Player.name + "(" + Interface.ToUpperFirstLetter(Player.race) + ")," + " Level " + Player.level + " " + Interface.ToUpperFirstLetter(Player.pclass) + ":");
-                    Interface.type("HP: " + Player.hp + "/" + Player.maxhp);
-                    Interface.type("Attack: " + Player.atk + " / Defense: " + Player.def + " / Speed: " + Player.spd + " / Intelligence: " + Player.intl);
-                    Interface.type("Mana: " + (1 + (Player.intl / 10)));
-                    Interface.type("Gold: " + Player.g + " / Exp to Level: " + (Player.xp_next - Player.xp));
-                    Interface.type("-------------------------------------");
-                }
-
                 //currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
                 if (!devmode)
                     Interface.type(currPlace.Description);

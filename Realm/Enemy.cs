@@ -32,14 +32,14 @@ namespace Realm
         public virtual void droploot()
         {
             int gold = Combat.Dice.roll(1, gpdice);
-            Interface.type("You gain " + gold + " gold.");
+            Interface.type("You gain " + gold + " gold.", ConsoleColor.Yellow);
             if (!Main.is_theif)
                 Main.Player.g += gold;
             else
                 Main.Player.g += (gold + (gold / 10));
 
             int xp = Combat.Dice.roll(1, xpdice);
-            Interface.type("You gained " + xp + " xp.");
+            Interface.type("You gained " + xp + " xp.", ConsoleColor.Yellow);
             Main.Player.xp += xp;
         }
         public Enemy()
