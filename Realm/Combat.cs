@@ -27,26 +27,26 @@ namespace Realm
             bool is_turn = enemy.spd < Main.Player.spd;
             while (enemy.hp >= 0)
             {
-                Interface.type("//////////////////////", ConsoleColor.Green);
-                Interface.type("Your HP: " + Main.Player.hp, ConsoleColor.Green);
-                Interface.type("Your Mana: " + mana, ConsoleColor.Green);
-                Interface.type("----------------------", ConsoleColor.Green);
-                Interface.type("Enemy HP: " + enemy.hp, ConsoleColor.DarkGreen);
-                Interface.type("//////////////////////", ConsoleColor.Green);
+                Interface.type("----------------------", ConsoleColor.Blue);
+                Interface.type("Your HP: " + Main.Player.hp, ConsoleColor.Blue);
+                Interface.type("Your Mana: " + mana, ConsoleColor.Blue);
+                Interface.type("----------------------", ConsoleColor.Blue);
+                Interface.type("Enemy HP: " + enemy.hp, ConsoleColor.Red);
+                Interface.type("----------------------", ConsoleColor.Blue);
                 if (is_turn && !Main.Player.stunned)
                 {
                     if (Main.Player.phased)
                         Main.Player.phased = false;
-                    Interface.type("\r\nAVAILABLE MOVES:", ConsoleColor.DarkCyan);
-                    Interface.type("=========================", ConsoleColor.DarkCyan);
+                    Interface.type("\r\nAVAILABLE MOVES:", ConsoleColor.Blue);
+                    Interface.type("-------------", ConsoleColor.Blue);
                     int i = 0;
                     foreach (Realm.Combat.Command c in Main.Player.abilities.commands.Values)
                     {
                         string src = "||   " + c.cmdchar + ". " + c.name;
-                        Interface.type(src, ConsoleColor.Cyan);
+                        Interface.type(src, ConsoleColor.Blue);
                         i++;
                     }
-                    Interface.type("=========================", ConsoleColor.DarkCyan);
+                    Interface.type("-------------", ConsoleColor.Blue);
                     Interface.type("");
 
                     if (Main.Player.fire >= 3)

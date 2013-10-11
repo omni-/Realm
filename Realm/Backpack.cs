@@ -18,18 +18,19 @@ namespace Realm
             {
                 Item i = (Item)Data;
                 Interface.type(i.name);
-                Interface.type("Description: " + i.desc);
-                Interface.type("Attack Buff: " + i.atkbuff + " / Defense Buff: " + i.defbuff + " / Speed Buff: " + i.spdbuff + " / Intelligence Buff: " + i.intlbuff);
+                Interface.type("Description: " + i.desc, ConsoleColor.Green);
+                Interface.type("Attack Buff: " + i.atkbuff + " / Defense Buff: " + i.defbuff + " / Speed Buff: " + i.spdbuff + " / Intelligence Buff: " + i.intlbuff, ConsoleColor.Green);
                 if (i.slot == 1)
-                    Interface.type("Slot: Primary");
+                    Interface.type("Slot: Primary", ConsoleColor.Green);
                 else if (i.slot == 2)
-                    Interface.type("Slot: Secondary");
+                    Interface.type("Slot: Secondary", ConsoleColor.Green);
                 else if (i.slot == 3)
-                    Interface.type("Slot: Armor");
+                    Interface.type("Slot: Armor", ConsoleColor.Green);
                 else if (i.slot == 4)
-                    Interface.type("Slot: Accessory");
-                Interface.type("Tier: " + i.tier);
-                Interface.type("Enter (y) to equip this item, (d) to destroy and anything else to go back.");
+                    Interface.type("Slot: Accessory", ConsoleColor.Green);
+                Interface.type("Tier: ", ConsoleColor.Green);
+                Interface.typeOnSameLine(i.tier.ToString(), (i.tier == 0 ? ConsoleColor.Gray : i.tier == 1 ? ConsoleColor.White : i.tier == 2 ? ConsoleColor.Blue : i.tier == 3 ? ConsoleColor.Yellow : i.tier == 4 ? ConsoleColor.Red : i.tier == 5 ? ConsoleColor.Magenta : i.tier == 6 ? ConsoleColor.Cyan : ConsoleColor.DarkRed));
+                Interface.type("Enter (y) to equip this item, (d) to destroy and anything else to go back.", ConsoleColor.Green);
                 char c = Interface.readkey().KeyChar;
                 switch (c)
                 {
@@ -78,15 +79,15 @@ namespace Realm
         public static void BackpackLoop()
         {
             bool loopcontrol = true;
-            Console.BackgroundColor = ConsoleColor.DarkYellow;
             while (loopcontrol)
             {
-                Interface.type("**********Current Equipment**********");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Interface.type("----------Current Equipment----------");
                 Interface.type("Primary: " + Main.Player.primary.name);
                 Interface.type("Secondary: " + Main.Player.secondary.name);
                 Interface.type("Armor: " + Main.Player.armor.name);
                 Interface.type("Accessory: " + Main.Player.accessory.name);
-                Interface.type("*************************************");
+                Interface.type("-------------------------------------");
                 int q = 1;
                 Combat.CommandTable cmd = new Combat.CommandTable();
                 foreach (Item i in Main.Player.backpack)

@@ -44,7 +44,7 @@ namespace Realm
         public static bool devmode = false;
         public static bool hasmap = false;
 
-        public static string devstring = "__dev__";
+        public static string devstring = "Cooper";
 
         public static void Tutorial()
         {
@@ -146,17 +146,17 @@ namespace Realm
                 else
                     Interface.type(currPlace.ToString());
                 char[] currcommands = currPlace.getAvailableCommands();
-                Console.Write("\r\nYour current commands are x");
+                Interface.typeOnSameLine("\r\nYour current commands are x", ConsoleColor.DarkBlue);
                 foreach (char c in currcommands)
                 {
-                    Console.Write(", {0}", c);
+                    Interface.typeOnSameLine(", " + c, ConsoleColor.DarkBlue);
                 }
                 Interface.type("");
 
                 ConsoleKeyInfo command = Interface.readkey();
                 if (command.KeyChar == 'x')
                 {
-                    Interface.type("\r\nAre you sure?");
+                    Interface.type("\r\nAre you sure?", ConsoleColor.Red);
                     char surecommand = Interface.readkey().KeyChar;
                     if (surecommand == 'y')
                     {
@@ -174,8 +174,15 @@ namespace Realm
                     {
                         string combat_input = Interface.readinput();
                         Type etype = Type.GetType("Realm." + combat_input);
-                        Enemy e = (Enemy)Activator.CreateInstance(etype);
-                        Combat.BattleLoop(e);
+                        try
+                        {
+                            Enemy e = (Enemy)Activator.CreateInstance(etype);
+                            Combat.BattleLoop(e);
+                        }
+                        catch (ArgumentNullException)
+                        {
+                            Interface.type("Invalid Enemy.");
+                        }
                     }
                     else if (input == "n")
                         Player.name = Interface.readinput();
@@ -183,29 +190,52 @@ namespace Realm
                     {
                         string add_input = Interface.readinput();
                         Type atype = Type.GetType("Realm." + add_input);
-                        Item i = (Item)Activator.CreateInstance(atype);
-                        if (Player.backpack.Count <= 10)
-                            Player.backpack.Add(i);
-                        else
-                            Interface.type("Not enough space.");
-                        Interface.type("Obtained '" + i.name + "'!");
+                        try
+                        {
+                            Item i = (Item)Activator.CreateInstance(atype);
+
+                            if (Player.backpack.Count <= 10)
+                            {
+                                Player.backpack.Add(i);
+                                Interface.type("Obtained '" + i.name + "'!");
+                            }
+                            else
+                            {
+                                Interface.type("Not enough space.");
+                            }
+                        }
+                        catch (ArgumentNullException)
+                        {
+                            Interface.type("Invalid Item.");
+                        }
                     }
                     else if (input == "p")
                     {
                         string p_input = Interface.readinput();
                         Type atype = Type.GetType("Realm." + p_input);
-                        Item i = (Item)Activator.CreateInstance(atype);
-                        Player.primary = i;
+                        try
+                        {
+                            Item i = (Item)Activator.CreateInstance(atype);
+                            Player.primary = i;
+                        }
+                        catch (ArgumentNullException)
+                        {
+                            Interface.type("Invalid Item.");
+                        }
                     }
-                    else if (input == "t")
-                    {
-                        string place_input = Interface.readinput();
-                        Type ptype = Type.GetType("Realm." + place_input);
-                        Place p = (Place)Activator.CreateInstance(ptype);
-                    }
+                    //else if (input == "t")
+                    //{
+                    //    string place_input = Interface.readinput();
+                    //    Type ptype = Type.GetType("Realm." + place_input);
+                    //    Place p = (Place)Activator.CreateInstance(ptype);
+                    //}
                     else if (input == "l")
                     {
-                        int level = Convert.ToInt32(Interface.readinput());
+                        Main.Player.level = Convert.ToInt32(Interface.readinput());
+                    }
+                    else if (input == "x")
+                    {
+                        Main.Player.xp += Main.Player.xp_next;
                     }
                 }
                 else

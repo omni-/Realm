@@ -105,7 +105,7 @@ namespace Realm
                             {
                                 throw devmode;
                             }
-                            catch(Exception e)
+                            catch(Exception)
                             {
                                 Interface.type(devmode.ToString(), ConsoleColor.White);
                                 if (File.Exists(path))
@@ -332,16 +332,16 @@ namespace Realm
                     return true;
                 }
             }
-            catch (IOException e)
+            catch (IOException)
             {
                 Interface.type("Load failed.", ConsoleColor.White);
-                Interface.type(e.ToString(), 0);
+               // Interface.type(e.ToString(), 0);
                 return false;
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 Interface.type("Load failed.", ConsoleColor.White);
-                Interface.type(e.ToString(), 0);
+                //Interface.type(e.ToString(), 0);
                 return false;
             }
         }

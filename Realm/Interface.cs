@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,27 +34,6 @@ namespace Realm
             }
             Main.is_typing = false;
         }
-        //public static void typeAbility(string abilityname)
-        //{
-        //    Main.is_typing = true;
-        //    Console.WriteLine("\r\n");
-        //    string leanred = "Learned '";
-        //    string exclaim = "'!";
-        //    foreach (char c in leanred)
-        //    {
-        //        Console.Write(c);
-        //        Thread.SpinWait(1000000);
-        //    }
-        //    Console.ForegroundColor = ConsoleColor.Cyan;
-        //    Console.Write(abilityname);
-        //    Console.ResetColor();
-        //    foreach (char c in exclaim)
-        //    {
-        //        Console.Write(c);
-        //        Thread.SpinWait(1000000);
-        //    }
-        //    Main.is_typing = false;
-        //}
         public static void typeStats()
         {
             Interface.type("--------------STATS-----------------", ConsoleColor.Yellow);
@@ -135,41 +116,79 @@ namespace Realm
         }
         public static void type(string src, bool rainbow)
         {
-            Main.is_typing = true;
-            List<ConsoleColor> colors = new List<ConsoleColor>{ConsoleColor.Blue, ConsoleColor.Cyan, ConsoleColor.DarkBlue, ConsoleColor.DarkCyan, ConsoleColor.DarkGray, ConsoleColor.DarkGreen, ConsoleColor.DarkMagenta, ConsoleColor.DarkRed, ConsoleColor.DarkYellow, ConsoleColor.Gray, ConsoleColor.Green, ConsoleColor.Magenta, ConsoleColor.Red, ConsoleColor.White, ConsoleColor.Yellow};
-            Console.WriteLine("\r\n");
-            int i = 0;
-            foreach (char c in src)
+            if (rainbow)
             {
-                Console.ForegroundColor = colors[i];
-                Console.Write(c);
-                Thread.SpinWait(1000000);
+                Main.is_typing = true;
+                List<ConsoleColor> colors = new List<ConsoleColor> { ConsoleColor.Blue, ConsoleColor.Cyan, ConsoleColor.DarkMagenta, ConsoleColor.Green, ConsoleColor.Magenta, ConsoleColor.Red, ConsoleColor.White, ConsoleColor.Yellow };
+                Console.WriteLine("\r\n");
+                string[] words = src.Split();
+                int i = 0;
+                foreach (string word in words)
+                {
+                    if (word != words[0])
+                        Console.Write(" ");
+                    Console.ForegroundColor = colors[i];
+                    foreach (char c in word)
+                    {
+                        Console.Write(c);
+                        Thread.SpinWait(1000000);
+                    }
+                    i++;
+                    if (i > colors.Count - 1)
+                        i = 0;
+                }
+                Main.is_typing = false;
                 Console.ResetColor();
-                i++;
-                if (i > colors.Count - 1)
-                    i = 0;
             }
-            Main.is_typing = false;
-            Console.ResetColor();
+            else
+            {
+                Main.is_typing = true;
+                Console.WriteLine("\r\n");
+                foreach (char c in src)
+                {
+                    Console.Write(c);
+                    Thread.SpinWait(1000000);
+                }
+                Main.is_typing = false;
+            }
         }
         public static void type(string src, int speed, bool rainbow)
         {
-            Main.is_typing = true;
-            List<ConsoleColor> colors = new List<ConsoleColor> { ConsoleColor.Blue, ConsoleColor.Cyan, ConsoleColor.DarkBlue, ConsoleColor.DarkCyan, ConsoleColor.DarkGray, ConsoleColor.DarkGreen, ConsoleColor.DarkMagenta, ConsoleColor.DarkRed, ConsoleColor.DarkYellow, ConsoleColor.Gray, ConsoleColor.Green, ConsoleColor.Magenta, ConsoleColor.Red, ConsoleColor.White, ConsoleColor.Yellow };
-            Console.WriteLine("\r\n");
-            int i = 0;
-            foreach (char c in src)
+            if (rainbow)
             {
-                Console.ForegroundColor = colors[i];
-                Console.Write(c);
-                Thread.SpinWait(1000000 * speed);
+                Main.is_typing = true;
+                List<ConsoleColor> colors = new List<ConsoleColor> { ConsoleColor.Blue, ConsoleColor.Cyan, ConsoleColor.DarkMagenta, ConsoleColor.Green, ConsoleColor.Magenta, ConsoleColor.Red, ConsoleColor.White, ConsoleColor.Yellow };
+                Console.WriteLine("\r\n");
+                string[] words = src.Split();
+                int i = 0;
+                foreach (string word in words)
+                {
+                    if (word != words[0])
+                        Console.Write(" ");
+                    Console.ForegroundColor = colors[i];
+                    foreach (char c in word)
+                    {
+                        Console.Write(c);
+                        Thread.SpinWait(1000000 * speed);
+                    }
+                    i++;
+                    if (i > colors.Count - 1)
+                        i = 0;
+                }
+                Main.is_typing = false;
                 Console.ResetColor();
-                i++;
-                if (i > colors.Count - 1)
-                    i = 0;
             }
-            Main.is_typing = false;
-            Console.ResetColor();
+            else
+            {
+                Main.is_typing = true;
+                Console.WriteLine("\r\n");
+                foreach (char c in src)
+                {
+                    Console.Write(c);
+                    Thread.SpinWait(1000000 * speed);
+                }
+                Main.is_typing = false;
+            }
         }
         public static ConsoleKeyInfo readkey()
         {
@@ -191,12 +210,24 @@ namespace Realm
         }
         public static string readinput(bool ExactSpelling)
         {
-            while (Main.is_typing)
+            if (ExactSpelling)
             {
-                while (Console.KeyAvailable) Console.ReadKey(true);
-                ConsoleKeyInfo key = Console.ReadKey(true);
+                while (Main.is_typing)
+                {
+                    while (Console.KeyAvailable) Console.ReadKey(true);
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+                }
+                return Console.ReadLine();
             }
-            return Console.ReadLine();
+            else
+            {
+                while (Main.is_typing)
+                {
+                    while (Console.KeyAvailable) Console.ReadKey(true);
+                    ConsoleKeyInfo key = Console.ReadKey(true);
+                }
+                return Console.ReadLine().ToLower();
+            }
         }
         public static void drawmap()
         {
@@ -240,6 +271,49 @@ namespace Realm
             letters[0] = char.ToUpper(letters[0]);
             // return the array made of the new char array
             return new string(letters);
+        }
+        public static SecureString getPassword()
+        {
+            SecureString pwd = new SecureString();
+            while (true)
+            {
+                ConsoleKeyInfo i = Console.ReadKey(true);
+                if (i.Key == ConsoleKey.Enter)
+                {
+                    break;
+                }
+                else if (i.Key == ConsoleKey.Backspace)
+                {
+                    try
+                    {
+                        pwd.RemoveAt(pwd.Length - 1);
+                        Console.Write("\b \b");
+                    }
+                    catch(ArgumentOutOfRangeException)
+                    {
+
+                    }
+                }
+                else
+                {
+                    pwd.AppendChar(i.KeyChar);
+                    Console.Write("*");
+                }
+            }
+            return pwd;
+        }
+        public static String SecureStringToString(SecureString value)
+        {
+            IntPtr bstr = Marshal.SecureStringToBSTR(value);
+
+            try
+            {
+                return Marshal.PtrToStringBSTR(bstr);
+            }
+            finally
+            {
+                Marshal.FreeBSTR(bstr);
+            }
         }
     }
 }
