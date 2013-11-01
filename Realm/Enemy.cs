@@ -182,7 +182,7 @@ namespace Realm
         public WesternKing()
         {
             name = "Western King";
-            hp = 150 + (level / 2);
+            hp = 1500 + (level / 2);
             atk = 50 + (level / 2);
             def = 35 + (level / 2);
             spd = 25 + (level / 2);

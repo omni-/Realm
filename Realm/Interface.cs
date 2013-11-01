@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,6 +12,23 @@ namespace Realm
 {
     public static class Interface
     {
+        public static string GetTitle()
+        {
+            List<string> titlelist = new List<string>();
+            titlelist.Add("Slimes OP");
+            titlelist.Add("Now with Color!");
+            titlelist.Add("Stochastic!");
+            titlelist.Add("Sammy Classic Sonic Fan!");
+            titlelist.Add("Realm: Realm:");
+            titlelist.Add("Realm 2 Coming -Soon- Someday!");
+            titlelist.Add("A Game of Slimes");
+            titlelist.Add("Rustling Jimmies since 2013!");
+            titlelist.Add("Revengeance");
+            titlelist.Add("Redemption");
+            titlelist.Add("A Slimes' Tale");
+            int result = Main.rand.Next(0, titlelist.Count + 1);
+            return titlelist[result];
+        }
         public static void type(string src, int speed)
         {
             Main.is_typing = true;
@@ -22,7 +40,6 @@ namespace Realm
             }
             Main.is_typing = false;
         }
-
         public static void type(string src)
         {
             Main.is_typing = true;
@@ -34,6 +51,27 @@ namespace Realm
             }
             Main.is_typing = false;
         }
+        //public static void typeAbility(string abilityname)
+        //{
+        //    Main.is_typing = true;
+        //    Console.WriteLine("\r\n");
+        //    string leanred = "Learned '";
+        //    string exclaim = "'!";
+        //    foreach (char c in leanred)
+        //    {
+        //        Console.Write(c);
+        //        Thread.SpinWait(1000000);
+        //    }
+        //    Console.ForegroundColor = ConsoleColor.Cyan;
+        //    Console.Write(abilityname);
+        //    Console.ResetColor();
+        //    foreach (char c in exclaim)
+        //    {
+        //        Console.Write(c);
+        //        Thread.SpinWait(1000000);
+        //    }
+        //    Main.is_typing = false;
+        //}
         public static void typeStats()
         {
             Interface.type("--------------STATS-----------------", ConsoleColor.Yellow);

@@ -456,7 +456,7 @@ namespace Realm
         public void tomeability()
         {
             if (!Main.Player.abilities.commands.ContainsKey('p'))
-                Main.Player.abilities.AddCommand(new Combat.ForcePulse("Force Pulse", 'p'));
+                Main.Player.abilities.AddCommand(new Combat.ForcePulse("Force Pulse", 'f'));
         }
         public tome()
         {

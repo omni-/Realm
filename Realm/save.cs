@@ -100,20 +100,20 @@ namespace Realm
                     {
                         if (entry.Key == "devmode")
                         {
-                            Exception devmode = new Exception("Devmode detected. Save file deleted");
-                            try
-                            {
+                            Exception devmode = new Exception("Devmode detected. Load save aborted.");
+                            //try
+                            //{
                                 throw devmode;
-                            }
-                            catch(Exception)
-                            {
-                                Interface.type(devmode.ToString(), ConsoleColor.White);
-                                if (File.Exists(path))
-                                    File.Delete(path);
-                                Interface.type("Press any key to continue.", ConsoleColor.White);
-                                Interface.readkey();
-                                Environment.Exit(0);
-                            }
+                            //}
+                            //catch(Exception)
+                            //{
+                            //    Interface.type(devmode.ToString(), ConsoleColor.White);
+                            //    if (File.Exists(path))
+                            //        File.Delete(path);
+                            //    Interface.type("Press any key to continue.", ConsoleColor.White);
+                            //    Interface.readkey();
+                            //    Environment.Exit(0);
+                            //}
                         }
                         if (entry.Key == "name")
                             Main.Player.name = entry.Value;
@@ -263,16 +263,14 @@ namespace Realm
                             Main.Player.abilities.AddCommand(new Combat.Heavensplitter("Heavensplitter", 'z'));
                         if (entry.Key == "Gamble")
                             Main.Player.abilities.AddCommand(new Combat.Gamble("Gamble", '$'));
-                        if (entry.Key == "Force Pulse")
-                            Main.Player.abilities.AddCommand(new Combat.ForcePulse("Force Pulse", 'f'));
                         if (entry.Key == "Nightshade")
                             Main.Player.abilities.AddCommand(new Combat.Nightshade("Nightshade", 'n'));
                         if (entry.Key == "Safeguard")
                             Main.Player.abilities.AddCommand(new Combat.Safeguard("Safeguard", 'g'));
                         if (entry.Key == "Mimic")
                             Main.Player.abilities.AddCommand(new Combat.Mimic("Mimic", 'm'));
-                        if (entry.Key == "Lay Trap")
-                            Main.Player.abilities.AddCommand(new Combat.LayTrap("Lay Trap", 'l'));
+                        if (entry.Key == "Heal")
+                            Main.Player.abilities.AddCommand(new Combat.Heal("Heal", 'l'));
                         if (entry.Key == "Lightspeed")
                             Main.Player.abilities.AddCommand(new Combat.Lightspeed("Lightspeed", '!'));
                         if (entry.Key == "Rage")
@@ -332,16 +330,27 @@ namespace Realm
                     return true;
                 }
             }
-            catch (IOException)
+            catch (Exception e)
             {
-                Interface.type("Load failed.", ConsoleColor.White);
-               // Interface.type(e.ToString(), 0);
-                return false;
-            }
-            catch (ArgumentException)
-            {
-                Interface.type("Load failed.", ConsoleColor.White);
-                //Interface.type(e.ToString(), 0);
+                Interface.type("Load failed. Would you like to delete your save (press 'y' to delete)? ", ConsoleColor.White);
+                if (Interface.readkey().KeyChar == 'y')
+                    File.Delete(path);
+                File.Delete(tpath);
+                string crashpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt";
+                List<string> listlines = new List<string>();
+                listlines.Add(e.Message);
+                try
+                {
+                    if (!File.Exists(crashpath))
+                    {
+                        File.Create(crashpath).Dispose();
+                    }
+                    listlines.Add(e.InnerException.ToString());
+                }
+                catch(NullReferenceException)
+                {
+                }
+                File.WriteAllLines(crashpath, listlines.ToArray());
                 return false;
             }
         }

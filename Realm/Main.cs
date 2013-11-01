@@ -41,14 +41,18 @@ namespace Realm
         public static Realm.Player.GamePlayer Player = new Realm.Player.GamePlayer();
         public static Map globals = new Map();
 
+        public static Random rand = new Random();
+
         public static bool devmode = false;
         public static bool hasmap = false;
 
+        public static string version = "Version Number - 1.7.6";
         public static string devstring = "Cooper";
+        public static string password = "__dev__";
 
         public static void Tutorial()
         {
-            List<string> racelist = new List<string>{ "human", "elf", "rockman", "giant", "zephyr", "shade" };
+            List<string> racelist = new List<string> { "human", "elf", "rockman", "giant", "zephyr", "shade" };
             List<string> classlist = new List<string> { "warrior", "paladin", "mage", "thief" };
             is_typing = true;
             Interface.type("Welcome, ");
@@ -93,154 +97,161 @@ namespace Realm
         }
         public static void MainLoop()
         {
-            game_state = 0;
-            Place currPlace;
-            if (devmode)
+            try
             {
-                Interface.type("Dev Powers!", ConsoleColor.DarkMagenta);
-                Player.primary = new phantasmal_claymore();
-                Player.secondary = new spectral_bulwark();
-                Player.armor = new illusory_plate();
-                Player.accessory = new void_cloak();
-                hasmap = true;
-            }
-            while (Player.hp > 0)
-            {
-                Player.applybonus();
-                Enemy enemy = new Enemy();
-                Player.levelup();
-                currPlace = Map.map[Map.PlayerPosition.x, Map.PlayerPosition.y];
-                if (Player.hp > Player.maxhp)
-                    Player.hp = Player.maxhp;
-                if (loop_number >= 1)
-                {
-                    if (Combat.CheckBattle() && currPlace.getEnemyList() != null)
-                    {
-                        enemy = currPlace.getEnemyList();
-                        Combat.BattleLoop(enemy);
-                    }
-                }
-                Item pc = new phantasmal_claymore();
-                Item sb = new spectral_bulwark();
-                Item ip = new illusory_plate();
-                Item vc = new void_cloak();
-                if (!String.IsNullOrEmpty(Player.primary.name) && !String.IsNullOrEmpty(Player.secondary.name) && !String.IsNullOrEmpty(Player.armor.name) && !String.IsNullOrEmpty(Player.accessory.name))
-                    if (Player.primary.name.Equals(pc.name) && Player.secondary.name.Equals(sb.name) && Player.armor.name.Equals(ip.name) && Player.accessory.name.Equals(vc.name))
-                        if (!Player.abilities.commandChars.Contains('*'))
-                            Player.abilities.AddCommand(new Combat.EndtheIllusion("End the Illusion", '*'));
+                game_state = 0;
+                Place currPlace;
                 if (devmode)
-                    Interface.type(Map.PlayerPosition.x + " " + Map.PlayerPosition.y);
-                if (!devmode)
+                {
+                    Interface.type("Dev Powers!", ConsoleColor.DarkMagenta);
+                    Player.primary = new phantasmal_claymore();
+                    Player.secondary = new spectral_bulwark();
+                    Player.armor = new illusory_plate();
+                    Player.accessory = new void_cloak();
+                    hasmap = true;
+                }
+                while (Player.hp > 0)
+                {
                     Player.applybonus();
-                else
-                    Player.applydevbonus();
-                if (gbooks >= 3 && !Player.abilities.commandChars.Contains('@'))
-                {
-                    Interface.type("Having read all of the Ramsay books, you are enlightened in the ways of Gordon Ramsay.");
-                    Interface.type("Learned 'Hell's Kitchen'!", ConsoleColor.Cyan);
-                    Player.abilities.AddCommand(new Combat.HellsKitchen("Hell's Kitchen", '@'));
-                }
-                //currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
-                if (!devmode)
-                    Interface.type(currPlace.Description);
-                else
-                    Interface.type(currPlace.ToString());
-                char[] currcommands = currPlace.getAvailableCommands();
-                Interface.typeOnSameLine("\r\nYour current commands are x", ConsoleColor.DarkBlue);
-                foreach (char c in currcommands)
-                {
-                    Interface.typeOnSameLine(", " + c, ConsoleColor.DarkBlue);
-                }
-                Interface.type("");
+                    Enemy enemy = new Enemy();
+                    Player.levelup();
+                    currPlace = Map.map[Map.PlayerPosition.x, Map.PlayerPosition.y];
+                    if (Player.hp > Player.maxhp)
+                        Player.hp = Player.maxhp;
+                    if (loop_number >= 1)
+                    {
+                        if (Combat.CheckBattle() && currPlace.getEnemyList() != null)
+                        {
+                            enemy = currPlace.getEnemyList();
+                            Combat.BattleLoop(enemy);
+                        }
+                    }
+                    Item pc = new phantasmal_claymore();
+                    Item sb = new spectral_bulwark();
+                    Item ip = new illusory_plate();
+                    Item vc = new void_cloak();
+                    if (!String.IsNullOrEmpty(Player.primary.name) && !String.IsNullOrEmpty(Player.secondary.name) && !String.IsNullOrEmpty(Player.armor.name) && !String.IsNullOrEmpty(Player.accessory.name))
+                        if (Player.primary.name.Equals(pc.name) && Player.secondary.name.Equals(sb.name) && Player.armor.name.Equals(ip.name) && Player.accessory.name.Equals(vc.name))
+                            if (!Player.abilities.commandChars.Contains('*'))
+                                Player.abilities.AddCommand(new Combat.EndtheIllusion("End the Illusion", '*'));
+                    if (devmode)
+                        Interface.type(Map.PlayerPosition.x + " " + Map.PlayerPosition.y);
+                    if (!devmode)
+                        Player.applybonus();
+                    else
+                        Player.applydevbonus();
+                    if (gbooks >= 3 && !Player.abilities.commandChars.Contains('@'))
+                    {
+                        Interface.type("Having read all of the Ramsay books, you are enlightened in the ways of Gordon Ramsay.");
+                        Interface.type("Learned 'Hell's Kitchen'!", ConsoleColor.Cyan);
+                        Player.abilities.AddCommand(new Combat.HellsKitchen("Hell's Kitchen", '@'));
+                    }
+                    //currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];
+                    if (!devmode)
+                        Interface.type(currPlace.Description);
+                    else
+                        Interface.type(currPlace.ToString());
+                    char[] currcommands = currPlace.getAvailableCommands();
+                    Interface.typeOnSameLine("\r\nYour current commands are x", ConsoleColor.DarkBlue);
+                    foreach (char c in currcommands)
+                    {
+                        Interface.typeOnSameLine(", " + c, ConsoleColor.DarkBlue);
+                    }
+                    Interface.type("");
 
-                ConsoleKeyInfo command = Interface.readkey();
-                if (command.KeyChar == 'x')
-                {
-                    Interface.type("\r\nAre you sure?", ConsoleColor.Red);
-                    char surecommand = Interface.readkey().KeyChar;
-                    if (surecommand == 'y')
+                    ConsoleKeyInfo command = Interface.readkey();
+                    if (command.KeyChar == 'x')
                     {
-                        End.GameOver();
-                    }
-                }
-                else if (command.Key == ConsoleKey.Escape)
-                    Environment.Exit(0);
-                else if (command.KeyChar == '-' && devmode)
-                {
-                    string input = Interface.readinput();
-                    if (input == "e")
-                        End.Endgame();
-                    else if (input == "c")
-                    {
-                        string combat_input = Interface.readinput();
-                        Type etype = Type.GetType("Realm." + combat_input);
-                        try
+                        Interface.type("\r\nAre you sure?", ConsoleColor.Red);
+                        char surecommand = Interface.readkey().KeyChar;
+                        if (surecommand == 'y')
                         {
-                            Enemy e = (Enemy)Activator.CreateInstance(etype);
-                            Combat.BattleLoop(e);
-                        }
-                        catch (ArgumentNullException)
-                        {
-                            Interface.type("Invalid Enemy.");
+                            End.GameOver();
                         }
                     }
-                    else if (input == "n")
-                        Player.name = Interface.readinput();
-                    else if (input == "a")
+                    else if (command.Key == ConsoleKey.Escape)
+                        Environment.Exit(0);
+                    else if (command.KeyChar == '-' && devmode)
                     {
-                        string add_input = Interface.readinput();
-                        Type atype = Type.GetType("Realm." + add_input);
-                        try
+                        string input = Interface.readinput();
+                        if (input == "e")
+                            End.Endgame();
+                        else if (input == "c")
                         {
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            string combat_input = Interface.readinput();
+                            Type etype = Type.GetType("Realm." + combat_input);
+                            try
+                            {
+                                Enemy e = (Enemy)Activator.CreateInstance(etype);
+                                Combat.BattleLoop(e);
+                            }
+                            catch (ArgumentNullException)
+                            {
+                                Interface.type("Invalid Enemy.");
+                            }
+                        }
+                        else if (input == "n")
+                            Player.name = Interface.readinput();
+                        else if (input == "a")
+                        {
+                            string add_input = Interface.readinput();
+                            Type atype = Type.GetType("Realm." + add_input);
+                            try
+                            {
+                                Item i = (Item)Activator.CreateInstance(atype);
 
-                            if (Player.backpack.Count <= 10)
-                            {
-                                Player.backpack.Add(i);
-                                Interface.type("Obtained '" + i.name + "'!");
+                                if (Player.backpack.Count <= 10)
+                                {
+                                    Player.backpack.Add(i);
+                                    Interface.type("Obtained '" + i.name + "'!");
+                                }
+                                else
+                                {
+                                    Interface.type("Not enough space.");
+                                }
                             }
-                            else
+                            catch (ArgumentNullException)
                             {
-                                Interface.type("Not enough space.");
+                                Interface.type("Invalid Item.");
                             }
                         }
-                        catch (ArgumentNullException)
+                        else if (input == "p")
                         {
-                            Interface.type("Invalid Item.");
+                            string p_input = Interface.readinput();
+                            Type atype = Type.GetType("Realm." + p_input);
+                            try
+                            {
+                                Item i = (Item)Activator.CreateInstance(atype);
+                                Player.primary = i;
+                            }
+                            catch (ArgumentNullException)
+                            {
+                                Interface.type("Invalid Item.");
+                            }
+                        }
+                        //else if (input == "t")
+                        //{
+                        //    string place_input = Interface.readinput();
+                        //    Type ptype = Type.GetType("Realm." + place_input);
+                        //    Place p = (Place)Activator.CreateInstance(ptype);
+                        //}
+                        else if (input == "l")
+                        {
+                            Main.Player.level = Convert.ToInt32(Interface.readinput());
+                        }
+                        else if (input == "x")
+                        {
+                            Main.Player.xp += Main.Player.xp_next;
                         }
                     }
-                    else if (input == "p")
-                    {
-                        string p_input = Interface.readinput();
-                        Type atype = Type.GetType("Realm." + p_input);
-                        try
-                        {
-                            Item i = (Item)Activator.CreateInstance(atype);
-                            Player.primary = i;
-                        }
-                        catch (ArgumentNullException)
-                        {
-                            Interface.type("Invalid Item.");
-                        }
-                    }
-                    //else if (input == "t")
-                    //{
-                    //    string place_input = Interface.readinput();
-                    //    Type ptype = Type.GetType("Realm." + place_input);
-                    //    Place p = (Place)Activator.CreateInstance(ptype);
-                    //}
-                    else if (input == "l")
-                    {
-                        Main.Player.level = Convert.ToInt32(Interface.readinput());
-                    }
-                    else if (input == "x")
-                    {
-                        Main.Player.xp += Main.Player.xp_next;
-                    }
+                    else
+                        currPlace.handleInput(command.KeyChar);
+                    loop_number++;
                 }
-                else
-                    currPlace.handleInput(command.KeyChar);
-                loop_number++;
+            }
+            catch (Exception)
+            {
+
             }
         }
     }

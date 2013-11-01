@@ -249,13 +249,18 @@ namespace Realm
                         {
                             case 'y':
                                 Interface.type("Amid the -trash- gear on the ground, you find a tile with the letter 'G' on it.");
-                                Main.Player.backpack.Add(new cardboard_armor());
-                                Interface.type("Obtained 'Cardboard Armor'!", ConsoleColor.Green);
-                                Main.Player.backpack.Add(new cardboard_sword());
-                                Interface.type("Obtained 'Cardboard Shield'!", ConsoleColor.Green);
-                                Main.Player.backpack.Add(new cardboard_shield());
-                                Interface.type("Obtained 'Cardboard Shield'!", ConsoleColor.Green);
-                                Main.forrestcounter++;
+                                if (Main.Player.backpack.Count <= 7)
+                                {
+                                    Main.Player.backpack.Add(new cardboard_armor());
+                                    Interface.type("Obtained 'Cardboard Armor'!", ConsoleColor.Green);
+                                    Main.Player.backpack.Add(new cardboard_sword());
+                                    Interface.type("Obtained 'Cardboard Shield'!", ConsoleColor.Green);
+                                    Main.Player.backpack.Add(new cardboard_shield());
+                                    Interface.type("Obtained 'Cardboard Shield'!", ConsoleColor.Green);
+                                    Main.forrestcounter++;
+                                }
+                                else
+                                    Interface.type("Not enough space!");
                                 break;
                             case 'n':
                                 Interface.type("\r\nLoser.");
@@ -364,7 +369,6 @@ namespace Realm
                                 case 'y':
                                     if (Player.Purchase(11, new wood_staff()))
                                     {
-                                        Interface.type("Obtained 'Wood Staff'!", ConsoleColor.Green);
                                         Main.Player.backpack.Add(new plastic_ring());
                                         Interface.type("Obtained 'Plastic Ring'!", ConsoleColor.Green);
                                         Interface.type("On the inside of the ring, the letter 'o' is embossed.");
@@ -484,14 +488,12 @@ namespace Realm
                             if (Player.Purchase(15, new iron_lance()))
                             {
                                 Interface.type("It's almost as if he doesn't even see you.");
-                                Interface.type("Obtained 'Iron Lance'!", ConsoleColor.Green);
                             }
                             break;
                         case 'b':
                             if (Player.Purchase(10, new iron_buckler()))
                             {
                                 Interface.type("It's almost as if he doesn't even see you.");
-                                Interface.type("Obtained 'Iron Buckler'!", ConsoleColor.Green);
                             }
                             break;
                         case 'n':
@@ -638,7 +640,6 @@ namespace Realm
                                     if (Player.Purchase(15, new iron_band()))
                                     {
                                         Interface.type("He smiles weakly and thanks you.");
-                                        Interface.type("Obtained 'Iron Band'!", ConsoleColor.Green);
                                     }
                                     break;
                                 case 'n':
@@ -942,8 +943,7 @@ namespace Realm
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'y':
-                            if (Player.Purchase(50, new bt_plate()))
-                                Interface.type("Obtained 'Bloodmail'!", ConsoleColor.Green);
+                            Player.Purchase(50, new bt_plate());
                             break;
                         case 'n':
                             Interface.type("You leave.");
@@ -1099,19 +1099,15 @@ namespace Realm
                     {
                         case 'r':
                             Player.Purchase(30, new iron_rapier());
-                            Interface.type("Obtained 'Iron Rapier'!", ConsoleColor.Green);
                             break;
                         case 'c':
                             Player.Purchase(30, new iron_mail());
-                            Interface.type("Obtained 'Iron Chainmail!'!", ConsoleColor.Green);
                             break;
                         case 'b':
                             Player.Purchase(25, new iron_buckler());
-                            Interface.type("Obtained 'Iron Buckler'!", ConsoleColor.Green);
                             break;
                         case 'l':
                             Player.Purchase(50, new bt_longsword());
-                            Interface.type("Obatined 'Bloodthirsty Longsword'!", ConsoleColor.Green);
                             break;
                         default:
                             break;
@@ -1126,8 +1122,7 @@ namespace Realm
                         switch (Interface.readkey().KeyChar)
                         {
                             case 'b':
-                                if (Player.Purchase(50, new blood_amulet()))
-                                    Interface.type("Obtained 'Blood Amulet'!", ConsoleColor.Green);
+                                Player.Purchase(50, new blood_amulet());
                                 break;
                             case 'a':
                                 if (Player.Purchase(50))
@@ -1254,20 +1249,16 @@ namespace Realm
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'a':
-                            if (Player.Purchase(100, new ds_amulet()))
-                                Interface.type("Obtained 'Darksteel Amulet'!", ConsoleColor.Green);
+                            Player.Purchase(100, new ds_amulet());
                             break;
                         case 'c':
-                            if (Player.Purchase(110, new ds_scale()))
-                                Interface.type("Obatined 'Darksteel Scalemail'!", ConsoleColor.Green);
+                            Player.Purchase(110, new ds_scale());
                             break;
                         case 'k':
-                            if (Player.Purchase(80, new ds_kris()))
-                                Interface.type("Obtained 'Darksteel Kris!'!", ConsoleColor.Green);
+                            Player.Purchase(80, new ds_kris());
                             break;
                         case 's':
-                            if (Player.Purchase(100, new ds_kite()))
-                                Interface.type("Obtained 'Darksteel Kite Shield'!", ConsoleColor.Green);
+                            Player.Purchase(100, new ds_kite());
                             break;
                         default:
                             break;
@@ -1376,13 +1367,11 @@ namespace Realm
                     {
                         case 'b':
                             if (Player.Purchase(55, new bt_battleaxe()))
-                                Interface.type("Obtained 'Bloodthirsty Battleaxe'!", ConsoleColor.Green);
-                            Interface.type("The old man grins.");
+                                Interface.type("The old man grins.");
                             break;
                         case 'g':
                             if (Player.Purchase(55, new bt_greatsword()))
-                                Interface.type("Obtained 'Bloodthirsty Greatsword'!", ConsoleColor.Green);
-                            Interface.type("The old man grins.");
+                                Interface.type("The old man grins.");
                             break;
                     }
                     break;
@@ -1474,45 +1463,28 @@ namespace Realm
                             if (Player.Purchase(150, new void_cloak()))
                             {
                                 Interface.type("The toothless man reverently hands you artifact.");
-                                Interface.type("Obtained 'Void Cloak'!", ConsoleColor.Green);
                             }
                             break;
                         case 'i':
                             if (Player.Purchase(150, new illusory_plate()))
                             {
                                 Interface.type("The toothless man reverently hands you artifact.");
-                                Interface.type("Obtained 'Illusory Plate'!", ConsoleColor.Green);
                             }
                             break;
                         case 's':
                             if (Player.Purchase(150, new spectral_bulwark()))
                             {
                                 Interface.type("The toothless man reverently hands you artifact.");
-                                Interface.type("Obtained 'Spectral Bulwark'!", ConsoleColor.Green);
                             }
                             break;
                         case '3':
-                            if (Player.Purchase(300, new void_cloak()))
+                            if (Player.Purchase(300, new void_cloak()) && Main.Player.backpack.Count <= 7)
                             {
-                                Interface.type("Obtained 'Void Cloak'!", ConsoleColor.Green);
                                 Interface.type("Obtained 'Spectral Bulwark'!", ConsoleColor.Green);
                                 Interface.type("Obtained 'Illusory Plate'!", ConsoleColor.Green);
-
-                                if (Main.Player.backpack.Count <= 10)
-                                    Main.Player.backpack.Add(new void_cloak());
-                                else
-                                    Interface.type("Not enough space.");
-
-                                if (Main.Player.backpack.Count <= 10)
-                                    Main.Player.backpack.Add(new spectral_bulwark());
-                                else
-                                    Interface.type("Not enough space.");
-
-                                if (Main.Player.backpack.Count <= 10)
-                                    Main.Player.backpack.Add(new illusory_plate());
-                                else
-                                    Interface.type("Not enough space.");
                             }
+                            else if (Main.Player.backpack.Count > 7)
+                                Interface.type("Not enough space!");
                             break;
                     }
                     break;
@@ -1622,14 +1594,12 @@ namespace Realm
                             if (Player.Purchase(120, new sb_saber()))
                             {
                                 Interface.type("The child smiles gleefully and hands you the Sunburst Saber.");
-                                Interface.type("Obtained 'Sunburst Saber'!", ConsoleColor.Green);
                             }
                             break;
                         case 's':
                             if (Player.Purchase(100, new sb_shield()))
                             {
                                 Interface.type("The child smiles and hands you the Sunburst Shield.");
-                                Interface.type("Obtained 'Sunburst Shield'!", ConsoleColor.Green);
                             }
                             break;
                     }
@@ -1710,14 +1680,12 @@ namespace Realm
                             if (Player.Purchase(150, new sb_chain()))
                             {
                                 Interface.type("The man hands you the Sunburst Ringmail.");
-                                Interface.type("Obtained 'Sunburst Ringmail'!", ConsoleColor.Green);
                             }
                             break;
                         case 'g':
                             if (Player.Purchase(150, new sb_gauntlet()))
                             {
                                 Interface.type("The man hands you the Sunburst Gauntlet.");
-                                Interface.type("Obtained 'Sunburst Gauntlet'!", ConsoleColor.Green);
                             }
                             break;
                     }
@@ -1795,11 +1763,13 @@ namespace Realm
                                 Interface.type("You challenge the mad king, and he stands from his obsidian throne, raven-feathered cloak swirling. He laughs a deep booming laugh and draws a wicked looking blade.");
                                 Combat.BattleLoop(new RavenKing());
                                 if (Main.Player.backpack.Count <= 10)
+                                {
                                     Main.Player.backpack.Add(new phantasmal_claymore());
+                                    Interface.type("Obtained 'Phantasmal Claymore'!", ConsoleColor.Green);
+                                }
                                 else
                                     Interface.type("Not enough space.");
                                 Interface.type("The king falls to the ground, defeated. You pick up his night colored sword form the ground, and in your hand it changes to a shimmering blue claymore.");
-                                Interface.type("Obtained 'Phantasmal Claymore'!", ConsoleColor.Green);
                                 Interface.type("A blue portal opens up with the glowing letter 'l' above it. You yell 'Jeronimo!' and jump through.");
                                 Map.PlayerPosition.x = 3;
                                 Map.PlayerPosition.y = 3;
@@ -1872,16 +1842,13 @@ namespace Realm
                     switch(Interface.readkey().KeyChar)
                     {
                         case'a':
-                            if (Player.Purchase(110, new a_amulet()))
-                                Interface.type("Obtained 'Azurite Amulet'!", ConsoleColor.Green);
+                            Player.Purchase(110, new a_amulet());
                             break;
                         case's':
-                            if (Player.Purchase(120, new a_staff()))
-                                Interface.type("Obtained 'Azurite Staff'!", ConsoleColor.Green);
+                            Player.Purchase(120, new a_staff());
                             break;
                         case'c':
-                            if (Player.Purchase(100, new a_mail()))
-                                Interface.type("Obtained 'Azurite Cloth'!", ConsoleColor.Green);
+                            Player.Purchase(100, new a_mail());
                             break;
                         default:
                             break;
@@ -1927,7 +1894,7 @@ namespace Realm
                                                 Interface.type("Press any key to continue.", ConsoleColor.White);
                                                 Interface.readkey();
                                                 Console.Clear();
-                                                if (Combat.Dice.roll(1, 3) == 1)
+                                                if (Combat.Dice.roll(1, 2) == 1)
                                                 {
                                                     Interface.type("You find yourself in a mysterious glowing cave.");
                                                     Cave.CaveLoop();
@@ -2033,20 +2000,16 @@ namespace Realm
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'a':
-                            if (Player.Purchase(75, new ice_amulet()))
-                                Interface.type("Obtained 'Ice Amulet'!", ConsoleColor.Green);
+                            Player.Purchase(75, new ice_amulet());
                             break;
                         case 's':
-                            if (Player.Purchase(75, new ice_shield()))
-                                Interface.type("Obtained 'Ice Shield'!", ConsoleColor.Green);
+                            Player.Purchase(75, new ice_shield());
                             break;
                         case 'd':
-                            if (Player.Purchase(75, new ice_dagger()))
-                                Interface.type("Obtained 'Ice Dagger'!", ConsoleColor.Green);
+                            Player.Purchase(75, new ice_dagger());
                             break;
                         case 'i':
-                            if (Player.Purchase(80, new swifites()))
-                                Interface.type("Obtained 'Icy Boots of Fast'!", ConsoleColor.Green);
+                            Player.Purchase(80, new swifites());
                             break;
                         default:
                             break;
@@ -2167,20 +2130,16 @@ namespace Realm
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'a':
-                            if (Player.Purchase(15, new m_robes()))
-                                Interface.type("Obtained 'Apprentice Robes'!", ConsoleColor.Green);
+                            Player.Purchase(15, new m_robes());
                             break;
                         case 'j':
-                            if (Player.Purchase(12, new m_staff()))
-                                Interface.type("Obtained 'Junior Mage Staff'!", ConsoleColor.Green);
+                            Player.Purchase(12, new m_staff());
                             break;
                         case 'm':
-                            if (Player.Purchase(10, new m_tome()))
-                                Interface.type("Obtained 'Magic for Dummies'!", ConsoleColor.Green);
+                            Player.Purchase(10, new m_tome());
                             break;
                         case 'r':
-                            if (Player.Purchase(15, new m_amulet()))
-                                Interface.type("Obtained 'Magic Ring'!", ConsoleColor.Green);
+                            Player.Purchase(15, new m_amulet());
                             break;
                         default:
                             break;

@@ -40,18 +40,18 @@ namespace Realm
             public void levelup()
             {
                 int xp_overlap;
-                xp_next = level >= 20 ? 62 + (level - 20) * 7 : (level >= 10 ? 17 + (level - 10) * 3 : 17);
+                xp_next = level >= 10 ? 62 + (level - 10) * 7 : (level >= 5 ? 17 + (level - 5) * 3 : 17);
                 if (xp >= xp_next)
                 {
                     level++;
                     hp = maxhp;
                     Interface.type("Congratulations! You have leveled up! You are now level " + level + ".", true);
-                    if (xp_next < 0)
-                        xp_overlap = Math.Abs(xp_next);
+                    if (xp > xp_next)
+                        xp_overlap = Math.Abs(xp - xp_next);
                     else
                         xp_overlap = 0;
                     xp = xp_overlap;
-                    xp_next = (level >= 20 ? 62 + (level - 30) * 7 : (level >= 10 ? 17 + (level - 10) * 3 : 17));
+                    xp_next = (level >= 10 ? 62 + (level - 10) * 7 : (level >= 5 ? 17 + (level - 5) * 3 : 17));
                     if (xp >= xp_next)
                         levelup();
                 }
@@ -100,8 +100,8 @@ namespace Realm
                 }
                 else if (level >= 5 && race == "elf" && !abilities.commands.ContainsKey('l'))
                 {
-                    abilities.AddCommand(new Combat.LayTrap("Lay Trap", 'l'));
-                    Interface.type("Learned Elf ability Lay Trap!", ConsoleColor.Cyan);
+                    abilities.AddCommand(new Combat.Heal("Heal", 'l'));
+                    Interface.type("Learned Elf ability Heal!", ConsoleColor.Cyan);
                 }
                 else if (level >= 5 && race == "rockman" && !abilities.commands.ContainsKey('g'))
                 {
@@ -222,7 +222,10 @@ namespace Realm
             {
                 Main.Player.g -= cost;
                 if (Main.Player.backpack.Count <= 10)
+                {
                     Main.Player.backpack.Add(i);
+                    Interface.type("Obtained '" + i.name + "'!", ConsoleColor.Green);
+                }
                 else
                     Interface.type("Not enough space.");
                 return true;

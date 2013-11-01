@@ -669,16 +669,17 @@ namespace Realm
                 return true;
             }
         }
-        public class LayTrap : Command
+        public class Heal : Command
         {
-            public LayTrap(string aname, char cmd)
+            public Heal(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
-                target.trapped = true;
+                Main.Player.hp += Math.Max(((Main.Player.intl * 2) / 3), 1);
+                if (Main.Player.hp > Main.Player.maxhp)
+                    Main.Player.hp = Main.Player.maxhp;
                 return true;
             }
         }
@@ -721,7 +722,7 @@ namespace Realm
             public override bool Execute(object Data)
             {
                 Enemy target = (Enemy)Data;
-                target.hp -= Main.Player.spd + Dice.roll(1, Main.Player.spd);
+                target.hp -= Dice.roll(1, Main.Player.spd) + Dice.roll(1, (Main.Player.spd / 5));
                 return true;
             }
         }
