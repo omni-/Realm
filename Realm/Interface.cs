@@ -19,7 +19,8 @@ namespace Realm
             titlelist.Add("Now with Color!");
             titlelist.Add("Stochastic!");
             titlelist.Add("Sammy Classic Sonic Fan!");
-            titlelist.Add("Realm: Realm:");
+            titlelist.Add("Expand");
+            titlelist.Add("Drugs are bad, kids");
             titlelist.Add("Realm 2 Coming -Soon- Someday!");
             titlelist.Add("A Game of Slimes");
             titlelist.Add("Rustling Jimmies since 2013!");
