@@ -27,7 +27,7 @@ namespace Realm
             titlelist.Add("Revengeance");
             titlelist.Add("Redemption");
             titlelist.Add("A Slimes' Tale");
-            int result = Main.rand.Next(0, titlelist.Count + 1);
+            int result = Main.rand.Next(0, titlelist.Count);
             return titlelist[result];
         }
         public static void type(string src, int speed)
@@ -81,6 +81,40 @@ namespace Realm
             Interface.type("Attack: " + Main.Player.atk + " / Defense: " + Main.Player.def + " / Speed: " + Main.Player.spd + " / Intelligence: " + Main.Player.intl, ConsoleColor.Yellow);
             Interface.type("Mana: " + (1 + (Main.Player.intl / 10)), ConsoleColor.Yellow);
             Interface.type("Gold: " + Main.Player.g + " / Exp to Level: " + (Main.Player.xp_next - Main.Player.xp), ConsoleColor.Yellow);
+            Interface.type("=============Achievements============", ConsoleColor.Cyan);
+            foreach (KeyValuePair<string, bool> entry in Main.achieve)
+            {
+                if (entry.Key == "name" && Main.achieve[entry.Key] == true)
+                    Interface.type("Howdy, stranger. - Name Yourself", ConsoleColor.Cyan);
+                else if (entry.Key == "wking" && Main.achieve[entry.Key] == true)
+                    Interface.type("Brave, brave Sir Robin... - Run away from the Western King", ConsoleColor.Cyan);
+                else if (entry.Key == "1slime" && Main.achieve[entry.Key] == true)
+                    Interface.type("Tru hero - Kill a slime", ConsoleColor.Cyan);
+                else if (entry.Key == "100slime" && Main.achieve[entry.Key] == true)
+                    Interface.type("Professional Farmer - Kill 100 slimes", ConsoleColor.Cyan);
+                else if (entry.Key == "raven" && Main.achieve[entry.Key] == true)
+                    Interface.type("Caw Caw - Defeat the Raven King", ConsoleColor.Cyan);
+                else if (entry.Key == "finalboss" && Main.achieve[entry.Key] == true)
+                    Interface.type("The end? - Defeat Janus", ConsoleColor.Cyan);
+                else if (entry.Key == "1goblin" && Main.achieve[entry.Key] == true)
+                    Interface.type("On your way... - Kill a goblin", ConsoleColor.Cyan);
+                else if (entry.Key == "100goblins" && Main.achieve[entry.Key] == true)
+                    Interface.type("Are you Rosie? - Kill 100 goblins", ConsoleColor.Cyan);
+                else if (entry.Key == "1drake" && Main.achieve[entry.Key] == true)
+                    Interface.type("Basically dragonborn. - Kill a drake", ConsoleColor.Cyan);
+                else if (entry.Key == "100drakes" && Main.achieve[entry.Key] == true)
+                    Interface.type("You monster. - Kill 100 drakes", ConsoleColor.Cyan);
+                else if (entry.Key == "1bandit" && Main.achieve[entry.Key] == true)
+                    Interface.type("Basically Batman. - Kill a bandit", ConsoleColor.Cyan);
+                else if (entry.Key == "100bandits" && Main.achieve[entry.Key] == true)
+                    Interface.type("The DK Crew - Kill 100 bandits", ConsoleColor.Cyan);
+                else if (entry.Key == "itembuy" && Main.achieve[entry.Key] == true)
+                    Interface.type("One thing isn't a spree, mom. - Buy an item", ConsoleColor.Cyan);
+                else if (entry.Key == "cardboard" && Main.achieve[entry.Key] == true)
+                    Interface.type("grats on the upgrade - Find the cardboard armor", ConsoleColor.Cyan);
+                else if (entry.Key == "dragon" && Main.achieve[entry.Key] == true)
+                    Interface.type("Fus ro dah - Slay Tyrone", ConsoleColor.Cyan);
+            }
             Interface.type("-------------------------------------", ConsoleColor.Yellow);
         }
         public static void typeOnSameLine(string src)

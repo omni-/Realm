@@ -154,6 +154,7 @@ namespace Realm
                         Main.wkingdead = true;
                         break;
                     case 'r':
+                        Main.ach.Get("wking");
                         Interface.type("You escaped the Western King, but you're pretty damn lost now.");
                         Map.PlayerPosition.y -= 2;
                         Main.MainLoop();
@@ -257,6 +258,7 @@ namespace Realm
                                     Interface.type("Obtained 'Cardboard Shield'!", ConsoleColor.Green);
                                     Main.Player.backpack.Add(new cardboard_shield());
                                     Interface.type("Obtained 'Cardboard Shield'!", ConsoleColor.Green);
+                                    Main.ach.Get("cardboard");
                                     Main.forrestcounter++;
                                 }
                                 else
@@ -1762,6 +1764,7 @@ namespace Realm
                             case 'f':
                                 Interface.type("You challenge the mad king, and he stands from his obsidian throne, raven-feathered cloak swirling. He laughs a deep booming laugh and draws a wicked looking blade.");
                                 Combat.BattleLoop(new RavenKing());
+                                Main.ach.Get("raven");
                                 if (Main.Player.backpack.Count <= 10)
                                 {
                                     Main.Player.backpack.Add(new phantasmal_claymore());
@@ -2446,7 +2449,10 @@ namespace Realm
                     break;
                 case 's':
                     if (Combat.Dice.roll(1, 10) == 1)
+                    {
                         Combat.BattleLoop(new Dragon());
+                        Main.ach.Get("dragon");
+                    }
                     else
                         Interface.type("You successfully snuck past the dragon!");
                     Interface.type("You escape the cave! You find youself in a sewer, and when you finally pull yourself out, you're in Central.");

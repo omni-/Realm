@@ -213,6 +213,7 @@ namespace Realm
             else
             {
                 Main.Player.g -= cost;
+                Main.ach.Get("itembuy");
                 return true;
             }
         }

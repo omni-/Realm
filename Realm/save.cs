@@ -14,7 +14,6 @@ namespace Realm
         public static string key = "???t\0sl";
         public static void SaveGame()
         {
-
             string tpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm";
             string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\save.rlm";
             Interface.type("Saving...", ConsoleColor.White);
@@ -81,11 +80,31 @@ namespace Realm
         {
             string tpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm";
             string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\save.rlm";
+            string achpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm";
+            string tachpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm";
             try
             {
                 if (!File.Exists(path))
                     return false;
                 Interface.type("Loading Save...", ConsoleColor.White);
+                DecryptFile(achpath, tachpath, key);
+                string aline;
+                using (StreamReader afile = new StreamReader(tachpath))
+                {
+                    Dictionary<string, string> tempdict = new Dictionary<string, string>();
+                    while ((aline = afile.ReadLine()) != null)
+                    {
+                        string[] asplit = aline.Split(new char[] { '=' });
+                        tempdict.Add(asplit[0], asplit[1]);
+                    }
+                    foreach(KeyValuePair<string, string> entry in tempdict)
+                    {
+                        if (entry.Value == "True")
+                            Main.achieve.Add(entry.Key, true);
+                        else if (entry.Value == "False")
+                            Main.achieve.Add(entry.Key, false);
+                    }
+                }
                 DecryptFile(path, tpath, key);
                 Dictionary<string, string> vals = new Dictionary<string, string>();
                 string line;
@@ -327,14 +346,21 @@ namespace Realm
                     Interface.type("Done.", ConsoleColor.White);
                     file.Close();
                     File.Delete(tpath);
+                    File.Delete(tachpath);
                     return true;
                 }
             }
             catch (Exception e)
             {
                 Interface.type("Load failed. Would you like to delete your save (press 'y' to delete)? ", ConsoleColor.White);
-                if (Interface.readkey().KeyChar == 'y')
+                char key = Interface.readkey().KeyChar;
+                if (key == 'y')
                     File.Delete(path);
+                else if (key == 'e')
+                {
+                    Interface.type(e.ToString());
+                }
+                File.Delete(tachpath);
                 File.Delete(tpath);
                 string crashpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt";
                 List<string> listlines = new List<string>();
@@ -354,8 +380,7 @@ namespace Realm
                 return false;
             }
         }
-
-        static void EncryptFile(string sInputFilename, string sOutputFilename, string sKey)
+        public static void EncryptFile(string sInputFilename, string sOutputFilename, string sKey)
         {
             FileStream fsInput = new FileStream(sInputFilename,
                FileMode.Open, FileAccess.Read);
@@ -376,7 +401,7 @@ namespace Realm
             File.Delete(sInputFilename);
         }
 
-        static void DecryptFile(string sInputFilename, string sOutputFilename, string sKey)
+        public static void DecryptFile(string sInputFilename, string sOutputFilename, string sKey)
         {
             DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
             DES.Key = ASCIIEncoding.ASCII.GetBytes(sKey);

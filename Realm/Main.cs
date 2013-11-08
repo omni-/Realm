@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Collections;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -12,6 +14,10 @@ namespace Realm
         public static int loop_number = 0;
         public static int game_state = 0;
 
+        public static int slimecounter = 0;
+        public static int goblincounter = 0;
+        public static int banditcounter = 0;
+        public static int drakecounter = 0;
         public static int wkingcounter = 0;
         public static int slibcounter = 0;
         public static int forrestcounter = 0;
@@ -38,7 +44,8 @@ namespace Realm
         public static bool wkingdead = false;
         public static bool is_typing = false;
 
-        public static Realm.Player.GamePlayer Player = new Realm.Player.GamePlayer();
+        public static Achievement ach = new Achievement();
+        public static Player.GamePlayer Player = new Realm.Player.GamePlayer();
         public static Map globals = new Map();
 
         public static Random rand = new Random();
@@ -46,9 +53,10 @@ namespace Realm
         public static bool devmode = false;
         public static bool hasmap = false;
 
-        public static string version = "Version Number - 1.7.6";
+        public static string version = "Version Number - 1.8.0";
         public static string devstring = "Cooper";
         public static string password = "__dev__";
+        public static Dictionary<string, bool> achieve = new Dictionary<string, bool>();
 
         public static void Tutorial()
         {
@@ -101,6 +109,14 @@ namespace Realm
             {
                 game_state = 0;
                 Place currPlace;
+                if (slimecounter == 100)
+                    ach.Get("100slimes");
+                if (goblincounter == 100)
+                    ach.Get("100goblins");
+                if (banditcounter == 100)
+                    ach.Get("100bandits");
+                if (drakecounter == 100)
+                    ach.Get("100drakes");
                 if (devmode)
                 {
                     Interface.type("Dev Powers!", ConsoleColor.DarkMagenta);
@@ -242,6 +258,10 @@ namespace Realm
                         else if (input == "x")
                         {
                             Main.Player.xp += Main.Player.xp_next;
+                        }
+                        else if (input == "m")
+                        {
+                            ach.Get(Interface.readinput());
                         }
                     }
                     else

@@ -107,6 +107,18 @@ namespace Realm
                         Interface.type("Your have defeated " + enemy.name + "!", ConsoleColor.Yellow);
                         enemy.droploot();
                         Main.Player.levelup();
+                        if (enemy.name == "slime")
+                            Main.slimecounter++;
+                        else if (enemy.name == "goblin")
+                            Main.goblincounter++;
+                        else if (enemy.name == "bandit")
+                            Main.banditcounter++;
+                        else if (enemy.name == "drake")
+                            Main.drakecounter++;
+                        Main.ach.Get("1slime");
+                        Main.ach.Get("1drake");
+                        Main.ach.Get("1goblin");
+                        Main.ach.Get("1bandit");
                         return;
                     }
                     if (!Main.Player.phased)
@@ -154,6 +166,18 @@ namespace Realm
                             Interface.type("Your have defeated " + enemy.name + "!", ConsoleColor.Yellow);
                             enemy.droploot();
                             Main.Player.levelup();
+                            if (enemy.name == "slime")
+                                Main.slimecounter++;
+                            else if (enemy.name == "goblin")
+                                Main.goblincounter++;
+                            else if (enemy.name == "bandit")
+                                Main.banditcounter++;
+                            else if (enemy.name == "drake")
+                                Main.drakecounter++;
+                            Main.ach.Get("1slime");
+                            Main.ach.Get("1drake");
+                            Main.ach.Get("1goblin");
+                            Main.ach.Get("1bandit");
                             return;
                         }
                     }
@@ -243,6 +267,18 @@ namespace Realm
                         Interface.type("Your have defeated " + enemy.name + "!", ConsoleColor.Yellow);
                         enemy.droploot();
                         Main.Player.levelup();
+                        if (enemy.name == "slime")
+                            Main.slimecounter++;
+                        else if (enemy.name == "goblin")
+                            Main.goblincounter++;
+                        else if (enemy.name == "bandit")
+                            Main.banditcounter++;
+                        else if (enemy.name == "drake")
+                            Main.drakecounter++;
+                        Main.ach.Get("1slime");
+                        Main.ach.Get("1drake");
+                        Main.ach.Get("1goblin");
+                        Main.ach.Get("1bandit");
                         return;
                     }
                     is_turn = true;
