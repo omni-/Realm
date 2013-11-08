@@ -5,7 +5,13 @@
 *.suo
 *.user
 *.sln.docstates
-
+*.exe
+*.dll
+*.application
+*.manifest
+*.rlm
+*.txt
+*.CACHE
 # Build results
 
 [Dd]ebug/
