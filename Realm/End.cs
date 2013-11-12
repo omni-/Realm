@@ -52,7 +52,7 @@ namespace Realm
             Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
             Interface.type("Lead Content Designer: Giorgio Lo", ConsoleColor.Yellow);
             Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
-            Interface.type("Secondary Content Designer: Cooper Teixeira");
+            Interface.type("Secondary Content Designer: Cooper Teixeira", ConsoleColor.Yellow);
             Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
             Interface.type("Chief Tester: Rosemary Rogal", ConsoleColor.Yellow);
             Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);

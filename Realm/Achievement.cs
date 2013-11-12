@@ -12,6 +12,9 @@ namespace Realm
     {
         public void Get(string achievement)
         {
+            //try
+            //{
+
             string tachpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm";
             string achpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm";
             if (achievement == "name" && Main.achieve["name"] == false)
@@ -47,7 +50,7 @@ namespace Realm
             if (Main.achieve.ContainsKey(achievement))
                 Main.achieve[achievement] = true;
             if (!File.Exists(achpath))
-                File.Create(achpath);
+                File.Create(achpath).Close();
             using (StreamWriter file = new StreamWriter(tachpath))
             {
                 foreach (KeyValuePair<string, bool> pair in Main.achieve)
@@ -57,6 +60,94 @@ namespace Realm
             }
             Save.EncryptFile(tachpath, achpath, Save.key);
             File.Delete(tachpath);
+            //}
+            //catch (Exception e)
+            //{
+            //    Interface.type("Achievement load failed.");
+            //    File.Delete(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm");
+            //    string crashpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt";
+            //    List<string> listlines = new List<string>();
+            //    listlines.Add(e.Message);
+            //    try
+            //    {
+            //        if (!File.Exists(crashpath))
+            //        {
+            //            File.Create(crashpath).Dispose();
+            //        }
+            //        listlines.Add(e.InnerException.ToString());
+            //    }
+            //    catch (NullReferenceException)
+            //    {
+            //    }
+            //    File.WriteAllLines(crashpath, listlines.ToArray());
+            //}
+        }
+        public static void LoadAchievements()
+        {
+            if (!File.Exists(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm"))
+            {
+                Main.achieve = new Dictionary<string, bool>()
+                 {
+                    {"name", false},
+                    {"wking", false},
+                    {"1slime", false},
+                    {"100slimes", false},
+                    {"raven", false},
+                    {"finalboss", false},
+                    {"1goblin", false},
+                    {"100goblins", false},
+                    {"1drake", false},
+                    {"100drakes", false},
+                    {"1bandit", false},
+                    {"100bandits", false},
+                    {"itembuy", false},
+                    {"cardboard", false},
+                    {"dragon", false}
+                };
+            }
+            else
+            {
+                Save.DecryptFile(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm", Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm", Save.key);
+                string aline;
+                using (StreamReader afile = new StreamReader(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm"))
+                {
+                    if (afile.BaseStream.Length == 0)
+                    {
+                        Main.achieve = new Dictionary<string, bool>()
+                         {
+                            {"name", false},
+                            {"wking", false},
+                            {"1slime", false},
+                            {"100slimes", false},
+                            {"raven", false},
+                            {"finalboss", false},
+                            {"1goblin", false},
+                            {"100goblins", false},
+                            {"1drake", false},
+                            {"100drakes", false},
+                            {"1bandit", false},
+                            {"100bandits", false},
+                            {"itembuy", false},
+                            {"cardboard", false},
+                            {"dragon", false}
+                         };
+                        return;
+                    }
+                    Dictionary<string, string> tempdict = new Dictionary<string, string>();
+                    while ((aline = afile.ReadLine()) != null)
+                    {
+                        string[] asplit = aline.Split(new char[] { '=' });
+                        tempdict.Add(asplit[0], asplit[1]);
+                    }
+                    foreach (KeyValuePair<string, string> entry in tempdict)
+                    {
+                        if (entry.Value == "True")
+                            Main.achieve.Add(entry.Key, true);
+                        else if (entry.Value == "False")
+                            Main.achieve.Add(entry.Key, false);
+                    }
+                }
+            }
         }
     }
 }

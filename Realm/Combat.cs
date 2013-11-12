@@ -94,31 +94,41 @@ namespace Realm
                         Interface.type("You are blind!", ConsoleColor.Red);
                         if (Combat.Dice.roll(1, 10) == 1)
                         {
-                            Interface.type("By some miracle, you manage to hit them!", ConsoleColor.Blue);
+                            Interface.type("By some miracle, you manage to hit", ConsoleColor.Blue);
                             Main.Player.abilities.ExecuteCommand(ch, enemy);
                             int blindenemyhp = oldhp - enemy.hp;
-                            Interface.type("The enemy takes " + blindenemyhp + " damage!", ConsoleColor.Blue);
+                            if (ch != 'l')
+                                Interface.type("The enemy takes " + blindenemyhp + " damage!", ConsoleColor.Blue);
                         }
                     }
                     int enemyhp = oldhp - enemy.hp;
-                    Interface.type("The enemy takes " + enemyhp + " damage!", ConsoleColor.Blue);
+                    if (ch != 'l')
+                        Interface.type("The enemy takes " + enemyhp + " damage!", ConsoleColor.Blue);
                     if (enemy.hp <= 0)
                     {
                         Interface.type("Your have defeated " + enemy.name + "!", ConsoleColor.Yellow);
                         enemy.droploot();
                         Main.Player.levelup();
                         if (enemy.name == "slime")
+                        {
                             Main.slimecounter++;
+                            Main.ach.Get("1slime");
+                        }
                         else if (enemy.name == "goblin")
+                        {
+                            Main.ach.Get("1goblin");
                             Main.goblincounter++;
+                        }
                         else if (enemy.name == "bandit")
+                        {
                             Main.banditcounter++;
+                            Main.ach.Get("1bandit");
+                        }
                         else if (enemy.name == "drake")
+                        {
+                            Main.ach.Get("1drake");
                             Main.drakecounter++;
-                        Main.ach.Get("1slime");
-                        Main.ach.Get("1drake");
-                        Main.ach.Get("1goblin");
-                        Main.ach.Get("1bandit");
+                        }
                         return;
                     }
                     if (!Main.Player.phased)
@@ -166,18 +176,26 @@ namespace Realm
                             Interface.type("Your have defeated " + enemy.name + "!", ConsoleColor.Yellow);
                             enemy.droploot();
                             Main.Player.levelup();
-                            if (enemy.name == "slime")
-                                Main.slimecounter++;
-                            else if (enemy.name == "goblin")
-                                Main.goblincounter++;
-                            else if (enemy.name == "bandit")
-                                Main.banditcounter++;
-                            else if (enemy.name == "drake")
-                                Main.drakecounter++;
+                        if (enemy.name == "slime")
+                        {
+                            Main.slimecounter++;
                             Main.ach.Get("1slime");
-                            Main.ach.Get("1drake");
+                        }
+                        else if (enemy.name == "goblin")
+                        {
                             Main.ach.Get("1goblin");
+                            Main.goblincounter++;
+                        }
+                        else if (enemy.name == "bandit")
+                        {
+                            Main.banditcounter++;
                             Main.ach.Get("1bandit");
+                        }
+                        else if (enemy.name == "drake")
+                        {
+                            Main.ach.Get("1drake");
+                            Main.drakecounter++;
+                        }
                             return;
                         }
                     }
@@ -268,17 +286,25 @@ namespace Realm
                         enemy.droploot();
                         Main.Player.levelup();
                         if (enemy.name == "slime")
+                        {
                             Main.slimecounter++;
+                            Main.ach.Get("1slime");
+                        }
                         else if (enemy.name == "goblin")
+                        {
+                            Main.ach.Get("1goblin");
                             Main.goblincounter++;
+                        }
                         else if (enemy.name == "bandit")
+                        {
                             Main.banditcounter++;
+                            Main.ach.Get("1bandit");
+                        }
                         else if (enemy.name == "drake")
+                        {
+                            Main.ach.Get("1drake");
                             Main.drakecounter++;
-                        Main.ach.Get("1slime");
-                        Main.ach.Get("1drake");
-                        Main.ach.Get("1goblin");
-                        Main.ach.Get("1bandit");
+                        }
                         return;
                     }
                     is_turn = true;
@@ -479,7 +505,7 @@ namespace Realm
                 target.hp -= Convert.ToInt32(damage);
                 int heal = Convert.ToInt32(damage / 3);
                 Main.Player.hp += heal;
-                Interface.type("You gain " + heal + " life.");
+                Interface.type("You gain " + heal + " life.", ConsoleColor.Blue);
                 return true;
             }
         }
@@ -713,9 +739,11 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Main.Player.hp += Math.Max(((Main.Player.intl * 2) / 3), 1);
+                int heal = Math.Max(((Main.Player.intl * 2) / 3), 1);
+                Main.Player.hp += heal;
                 if (Main.Player.hp > Main.Player.maxhp)
                     Main.Player.hp = Main.Player.maxhp;
+                Interface.type("You gain " + heal + " life.", ConsoleColor.Blue);
                 return true;
             }
         }

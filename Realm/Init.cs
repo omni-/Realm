@@ -29,26 +29,9 @@ namespace Realm
             Console.Title = "Realm: " + Interface.GetTitle();
             Interface.type(Main.version, ConsoleColor.White);
             Map.gencave();
+            Achievement.LoadAchievements();
             if (!Save.LoadGame())
             {
-                 Main.achieve = new Dictionary<string, bool>()
-                 {
-                    {"name", false},
-                    {"wking", false},
-                    {"1slime", false},
-                    {"100slimes", false},
-                    {"raven", false},
-                    {"finalboss", false},
-                    {"1goblin", false},
-                    {"100goblins", false},
-                    {"1drake", false},
-                    {"100drakes", false},
-                    {"1bandit", false},
-                    {"100bandits", false},
-                    {"itembuy", false},
-                    {"cardboard", false},
-                    {"dragon", false}
-                };
                 Interface.type("\"Greetings. Before we begin, I must know your name.\"");
                 Interface.type("Please enter your name. ");
                 Main.Player.name = Interface.readinput(true);

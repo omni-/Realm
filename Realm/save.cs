@@ -87,24 +87,6 @@ namespace Realm
                 if (!File.Exists(path))
                     return false;
                 Interface.type("Loading Save...", ConsoleColor.White);
-                DecryptFile(achpath, tachpath, key);
-                string aline;
-                using (StreamReader afile = new StreamReader(tachpath))
-                {
-                    Dictionary<string, string> tempdict = new Dictionary<string, string>();
-                    while ((aline = afile.ReadLine()) != null)
-                    {
-                        string[] asplit = aline.Split(new char[] { '=' });
-                        tempdict.Add(asplit[0], asplit[1]);
-                    }
-                    foreach(KeyValuePair<string, string> entry in tempdict)
-                    {
-                        if (entry.Value == "True")
-                            Main.achieve.Add(entry.Key, true);
-                        else if (entry.Value == "False")
-                            Main.achieve.Add(entry.Key, false);
-                    }
-                }
                 DecryptFile(path, tpath, key);
                 Dictionary<string, string> vals = new Dictionary<string, string>();
                 string line;
@@ -382,43 +364,57 @@ namespace Realm
         }
         public static void EncryptFile(string sInputFilename, string sOutputFilename, string sKey)
         {
-            FileStream fsInput = new FileStream(sInputFilename,
-               FileMode.Open, FileAccess.Read);
-            FileStream fsEncrypted = new FileStream(sOutputFilename,
-               FileMode.OpenOrCreate, FileAccess.Write);
-            DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
-            DES.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
-            DES.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
-            ICryptoTransform desencrypt = DES.CreateEncryptor();
-            CryptoStream cryptostream = new CryptoStream(fsEncrypted,
-               desencrypt, CryptoStreamMode.Write);
-            byte[] bytearrayinput = new byte[fsInput.Length];
-            fsInput.Read(bytearrayinput, 0, bytearrayinput.Length);
-            cryptostream.Write(bytearrayinput, 0, bytearrayinput.Length);
-            cryptostream.Close();
-            fsInput.Close();
-            fsEncrypted.Close();
-            File.Delete(sInputFilename);
+            using (FileStream fsInput = new FileStream(sInputFilename, FileMode.Open, FileAccess.Read))
+            {
+                using (FileStream fsEncrypted = new FileStream(sOutputFilename, FileMode.OpenOrCreate, FileAccess.Write))
+                {
+                    DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
+                    DES.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
+                    DES.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
+                    ICryptoTransform desencrypt = DES.CreateEncryptor();
+                    using (CryptoStream cryptostream = new CryptoStream(fsEncrypted, desencrypt, CryptoStreamMode.Write))
+                    {
+                        byte[] bytearrayinput = new byte[fsInput.Length];
+                        fsInput.Read(bytearrayinput, 0, bytearrayinput.Length);
+                        cryptostream.Write(bytearrayinput, 0, bytearrayinput.Length);
+                        cryptostream.Close();
+                        fsInput.Close();
+                        fsEncrypted.Close();
+                        File.Delete(sInputFilename);
+                    }
+                }
+            }
         }
 
         public static void DecryptFile(string sInputFilename, string sOutputFilename, string sKey)
         {
-            DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
-            DES.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
-            DES.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
+            try
+            {
+                DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
+                DES.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
+                DES.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
 
-            FileStream fsread = new FileStream(sInputFilename, FileMode.Open, FileAccess.Read);
-            ICryptoTransform desdecrypt = DES.CreateDecryptor();
-            CryptoStream cryptostreamDecr = new CryptoStream(fsread,
-               desdecrypt, CryptoStreamMode.Read);
-            if (!File.Exists(sOutputFilename))
-                File.Create(sOutputFilename).Close();
-            StreamWriter fsDecrypted = new StreamWriter(sOutputFilename);
-            fsDecrypted.Write(new StreamReader(cryptostreamDecr).ReadToEnd());
-            fsDecrypted.Flush();
-            fsDecrypted.Close();
-            fsread.Close();
-            //File.Delete(sInputFilename);
+                using (FileStream fsread = new FileStream(sInputFilename, FileMode.Open, FileAccess.Read))
+                {
+                    ICryptoTransform desdecrypt = DES.CreateDecryptor();
+                    using (CryptoStream cryptostreamDecr = new CryptoStream(fsread, desdecrypt, CryptoStreamMode.Read))
+                    {
+                        if (!File.Exists(sOutputFilename))
+                            File.Create(sOutputFilename).Close();
+                        using (StreamWriter fsDecrypted = new StreamWriter(sOutputFilename))
+                        {
+                            fsDecrypted.Write(new StreamReader(cryptostreamDecr).ReadToEnd());
+                            fsDecrypted.Flush();
+                            fsDecrypted.Close();
+                            fsread.Close();
+                        }
+                        //File.Delete(sInputFilename);
+                    }
+                }
+            }
+            catch (CryptographicException e)
+            {
+            }
         }
     }
 }

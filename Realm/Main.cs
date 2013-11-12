@@ -53,7 +53,7 @@ namespace Realm
         public static bool devmode = false;
         public static bool hasmap = false;
 
-        public static string version = "Version Number - 1.8.0";
+        public static string version = "Version Number - 1.8.1";
         public static string devstring = "Cooper";
         public static string password = "__dev__";
         public static Dictionary<string, bool> achieve = new Dictionary<string, bool>();
@@ -62,6 +62,15 @@ namespace Realm
         {
             List<string> racelist = new List<string> { "human", "elf", "rockman", "giant", "zephyr", "shade" };
             List<string> classlist = new List<string> { "warrior", "paladin", "mage", "thief" };
+            List<string> secret = new List<string>();
+            if (achieve["100slimes"] == true)
+                secret.Add("Slime");
+            if (achieve["100goblins"] == true)
+                secret.Add("Goblin");
+            if (achieve["100bandits"] == true)
+                secret.Add("Bandit");
+            if (achieve["100drakes"] == true)
+                secret.Add("Drake");
             is_typing = true;
             Interface.type("Welcome, ");
             Interface.typeOnSameLine(Player.name, ConsoleColor.White);
@@ -74,6 +83,16 @@ namespace Realm
             Interface.type("At any specified time, you may press x, then y. This will cause you to commit suicide.");
             Interface.type("At any specified time, you may press #. Doing so will save the game.");
             Interface.type("In Realm, every player selects a race. Each race gives its own bonuses. You may choose from Human, Elf, Rockman, Giant, Zephyr, or Shade.");
+            if (achieve["100slimes"] == true || achieve["100goblins"] == true || achieve["100bandits"] == true || achieve["100drakes"] == true)
+            {
+                Interface.type("Secret Races: ");
+                for (int i = 0; i < secret.Count; i++)
+                {
+                    if (i > 1)
+                        Interface.typeOnSameLine(", ");
+                    Interface.type(secret[i]);
+                }
+            }
             Interface.type("Please enter a race. ");
             is_typing = false;
             string race = Interface.readinput();

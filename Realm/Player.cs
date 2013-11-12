@@ -58,10 +58,10 @@ namespace Realm
             }
             public void applybonus()
             {
-                atk = 1;
-                def = 1;
-                spd = 1;
-                intl = 0;
+                atk = 1000;
+                def = 1000;
+                spd = 1000;
+                intl = 1000;
                 if (race == "giant")
                     maxhp = 12 + (level + 2);
                 else
@@ -84,7 +84,7 @@ namespace Realm
                 def += Main.defbuff;
                 spd += Main.spdbuff;
                 intl += Main.intlbuff;
-
+                maxhp += 1000;
 
                 if (!primary.Equals(default(Item)))
                 {
