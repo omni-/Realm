@@ -1,5 +1,5 @@
 Realm
 =============
-
 A text-based RPG written in C#.
-All rights reserved. Copyright 2013.
+Requires .NET Framework 4.5.
+All rights reserved. Copyright 2014.
