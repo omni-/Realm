@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Security;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,14 +17,24 @@ namespace Realm
 {
     public class Init
     {
-        public static bool done = false;
+        public static bool init = false;
         public static bool failed = false;
+        public static byte[] GetHash(string inputString)
+        {
+            HashAlgorithm algorithm = MD5.Create();  // SHA1.Create()
+            return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
+        }
+
+        public static string GetHashString(string inputString)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in GetHash(inputString))
+                sb.Append(b.ToString("X"));
+
+            return sb.ToString();
+        }
         public static void Initialize()
         {
-            FileIO.worker();
-            while(!done)
-            {
-            }
             FileIO.checkver();
             File.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe");
             Console.Title = "Realm: " + Interface.GetTitle();
@@ -38,8 +49,8 @@ namespace Realm
                 Main.ach.Get("name");
                 if (Main.Player.name == Main.devstring)
                 {
-                    string input = Interface.SecureStringToString(Interface.getPassword());
-                    if (input == Main.password)
+                    string hash = GetHashString(Interface.SecureStringToString(Interface.getPassword()));
+                    if (hash == Main.password)
                     {
                         Console.Clear();
                         Main.Player.level = 100;
@@ -87,7 +98,7 @@ namespace Realm
             }
         }
     }
-    public static class FileIO
+    public class FileIO
     {
         public static bool FileCompare(string file1, string file2)
         {
@@ -148,16 +159,8 @@ namespace Realm
             string resourceName = "Realm.update.exe";
             string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Realm.exe";
             string temppath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe";
-            WebClient webClient = new WebClient();
-            try
-            {
-                webClient.DownloadFile("https://dl.dropboxusercontent.com/u/83385592/Realm.exe", temppath);
-            }
-            catch(WebException)
-            {
-                Interface.type("Failed to connect to server.");
-                Init.failed = true;
-            }
+            worker();
+            while (!Init.init) { }
             if (!Init.failed)
             {
                 if (!FileCompare(exepath, temppath))
@@ -185,17 +188,41 @@ namespace Realm
             delegate(object o, DoWorkEventArgs args)
             {
                 BackgroundWorker b = o as BackgroundWorker;
-                Console.Write("Loading...");
-                // do some simple processing for 10 seconds
-                for (int i = 0; i <= 100; i++)
+                WebClient webClient = new WebClient();
+                try
                 {
-                    Console.SetCursorPosition(11, 0);
-                    Console.Write("{0}%", i);
-                    Thread.Sleep(10);
+                    FileIO fio = new FileIO();
+                    fio.startDownload();
                 }
-                Init.done = true;
+                catch (WebException)
+                {
+                    Interface.type("Failed to connect to server.");
+                    Init.failed = true;
+                }
+                // do some simple processing for 10 seconds
             });
             bw.RunWorkerAsync();
+        }
+        private void startDownload()
+        {
+            Console.Write("Loading...0%");
+            string temppath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe";
+            WebClient client = new WebClient();
+            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
+            client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
+            client.DownloadFileAsync((new Uri("https://dl.dropboxusercontent.com/u/83385592/Realm.exe")), temppath);
+        }
+        void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            double bytesIn = double.Parse(e.BytesReceived.ToString());
+            double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
+            double percentage = bytesIn / totalBytes * 100;
+            Console.Write("\rLoading...{0}%", (int)percentage);
+        }
+        void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            Interface.type("Done.");
+            Init.init = true;
         }
     } 
 }

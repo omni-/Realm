@@ -53,9 +53,9 @@ namespace Realm
         public static bool devmode = false;
         public static bool hasmap = false;
 
-        public static string version = "Version Number - 1.8.1";
+        public static string version = "Version Number - 1.8.2";
         public static string devstring = "Cooper";
-        public static string password = "__dev__";
+        public static string password = "4B4FBC8F2A238AB334D15D36E2FEDBF";
         public static Dictionary<string, bool> achieve = new Dictionary<string, bool>();
 
         public static void Tutorial()
