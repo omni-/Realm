@@ -29,7 +29,7 @@ namespace Realm
                 else if (i.slot == 4)
                     Interface.type("Slot: Accessory", ConsoleColor.Green);
                 Interface.type("Tier: ", ConsoleColor.Green);
-                Interface.typeOnSameLine(i.tier.ToString(), (i.tier == 0 ? ConsoleColor.Gray : i.tier == 1 ? ConsoleColor.White : i.tier == 2 ? ConsoleColor.Blue : i.tier == 3 ? ConsoleColor.Yellow : i.tier == 4 ? ConsoleColor.Red : i.tier == 5 ? ConsoleColor.Magenta : i.tier == 6 ? ConsoleColor.Cyan : ConsoleColor.DarkRed));
+                Interface.typeOnSameLine(i.tier.ToString(), (i.tier == 0 ? ConsoleColor.Gray : i.tier == 1 ? ConsoleColor.White : i.tier == 2 ? ConsoleColor.Blue : i.tier == 3 ? ConsoleColor.Yellow : i.tier == 4 ? ConsoleColor.Red : i.tier == 5 ? ConsoleColor.Magenta : i.tier == 6 ? ConsoleColor.Cyan : ConsoleColor.DarkMagenta));
                 Interface.type("Enter (y) to equip this item, (d) to destroy and anything else to go back.", ConsoleColor.Green);
                 char c = Interface.readkey().KeyChar;
                 switch (c)

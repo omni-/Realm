@@ -1483,7 +1483,9 @@ namespace Realm
                             if (Player.Purchase(300, new void_cloak()) && Main.Player.backpack.Count <= 7)
                             {
                                 Interface.type("Obtained 'Spectral Bulwark'!", ConsoleColor.Green);
+                                Main.Player.backpack.Add(new spectral_bulwark());
                                 Interface.type("Obtained 'Illusory Plate'!", ConsoleColor.Green);
+                                Main.Player.backpack.Add(new illusory_plate());
                             }
                             else if (Main.Player.backpack.Count > 7)
                                 Interface.type("Not enough space!");

@@ -63,34 +63,44 @@ namespace Realm
             List<string> racelist = new List<string> { "human", "elf", "rockman", "giant", "zephyr", "shade" };
             List<string> classlist = new List<string> { "warrior", "paladin", "mage", "thief" };
             List<string> secret = new List<string>();
-            if (achieve["100slimes"] == true)
+            if (achieve["100slimes"])
                 secret.Add("Slime");
-            if (achieve["100goblins"] == true)
+            if (achieve["100goblins"])
                 secret.Add("Goblin");
-            if (achieve["100bandits"] == true)
+            if (achieve["100bandits"])
                 secret.Add("Bandit");
-            if (achieve["100drakes"] == true)
+            if (achieve["100drakes"])
                 secret.Add("Drake");
             is_typing = true;
             Interface.type("Welcome, ");
             Interface.typeOnSameLine(Player.name, ConsoleColor.White);
             Interface.typeOnSameLine(", to Realm.");
-            Interface.type("To do anything in Realm, simply press one of the listed commands.");
-            Interface.type("If at any time, you wish to you view you stats, press 'v'");
-            Interface.type("Make sure to visit every library! They offer many valuable abilities as well as experience.");
-            Interface.type("When in combat, select an availible move. All damage is randomized. Mana is refilled after each fight.");
-            Interface.type("While in the backpack, simply select a number corresponding to an item. You may swap this item in or out. Make sure to equip an item once you pick it up!");
-            Interface.type("At any specified time, you may press x, then y. This will cause you to commit suicide.");
-            Interface.type("At any specified time, you may press #. Doing so will save the game.");
-            Interface.type("In Realm, every player selects a race. Each race gives its own bonuses. You may choose from Human, Elf, Rockman, Giant, Zephyr, or Shade.");
-            if (achieve["100slimes"] == true || achieve["100goblins"] == true || achieve["100bandits"] == true || achieve["100drakes"] == true)
+            if (achieve["finalboss"])
+                Player.backpack.Add(new nightbringer());
+            Interface.type("Skip the tutorial? (y/n)");
+            if (Interface.readkey().KeyChar == 'n')
             {
-                Interface.type("Secret Races: ");
+                Interface.type("To do anything in Realm, simply press one of the listed commands.");
+                Interface.type("If at any time, you wish to you view you stats, press 'v'");
+                Interface.type("Make sure to visit every library! They offer many valuable abilities as well as experience.");
+                Interface.type("When in combat, select an availible move. All damage is randomized. Mana is refilled after each fight.");
+                Interface.type("While in the backpack, simply select a number corresponding to an item. You may swap this item in or out. Make sure to equip an item once you pick it up!");
+                Interface.type("At any specified time, you may press x, then y. This will cause you to commit suicide.");
+                Interface.type("At any specified time, you may press #. Doing so will save the game.");
+            }
+            Interface.type("In Realm, every player selects a race. Each race gives its own bonuses. You may choose from Human, Elf, Rockman, Giant, Zephyr, or Shade.");
+            if (achieve["100slimes"] || achieve["100goblins"] || achieve["100bandits"] || achieve["100drakes"])
+            {
+                Interface.type("Secret Races: ", ConsoleColor.Yellow);
                 for (int i = 0; i < secret.Count; i++)
                 {
                     if (i > 1)
-                        Interface.typeOnSameLine(", ");
-                    Interface.type(secret[i]);
+                        Interface.typeOnSameLine(", ", ConsoleColor.Yellow);
+                    Interface.type(secret[i], ConsoleColor.Yellow);
+                }
+                foreach (string s in secret)
+                {
+                    racelist.Add(s);
                 }
             }
             Interface.type("Please enter a race. ");
@@ -165,10 +175,12 @@ namespace Realm
                     Item sb = new spectral_bulwark();
                     Item ip = new illusory_plate();
                     Item vc = new void_cloak();
-                    if (!String.IsNullOrEmpty(Player.primary.name) && !String.IsNullOrEmpty(Player.secondary.name) && !String.IsNullOrEmpty(Player.armor.name) && !String.IsNullOrEmpty(Player.accessory.name))
-                        if (Player.primary.name.Equals(pc.name) && Player.secondary.name.Equals(sb.name) && Player.armor.name.Equals(ip.name) && Player.accessory.name.Equals(vc.name))
-                            if (!Player.abilities.commandChars.Contains('*'))
-                                Player.abilities.AddCommand(new Combat.EndtheIllusion("End the Illusion", '*'));
+                    if ((Player.backpack.Contains(pc) && Player.backpack.Contains(sb) && Player.backpack.Contains(ip) && Player.backpack.Contains(vc)) || devmode)
+                    {
+                        if (!Player.abilities.commandChars.Contains('*'))
+                            Player.abilities.AddCommand(new Combat.EndtheIllusion("End the Illusion", '*'));
+                        ach.Get("set");
+                    }
                     if (devmode)
                         Interface.type(Map.PlayerPosition.x + " " + Map.PlayerPosition.y);
                     if (!devmode)
@@ -288,7 +300,7 @@ namespace Realm
                     loop_number++;
                 }
             }
-            catch (Exception)
+            catch
             {
 
             }

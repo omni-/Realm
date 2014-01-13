@@ -58,11 +58,11 @@ namespace Realm
             }
             public void applybonus()
             {
-                atk = 1000;
-                def = 1000;
-                spd = 1000;
-                intl = 1000;
-                if (race == "giant")
+                atk = 1;
+                def = 1;
+                spd = 1;
+                intl = 1;
+                if (race == "giant" || race == "drake")
                     maxhp = 12 + (level + 2);
                 else
                     maxhp = 9 + level;
@@ -72,19 +72,18 @@ namespace Realm
                     atk = (1 + (level / 5));
                     spd = (1 + (level / 5));
                 }
-                else if (race == "elf")
+                else if (race == "elf" || race == "slime")
                     intl = (3 + (level / 2));
                 else if (race == "rockman")
                     def = (3 + (level / 2));
-                else if (race == "zephyr")
+                else if (race == "zephyr" || race == "goblin")
                     spd = (3 + (level / 2));
-                else if (race == "shade")
+                else if (race == "shade" || race == "bandit")
                     atk = (3 + (level / 2));
                 atk += Main.atkbuff;
                 def += Main.defbuff;
                 spd += Main.spdbuff;
                 intl += Main.intlbuff;
-                maxhp += 1000;
 
                 if (!primary.Equals(default(Item)))
                 {
@@ -123,7 +122,10 @@ namespace Realm
                     abilities.AddCommand(new Combat.Nightshade("Nightshade", 'n'));
                     Interface.type("Learned shade ability Nightshade!", ConsoleColor.Cyan);
                 }
-
+                else if (level >= 5 && race == "slime" && !abilities.commands.ContainsKey('m'))
+                {
+                    //abilities.AddCommand();
+                }
                 if (pclass == "warrior")
                     atk += (1 + (Main.Player.level / 5));
                 if (pclass == "paladin")
@@ -158,6 +160,11 @@ namespace Realm
             }
             public void applydevbonus()
             {
+                atk = 1000;
+                def = 1000;
+                intl = 1000;
+                spd = 1000;
+                maxhp = 1000;
                 if (!primary.Equals(default(Item)))
                 {
                     def += primary.defbuff;
@@ -188,6 +195,7 @@ namespace Realm
                     intl += accessory.intlbuff;
                     spd += accessory.spdbuff;
                 }
+                hp = maxhp;
             }
             public GamePlayer()
             {

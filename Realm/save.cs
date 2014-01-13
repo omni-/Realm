@@ -69,6 +69,10 @@ namespace Realm
             lines.Add("minecounter=" + Main.minecounter);
             lines.Add("frozencounter=" + Main.frozencounter);
             lines.Add("noobcounter=" + Main.noobcounter);
+            lines.Add("slimecounter=" + Main.slimecounter);
+            lines.Add("banditcounter=" + Main.banditcounter);
+            lines.Add("goblincounter=" + Main.goblincounter);
+            lines.Add("drakecounter=" + Main.drakecounter);
             lines.Add("g=" + Main.Player.g);
             lines.Add("xp=" + Main.Player.xp);
             string[] linesarray = lines.ToArray<string>();
@@ -240,6 +244,14 @@ namespace Realm
                             Item i = (Item)Activator.CreateInstance(atype);
                             Main.Player.accessory = i;
                         }
+                        if (entry.Key == "slimecounter")
+                            Main.slimecounter = Convert.ToInt32(entry.Value);
+                        if (entry.Key == "goblincounter")
+                            Main.goblincounter = Convert.ToInt32(entry.Value);
+                        if (entry.Key == "banditcounter")
+                            Main.banditcounter = Convert.ToInt32(entry.Value);
+                        if (entry.Key == "drakecounter")
+                            Main.drakecounter = Convert.ToInt32(entry.Value);
                         if (entry.Key == "Energy Overload")
                             Main.Player.abilities.AddCommand(new Combat.EnergyOverload("Energy Overload", 'e'));
                         if (entry.Key == "Blade Dash")
@@ -346,7 +358,16 @@ namespace Realm
                 File.Delete(tpath);
                 string crashpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt";
                 List<string> listlines = new List<string>();
-                listlines.Add(e.Message);
+                listlines.Add("---Load Save Runtime Error---");
+                listlines.Add("Message: \r\n" + e.Message);
+                try
+                {
+                    listlines.Add("Inner Exception: \r\n" + e.InnerException.ToString());
+                }
+                catch
+                {
+                }
+                listlines.Add("-----------------------------");
                 try
                 {
                     if (!File.Exists(crashpath))

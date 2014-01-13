@@ -27,6 +27,21 @@ namespace Realm
             multiplier = 1;
         }
     }
+    public class nightbringer : Item
+    {
+       public nightbringer()
+        {
+           name = "Nightbringer";
+           desc = "You cannot percieve its existence, you only know it to be there when you need it.";
+           atkbuff = 3 + (Main.Player.level >= 15 ? Main.Player.level : (int)(Main.Player.level * 2.5));
+           spdbuff = 1 + (Main.Player.level >= 15 ? Main.Player.level : (int)(Main.Player.level * 1.5));
+           defbuff = 1 + Main.Player.level;
+           intlbuff = Main.Player.level;
+           slot = 1;
+           tier = 7;
+           multiplier = 4;
+        }
+    }
     public class cardboard_armor : Item
     {
         public cardboard_armor()
