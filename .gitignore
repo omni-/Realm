@@ -12,6 +12,7 @@
 *.rlm
 *.txt
 *.CACHE
+*.config
 # Build results
 
 [Dd]ebug/
