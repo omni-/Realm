@@ -101,8 +101,6 @@ namespace Realm
                 char ch = Interface.readkey().KeyChar;
                 if (!cmd.commandChars.Contains(ch))
                     break;
-                //if (ch == '1')
-                //    cmd.ExecuteCommand('1', 1);
                 cmd.ExecuteCommand(ch, Main.Player.backpack[(int)Char.GetNumericValue(ch)]);
             }
             Console.ResetColor();

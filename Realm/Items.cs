@@ -8,14 +8,8 @@ namespace Realm
 {
     public class Item
     {
-        public string name;
-        public string desc;
-        public int atkbuff;
-        public int defbuff;
-        public int spdbuff;
-        public int intlbuff;
-        public int tier;
-        public int slot;
+        public string name, desc;
+        public int atkbuff, defbuff, spdbuff, intlbuff, tier, slot, sellvalue;
         public float multiplier;
         //1 for primary 2 for secondary 3 for armor 4 for Accessory
         public Item()
@@ -32,7 +26,7 @@ namespace Realm
        public nightbringer()
         {
            name = "Nightbringer";
-           desc = "You cannot percieve its existence, you only know it to be there when you need it.";
+           desc = "You cannot percieve its existence; you only know it to be there when you need it.";
            atkbuff = 3 + (Main.Player.level >= 15 ? Main.Player.level : (int)(Main.Player.level * 2.5));
            spdbuff = 1 + (Main.Player.level >= 15 ? Main.Player.level : (int)(Main.Player.level * 1.5));
            defbuff = 1 + Main.Player.level;
