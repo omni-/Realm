@@ -11,38 +11,9 @@ namespace Realm
 {
     public static class Main
     {
-        public static int loop_number = 0;
-        public static int game_state = 0;
+        public static int loop_number = 0, game_state = 0, slimecounter = 0, goblincounter = 0, banditcounter = 0, drakecounter = 0, wkingcounter = 0, slibcounter = 0, forrestcounter = 0, libcounter = 0, centrallibcounter = 0, ramsaycounter = 0, magiccounter = 0, nlibcounter = 0, townfolkcounter = 0, nomadcounter = 0, minecounter = 0, frozencounter = 0, noobcounter = 0, gbooks = 0, intlbuff = 0, defbuff = 0, atkbuff = 0, spdbuff = 0;
 
-        public static int slimecounter = 0;
-        public static int goblincounter = 0;
-        public static int banditcounter = 0;
-        public static int drakecounter = 0;
-        public static int wkingcounter = 0;
-        public static int slibcounter = 0;
-        public static int forrestcounter = 0;
-        public static int libcounter = 0;
-        public static int centrallibcounter = 0;
-        public static int ramsaycounter = 0;
-        public static int magiccounter = 0;
-        public static int nlibcounter = 0;
-        public static int townfolkcounter = 0;
-        public static int nomadcounter = 0;
-        public static int minecounter = 0;
-        public static int frozencounter = 0;
-        public static int noobcounter = 0;
-
-        public static int gbooks = 0;
-
-        public static int intlbuff = 0;
-        public static int defbuff = 0;
-        public static int atkbuff = 0;
-        public static int spdbuff = 0;
-
-        public static bool raven_dead = false;
-        public static bool is_theif = false;
-        public static bool wkingdead = false;
-        public static bool is_typing = false;
+        public static bool raven_dead = false, is_theif = false, wkingdead = false, is_typing = false, devmode = false, hasmap = false;
 
         public static Achievement ach = new Achievement();
         public static Player.GamePlayer Player = new Realm.Player.GamePlayer();
@@ -50,12 +21,8 @@ namespace Realm
 
         public static Random rand = new Random();
 
-        public static bool devmode = false;
-        public static bool hasmap = false;
+        public static string version = "Version Number - 1.8.2", devstring = "Cooper", password = "C801E02331DFE9B11CF542B4F98C1169";
 
-        public static string version = "Version Number - 1.8.2";
-        public static string devstring = "Cooper";
-        public static string password = "4B4FBC8F2A238AB334D15D36E2FEDBF";
         public static Dictionary<string, bool> achieve = new Dictionary<string, bool>();
 
         public static void Tutorial()
@@ -199,10 +166,10 @@ namespace Realm
                     else
                         Interface.type(currPlace.ToString());
                     char[] currcommands = currPlace.getAvailableCommands();
-                    Interface.typeOnSameLine("\r\nYour current commands are x", ConsoleColor.DarkBlue);
+                    Interface.typeOnSameLine("\r\nYour current commands are x", ConsoleColor.Cyan);
                     foreach (char c in currcommands)
                     {
-                        Interface.typeOnSameLine(", " + c, ConsoleColor.DarkBlue);
+                        Interface.typeOnSameLine(", " + c, ConsoleColor.Cyan);
                     }
                     Interface.type("");
 

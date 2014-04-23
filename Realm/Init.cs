@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
@@ -19,16 +20,26 @@ namespace Realm
     {
         public static bool init = false;
         public static bool failed = false;
-        public static byte[] GetHash(string inputString)
+        public static string CalculateMD5Hash(string input)
         {
-            HashAlgorithm algorithm = MD5.Create();  // SHA1.Create()
-            return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
+            // step 1, calculate MD5 hash from input
+            MD5 md5 = System.Security.Cryptography.MD5.Create();
+            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+            byte[] hash = md5.ComputeHash(inputBytes);
+
+            // step 2, convert byte array to hex string
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("X2"));
+            }
+            return sb.ToString();
         }
 
         public static string GetHashString(string inputString)
         {
             StringBuilder sb = new StringBuilder();
-            foreach (byte b in GetHash(inputString))
+            foreach (byte b in CalculateMD5Hash(inputString))
                 sb.Append(b.ToString("X"));
 
             return sb.ToString();
@@ -152,6 +163,14 @@ namespace Realm
             // the same.
             return ((file1byte - file2byte) == 0);
         }
+        [DllImport("wininet.dll")]
+        private extern static bool InternetGetConnectedState(out int Description, int ReservedValue);
+        public static bool isConnected()
+        {
+            int desc;
+            bool tf = InternetGetConnectedState(out desc, 0);
+            return tf;
+        }
         public static void checkver()
         {
             string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -161,20 +180,26 @@ namespace Realm
             string temppath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe";
             worker();
             while (!Init.init) { }
-            if (!Init.failed)
+
+            if (isConnected())
             {
-                if (!FileCompare(exepath, temppath))
+                if (!Init.failed)
                 {
-                    Interface.type("New version available. Press 'p' to download. ", 0);
-                    if (Interface.readkey().KeyChar == 'p')
+                    if (!FileCompare(exepath, temppath))
                     {
-                        var p = new Plop();
-                        p.DropAndRun(resourceName, programName);
-                        Environment.Exit(0);
+                        Interface.type("New version available. Press 'p' to download. ", 0);
+                        if (Interface.readkey().KeyChar == 'p')
+                        {
+                            var p = new Plop();
+                            p.DropAndRun(resourceName, programName);
+                            Environment.Exit(0);
+                        }
                     }
+                    File.Delete(temppath);
                 }
-                File.Delete(temppath);
             }
+            else
+                Interface.type("Connection error.");
         }
         public static void worker()
         {

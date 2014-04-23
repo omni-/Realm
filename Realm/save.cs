@@ -433,7 +433,7 @@ namespace Realm
                     }
                 }
             }
-            catch (CryptographicException e)
+            catch (CryptographicException)
             {
             }
         }

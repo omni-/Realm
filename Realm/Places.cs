@@ -793,7 +793,7 @@ namespace Realm
                                         break;
                                     case 'g':
                                         Main.intlbuff += 1;
-                                        Interface.type("You are touched by the art of cooking. Being forged in the flame of cooking, your ability to think up vicious insults has improved. Your intelligence has improved a little", ConsoleColor.Blue);
+                                        Interface.type("You are touched by the art of cooking. Being forged in the flame of cooking, your ability to think up vicious insults has improved. Your intelligence has improved a little", ConsoleColor.Cyan);
                                         Main.gbooks++;
                                         break;
                                 }
@@ -890,7 +890,7 @@ namespace Realm
                                         Main.Player.hp -= 1;
                                         Main.spdbuff += 3;
                                         Interface.type("You are exhausted from finishing the book, ", ConsoleColor.Red);
-                                        Interface.typeOnSameLine("but you feel like your speed has increased a little.", ConsoleColor.Blue);
+                                        Interface.typeOnSameLine("but you feel like your speed has increased a little.", ConsoleColor.Cyan);
                                         break;
                                     case 'n':
                                         Interface.type("You decide that completing this book is not worth the time. Do you wish to put the book back in it's original spot on the bookshelf?(y/n)");
@@ -923,11 +923,11 @@ namespace Realm
                                 Main.Player.abilities.AddCommand(new Combat.Dawnstrike("Dawnstrike", 't'));
                                 break;
                             case 'h':
-                                Interface.type("You read 5000 pages on the history of the realm. You're not sure why you did that, but you feel smarter.", ConsoleColor.Blue);
+                                Interface.type("You read 5000 pages on the history of the realm. You're not sure why you did that, but you feel smarter.", ConsoleColor.Cyan);
                                 Main.intlbuff += 2;
                                 break;
                             case 'g':
-                                Interface.type("You learn of the layers of granite and basalt on Planet Ramsay. You feel tougher.", ConsoleColor.Blue);
+                                Interface.type("You learn of the layers of granite and basalt on Planet Ramsay. You feel tougher.", ConsoleColor.Cyan);
                                 Main.defbuff += 1;
                                 Main.gbooks++;
                                 break;
@@ -1041,7 +1041,7 @@ namespace Realm
                                 Main.Player.abilities.AddCommand(new Combat.Curse("Curse", 'c'));
                                 break;
                             case 'g':
-                                Interface.type("Now skilled in the art of stealing, you gain 10% more gold. You also feel faster.", ConsoleColor.Blue);
+                                Interface.type("Now skilled in the art of stealing, you gain 10% more gold. You also feel faster.", ConsoleColor.Cyan);
                                 Main.is_theif = true;
                                 Main.spdbuff += 2;
                                 break;
@@ -1056,7 +1056,7 @@ namespace Realm
                                 Main.Player.abilities.AddCommand(new Combat.Phase("Phase", 'p'));
                                 break;
                             case 'r':
-                                Interface.type("You become educated on the mathematics of cooking.", ConsoleColor.Blue);
+                                Interface.type("You become educated on the mathematics of cooking.", ConsoleColor.Cyan);
                                 Main.intlbuff += 1;
                                 Main.gbooks++;
                                 break;
@@ -2045,12 +2045,12 @@ namespace Realm
                         switch (Interface.readkey().KeyChar)
                         {
                             case 'c':
-                                Interface.type("You pick up the book entitled Cold. You read of the century long winter from the days of old. It kind of scares you, but you feel smarter and faster.", ConsoleColor.Blue);
+                                Interface.type("You pick up the book entitled Cold. You read of the century long winter from the days of old. It kind of scares you, but you feel smarter and faster.", ConsoleColor.Cyan);
                                 Main.intlbuff += 2;
                                 Main.spdbuff += 2;
                                 break;
                             case 'f':
-                                Interface.type("You pick of the book entitled Frost. You learn of the event that froze over this once-warm town. It terrifies you, but you feel stronger and tougher.", ConsoleColor.Blue);
+                                Interface.type("You pick of the book entitled Frost. You learn of the event that froze over this once-warm town. It terrifies you, but you feel stronger and tougher.", ConsoleColor.Cyan);
                                 Main.atkbuff += 2;
                                 Main.defbuff += 2;
                                 break;
@@ -2216,7 +2216,7 @@ namespace Realm
 
         protected virtual string GetDesc()
         {
-            return "It's really dark here.";
+            return "It's really dark here. Press f to move forward.";
         }
         public string Description
         {
@@ -2307,7 +2307,7 @@ namespace Realm
                     }
                     else
                     {
-                        Interface.type("As you harvest them, the crystals glow, and energy seeps through your veins and into your brain. Your vision becomes very bright, and you feel enlightened.", ConsoleColor.Blue);
+                        Interface.type("As you harvest them, the crystals glow, and energy seeps through your veins and into your brain. Your vision becomes very bright, and you feel enlightened.", ConsoleColor.Cyan);
                         Main.intlbuff += 3;
                     }
                     break;
@@ -2352,7 +2352,7 @@ namespace Realm
                     }
                     else if (roll == 2)
                     {
-                        Interface.type("You feel like you just drank 6 espressi, and you're bouncing off the walls.", ConsoleColor.Blue);
+                        Interface.type("You feel like you just drank 6 espressi, and you're bouncing off the walls.", ConsoleColor.Cyan);
                         Main.spdbuff += 3;
                     }
                     else if (roll == 3)
@@ -2362,7 +2362,7 @@ namespace Realm
                     }
                     else if (roll == 4)
                     {
-                        Interface.type("The mushroom you just ate was a hypersteroid. You grow taller, your muscles bigger, and all in less than a minute. It's kind of painful though.", ConsoleColor.Blue);
+                        Interface.type("The mushroom you just ate was a hypersteroid. You grow taller, your muscles bigger, and all in less than a minute. It's kind of painful though.", ConsoleColor.Cyan);
                         Main.Player.maxhp += 2;
                         Main.atkbuff += 1;
                     }

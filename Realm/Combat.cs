@@ -27,26 +27,26 @@ namespace Realm
             bool is_turn = enemy.spd < Main.Player.spd;
             while (enemy.hp >= 0)
             {
-                Interface.type("----------------------", ConsoleColor.Blue);
-                Interface.type("Your HP: " + Main.Player.hp, ConsoleColor.Blue);
-                Interface.type("Your Mana: " + mana, ConsoleColor.Blue);
-                Interface.type("----------------------", ConsoleColor.Blue);
+                Interface.type("----------------------", ConsoleColor.Cyan);
+                Interface.type("Your HP: " + Main.Player.hp, ConsoleColor.Cyan);
+                Interface.type("Your Mana: " + mana, ConsoleColor.Cyan);
+                Interface.type("----------------------", ConsoleColor.Cyan);
                 Interface.type("Enemy HP: " + enemy.hp, ConsoleColor.Red);
-                Interface.type("----------------------", ConsoleColor.Blue);
+                Interface.type("----------------------", ConsoleColor.Cyan);
                 if (is_turn && !Main.Player.stunned)
                 {
                     if (Main.Player.phased)
                         Main.Player.phased = false;
-                    Interface.type("\r\nAVAILABLE MOVES:", ConsoleColor.Blue);
-                    Interface.type("-------------", ConsoleColor.Blue);
+                    Interface.type("\r\nAVAILABLE MOVES:", ConsoleColor.Cyan);
+                    Interface.type("-------------", ConsoleColor.Cyan);
                     int i = 0;
                     foreach (Realm.Combat.Command c in Main.Player.abilities.commands.Values)
                     {
                         string src = "||   " + c.cmdchar + ". " + c.name;
-                        Interface.type(src, ConsoleColor.Blue);
+                        Interface.type(src, ConsoleColor.Cyan);
                         i++;
                     }
-                    Interface.type("-------------", ConsoleColor.Blue);
+                    Interface.type("-------------", ConsoleColor.Cyan);
                     Interface.type("");
 
                     if (Main.Player.fire >= 3)
@@ -84,7 +84,7 @@ namespace Realm
                         mana--;
                     if (ch == 'm')
                     {
-                        Interface.type("You mimc the enemy's damage!", ConsoleColor.Blue);
+                        Interface.type("You mimc the enemy's damage!", ConsoleColor.Cyan);
                         enemy.hp -= enemydmg;
                     }
                     if (!Main.Player.blinded)
@@ -94,16 +94,16 @@ namespace Realm
                         Interface.type("You are blind!", ConsoleColor.Red);
                         if (Combat.Dice.roll(1, 10) == 1)
                         {
-                            Interface.type("By some miracle, you manage to hit", ConsoleColor.Blue);
+                            Interface.type("By some miracle, you manage to hit", ConsoleColor.Cyan);
                             Main.Player.abilities.ExecuteCommand(ch, enemy);
                             int blindenemyhp = oldhp - enemy.hp;
                             if (ch != 'l')
-                                Interface.type("The enemy takes " + blindenemyhp + " damage!", ConsoleColor.Blue);
+                                Interface.type("The enemy takes " + blindenemyhp + " damage!", ConsoleColor.Cyan);
                         }
                     }
                     int enemyhp = oldhp - enemy.hp;
                     if (ch != 'l')
-                        Interface.type("The enemy takes " + enemyhp + " damage!", ConsoleColor.Blue);
+                        Interface.type("The enemy takes " + enemyhp + " damage!", ConsoleColor.Cyan);
                     if (enemy.hp <= 0)
                     {
                         Interface.type("Your have defeated " + enemy.name + "!", ConsoleColor.Yellow);
@@ -170,7 +170,7 @@ namespace Realm
                         enemy.fire++;
                         int dmg = Combat.Dice.roll(1, 3);
                         enemy.hp -= dmg;
-                        Interface.type(enemy.name + " takes " + dmg + " fire damage.", ConsoleColor.Blue);
+                        Interface.type(enemy.name + " takes " + dmg + " fire damage.", ConsoleColor.Cyan);
                         if (enemy.hp <= 0)
                         {
                             Interface.type("Your have defeated " + enemy.name + "!", ConsoleColor.Yellow);
@@ -201,7 +201,7 @@ namespace Realm
                     }
                     if (enemy.cursed)
                     {
-                        Interface.type(enemy.name + " is cursed!", ConsoleColor.Blue);
+                        Interface.type(enemy.name + " is cursed!", ConsoleColor.Cyan);
                         enemy.hp -= Combat.Dice.roll(1, 6);
                         if (enemy.hp <= 0)
                         {
@@ -216,7 +216,7 @@ namespace Realm
                         Interface.type("Your trap has sprung!");
                         int dmg = (Main.Player.level / 5) + (Main.Player.intl / 3) + Combat.Dice.roll(1, 5);
                         enemy.hp -= dmg;
-                        Interface.type(enemy.name + " takes " + dmg + " damage!", ConsoleColor.Blue);
+                        Interface.type(enemy.name + " takes " + dmg + " damage!", ConsoleColor.Cyan);
                         if (enemy.hp <= 0)
                         {
                             Interface.type("Your have defeated " + enemy.name + "!", ConsoleColor.Yellow);
@@ -245,7 +245,7 @@ namespace Realm
                     {
                         if (Main.Player.blinded)
                         {
-                            Interface.type(enemy.name + "is blind!", ConsoleColor.Blue);
+                            Interface.type(enemy.name + "is blind!", ConsoleColor.Cyan);
                             if (Combat.Dice.roll(1, 10) == 1)
                             {
                                 Interface.type("By some miracle, " + enemy.name + " manages to hit you!", ConsoleColor.Red);
@@ -256,7 +256,7 @@ namespace Realm
                             }
                         }
                         else if (Main.Player.guarded)
-                            Interface.type("Safeguard prevented damage!", ConsoleColor.Blue);
+                            Interface.type("Safeguard prevented damage!", ConsoleColor.Cyan);
                     }
                     if (Main.Player.hp <= 0)
                         End.GameOver();
@@ -264,7 +264,7 @@ namespace Realm
                 }
                 else if (enemy.stunned)
                 {
-                    Interface.type(enemy.name + " is stunned!", ConsoleColor.Blue);
+                    Interface.type(enemy.name + " is stunned!", ConsoleColor.Cyan);
                     enemy.stunned = false;
                     if (enemy.fire >= 3)
                         enemy.on_fire = false;
@@ -273,11 +273,11 @@ namespace Realm
                         enemy.fire++;
                         int dmg = Combat.Dice.roll(1, 3);
                         enemy.hp -= dmg;
-                        Interface.type(enemy.name + " takes " + dmg + " fire damage.", ConsoleColor.Blue);
+                        Interface.type(enemy.name + " takes " + dmg + " fire damage.", ConsoleColor.Cyan);
                     }
                     if (enemy.cursed)
                     {
-                        Interface.type(enemy.name + " is cursed!", ConsoleColor.Blue);
+                        Interface.type(enemy.name + " is cursed!", ConsoleColor.Cyan);
                         enemy.hp -= Combat.Dice.roll(1, 6);
                     }
                     if (enemy.hp <= 0)
@@ -505,7 +505,7 @@ namespace Realm
                 target.hp -= Convert.ToInt32(damage);
                 int heal = Convert.ToInt32(damage / 3);
                 Main.Player.hp += heal;
-                Interface.type("You gain " + heal + " life.", ConsoleColor.Blue);
+                Interface.type("You gain " + heal + " life.", ConsoleColor.Cyan);
                 return true;
             }
         }
@@ -743,7 +743,7 @@ namespace Realm
                 Main.Player.hp += heal;
                 if (Main.Player.hp > Main.Player.maxhp)
                     Main.Player.hp = Main.Player.maxhp;
-                Interface.type("You gain " + heal + " life.", ConsoleColor.Blue);
+                Interface.type("You gain " + heal + " life.", ConsoleColor.Cyan);
                 return true;
             }
         }
