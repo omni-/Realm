@@ -1916,6 +1916,8 @@ namespace Realm
                                                             {
                                                                 Main.Player.backpack.Add(new tome());
                                                                 Interface.type("You pick up the book.");
+                                                                if (!Main.Player.abilities.commands.ContainsKey('p'))
+                                                                    Main.Player.abilities.AddCommand(new Combat.ForcePulse("Force Pulse", 'f'));
                                                                 Interface.type("Learned 'Force Pulse'!", ConsoleColor.Cyan);
                                                             }
                                                             Interface.type("It takes a few hours, but you climb your way out of the mine. You surface looking like a chimney sweep.");

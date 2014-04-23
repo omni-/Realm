@@ -468,14 +468,8 @@ namespace Realm
     }
     public class tome : Item
     {
-        public void tomeability()
-        {
-            if (!Main.Player.abilities.commands.ContainsKey('p'))
-                Main.Player.abilities.AddCommand(new Combat.ForcePulse("Force Pulse", 'f'));
-        }
         public tome()
         {
-            tomeability();
             name = "Dusty Tome";
             desc = "An old tome with an azurite gem adorning the cover. It glows with magical power. You can also block punches with it, you suppose.";
             intlbuff = 10;
