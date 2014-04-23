@@ -13,7 +13,7 @@ namespace Realm
     {
         public static int loop_number = 0, game_state = 0, slimecounter = 0, goblincounter = 0, banditcounter = 0, drakecounter = 0, wkingcounter = 0, slibcounter = 0, forrestcounter = 0, libcounter = 0, centrallibcounter = 0, ramsaycounter = 0, magiccounter = 0, nlibcounter = 0, townfolkcounter = 0, nomadcounter = 0, minecounter = 0, frozencounter = 0, noobcounter = 0, gbooks = 0, intlbuff = 0, defbuff = 0, atkbuff = 0, spdbuff = 0;
 
-        public static bool raven_dead = false, is_theif = false, wkingdead = false, is_typing = false, devmode = false, hasmap = false;
+        public static bool raven_dead = false, is_theif = false, wkingdead = false, is_typing = false, devmode = false, hasmap = false, achievements_disabled = false;
 
         public static Achievement ach = new Achievement();
         public static Player.GamePlayer Player = new Realm.Player.GamePlayer();
@@ -21,9 +21,13 @@ namespace Realm
 
         public static Random rand = new Random();
 
-        public static string version = "Version Number - 1.8.2", devstring = "Cooper", password = "C801E02331DFE9B11CF542B4F98C1169";
+        public static string version = "Version Number - 1.8.3.1", devstring = "Cooper", password = "C801E02331DFE9B11CF542B4F98C1169";
 
         public static Dictionary<string, bool> achieve = new Dictionary<string, bool>();
+
+        public static List<Item> MainItemList = new List<Item> {
+new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_band(), new iron_buckler(), new iron_lance(), new iron_mail(), new iron_rapier(), new wood_armor(), new wood_plank(), new wood_staff(), new fmBP(), new sonictee(), new slwscreen(), new plastic_ring(), new m_amulet(), new m_robes(), new m_staff(), new m_tome(), new bt_battleaxe(), new bt_greatsword(), new bt_longsword(), new bt_plate(), new blood_amulet(), new swifites(), new ice_amulet(), new ice_dagger(), new ice_shield(), new p_mail(), new p_shield(), new p_shortsword(), new goldcloth_cloak(), new a_amulet(), new a_mail(), new a_staff(), new tome(), new ds_amulet(), new ds_kite(), new ds_kris(), new ds_scale(), new sb_saber(), new sb_chain(), new sb_gauntlet(), new sb_shield()
+        };
 
         public static void Tutorial()
         {
@@ -241,6 +245,18 @@ namespace Realm
                             catch (ArgumentNullException)
                             {
                                 Interface.type("Invalid Item.");
+                            }
+                        }
+                        else if (input == "d")
+                        {
+                            if (Main.rand.NextDouble() <= .1d)
+                            {
+                                Main.Player.backpack.Add(MainItemList[Main.rand.Next(0, MainItemList.Count - 1)]);
+                                Interface.type("Obtained " + MainItemList[Main.rand.Next(0, MainItemList.Count - 1)].name + "!", ConsoleColor.Green);
+                            }
+                            else
+                            {
+                                Interface.type("Nothing dropped.");
                             }
                         }
                         //else if (input == "t")

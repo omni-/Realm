@@ -348,7 +348,7 @@ namespace Realm
         public swifites()
         {
             name = "Icy Boots of Fast";
-            desc = "Although offering little protection, they make you go fast.";
+            desc = "Although offering little protection, they make you go fast. And what could be more important than fast.";
             spdbuff = 10;
             defbuff = 3;
             tier = 4;

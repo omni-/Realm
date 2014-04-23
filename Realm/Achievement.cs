@@ -35,38 +35,38 @@ namespace Realm
             {
                 string tachpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm";
                 string achpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm";
-                if (achievement == "name" && Main.achieve["name"] == false)
-                    MessageBox.Show("Howdy, stranger.", "Achievement Unlocked!");
-                else if (achievement == "wking" && Main.achieve["wking"] == false)
-                    MessageBox.Show("Brave, brave Sir Robin...", "Achievement Unlocked!");
-                else if (achievement == "1slime" && Main.achieve["1slime"] == false)
-                    MessageBox.Show("Tru hero", "Achievement Unlocked!");
-                else if (achievement == "100slime" && Main.achieve["100slime"] == false)
-                    MessageBox.Show("Professional Farmer", "Achievement Unlocked!");
-                else if (achievement == "raven" && Main.achieve["raven"] == false)
-                    MessageBox.Show("Caw Caw", "Achievement Unlocked!");
-                else if (achievement == "finalboss" && Main.achieve["finalboss"] == false)
-                    MessageBox.Show("The end?", "Achievement Unlocked!");
-                else if (achievement == "1goblin" && Main.achieve["1goblin"] == false)
-                    MessageBox.Show("On your way...", "Achievement Unlocked!");
-                else if (achievement == "100goblins" && Main.achieve["100goblins"] == false)
-                    MessageBox.Show("Are you Rosie?", "Achievement Unlocked!");
-                else if (achievement == "1drake" && Main.achieve["1drake"] == false)
-                    MessageBox.Show("Basically dragonborn.", "Achievement Unlocked!");
-                else if (achievement == "100drakes" && Main.achieve["100drakes"] == false)
-                    MessageBox.Show("You monster.", "Achievement Unlocked!");
-                else if (achievement == "1bandit" && Main.achieve["1bandit"] == false)
-                    MessageBox.Show("Basically Batman.", "Achievement Unlocked!");
-                else if (achievement == "100bandits" && Main.achieve["100bandits"] == false)
-                    MessageBox.Show("The DK Crew", "Achievement Unlocked!");
-                else if (achievement == "itembuy" && Main.achieve["itembuy"] == false)
-                    MessageBox.Show("One thing isn't a spree, mom.", "Achievement Unlocked!");
-                else if (achievement == "cardboard" && Main.achieve["cardboard"] == false)
-                    MessageBox.Show("grats on the upgrade", "Achievement Unlocked!");
-                else if (achievement == "dragon" && Main.achieve["dragon"] == false)
-                    MessageBox.Show("Fus ro dah", "Achievement Unlocked!");
-                else if (achievement == "set" && Main.achieve["set"] == false)
-                    MessageBox.Show("Wombo Combo!", "Achievement Unlocked!");
+                if (achievement == "name" && Main.achieve["name"] == false && !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: Howdy, stranger.", ConsoleColor.Green);
+                else if (achievement == "wking" && Main.achieve["wking"] == false && !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: Brave, brave Sir Robin...", ConsoleColor.Green);
+                else if (achievement == "1slime" && Main.achieve["1slime"] == false && !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: Tru hero");
+                else if (achievement == "100slime" && Main.achieve["100slime"] == false && !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: Farm Simulator 2013", ConsoleColor.Green);
+                else if (achievement == "raven" && Main.achieve["raven"] == false && !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: Caw Caw", ConsoleColor.Green);
+                else if (achievement == "finalboss" && Main.achieve["finalboss"] == false && !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: The end?");
+                else if (achievement == "1goblin" && Main.achieve["1goblin"] == false && !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: On your way...", ConsoleColor.Green);
+                else if (achievement == "100goblins" && Main.achieve["100goblins"] == false && !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: Are you Rosie?", ConsoleColor.Green);
+                else if (achievement == "1drake" && Main.achieve["1drake"] == false && !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: Basically dragonborn.", ConsoleColor.Green);
+                else if (achievement == "100drakes" && Main.achieve["100drakes"] == false && !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: You monster.", ConsoleColor.Green);
+                else if (achievement == "1bandit" && Main.achieve["1bandit"] == false && !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: Basically Batman.", ConsoleColor.Green);
+                else if (achievement == "100bandits" && Main.achieve["100bandits"] == false && !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: The DK Crew", ConsoleColor.Green);
+                else if (achievement == "itembuy" && Main.achieve["itembuy"] == false && !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: One thing isn't a spree, mom.", ConsoleColor.Green);
+                else if (achievement == "cardboard" && Main.achieve["cardboard"] == false && !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: grats on the upgrade", ConsoleColor.Green);
+                else if (achievement == "dragon" && Main.achieve["dragon"] == false && !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: Fus ro dah", ConsoleColor.Green);
+                else if (achievement == "set" && Main.achieve["set"] == false && !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: Wombo Combo!", ConsoleColor.Green);
                 if (Main.achieve.ContainsKey(achievement))
                     Main.achieve[achievement] = true;
                 if (!File.Exists(achpath))

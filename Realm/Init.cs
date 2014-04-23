@@ -36,14 +36,6 @@ namespace Realm
             return sb.ToString();
         }
 
-        public static string GetHashString(string inputString)
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach (byte b in CalculateMD5Hash(inputString))
-                sb.Append(b.ToString("X"));
-
-            return sb.ToString();
-        }
         public static void Initialize()
         {
             FileIO.checkver();
@@ -60,7 +52,7 @@ namespace Realm
                 Main.ach.Get("name");
                 if (Main.Player.name == Main.devstring)
                 {
-                    string hash = GetHashString(Interface.SecureStringToString(Interface.getPassword()));
+                    string hash = CalculateMD5Hash(Interface.SecureStringToString(Interface.getPassword()));
                     if (hash == Main.password)
                     {
                         Console.Clear();

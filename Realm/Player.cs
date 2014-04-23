@@ -115,7 +115,7 @@ namespace Realm
                 else if (level >= 5 && race == "zephyr" && !abilities.commands.ContainsKey('!'))
                 {
                     abilities.AddCommand(new Combat.Lightspeed("Lightspeed", '!'));
-                    Interface.type("Learned zephyr ability Lightspeed!", ConsoleColor.Cyan);
+                    Interface.type("Learned Zephyr ability Lightspeed!", ConsoleColor.Cyan);
                 }
                 else if (level >= 5 && race == "shade" && !abilities.commands.ContainsKey('n'))
                 {
