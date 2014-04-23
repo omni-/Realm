@@ -95,7 +95,7 @@
     <Compile Include="Init.cs" />
     <Compile Include="Items.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Merchant.cs" />
+    <Compile Include="NPC.cs" />
     <Compile Include="Places.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />

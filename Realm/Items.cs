@@ -9,7 +9,7 @@ namespace Realm
     public class Item
     {
         public string name, desc;
-        public int atkbuff, defbuff, spdbuff, intlbuff, tier, slot, sellvalue;
+        public int atkbuff, defbuff, spdbuff, intlbuff, tier, slot, value;
         public float multiplier;
         //1 for primary 2 for secondary 3 for armor 4 for Accessory
         public Item()
@@ -26,6 +26,7 @@ namespace Realm
        public nightbringer()
         {
            name = "Nightbringer";
+           value = 500;
            desc = "You cannot percieve its existence; you only know it to be there when you need it.";
            atkbuff = 3 + (Main.Player.level >= 15 ? Main.Player.level : (int)(Main.Player.level * 2.5));
            spdbuff = 1 + (Main.Player.level >= 15 ? Main.Player.level : (int)(Main.Player.level * 1.5));
@@ -42,6 +43,7 @@ namespace Realm
         {
             name = "Cardboard Armor";
             desc = "A refrigerator box barely held together by masking tape.";
+            value = 1;
             defbuff = 1;
             tier = 0;
             slot = 3;
@@ -53,6 +55,7 @@ namespace Realm
         {
             name = "Cardboard Sword";
             desc = "One of those wrapping paper tubes you hit your siblings with.";
+            value = 1;
             atkbuff = 1;
             tier = 0;
             slot = 1;
@@ -65,6 +68,7 @@ namespace Realm
         {
             name = "Carboard Shield";
             desc = "It's just a box from costco.";
+            value = 1;
             defbuff = 1;
             tier = 0;
             slot = 2;
@@ -78,6 +82,7 @@ namespace Realm
 
             name = "Wood Staff";
             desc = "A label that reads 'Luigi(sammy)' is stuck on it. There's also blood on the hilt.";
+            value = 5;
             defbuff = 2;
             atkbuff = 2;
             spdbuff = 1;
@@ -93,6 +98,7 @@ namespace Realm
         {
             name = "Fire Mario Backpack";
             name = "Discontinued because people used its supernatural powers for bad.";
+            value = 6;
             intlbuff = 5;
             tier = 1;
             slot = 4;
@@ -104,6 +110,7 @@ namespace Realm
         {
             name = "Sonic T-Shirt";
             desc = "'Gotta go fast!'(Alright, guys?)";
+            value = 6;
             defbuff = 1;
             spdbuff = 4;
             tier = 1;
@@ -116,6 +123,7 @@ namespace Realm
         {
             name = "Sonic Lost World Screenshots";
             desc = "This proves you can't hate on Sonic. LIKE SONIC LIKE SONIC LIKE SONIC LIKE SONIC.";
+            value = 4;
             defbuff = 4;
             tier = 1;
             slot = 3;
@@ -128,6 +136,7 @@ namespace Realm
         {
             name = "Wood Armor";
             desc = "Some plywood you stole from Home Depot. It give you the Home Depot feeling. ";
+            value = 5;
             defbuff = 5;
             tier = 1;
             slot = 3;
@@ -137,9 +146,9 @@ namespace Realm
     {
         public wood_plank()
         {
-
             name = "Wood Plank";
             desc = "A wood plank.";
+            value = 3;
             defbuff = 1;
             atkbuff = 2;
             tier = 1;
@@ -153,6 +162,7 @@ namespace Realm
         {
             name = "Plastic Ring";
             desc = "It's actually just a Ringpop.";
+            value = 6;
             spdbuff = 1;
             intlbuff = 1;
             tier = 0;
@@ -166,6 +176,7 @@ namespace Realm
         {
             name = "Apprentice Robes";
             desc = "A soft, vaguely magical cloth worn by mage trainees.";
+            value = 15;
             intlbuff = 2;
             defbuff = 3;
             tier = 2;
@@ -178,6 +189,7 @@ namespace Realm
         {
             name = "Junior Mage Staff";
             desc = "A staff given to those who are kinda good at magic.";
+            value = 12;
             intlbuff = 4;
             atkbuff = 2;
             tier = 2;
@@ -190,6 +202,7 @@ namespace Realm
         {
             name = "Magic for Dummies";
             desc = "\"Learn Magic in just one week!\"";
+            value = 10;
             intlbuff = 3;
             defbuff = 1;
             tier = 2;
@@ -202,6 +215,7 @@ namespace Realm
         {
             name = "Magic Ring";
             desc = "A copper ring with a glowing gem on it.";
+            value = 15;
             intlbuff = 3;
             spdbuff = 3;
             tier = 2;
@@ -214,6 +228,7 @@ namespace Realm
         {
             name = "Iron Lance";
             desc = "A gilded lance of iron.";
+            value = 15;
             defbuff = 1;
             atkbuff = 3;
             spdbuff = 1;
@@ -228,6 +243,7 @@ namespace Realm
         {
             name = "Iron Rapier";
             desc = "A well-smithed blade said to even be able to pierce thick armor if used properly.";
+            value = 20;
             atkbuff = 5;
             spdbuff = 2;
             tier = 2;
@@ -241,6 +257,7 @@ namespace Realm
         {
             name = "Iron Chainmail";
             desc = "A reliable suit of armor that sacrifices speed for defense.";
+            value = 15;
             defbuff = 5;
             spdbuff = -1;
             tier = 2;
@@ -251,7 +268,7 @@ namespace Realm
     {
         public iron_buckler()
         {
-
+            value = 10;
             name = "Iron Buckler";
             desc = "A lightweight buckler meant for all professions.";
             defbuff = 4;
@@ -263,7 +280,7 @@ namespace Realm
     {
         public iron_band()
         {
-
+            value = 15;
             name = "Iron Band";
             desc = "A bland iron band with inscriptions on the inside.";
             spdbuff = 2;
@@ -278,6 +295,7 @@ namespace Realm
     {
         public bt_longsword()
         {
+            value = 50;
             name = "Bloodthirsty Longsword";
             desc = "A longsword that has rusted from all of the blood that it has drawn from its prey. It is unknown as to why the rust is crimson.";
             atkbuff = 12;
@@ -290,6 +308,7 @@ namespace Realm
     {
         public bt_battleaxe()
         {
+            value = 55;
             name = "Bloodthirsty Battleaxe";
             desc = "This weapon was once used on its creator. There is an eerie aura emanating from it. ";
             atkbuff = 10;
@@ -304,6 +323,7 @@ namespace Realm
     {
         public bt_greatsword()
         {
+            value = 55;
             name = "Bloodthirsty Greatsword";
             desc = "An uncommonly large greatsword  traditionally used by the ancients. ";
             atkbuff = 13;
@@ -316,6 +336,7 @@ namespace Realm
     {
         public bt_plate()
         {
+            value = 50;
             name = "Bloodmail";
             desc = "Chainmail that gained magic protection from the blood of divine animals.";
             atkbuff = 1;
@@ -328,8 +349,9 @@ namespace Realm
     {
         public blood_amulet()
         {
+            value = 55;
             name = "Blood Amulet";
-            desc = "A red amulet. It is said that the previous owner died from unknown causes.";
+            desc = "A red amulet. It is said that all of the previous owners died from unknown causes.";
             intlbuff = 10;
             spdbuff = 1;
             atkbuff = 1;
@@ -341,6 +363,7 @@ namespace Realm
     {
         public swifites()
         {
+            value = 80;
             name = "Icy Boots of Fast";
             desc = "Although offering little protection, they make you go fast. And what could be more important than fast.";
             spdbuff = 10;
@@ -353,6 +376,7 @@ namespace Realm
     {
         public ice_amulet()
         {
+            value = 75;
             name = "Amulet of Ice";
             desc = "Makes the slow fast, the fast Sonic.";
             spdbuff = 8;
@@ -366,6 +390,7 @@ namespace Realm
     {
         public ice_dagger()
         {
+            value = 60;
             name = "Ice Dagger";
             desc = "The user almost seems to teleport, they go so fast.";
             spdbuff = 6;
@@ -378,6 +403,7 @@ namespace Realm
     {
         public ice_shield()
         {
+            value = 70;
             name = "Ice Shield";
             desc = "A shield of ice. Strangely, it weighs nothing, and you feel like you're floating while holding it.";
             spdbuff = 6;
@@ -390,6 +416,7 @@ namespace Realm
     {
         public p_shield()
         {
+            value = 75;
             name = "Palladium Shield";
             desc = "A shield inscribed with the mark of the protectorate that guards this world.";
             defbuff = 11;
@@ -402,6 +429,7 @@ namespace Realm
     {
         public p_shortsword()
         {
+            value = 65;
             name = "Palladium Shortsword";
             desc = "This blade is only meant to be used for the sake of protecting others.";
             defbuff = 1;
@@ -416,6 +444,7 @@ namespace Realm
     {
         public p_mail()
         {
+            value = 80;
             name = "Palladium Mail";
             desc = "It is said that Palladium Mail is made by sacred iron that originates from the sky.";
             defbuff = 13;
@@ -428,6 +457,7 @@ namespace Realm
     {
         public goldcloth_cloak()
         {
+            value = 75;
             name = "Goldcloth Cloak";
             desc = "The cloth worn by the hero king who united the realm in the name of peace.";
             intlbuff = 13;
@@ -440,6 +470,7 @@ namespace Realm
     {
         public a_mail()
         {
+            value = 100;
             name = "Azurite Cloth";
             desc = "Each thread shines with the deep hue of the ocean. Aviran make. Worn by mostly mages";
             intlbuff = 12;
@@ -452,6 +483,7 @@ namespace Realm
     {
         public a_staff()
         {
+            value = 120;
             name = "Azurite Staff";
             desc = "An oakwood staff with a massive azurite gem crowning it. It gleams regardless of light level.";
             intlbuff = 10;
@@ -464,6 +496,7 @@ namespace Realm
     {
         public tome()
         {
+            value = 105;
             name = "Dusty Tome";
             desc = "An old tome with an azurite gem adorning the cover. It glows with magical power. You can also block punches with it, you suppose.";
             intlbuff = 10;
@@ -476,6 +509,7 @@ namespace Realm
     {
         public a_amulet()
         {
+            value = 110;
             name = "Azurite Amulet";
             desc = "An amulet of azurite, pulsating with blue light.";
             intlbuff = 15;
@@ -488,6 +522,7 @@ namespace Realm
     {
         public ds_amulet()
         {
+            value = 100;
             name = "Darksteel Amulet";
             desc = " An indestructible amulet that was worn by the protectorate when he salvaged the realm from chaos. It reads ' Do not cast the shadow away from light'.";
             defbuff = 7;
@@ -500,6 +535,7 @@ namespace Realm
     {
         public ds_kite()
         {
+            value = 120;
             name = "Darksteel Kite Shield";
             desc = "A shield created from the protectorate's shadow.";
             defbuff = 20;
@@ -512,6 +548,7 @@ namespace Realm
     {
         public ds_kris()
         {
+            value = 90;
             name = "Darksteel Kris";
             desc = "A dagger that was forged by the protectorate's soul.";
             defbuff = 1;
@@ -526,6 +563,7 @@ namespace Realm
     {
         public ds_scale()
         {
+            value = 120;
             name = "Darksteel Scalemail";
             desc = "It came to being when the protectorate casted off its darkness.";
             defbuff = 25;
@@ -537,6 +575,7 @@ namespace Realm
     {
         public sb_saber()
         {
+            value = 120;
             name = "Sunburst Saber";
             desc = "Color where there is none. Light in the darkness.";
             atkbuff = 25;
@@ -549,6 +588,7 @@ namespace Realm
     {
         public sb_chain()
         {
+            value = 100;
             name = "Sunburst Ringmail";
             desc = "It gleams all the colors of the rainbow.";
             defbuff = 10;
@@ -561,6 +601,7 @@ namespace Realm
     {
         public sb_gauntlet()
         {
+            value = 105;
             name = "Sunburst Gauntlet";
             desc = "a beautiful artifact made for blocking and punching with the left hand.";
             atkbuff = 12;
@@ -574,6 +615,7 @@ namespace Realm
     {
         public sb_shield()
         {
+            value = 95;
             name = "Sunburst Shield";
             desc = "A shield that almost looks like it's meant for attacking.";
             atkbuff = 15;
@@ -587,6 +629,7 @@ namespace Realm
     {
         public phantasmal_claymore()
         {
+            value = 1000;
             name = "Phantasmal Claymore";
             desc = "The claymore is made from the material used to create the realm.";
             defbuff = 10;
@@ -602,6 +645,7 @@ namespace Realm
     {
         public spectral_bulwark()
         {
+            value = 1000;
             name = "Spectral Bulwark";
             desc = "A shield forged in the flames of the souls of the damned.";
             defbuff = 50;
@@ -616,6 +660,7 @@ namespace Realm
     {
         public illusory_plate()
         {
+            value = 1000;
             name = "Illusory Plate";
             desc = "Even though you know it to be an illusion, every attack against it is futile.";
             defbuff = 100;
@@ -628,6 +673,7 @@ namespace Realm
     {
         public void_cloak()
         {
+            value = 1000;
             name = "Void Cloak";
             desc = "Its existence is an oxymoron. It is made from nothing.";
             atkbuff = 0;

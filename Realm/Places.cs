@@ -347,40 +347,12 @@ namespace Realm
                     switch (tempinput)
                     {
                         case 'i':
-                            Interface.type("Innkeep: \"It will cost you 3 gold. Are you sure?\"(y/n)");
-                            char _tempinput = Interface.readkey().KeyChar;
-                            switch (_tempinput)
-                            {
-                                case 'y':
-                                    if (Player.Purchase(3))
-                                    {
-                                        Interface.type("Your health has been fully restored, although you suspect you have lice.");
-                                        Main.Player.hp = Main.Player.maxhp;
-                                    }
-                                    break;
-                                case 'n':
-                                    Interface.type("You leave the inn.");
-                                    break;
-                            }
+                            Innkeeper ik = new Innkeeper("Joseph", "Greetings. Would you like to stay at the inn?", "Your health has been fully restored, although you suspect you have lice.", "You leave the grimy inn.");
+                            ik.Interact();
                             break;
                         case 'a':
-                            Interface.type("You visit the arms dealer. He has naught to sell but a wooden staff and a plastic ring. Buy both for 11 gold? (y/n)");
-                            char __tempinput = Interface.readkey().KeyChar;
-                            switch (__tempinput)
-                            {
-                                case 'y':
-                                    if (Player.Purchase(11, new wood_staff()))
-                                    {
-                                        Main.Player.backpack.Add(new plastic_ring());
-                                        Interface.type("Obtained 'Plastic Ring'!", ConsoleColor.Green);
-                                        Interface.type("On the inside of the ring, the letter 'o' is embossed.");
-                                        Interface.type("You buy the staff and the ring. He grins, and you know you've been ripped off.");
-                                    }
-                                    break;
-                                case 'n':
-                                    Interface.type("You leave the shop.");
-                                    break;
-                            }
+                            Dictionary<char, Item> forsale = new Dictionary<char,Item>() { {'1', new plastic_ring()}, {'2', new wood_staff()} };
+                            Merchant m = new Merchant("Caelan", "\"Hello. I have for sale a high quality ring and a staff of the highest tier.\" You decide he isn't the most trustworthy man.", "The price tag on the staff has an 'o' burned into it.", "You decide the man is far too sleazy.", forsale);
                             break;
                         case 'w':
                             Interface.type("Do you want to look inside the well?(y/n)");
