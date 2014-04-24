@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Realm
 {
@@ -93,35 +90,17 @@ namespace Realm
                     spd += primary.spdbuff;
                 }
                 if (level >= 5 && race == "human" && !abilities.commands.ContainsKey('m'))
-                {
                     abilities.AddCommand(new Combat.Mimic("Mimic", 'm'));
-                    Interface.type("Learned human ability Mimic!", ConsoleColor.Cyan);
-                }
                 else if (level >= 5 && race == "elf" && !abilities.commands.ContainsKey('l'))
-                {
                     abilities.AddCommand(new Combat.Heal("Heal", 'l'));
-                    Interface.type("Learned Elf ability Heal!", ConsoleColor.Cyan);
-                }
                 else if (level >= 5 && race == "rockman" && !abilities.commands.ContainsKey('g'))
-                {
                     abilities.AddCommand(new Combat.Safeguard("Safeguard", 'g'));
-                    Interface.type("Learned rockman ability Safeguard!", ConsoleColor.Cyan);
-                }
                 else if (level >= 5 && race == "giant" && !abilities.commands.ContainsKey('r'))
-                {
                     abilities.AddCommand(new Combat.Rage("Rage", 'r'));
-                    Interface.type("Learned Giant ability Rage!", ConsoleColor.Cyan);
-                }
                 else if (level >= 5 && race == "zephyr" && !abilities.commands.ContainsKey('!'))
-                {
                     abilities.AddCommand(new Combat.Lightspeed("Lightspeed", '!'));
-                    Interface.type("Learned Zephyr ability Lightspeed!", ConsoleColor.Cyan);
-                }
                 else if (level >= 5 && race == "shade" && !abilities.commands.ContainsKey('n'))
-                {
                     abilities.AddCommand(new Combat.Nightshade("Nightshade", 'n'));
-                    Interface.type("Learned shade ability Nightshade!", ConsoleColor.Cyan);
-                }
                 else if (level >= 5 && race == "slime" && !abilities.commands.ContainsKey('m'))
                 {
                     //abilities.AddCommand();

@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Realm
 {
@@ -401,6 +399,8 @@ namespace Realm
             public void AddCommand(Command cmd)
             {
                 _commands.Add(cmd.cmdchar, cmd);
+                if (cmd.name != "Basic Attack")
+                    Interface.type("Learned " + cmd.name + "!", ConsoleColor.Cyan);
             }
 
             public char[] commandChars

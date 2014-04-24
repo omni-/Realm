@@ -9,6 +9,7 @@ namespace Realm
     public class NPC
     {
         public string name, text;
+        public int cmdp;
         public char[] commands;
 
         public NPC(string Name, string Text, char[] Commands)
@@ -71,12 +72,13 @@ namespace Realm
                     while (loop)
                     {
                         foreach (KeyValuePair<char, Item> kv in forsale)
-                            Interface.type(kv.Key + ". " + kv.Value + "(" + kv.Value.value + ")");
+                            Interface.type(kv.Key + ". " + kv.Value.name + "(" + kv.Value.value + ")", ConsoleColor.Green);
+                        Interface.type("");
                         handleinput(Interface.readkey().KeyChar);
                     }
                     break;
                 case 's':
-                    Interface.type("Index. Item name.....Item resale value. Press a non-numeric key to go back.", ConsoleColor.Yellow);
+                    Interface.type("Index. Item name.....Item resale value. Press a non-listed key to go back.", ConsoleColor.Yellow);
                     List<int> indices = new List<int>();
                     int itr = 1;
                     foreach (Item item in Main.Player.backpack)
@@ -120,11 +122,12 @@ namespace Realm
                 case 's':
                     Player.Purchase(price);
                     Main.Player.hp = Main.Player.maxhp;
-                    if (stay != "")
+                    Interface.type("Your health has been restored.", ConsoleColor.Cyan);
+                    if (!String.IsNullOrEmpty(stay))
                         Interface.type(stay);
                     break;
                 default:
-                    if (leave != "")
+                    if (!String.IsNullOrEmpty(leave))
                         Interface.type(leave);
                     break;
             }

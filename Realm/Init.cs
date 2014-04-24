@@ -10,9 +10,6 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Realm
 {
@@ -155,12 +152,10 @@ namespace Realm
             // the same.
             return ((file1byte - file2byte) == 0);
         }
-        [DllImport("wininet.dll")]
-        private extern static bool InternetGetConnectedState(out int Description, int ReservedValue);
         public static bool isConnected()
         {
             int desc;
-            bool tf = InternetGetConnectedState(out desc, 0);
+            bool tf = NativeMethods.InternetGetConnectedState(out desc, 0);
             return tf;
         }
         public static void checkver()

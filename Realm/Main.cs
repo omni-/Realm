@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Collections;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Realm
 {
@@ -161,7 +157,6 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                     if (gbooks >= 3 && !Player.abilities.commandChars.Contains('@'))
                     {
                         Interface.type("Having read all of the Ramsay books, you are enlightened in the ways of Gordon Ramsay.");
-                        Interface.type("Learned 'Hell's Kitchen'!", ConsoleColor.Cyan);
                         Player.abilities.AddCommand(new Combat.HellsKitchen("Hell's Kitchen", '@'));
                     }
                     //currPlace = Globals.map[Globals.PlayerPosition.x, Globals.PlayerPosition.y];

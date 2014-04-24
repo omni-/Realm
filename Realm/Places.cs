@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Realm
 {
@@ -122,7 +120,7 @@ namespace Realm
             if (Main.wkingcounter < 1)
             {
                 Main.wkingcounter++;
-                return "King: 'Come, for I plan to give you the ultimate gift, eternal respite. You're not sure why he has called you but you don't like it. The Western King approaches and unsheathes his blade emitting a strong aura of bloodlust. He seems to have powers far beyond anything you can imagine. Fight(f) or run(r)?";
+                return "King: \"Come, for I plan to give you the ultimate gift, eternal respite.\"\r\nYou're not sure why he has called you but you don't like it. The Western King approaches and unsheathes his blade emitting a strong aura of bloodlust. He seems to have powers far beyond anything you can imagine. Fight(f) or run(r)?";
             }
             else
                 return "King: 'Back so soon? Do you want to fight now, coward?'";
@@ -351,8 +349,8 @@ namespace Realm
                             ik.Interact();
                             break;
                         case 'a':
-                            Dictionary<char, Item> forsale = new Dictionary<char,Item>() { {'1', new plastic_ring()}, {'2', new wood_staff()} };
-                            Merchant m = new Merchant("Caelan", "\"Hello. I have for sale a high quality ring and a staff of the highest tier.\" You decide he isn't the most trustworthy man.", "The price tag on the staff has an 'o' burned into it.", "You decide the man is far too sleazy.", forsale);
+                            Merchant m = new Merchant("Caelan", "\"Hello. I have for sale a high quality ring and a staff of the highest tier.\" You decide he isn't the most trustworthy man.", "The price tag on the staff has an 'o' burned into it.", "You decide the man is far too sleazy.", new Dictionary<char, Item>() { { '1', new plastic_ring() }, { '2', new wood_staff() } });
+                            m.Interact();
                             break;
                         case 'w':
                             Interface.type("Do you want to look inside the well?(y/n)");
@@ -436,46 +434,12 @@ namespace Realm
                     Map.PlayerPosition.y -= 1;
                     break;
                 case 'i':
-                    Interface.type("Innkeep: \"It will cost you 5 gold. Are you sure?\"(y/n)");
-                    char _tempinput = Interface.readkey().KeyChar;
-                    switch (_tempinput)
-                    {
-                        case 'y':
-                            if (Player.Purchase(3))
-                            {
-                                Interface.type("Your health has been fully restored, although the matress was as hard as stale crackers and your back kinda hurts.");
-                                Interface.type("As you're leaving the inn, you notice the letter 'd' in the coffee grounds from the espresso you had that morning.");
-                                Main.Player.hp = Main.Player.maxhp;
-                            }
-                            break;
-                        case 'n':
-                            Interface.type("You leave the inn.");
-                            break;
-                    }
+                    Innkeeper ik = new Innkeeper("Johnny", "\"Greetings. Welcome to the inn.\"", "Your back hurts from the prison mattress you slept on, but at least you're rested. You see the letter 'd' in the coffe grounds from your espresso as you leave.", "You decide not to sleep here");
+                    ik.Interact();
                     break;
                 case 'a':
-                    Interface.type("You visit the arms dealer. He's out of stock except for an iron lance(l, $15) and an iron buckler(b, $10). (n to leave)");
-                    char __tempinput = Interface.readkey().KeyChar;
-                    switch (__tempinput)
-                    {
-                        case 'l':
-                            if (Player.Purchase(15, new iron_lance()))
-                            {
-                                Interface.type("It's almost as if he doesn't even see you.");
-                            }
-                            break;
-                        case 'b':
-                            if (Player.Purchase(10, new iron_buckler()))
-                            {
-                                Interface.type("It's almost as if he doesn't even see you.");
-                            }
-                            break;
-                        case 'n':
-                            Interface.type("You leave.");
-                            break;
-                        default:
-                            break;
-                    }
+                    Merchant m = new Merchant("Hans", "The merchant greets you in a pleasant German accent. He's unfortunately mostly out of stock.", "He thanks you graciously as you struggle to understand him.", "You decide there's nothing here for you.", new Dictionary<char, Item>() { { '1', new iron_lance() }, { '2', new iron_rapier() } });
+                    m.Interact();
                     break;
                 case 'l':
                     if (Main.libcounter == 0)
@@ -494,17 +458,14 @@ namespace Realm
                                         case 'a':
                                             Interface.type("You read of the maegi of old. As you flip through, something catches your eye. You see what looks to be ancient writing, but you somehow understand it.");
                                             Main.Player.abilities.AddCommand(new Combat.EnergyOverload("Energy Overload", 'e'));
-                                            Interface.type("Learned 'Energy Overload!'", ConsoleColor.Cyan);
                                             break;
                                         case 'b':
                                             Interface.type("You pore over the pages, and see a diagram of an ancient technique, lost to the ages.");
                                             Main.Player.abilities.AddCommand(new Combat.BladeDash("Blade Dash", 'd'));
-                                            Interface.type("Learned 'Blade Dash'!", ConsoleColor.Cyan);
                                             break;
                                         case 'c':
                                             Interface.type("You squint your eyes to see the tiny text. This tome convinces you of the existence of Lord Luxferre, the Bringer of Light. The book teaches you the importance of protecting others.");
                                             Main.Player.abilities.AddCommand(new Combat.HolySmite("Holy Smite", 'h'));
-                                            Interface.type("Learned 'Holy Smite'!", ConsoleColor.Cyan);
                                             break;
                                     }
                                 }
@@ -585,43 +546,16 @@ namespace Realm
                     Map.PlayerPosition.x -= 1;
                     break;
                 case 'i':
-                    Interface.type("Innkeep: \"It will cost you 5 gold. Are you sure?\"(y/n)");
-                    char _tempinput = Interface.readkey().KeyChar;
-                    switch (_tempinput)
-                    {
-                        case 'y':
-                            if (Player.Purchase(3))
-                            {
-                                Interface.type("Your health has been fully restored, although the matress smelled of mildew, and so do your clothes.");
-                                Main.Player.hp = Main.Player.maxhp;
-                            }
-                            break;
-                        case 'n':
-                            Interface.type("You leave the inn.");
-                            break;
-                    }
+                    Innkeeper ik = new Innkeeper("Olaf", "THe innkeeper gruffly greets you and offers his cheapest room.", "The mattress smelled of mildew, and now you do too.", "You are taken aback by his taciturn attitude and leave.");
+                    ik.Interact();
                     break;
                 case 't':
                     Interface.type("You visit the town. You may choose to visit with the townsfolk(t), or head to the artificer(a).");
-                    char __tempinput = Interface.readkey().KeyChar;
-                    switch (__tempinput)
+                    switch (Interface.readkey().KeyChar)
                     {
                         case 'a':
-                            Interface.type("The artificer has some magically charged rings for sale. Buy one for 15 gold? (y/n)");
-                            switch (Interface.readkey().KeyChar)
-                            {
-                                case 'y':
-                                    if (Player.Purchase(15, new iron_band()))
-                                    {
-                                        Interface.type("He smiles weakly and thanks you.");
-                                    }
-                                    break;
-                                case 'n':
-                                    Interface.type("You leave.");
-                                    break;
-                                default:
-                                    break;
-                            }
+                            Merchant m = new Merchant("Ji", "You see a stooping old man selling magically charged rings. He offers you one.", "He smiles weakly and thanks you.", "He looks a little downtrodden.", new Dictionary<char, Item>() { { '1', new iron_band() } });
+                            m.Interact();
                             break;
                         case 't':
                             Interface.type("You talk to a villager. He muses about the fact that sometimes, reality doesn't feel real at all. Puzzled by his comment, you walk away.");
@@ -725,7 +659,6 @@ namespace Realm
                                                             {
                                                                 case 'y':
                                                                     Main.Player.abilities.AddCommand(new Combat.ConsumeSoul("Consume Soul", 'u'));
-                                                                    Interface.type("Learned 'Consume Soul'!", ConsoleColor.Cyan);
                                                                     break;
                                                                 case 'n':
                                                                     Interface.type("You remember that you are an exemplary member of society and that you will by no means touch another's belongings without their consent. You leave the room like the good man you are.");
@@ -774,12 +707,12 @@ namespace Realm
                             }
                             else
                             {
-                                Interface.type("The library is closed, but you find a signed version of Gordon ramsay's book.");
+                                Interface.type("The library is closed, but you find a signed version of Gordon Ramsay's book.");
                                 break;
                             }
                         case 'w':
                             Interface.type("You realize that you don't speak the same language as the shopkeeper. You take all of his peppermint candy and leave.");
-                            Interface.type("Before you toss it on the floor like the scumbad you are, you notice one of the candy wrappers has an apostrophe on the inside.");
+                            Interface.type("Before you toss it on the floor like the scumbag you are, you notice one of the candy wrappers has an apostrophe on the inside.");
                             break;
                     }
                     break;
@@ -851,7 +784,7 @@ namespace Realm
                     if (Main.nlibcounter == 0)
                     {
                         Main.Player.xp += 10;
-                        Interface.type("In the royal library you find 'Crescent Path'(c), 'Tale of Sariel'(t), 'History of The Realm'(h), and Gordon ramsay: A Geology(g). Which do you wish to read?");
+                        Interface.type("In the royal library you find 'Crescent Path'(c), 'Tale of Sariel'(t), 'History of The Realm'(h), and Gordon Ramsay: A Geology(g). Which do you wish to read?");
                         switch (Interface.readkey().KeyChar)
                         {
                             case 'c':
@@ -891,7 +824,6 @@ namespace Realm
                                 break;
                             case 't':
                                 Interface.type("You read of the exploits of the ancient hero Sariel, and his philosophies of protecting others.");
-                                Interface.type("Learned 'Dawnstrike'!", ConsoleColor.Cyan);
                                 Main.Player.abilities.AddCommand(new Combat.Dawnstrike("Dawnstrike", 't'));
                                 break;
                             case 'h':
@@ -913,16 +845,8 @@ namespace Realm
                     }
                     break;
                 case 'g':
-                    Interface.type("The Smith's Guild only has their cumulative project for sale. It's a masterpiece, but very expensive. Buy Bloodmail for 50 gold? (y/n)");
-                    switch (Interface.readkey().KeyChar)
-                    {
-                        case 'y':
-                            Player.Purchase(50, new bt_plate());
-                            break;
-                        case 'n':
-                            Interface.type("You leave.");
-                            break;
-                    }
+                    Merchant m = new Merchant("Smith's Guild", "The Smith's Guild has their cumulative project for sale. It's high quality, but very expensive.", "They high five each other, happy that someone appreciates their work.", "You decide your money is more important than protection and move on.", new Dictionary<char, Item>() { { '1', new bt_plate() } });
+                    m.Interact();
                     break;
                 case 'c':
                     break;
@@ -1009,7 +933,6 @@ namespace Realm
                         {
                             case 'a':
                                 Interface.type("You become enlightened in the ways of the elder wizard Alcywn.");
-                                Interface.type("Learned 'Curse'!", ConsoleColor.Cyan);
                                 Main.Player.abilities.AddCommand(new Combat.Curse("Curse", 'c'));
                                 break;
                             case 'g':
@@ -1019,12 +942,10 @@ namespace Realm
                                 break;
                             case 's':
                                 Interface.type("You become skilled in the art of sacrifice.");
-                                Interface.type("Learned 'Sacrifice'!", ConsoleColor.Cyan);
                                 Main.Player.abilities.AddCommand(new Combat.Sacrifice("Sacrifice", 's'));
                                 break;
                             case 'v':
                                 Interface.type("You learn of the Void. You can phase in and out of reality.");
-                                Interface.type("Learned 'Phase'!", ConsoleColor.Cyan);
                                 Main.Player.abilities.AddCommand(new Combat.Phase("Phase", 'p'));
                                 break;
                             case 'r':
@@ -1041,7 +962,6 @@ namespace Realm
                                         if (abilchance == 6)
                                         {
                                             Interface.type("You feel as if something incredible has happened.");
-                                            Interface.type("Learned 'Gamble'!", ConsoleColor.Cyan);
                                             Main.Player.abilities.AddCommand(new Combat.Gamble("Gamble", '$'));
                                         }
                                         else
@@ -1049,11 +969,12 @@ namespace Realm
                                             Interface.type("Wow you roll a" + abilchance);
                                             Main.Player.hp -= abilchance;
                                             Interface.type("You lose" + abilchance + "hp", ConsoleColor.Red);
+                                            Interface.type("You decide to never gamble again.");
                                         }
                                         break;
 
                                     case 'n':
-                                        Interface.type("You feel threatened by the words.");
+                                        Interface.type("You feel threatened by the dice.");
                                         break;
                                 }
                                 Main.centrallibcounter++;
@@ -1068,24 +989,8 @@ namespace Realm
                     }
                     break;
                 case 'a':
-                    Interface.type("You approach a building with a sigil bearing crossed swords. You suspect this is the weaponsmith. You enter, and he has loads of goodies for sale. Buy Iron Rapier(r, 30), Iron Chainmail(c, 30), Iron Buckler (b, 25), or Bloodthirsty Longsword(l, 50)?");
-                    switch (Interface.readkey().KeyChar)
-                    {
-                        case 'r':
-                            Player.Purchase(30, new iron_rapier());
-                            break;
-                        case 'c':
-                            Player.Purchase(30, new iron_mail());
-                            break;
-                        case 'b':
-                            Player.Purchase(25, new iron_buckler());
-                            break;
-                        case 'l':
-                            Player.Purchase(50, new bt_longsword());
-                            break;
-                        default:
-                            break;
-                    }
+                    Merchant m = new Merchant("Reginald", "You approach a building with a sigil bearing crossed swords. You suspect this is the weaponsmith. You enter, and he has loads of firepower for sale.", "You are happy with your purchase.", "You leave.", new Dictionary<char, Item>() { { '1', new bt_longsword() }, { '2', new iron_buckler() }, { '3', new iron_mail() }, { '4', new iron_rapier() } });
+                    m.Interact();
                     break;
                 case 'q':
                     if (Main.magiccounter == 0)
@@ -1103,12 +1008,11 @@ namespace Realm
                                 {
                                     Interface.type("He holds out his hand, and reality appears to bend around it. Kind of like the Degauss button on monitors from the 90's.");
                                     Main.Player.abilities.AddCommand(new Combat.VorpalBlades("Vorpal Blades", 'v'));
-                                    Interface.type("Learned 'Vorpal Blade'!", ConsoleColor.Cyan);
                                 }
                                 break;
                             case 's':
                                 if (Player.Purchase(50))
-                                    Interface.type("'I have a secret to tell you. Everything you know is wrong.' He holds out his hand, and reality appears to bend around it. Kind of like the Degauss button on monitors from the 90's. 'See this?' he says. 'This is what's known as the Flux. Everything is from the Flux, and controlled by the Flux. Learn to control it, and you control reality.'. he dissapears througha shimmering portal and leaves you there mystified.");
+                                    Interface.type("\"I have a secret to tell you. Everything you know is wrong.\" He holds out his hand, and reality appears to bend around it. Kind of like the Degauss button on monitors from the 90's. \"See this?\" he says. 'This is what's known as the Flux. Everything is from the Flux, and controlled by the Flux. Learn to control it, and you control reality. Oh, and those letters you keep seeing will be useful\". he dissapears througha shimmering portal and leaves you there mystified.");
                                 break;
                         }
                         Main.magiccounter++;
@@ -1123,20 +1027,8 @@ namespace Realm
                     Backpack.BackpackLoop();
                     break;
                 case 'i':
-                    Interface.type("The sign above the inn reads 'Donaldius Trumpe'. Stay the night for 15 gold? (y/n)");
-                    switch (Interface.readkey().KeyChar)
-                    {
-                        case 'y':
-                            Interface.type("You feel refreshed, however the bedsheets smelled like cold blooded capitalism and weasely politicians.");
-                            Player.Purchase(15);
-                            Main.Player.hp = Main.Player.maxhp;
-                            break;
-                        case 'n':
-                            Interface.type("You leave the posh hotel.");
-                            break;
-                        default:
-                            break;
-                    }
+                    Innkeeper ik = new Innkeeper("Humphrey", "The inn is called 'Donaldius Trumpe'. Humphrey's expression seems to state that he has disadain for plebs.", "You feel refreshed, however the bedsheets smelled like cold blooded capitalism and weasely politicians.", "You leave the posh hotel");
+                    ik.Interact();
                     break;
                 case 'o':
                     Interface.type("You visit the city's monument, which is a tourist attraction for the entire Realm. People are everywhere. You elbow your way through the crowd to get a better look. The monument is a massive sword, stabbed into the ground as if placed there by a giant god. Blue light is pulsing up it like a giant conduit. You spot a secret door in the blade of the sword. Enter (y/n)");
@@ -1219,51 +1111,21 @@ namespace Realm
                     Map.PlayerPosition.x -= 1;
                     break;
                 case 'a':
-                    Interface.type("The arms dealer has a small stand, but his wares are valuable. You may buy Darksteel Amulet(100, a), Darksteel Kris(80, k), Darksteel Kite Shield(s, 100), or Darksteel Scalemail(c, 110).");
-                    switch (Interface.readkey().KeyChar)
-                    {
-                        case 'a':
-                            Player.Purchase(100, new ds_amulet());
-                            break;
-                        case 'c':
-                            Player.Purchase(110, new ds_scale());
-                            break;
-                        case 'k':
-                            Player.Purchase(80, new ds_kris());
-                            break;
-                        case 's':
-                            Player.Purchase(100, new ds_kite());
-                            break;
-                        default:
-                            break;
-                    }
+                    Merchant m = new Merchant("Rex", "The arms dealer has a small stand, but his wares are valuable.", "He grins an you can't help but smile with him.", "You leave.", new Dictionary<char, Item>() { { '1', new ds_amulet() }, { '2', new ds_kite() }, { '3', new ds_kris() }, { '4', new ds_scale() } });
+                    m.Interact();
                     break;
-
                 case 'b':
                     Backpack.BackpackLoop();
                     break;
                 case 'i':
-                    Interface.type("The inn is burned, but still in use. Stay the night for 20 gold? (y/n)");
-                    switch (Interface.readkey().KeyChar)
-                    {
-                        case 'y':
-                            Interface.type("You feel refreshed, although smelling of ash.");
-                            Player.Purchase(20);
-                            Main.Player.hp = Main.Player.maxhp;
-                            break;
-                        case 'n':
-                            Interface.type("You leave the inn.");
-                            break;
-                        default:
-                            break;
-                    }
+                    Innkeeper ik = new Innkeeper("Chandler", "The inn is half burned down, but there are still beds avaiable. The inkeeper seems to have burn scars on his face.", "You stay the night and all your clothes are covered in ash.", "You decide not to risk it.");
+                    ik.Interact();
                     break;
                 case 'r':
                     if (Main.townfolkcounter == 0)
                     {
                         Main.Player.xp += 10;
                         Interface.type("You visit the house of the jobless former librarian. He says there is something very strange about that sword monument in Central. He says you can never go anywhere unarmed. He teaches you a new ability.");
-                        Interface.type("Learned 'Incinerate'!", ConsoleColor.Cyan);
                         Main.Player.abilities.AddCommand(new Combat.Incinerate("Incinerate", 'a'));
                         Interface.type("As you're leaving, you notice the letter 'l' burned into the doorknob.");
                         Main.townfolkcounter++;
@@ -1336,35 +1198,15 @@ namespace Realm
                     Map.PlayerPosition.y -= 1;
                     break;
                 case 'a':
-                    Interface.type("You visit the arms dealer. It's a very old man selling some very expensive wares. You wonder where he came across such valuables. Buy Bloodthirsty Battleaxe(b, 55), or Bloodthirsty Greatsword(g, 55)?");
-                    switch (Interface.readkey().KeyChar)
-                    {
-                        case 'b':
-                            if (Player.Purchase(55, new bt_battleaxe()))
-                                Interface.type("The old man grins.");
-                            break;
-                        case 'g':
-                            if (Player.Purchase(55, new bt_greatsword()))
-                                Interface.type("The old man grins.");
-                            break;
-                    }
+                    Merchant m = new Merchant("Ernest", "A very old man is selling some very high end wares.", "You see a glint of greed in the old man's eye.", "You leave", new Dictionary<char, Item>() { { '1', new bt_battleaxe() }, { '2', new bt_greatsword() } });
+                    m.Interact();
                     break;
                 case 'b':
                     Backpack.BackpackLoop();
                     break;
                 case 'i':
-                    Interface.type("Stay at the average-ass hotel for 15 gold?(y/n)");
-                    switch (Interface.readkey().KeyChar)
-                    {
-                        case 'y':
-                            if (Player.Purchase(15))
-                                Main.Player.hp = Main.Player.maxhp;
-                            Interface.type("As you're leaving you pick up a scrabble tile off of the floor. It is a blank. (' ').");
-                            break;
-                        case 'n':
-                            Interface.type("You leave.");
-                            break;
-                    }
+                    Innkeeper ik = new Innkeeper("John", "It's a normal-ass inn.", "You sleep the night, and wake up feeling like you slept the night.", "You don't sleep in the inn.");
+                    ik.Interact();
                     break;
                 default:
                     return false;
@@ -1430,39 +1272,8 @@ namespace Realm
                     Map.PlayerPosition.y -= 1;
                     break;
                 case 'g':
-                    Interface.type("You talk to the toothless man holding the wares. You may buy the Void Cloak(c, 150), the Illusory Plate(i, 150), or the Spectral Bulwark(s, 150). Or you may buy all 3(3, 300).");
-                    switch (Interface.readkey().KeyChar)
-                    {
-                        case 'c':
-                            if (Player.Purchase(150, new void_cloak()))
-                            {
-                                Interface.type("The toothless man reverently hands you artifact.");
-                            }
-                            break;
-                        case 'i':
-                            if (Player.Purchase(150, new illusory_plate()))
-                            {
-                                Interface.type("The toothless man reverently hands you artifact.");
-                            }
-                            break;
-                        case 's':
-                            if (Player.Purchase(150, new spectral_bulwark()))
-                            {
-                                Interface.type("The toothless man reverently hands you artifact.");
-                            }
-                            break;
-                        case '3':
-                            if (Player.Purchase(300, new void_cloak()) && Main.Player.backpack.Count <= 7)
-                            {
-                                Interface.type("Obtained 'Spectral Bulwark'!", ConsoleColor.Green);
-                                Main.Player.backpack.Add(new spectral_bulwark());
-                                Interface.type("Obtained 'Illusory Plate'!", ConsoleColor.Green);
-                                Main.Player.backpack.Add(new illusory_plate());
-                            }
-                            else if (Main.Player.backpack.Count > 7)
-                                Interface.type("Not enough space!");
-                            break;
-                    }
+                    Merchant m = new Merchant("Toothless man", "You walk up to the toothless man holding wares.", "The toothless man reverently hands you the artifact", "You decide it's too pricey.", new Dictionary<char, Item>() { { '1', new illusory_plate() }, { '2', new spectral_bulwark() }, { '3', new void_cloak() } });
+                    m.Interact();
                     break;
                 case 'k':
                     if (Main.nomadcounter == 0)
@@ -1471,19 +1282,18 @@ namespace Realm
                         switch (Interface.readkey().KeyChar)
                         {
                             case 'y':
-                                if (Player.Purchase(50))
+                                if (Player.Purchase(250))
                                 {
                                     Interface.type("You say yes, and he holds up hand, and some strange runes on his hand begin to glow.");
-                                    Interface.type("Learned 'Heavensplitter'!", ConsoleColor.Cyan);
-                                    Interface.type("The old man also hands you a rune with the letter 's' inscribed.");
                                     Main.Player.abilities.AddCommand(new Combat.Heavensplitter("Heavensplitter", 'z'));
+                                    Interface.type("The old man also hands you a rune with the letter 's' inscribed.");
                                     Main.nomadcounter++;
                                 }
                                 break;
                         }
                     }
                     else
-                        Interface.type("He already taught you that ability. He has nothing more to offer.");
+                        Interface.type("He already taught you the strongest ability he knows. He has nothing more to offer.");
                     break;
                 case 'b':
                     Backpack.BackpackLoop();
@@ -1549,36 +1359,12 @@ namespace Realm
                     Map.PlayerPosition.y -= 1;
                     break;
                 case 'i':
-                    Interface.type("Stay at the luxurious hotel for 40 gold?(y/n)");
-                    switch (Interface.readkey().KeyChar)
-                    {
-                        case 'y':
-                            if (Player.Purchase(40))
-                                Main.Player.hp = Main.Player.maxhp;
-                            Interface.type("As you're leaving you take all the free soap.");
-                            break;
-                        case 'n':
-                            Interface.type("You leave.");
-                            break;
-                    }
+                    Innkeeper ik = new Innkeeper("Archibald", "\"Welcome to the Ritz Hotel\". You've always wanted to stay in one of these.", "You steal all the soap from the shower.", "You leave the posh hotel");
+                    ik.Interact();
                     break;
                 case 'a':
-                    Interface.type("You visit the arms dealer. It's being manned by a child. Buy Sunburst Saber(120, a) or Suburst Shield(100, s).");
-                    switch (Interface.readkey().KeyChar)
-                    {
-                        case 'a':
-                            if (Player.Purchase(120, new sb_saber()))
-                            {
-                                Interface.type("The child smiles gleefully and hands you the Sunburst Saber.");
-                            }
-                            break;
-                        case 's':
-                            if (Player.Purchase(100, new sb_shield()))
-                            {
-                                Interface.type("The child smiles and hands you the Sunburst Shield.");
-                            }
-                            break;
-                    }
+                    Merchant m = new Merchant("Sarah", "You visit the arms dealer and it's being manned by a 6 year old girl missing her front teeth.", "She grins and hands you the gear.", "You leave.", new Dictionary<char, Item>() { { '1', new sb_gauntlet() }, { '2', new sb_saber() } });
+                    m.Interact();
                     break;
                 case 'b':
                     if (Main.Player.backpack.Count > 0)
@@ -1649,36 +1435,12 @@ namespace Realm
                     Map.PlayerPosition.y -= 1;
                     break;
                 case 'a':
-                    Interface.type("An average guy manages the shop. You can buy a Sunburst Ringmail(150) and a Sunburst Gauntlet(150).(r/g)");
-                    switch (Interface.readkey().KeyChar)
-                    {
-                        case 'r':
-                            if (Player.Purchase(150, new sb_chain()))
-                            {
-                                Interface.type("The man hands you the Sunburst Ringmail.");
-                            }
-                            break;
-                        case 'g':
-                            if (Player.Purchase(150, new sb_gauntlet()))
-                            {
-                                Interface.type("The man hands you the Sunburst Gauntlet.");
-                            }
-                            break;
-                    }
+                    Merchant m = new Merchant("Greg", "A balding middle aged man is running this shop. He is selling fairly valuable wares.", "You buy the gear.", "You leave.", new Dictionary<char, Item>() { { '1', new sb_chain() }, { '2', new sb_shield() } });
+                    m.Interact();
                     break;
                 case 'i':
-                    Interface.type("Stay at the overpriced hotel for 60 gold?(y/n)");
-                    switch (Interface.readkey().KeyChar)
-                    {
-                        case 'y':
-                            if (Player.Purchase(60))
-                                Main.Player.hp = Main.Player.maxhp;
-                            Interface.type("As you're leaving you set fire to the bathroom. You see a sign on the door that reads 'Romney 2012', and one of the tiles on the bathroom floor reads 'i'.");
-                            break;
-                        case 'n':
-                            Interface.type("You leave.");
-                            break;
-                    }
+                    Innkeeper ik = new Innkeeper("Johannes", "This hotel is obviously designed for rich people, but there is a clear lack of customers.", "As you're leaving the hotel, you notice a 'Romney 2012' sign. The letter 'i' is carved over Mitt's face", "You can't take the republicanism in this place");
+                    ik.Interact();
                     break;
                 case 'b':
                     if (Main.Player.backpack.Count > 0)
@@ -1746,7 +1508,7 @@ namespace Realm
                                 }
                                 else
                                     Interface.type("Not enough space.");
-                                Interface.type("The king falls to the ground, defeated. You pick up his night colored sword form the ground, and in your hand it changes to a shimmering blue claymore.");
+                                Interface.type("The king falls to the ground, defeated. You pick up his onyx longsword form the ground, and in your hand it changes to a shimmering blue claymore.");
                                 Interface.type("A blue portal opens up with the glowing letter 'l' above it. You yell 'Jeronimo!' and jump through.");
                                 Map.PlayerPosition.x = 3;
                                 Map.PlayerPosition.y = 3;
@@ -1805,7 +1567,7 @@ namespace Realm
         {
             switch (input)
             {
-                case 'v':
+                case 'v': 
                     Interface.typeStats();
                     break;
                 case 's':
@@ -1815,37 +1577,13 @@ namespace Realm
                     Map.PlayerPosition.x -= 1;
                     break;
                 case 'a':
-                    Interface.type("You visit the arms dealer. He is old, and the wrinkles in his face are blackened with coal dust. As this town is the only source of the precious black mineral in the all of Realm, these ex-miners are very rich. For sale before you are imported wares from the distant land of Avira. You may buy Azurite Cloak(c, 100), Azurite Amulet(a, 110), or Azurite Staff(s, 120).");
-                    switch(Interface.readkey().KeyChar)
-                    {
-                        case'a':
-                            Player.Purchase(110, new a_amulet());
-                            break;
-                        case's':
-                            Player.Purchase(120, new a_staff());
-                            break;
-                        case'c':
-                            Player.Purchase(100, new a_mail());
-                            break;
-                        default:
-                            break;
-                    }
+                    Merchant m = new Merchant("Edwin", "You visit the arms dealer. He is old, and the wrinkles in his face are blackened with coal dust. As this town is the only source of the precious black mineral in the all of Realm, these ex-miners are very rich. For sale before you are imported wares from the distant land of Avira.", "He smiles gratefully.", "You are far too plebian to afford his wares.", new Dictionary<char, Item>() { { '1', new a_amulet() }, { '2', new a_mail() }, { '3', new a_staff() } });
+                    m.Interact();
                     break;
                 case 'i':
-                    Interface.type("Do you wish to stay in the Coaltown Motel for 15 g?(y/n)");
-                    switch (Interface.readkey().KeyChar)
-                    {
-                        case 'y':
-                            if (Player.Purchase(15))
-                                Interface.type("Everything in the town, now including you, is coated in alayer of fine black dust, but at least your hp has been restored.");
-                            break;
-                        case 'n':
-                            Interface.type("You leave.");
-                            break;
-                        default:
-                            break;
-                    }
-                        break;
+                    Innkeeper ik = new Innkeeper("Johnson", "Do you want to stay at the coaltown motel?", "Everything in the town, now including you, is coated in a layer of fine black dust, but at least your hp has been restored.", "You decide not to risk the lung cancer.");
+                    ik.Interact();
+                    break;
                 case 'c':
                         if (Main.minecounter == 0)
                         {
@@ -1890,7 +1628,6 @@ namespace Realm
                                                                 Interface.type("You pick up the book.");
                                                                 if (!Main.Player.abilities.commands.ContainsKey('p'))
                                                                     Main.Player.abilities.AddCommand(new Combat.ForcePulse("Force Pulse", 'f'));
-                                                                Interface.type("Learned 'Force Pulse'!", ConsoleColor.Cyan);
                                                             }
                                                             Interface.type("It takes a few hours, but you climb your way out of the mine. You surface looking like a chimney sweep.");
                                                             break;
@@ -1975,42 +1712,12 @@ namespace Realm
                     Map.PlayerPosition.x -= 1;
                     break;
                 case 'a':
-                    Interface.type("A young man with a frosty white beard selling equally frozen gear. You may buy Ice Amulet(a, 75), Icy Boots of Fast(i, 80), Ice Dagger(d, 75), or Ice Shield(s, 75).");
-                    switch (Interface.readkey().KeyChar)
-                    {
-                        case 'a':
-                            Player.Purchase(75, new ice_amulet());
-                            break;
-                        case 's':
-                            Player.Purchase(75, new ice_shield());
-                            break;
-                        case 'd':
-                            Player.Purchase(75, new ice_dagger());
-                            break;
-                        case 'i':
-                            Player.Purchase(80, new swifites());
-                            break;
-                        default:
-                            break;
-                    }
+                    Merchant m = new Merchant("Leif", "A young man with a frosty beard and frostier gear greets you.", "Jesus christ this is so cold oh god I don't want it anymore help me oh god it's so cold", "His head moves, but you're not sure if it's a nod of farewell or a shiver", new Dictionary<char, Item>() { {'1', new ice_amulet()}, {'2', new ice_dagger()}, {'3', new ice_shield()}, {'4', new swifites()} });
+                    m.Interact();
                     break;
                 case 'i':
-                    Interface.type("Do you wish to stay at the Iceborn Inn for 30 gold? (y/n)");
-                    switch(Interface.readkey().KeyChar)
-                    {
-                        case 'y':
-                            if (Player.Purchase(30))
-                            {
-                                Interface.type("Your health has been restored, but you have frostbite in 3 of your toes.");
-                                Main.Player.hp = Main.Player.maxhp;
-                            }
-                            break;
-                        case 'n':
-                            Interface.type("You leave.");
-                            break;
-                        default:
-                            break;
-                    }
+                    Innkeeper ik = new Innkeeper("Bjergsen", "Do you wish to stay at the Iceborn Inn?", "You are well rested, but you have frostbite in three toes.", "It's too damn cold.");
+                    ik.Interact();
                     break;
                 case 'l':
                     if (Main.frozencounter == 0)
@@ -2030,7 +1737,6 @@ namespace Realm
                                 break;
                             case 'i':
                                 Interface.type("You pick up the book entitled Ice. You learn of the ancient sorcer who was able to cast ice spells by drawing the heat out of the air, and the water from the ground.");
-                                Interface.type("Learned 'Ice Chains'!", ConsoleColor.Cyan);
                                 Main.Player.abilities.AddCommand(new Combat.IceChains("Ice Chains", 'i'));
                                 break;
                             default:
@@ -2105,42 +1811,12 @@ namespace Realm
                     Map.PlayerPosition.x -= 1;
                     break;
                 case 'a':
-                    Interface.type("A young man with one of those stereotypical black and white 'wands' is running the shop. You may buy Apprentice Robes(a, 15), Junior Mage Staff(j, 12), Magic For Dummies(m, 10), or Magic Ring(r, 15).");
-                    switch (Interface.readkey().KeyChar)
-                    {
-                        case 'a':
-                            Player.Purchase(15, new m_robes());
-                            break;
-                        case 'j':
-                            Player.Purchase(12, new m_staff());
-                            break;
-                        case 'm':
-                            Player.Purchase(10, new m_tome());
-                            break;
-                        case 'r':
-                            Player.Purchase(15, new m_amulet());
-                            break;
-                        default:
-                            break;
-                    }
+                    Merchant m = new Merchant("Harold", "A young man with one of those stereotypical black and white 'wands' is running the shop.", "He grins a conman's grin.", "You are disgusted with him and leave", new Dictionary<char, Item>() { { '1', new m_amulet() }, { '2', new m_robes() }, { '3', new m_staff() }, { '4', new m_tome() } });
+                    m.Interact();
                     break;
                 case 'i':
-                    Interface.type("Do you wish to stay at the Rabbit-Inn-Hat for 12 gold? (y/n)");
-                    switch (Interface.readkey().KeyChar)
-                    {
-                        case 'y':
-                            if (Player.Purchase(12))
-                            {
-                                Interface.type("Your health has been restored, but when you tried to pull a sock from your suitcase, and infinite chain of rainbow hankies tied together stopped you from actually getting a sock. So now you only have one.");
-                                Main.Player.hp = Main.Player.maxhp;
-                            }
-                            break;
-                        case 'n':
-                            Interface.type("You leave.");
-                            break;
-                        default:
-                            break;
-                    }
+                    Innkeeper ik = new Innkeeper("Dave Ironmeadow", "Do you want to stay at the Rabbit-Inn-Hat?", "Your health has been restored, but when you tried to pull a sock from your suitcase, and infinite chain of rainbow hankies tied together stopped you from actually getting a sock. So now you only have one.", "You almost pass out from all of the phony magic because of flashbacks to bad birthday parties.");
+                    ik.Interact();
                     break;
                 case 'l':
                     if (Main.noobcounter == 0)
@@ -2150,17 +1826,14 @@ namespace Realm
                         {
                             case 'd':
                                 Interface.type("You learn about how the first mages learned to make themselves dissapear.");
-                                Interface.type("Learned 'Now You See Me'!", ConsoleColor.Cyan);
                                 Main.Player.abilities.AddCommand(new Combat.NowYouSeeMe("Now You See Me", 'y'));
                                 break;
                             case 'i':
-                                Interface.type("You learn about how the first wizards learnt to decieve people's minds.");
-                                Interface.type("Learned 'Illusion'!", ConsoleColor.Cyan);
+                                Interface.type("You read about how the first wizards learnt to decieve people's minds.");
                                 Main.Player.abilities.AddCommand(new Combat.Illusion("Illusion", '?'));
                                 break;
                             case 'm':
                                 Interface.type("You learn of how to make cool lasers with magic.");
-                                Interface.type("Learned 'Pew Pew Pew'!", ConsoleColor.Cyan);
                                 Main.Player.abilities.AddCommand(new Combat.PewPewPew("Pew Pew Pew", 'w'));
                                 break;
                             default:
