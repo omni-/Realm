@@ -17,9 +17,11 @@ namespace Realm
 
         public static Random rand = new Random();
 
-        public static string version = "Version Number - 1.8.3.1", devstring = "Cooper", password = "C801E02331DFE9B11CF542B4F98C1169";
+        public static string version = "Version Number - 1.8.4.1";
 
         public static Dictionary<string, bool> achieve = new Dictionary<string, bool>();
+
+        public static List<Place> defaultplaces = new List<Place>();
 
         public static List<Item> MainItemList = new List<Item> {
 new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_band(), new iron_buckler(), new iron_lance(), new iron_mail(), new iron_rapier(), new wood_armor(), new wood_plank(), new wood_staff(), new fmBP(), new sonictee(), new slwscreen(), new plastic_ring(), new m_amulet(), new m_robes(), new m_staff(), new m_tome(), new bt_battleaxe(), new bt_greatsword(), new bt_longsword(), new bt_plate(), new blood_amulet(), new swifites(), new ice_amulet(), new ice_dagger(), new ice_shield(), new p_mail(), new p_shield(), new p_shortsword(), new goldcloth_cloak(), new a_amulet(), new a_mail(), new a_staff(), new tome(), new ds_amulet(), new ds_kite(), new ds_kris(), new ds_scale(), new sb_saber(), new sb_chain(), new sb_gauntlet(), new sb_shield()
@@ -97,6 +99,9 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
             Map.PlayerPosition.y = 6;
             if (Player.race == "giant")
                 Player.hp = 15;
+            foreach(Place p in Map.map)
+                if (p.Description == "You are smack-dab in the middle of nowhere.")
+                    defaultplaces.Add(p);
             MainLoop();
         }
         public static void MainLoop()
@@ -113,6 +118,9 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                     ach.Get("100bandits");
                 if (drakecounter == 100)
                     ach.Get("100drakes");
+
+
+
                 if (devmode)
                 {
                     Interface.type("Dev Powers!", ConsoleColor.DarkMagenta);

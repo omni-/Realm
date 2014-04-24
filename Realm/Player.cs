@@ -7,33 +7,18 @@ namespace Realm
     {
         public class GamePlayer
         {
-            public int hp;
-            public int maxhp;
-            public int spd;
-            public int atk;
-            public int intl;
-            public int def;
-            public string pclass;
-            public string race;
-            public string name;
-            public Item primary = new Item();
-            public Item secondary = new Item();
-            public Item armor = new Item();
-            public Item accessory = new Item();
+            public int hp, maxhp, spd, atk, intl, def, g, level,xp, xp_next, fire, guard;
+
+            public string pclass, race, name;
+
+            public Item primary = new Item(), secondary = new Item(), armor = new Item(), accessory = new Item();
+
             public List<Item> backpack;
-            public int g;
-            public int level;
-            public int xp;
-            public int xp_next;
-            public bool on_fire = false;
-            public bool cursed = false;
-            public bool stunned = false;
-            public bool guarded = false;
-            public bool blinded = false;
-            public bool phased = false;
-            public int fire;
-            public int guard;
+
+            public bool on_fire = false, cursed = false, stunned = false, guarded = false, blinded = false, phased = false;
+
             public Realm.Combat.CommandTable abilities;
+
             public void levelup()
             {
                 int xp_overlap;
@@ -223,6 +208,14 @@ namespace Realm
                 Interface.type("You don't have enough gold.");
                 return false;
             }
+        }
+        public static List<Item> getCorrectlyTieredItems()
+        {
+            List<Item> Items = new List<Item>();
+            foreach(Item i in Main.MainItemList)
+                if (i.tier <= (Main.Player.level / 5))
+                    Items.Add(i);
+            return Items;
         }
     }
 }

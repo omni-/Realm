@@ -6,10 +6,13 @@ namespace Realm
 {
     public class Place
     {
-        public Random rand;
         public int q;
         public Map globals = new Map();
         public List<Enemy> enemylist = new List<Enemy>();
+
+        public bool is_npc_active = false;
+
+        private Merchant m;
 
         protected virtual string GetDesc()
         {
@@ -18,6 +21,7 @@ namespace Realm
         public string Description
         {
             get { return GetDesc(); }
+            set { }
         }
         public virtual Enemy getEnemyList()
         {
@@ -29,7 +33,7 @@ namespace Realm
                 templist.Add(new Bandit());
             if (Main.Player.level >= 10)
                 templist.Add(new Drake());
-            int randint = rand.Next(1, templist.Count + 1);
+            int randint = Main.rand.Next(1, templist.Count + 1);
 
             return templist[randint - 1];
         }
@@ -100,6 +104,10 @@ namespace Realm
                 case '#':
                     Save.SaveGame();
                     break;
+                case 'i':
+                    if (is_npc_active)
+                        m.Interact();
+                    break;
                 default:
                     return false;
             }
@@ -107,7 +115,12 @@ namespace Realm
         }
         public Place()
         {
-            rand = new Random();
+            CreateRandomNPC();
+        }
+        public void CreateRandomNPC()
+        {
+            Description = "You run into a travelling merchant. He has a few pieces of gear for sale.";
+            m = new Merchant(Map.GetNPCName(), "Hello. Have a look at my wares,", "The merchant thanks you.", "You leave.", new Dictionary<char, Item>());
         }
     }
 

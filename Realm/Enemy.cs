@@ -38,10 +38,8 @@ namespace Realm
             int xp = Combat.Dice.roll(1, xpdice);
             Interface.type("You gained " + xp + " xp.", ConsoleColor.Yellow);
             Main.Player.xp += xp;
-            List<Item> dropcands = new List<Item>();
-            foreach(Item i in Main.MainItemList)
-                if ((int)(i.tier / 5) < level)
-                    dropcands.Add(i);
+            List<Item> dropcands = Player.getCorrectlyTieredItems();
+
             if (Main.rand.NextDouble() <= .1d)
             {
                 Main.Player.backpack.Add(dropcands[Main.rand.Next(0, dropcands.Count - 1)]);

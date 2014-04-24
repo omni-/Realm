@@ -29,6 +29,8 @@ namespace Realm
             }
             else if (args.Contains("no-achiements"))
                 Realm.Main.achievements_disabled = true;
+            else if (args.Contains("devmode"))
+                Realm.Main.devmode = true;
             Init.Initialize();
         }
     }
