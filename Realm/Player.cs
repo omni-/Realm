@@ -7,7 +7,7 @@ namespace Realm
     {
         public class GamePlayer
         {
-            public int hp, maxhp, spd, atk, intl, def, g, level,xp, xp_next, fire, guard;
+            public int hp, maxhp, spd, atk, intl, def, g, level,xp, xp_next, fire, guard, reputation;
 
             public string pclass, race, name;
 
@@ -132,6 +132,7 @@ namespace Realm
                 spd = 1000;
                 maxhp = 1000;
                 g = 1000;
+                level = 1000;
                 if (!primary.Equals(default(Item)))
                 {
                     def += primary.defbuff;

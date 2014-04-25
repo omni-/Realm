@@ -6,19 +6,8 @@ namespace Realm
     public class Enemy
     {
         public string name;
-        public int level;
-        public int hp;
-        public int atk;
-        public int def;
-        public int spd;
-        public int xpdice;
-        public int gpdice;
-        public bool trapped = false;
-        public bool cursed = false;
-        public bool on_fire = false;
-        public bool stunned = false;
-        public bool blinded = false;
-        public int fire;
+        public int level,hp, atk, def, spd, xpdice, gpdice, fire, extrarep = 0;
+        public bool trapped = false, cursed = false, on_fire = false, stunned = false, blinded = false;
         public List<string> abilities;
         
         public virtual void attack(out string ability_used)
@@ -45,6 +34,8 @@ namespace Realm
                 Main.Player.backpack.Add(dropcands[Main.rand.Next(0, dropcands.Count - 1)]);
                 Interface.type("Obtained " + dropcands[Main.rand.Next(0, dropcands.Count - 1)].name + "!", ConsoleColor.Green);
             }
+
+            Main.Player.reputation += (1 + extrarep);
         }
         public Enemy()
         {
@@ -195,6 +186,7 @@ namespace Realm
             abilities = new List<string>();
             abilities.Add("BasicAttack");
             abilities.Add("Terminate");
+            extrarep = 99;
         }
         public override void attack(out string ability_used)
         {
@@ -282,6 +274,7 @@ namespace Realm
             abilities.Add("BasicAttack");
             abilities.Add("Crow Call");
             abilities.Add("Murder");
+            extrarep = 49;
 
         }
         public override void attack(out string ability_used)
@@ -462,6 +455,7 @@ namespace Realm
             abilities.Add("BasicAttack");
             abilities.Add("Flame Breath");
             abilities.Add("Cursed Claw");
+            extrarep = 149;
         }
         public override void attack(out string ability_used)
         {

@@ -829,6 +829,7 @@ namespace Realm
                                                 {
                                                     case 'y':
                                                         Main.Player.hp -= 3;
+                                                        Main.Player.reputation -= 100;
                                                         Interface.type("You lose 3 hp. Dirtbag.", ConsoleColor.Red);
                                                         break;
                                                     case 'n':
