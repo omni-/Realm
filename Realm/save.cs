@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Realm
 {
@@ -74,6 +75,8 @@ namespace Realm
             lines.Add("drakecounter=" + Main.drakecounter);
             lines.Add("g=" + Main.Player.g);
             lines.Add("xp=" + Main.Player.xp);
+            lines.Add("xpos=" + Map.PlayerPosition.x);
+            lines.Add("ypos=" + Map.PlayerPosition.y);
             string[] linesarray = lines.ToArray<string>();
             File.WriteAllLines(tpath, linesarray);
             Interface.type("Done.", ConsoleColor.White);
@@ -105,28 +108,16 @@ namespace Realm
                         if (entry.Key == "devmode")
                         {
                             Exception devmode = new Exception("Devmode detected. Load save aborted.");
-                            //try
-                            //{
-                                throw devmode;
-                            //}
-                            //catch(Exception)
-                            //{
-                            //    Interface.type(devmode.ToString(), ConsoleColor.White);
-                            //    if (File.Exists(path))
-                            //        File.Delete(path);
-                            //    Interface.type("Press any key to continue.", ConsoleColor.White);
-                            //    Interface.readkey();
-                            //    Environment.Exit(0);
-                            //}
+                            throw devmode;
                         }
                         if (entry.Key == "name")
                             Main.Player.name = entry.Value;
                         if (entry.Key == "level")
                             Main.Player.level = Convert.ToInt32(entry.Value);
-                        //if (entry.Key == "ppx")
-                        //    Globals.PlayerPosition.x = Convert.ToInt32(entry.Value);
-                        //if (entry.Key == "ppy")
-                        //    Globals.PlayerPosition.y = Convert.ToInt32(entry.Value);
+                        if (entry.Key == "xpos")
+                            Map.PlayerPosition.x = Convert.ToInt32(entry.Value);
+                        if (entry.Key == "ypos")
+                            Map.PlayerPosition.y = Convert.ToInt32(entry.Value);
                         if (entry.Key == "hasmap")
                             Main.hasmap = true;
                         if (entry.Key == "wkingdead")
@@ -345,7 +336,7 @@ namespace Realm
             }
             catch (Exception e)
             {
-                Interface.type("Load failed. Would you like to delete your save (press 'y' to delete)? ", ConsoleColor.White);
+                Interface.type("Load failed. Would you like to delete your save? (press 'y' to delete)", ConsoleColor.White);
                 char key = Interface.readkey().KeyChar;
                 if (key == 'y')
                     File.Delete(path);
@@ -355,30 +346,9 @@ namespace Realm
                 }
                 File.Delete(tachpath);
                 File.Delete(tpath);
-                string crashpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt";
-                List<string> listlines = new List<string>();
-                listlines.Add("---Load Save Runtime Error---");
-                listlines.Add("Message: \r\n" + e.Message);
-                try
-                {
-                    listlines.Add("Inner Exception: \r\n" + e.InnerException.ToString());
-                }
-                catch
-                {
-                }
-                listlines.Add("-----------------------------");
-                try
-                {
-                    if (!File.Exists(crashpath))
-                    {
-                        File.Create(crashpath).Dispose();
-                    }
-                    listlines.Add(e.InnerException.ToString());
-                }
-                catch(NullReferenceException)
-                {
-                }
-                File.WriteAllLines(crashpath, listlines.ToArray());
+
+                WriteError(e);
+
                 return false;
             }
         }
@@ -435,6 +405,30 @@ namespace Realm
             catch (CryptographicException)
             {
             }
+        }
+        public static void WriteError(Exception e)
+        {
+            string crashpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt";
+            List<string> listlines = new List<string>();
+            listlines.Add("---Runtime Error: Realm " + Main.version + "---");
+            listlines.Add("Error: " + e.GetBaseException());
+            listlines.Add("Message:\r\n     " + e.Message + "\r\n");
+            try { listlines.Add("Inner Exception: \r\n" + e.InnerException.ToString() + "\r\n"); }
+            catch { }
+            listlines.Add("Target Site:\r\n     ");
+            listlines.Add(e.TargetSite.ToString() + "\r\n");
+            listlines.Add("Stack Trace:\r\n     ");
+            listlines.Add(e.StackTrace);
+            listlines.Add("-------------------------------------------------------");
+            try
+            {
+                if (!File.Exists(crashpath))
+                    File.Create(crashpath).Dispose();
+                listlines.Add(e.InnerException.ToString());
+            }
+            catch (NullReferenceException) { }
+            File.AppendAllLines(crashpath, listlines.ToArray());
+            MessageBox.Show(e.Message + e.InnerException, "Realm has encountered an error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

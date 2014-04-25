@@ -125,6 +125,8 @@ namespace Realm
                     Interface.type("Your health has been restored.", ConsoleColor.Cyan);
                     if (!String.IsNullOrEmpty(stay))
                         Interface.type(stay);
+                    Main.Player.last_inn[0] = Map.PlayerPosition.x;
+                    Main.Player.last_inn[1] = Map.PlayerPosition.y;
                     break;
                 default:
                     if (!String.IsNullOrEmpty(leave))

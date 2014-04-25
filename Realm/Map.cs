@@ -49,6 +49,38 @@ namespace Realm
             cavemap[4] = new dragon();
         }
 
+        public static Tuple<int, int> CoordinatesOf(Type value)
+        {
+            int w = map.GetLength(0); // width
+            int h = map.GetLength(1); // height
+
+            for (int x = 0; x < w; ++x)
+            {
+                for (int y = 0; y < h; ++y)
+                {
+                    if (map[x, y].GetType() == value)
+                        return Tuple.Create(x, y);
+                }
+            }
+
+            return Tuple.Create(-1, -1);
+        }
+
+        public static Tuple<int, int> getRandomBlankTile()
+        {
+            List<Tuple<int, int>> blanks = new List<Tuple<int, int>>();
+            for (int x = 0; x < map.GetUpperBound(0); x++)
+            {
+                for (int y = 0; y < map.GetUpperBound(1); y++ )
+                {
+                    if (map[x, y].GetType() == typeof(Place))
+                        blanks.Add(new Tuple<int, int>(x, y));
+                }
+            }
+            int ret = Main.rand.Next(0, blanks.Count - 1);
+            return blanks[ret];
+        }
+
         public static string GetNPCName()
         {
             List<string> names = new List<string>()

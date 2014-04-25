@@ -11,23 +11,22 @@ namespace Realm
     {   
         public static void GameOver()
         {
-            Interface.type("Game Over. Press any key to exit, esc during non-combat to exit. Your save has been deleted.", ConsoleColor.DarkRed);
-            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\save.rlm";
-            if (File.Exists(path))
-                File.Delete(path);
-            Interface.readkey();
-            Environment.Exit(0);
+            Interface.type("Game Over. You have been revived at the last inn you stayed in. You have lost all your gold and half of your levels.", ConsoleColor.DarkRed);
+            Main.Player.level /= 2;
+            Main.Player.g = 0;
+            Map.PlayerPosition.x = Main.Player.last_inn[0];
+            Map.PlayerPosition.y = Main.Player.last_inn[1];
         }
         public static void Endgame()
         {
             if (Main.magiccounter >= 1)
                 Interface.type("You recognize the magic man from the alley in Central. It is he who stands before you.");
-            Interface.type("'I am Janus.' The man before you says. You stand in front of the protetorate, Janus. He says '" + Main.Player.name + ", have you realized that this world is an illusion?' You nod your head. 'You will result in the Realm's demise, you must be purged. Shimmering light gathers around him, and beams of blue light blast out of him.");
-            Interface.type("I regret to say, but we must fight.");
+            Interface.type("\"I am Janus.\" The man before you says. You stand in front of the protetorate, Janus. He says \"" + Main.Player.name + ", have you realized that this world is an illusion?\" You nod your head. \"You will result in the Realm\"s demise, you must be purged. Shimmering light gathers around him, and beams of blue light blast out of him.");
+            Interface.type("I regret to say it, but we must fight.");
             Combat.BattleLoop(new finalboss());
             Main.ach.Get("finalboss");
             Interface.type("Janus defeated, the world vanishes and you both are standing on glass in a blank world of black void.");
-            Interface.type("The protectorate kneels on the ground in front of you. 'Do you truly wish to end the illusion?', he says. You look at him without uttering a word. 'Very well, I must ask of you one last favor even though the realm is no more, do not let the realm vanish from within you. Everything around you goes black. (Press any key to continue)");
+            Interface.type("The protectorate kneels on the ground in front of you. \"Do you truly wish to end the illusion?\", he says. You look at him without uttering a word. \"Very well, I must ask of you one last favor; even though the realm is no more, do not let it vanish from within you.\" Everything around you goes black. (Press any key to continue)");
             Interface.readkey();
             Console.Clear();
             Credits();

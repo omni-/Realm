@@ -309,7 +309,7 @@ namespace Realm
             Interface.type("I--KINGDOM--I-----------I--KINGDOM--I-----------I-----------I-----------I", 0, ConsoleColor.Yellow);
             Interface.type("I_______________________________________________________________________I", 0, ConsoleColor.Yellow);
             Interface.type("I-----------I-----------I-----------I--NORTHERN-I-----------I-----------I", 0, ConsoleColor.Yellow);
-            Interface.type("I-----------I-RIVERWELL-I-----------I-----------I-----------I--NOMADS---I", 0, ConsoleColor.Yellow);
+            Interface.type("I-----------I-RIVERWELL-I-----------I-----------I-----------I-----------I", 0, ConsoleColor.Yellow);
             Interface.type("I-----------I-----------I-----------I-MOUNTAINS-I-----------I-----------I", 0, ConsoleColor.Yellow);
             Interface.type("I_______________________________________________________________________I", 0, ConsoleColor.Yellow);
             Interface.type("I-ILLUSION--I-----------I-----------I-----------I-----------I-----------I", 0, ConsoleColor.Yellow);

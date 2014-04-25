@@ -115,12 +115,17 @@ namespace Realm
         }
         public Place()
         {
-            CreateRandomNPC();
         }
         public void CreateRandomNPC()
         {
             Description = "You run into a travelling merchant. He has a few pieces of gear for sale.";
-            m = new Merchant(Map.GetNPCName(), "Hello. Have a look at my wares,", "The merchant thanks you.", "You leave.", new Dictionary<char, Item>());
+            List<Item> tempitemlist = new List<Item>(), forsale = new List<Item>();
+            foreach (Item i in Main.MainItemList)
+                if (i.tier >= 5)
+                    tempitemlist.Add(i);
+            for (int i = 0; i < 4; i++ )
+                forsale.Add(tempitemlist[Main.rand.Next(0, tempitemlist.Count - 1)]);
+            m = new Merchant(Map.GetNPCName(), "Hello. Have a look at my wares,", "The merchant thanks you.", "You leave.", new Dictionary<char, Item>() { { '1', forsale[0] }, { '2', forsale[1] }, { '3', forsale[2] }, { '4', forsale[3] } });
         }
     }
 

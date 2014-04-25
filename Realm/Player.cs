@@ -19,6 +19,8 @@ namespace Realm
 
             public Realm.Combat.CommandTable abilities;
 
+            public int[] last_inn = new int[2];
+
             public void levelup()
             {
                 int xp_overlap;
