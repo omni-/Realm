@@ -46,32 +46,17 @@ namespace Realm
                 Interface.type("\"Greetings. Before we begin, I must know your name.\"");
                 Interface.type("Please enter your name. ");
                 Main.Player.name = Interface.readinput(true);
+                if (Main.devmode)
+                {
+                    Console.Clear();
+                    Main.Player.race = Interface.readinput();
+                    Main.Player.pclass = Interface.readinput();
+                }
                 Main.ach.Get("name");
-                Console.Clear();
-                Main.Player.level = 100;
-                Main.Player.hp = 1000;
-                Main.Player.maxhp = 1000;
-                Main.Player.g = 1000;
-                Main.Player.atk = 1000;
-                Main.Player.def = 1000;
-                Main.Player.spd = 1000;
-                Main.Player.intl = 1000;
-                Main.devmode = true;
-                Map.PlayerPosition.x = 0;
-                Map.PlayerPosition.y = 6;
-                Main.Player.race = Interface.readinput();
-                Main.Player.pclass = Interface.readinput();
-                Main.MainLoop();
-                Map.PlayerPosition.x = 0;
-                Map.PlayerPosition.y = 6;
                 Main.Tutorial();
             }
             else
-            {
-                Map.PlayerPosition.x = 0;
-                Map.PlayerPosition.y = 6;
                 Main.MainLoop();
-            }
         }
     }
     class Plop

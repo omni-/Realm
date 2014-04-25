@@ -131,6 +131,7 @@ namespace Realm
                 intl = 1000;
                 spd = 1000;
                 maxhp = 1000;
+                g = 1000;
                 if (!primary.Equals(default(Item)))
                 {
                     def += primary.defbuff;
