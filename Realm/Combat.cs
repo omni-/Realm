@@ -399,7 +399,7 @@ namespace Realm
             public void AddCommand(Command cmd)
             {
                 _commands.Add(cmd.cmdchar, cmd);
-                if (cmd.name != "Basic Attack")
+                if (cmd.name != "Basic Attack" && cmd.GetType() == typeof(Command))
                     Interface.type("Learned " + cmd.name + "!", ConsoleColor.Cyan);
             }
 
