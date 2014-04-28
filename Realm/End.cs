@@ -11,12 +11,19 @@ namespace Realm
     {   
         public static void GameOver()
         {
+            try
+            {
+                throw new Exception();
+            }
+            catch { }
             Interface.type("Game Over. You have been revived at the last inn you stayed in. You have lost all your gold and half of your levels.", ConsoleColor.DarkRed);
-            Main.Player.level /= 2;
+            Main.Player.level = (Main.Player.level / 2 > 0 ? Main.Player.level / 2 : 1);
             Main.Player.g = 0;
             Main.Player.reputation = -50;
+            Main.Player.hp = Main.Player.maxhp;
             Map.PlayerPosition.x = Main.Player.last_inn[0];
             Map.PlayerPosition.y = Main.Player.last_inn[1];
+            Main.MainLoop();
         }
         public static void Endgame()
         {

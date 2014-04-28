@@ -19,7 +19,7 @@ namespace Realm
 
         public static Random rand = new Random();
 
-        public static string version = "Version Number - 1.8.4.3";
+        public static string version = "Version Number - 1.8.4.4";
 
         public static Dictionary<string, bool> achieve = new Dictionary<string, bool>();
 
@@ -54,7 +54,6 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                     Interface.type("Make sure to visit every library! They offer many valuable abilities as well as experience.");
                     Interface.type("When in combat, select an availible move. All damage is randomized. Mana is refilled after each fight.");
                     Interface.type("While in the backpack, simply select a number corresponding to an item. You may swap this item in or out. Make sure to equip an item once you pick it up!");
-                    Interface.type("At any specified time, you may press x, then y. This will cause you to commit suicide.");
                     Interface.type("At any specified time, you may press #. Doing so will save the game.");
                 }
                 Interface.type("In Realm, every player selects a race. Each race gives its own bonuses. You may choose from Human, Elf, Rockman, Giant, Zephyr, or Shade.");
@@ -186,16 +185,8 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                 Interface.type("");
 
                 ConsoleKeyInfo command = Interface.readkey();
-                if (command.KeyChar == 'x')
-                {
-                    Interface.type("\r\nAre you sure?", ConsoleColor.Red);
-                    char surecommand = Interface.readkey().KeyChar;
-                    if (surecommand == 'y')
-                    {
-                        End.GameOver();
-                    }
-                }
-                else if (command.Key == ConsoleKey.Escape)
+
+                if (command.Key == ConsoleKey.Escape)
                     Environment.Exit(0);
                 else if (command.KeyChar == '-' && devmode)
                 {

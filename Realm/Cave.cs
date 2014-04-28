@@ -44,16 +44,8 @@ namespace Realm
                     Interface.type(currPlace.ToString());
 
                 ConsoleKeyInfo command = Interface.readkey();
-                if (command.KeyChar == 'x')
-                {
-                    Interface.type("\r\nAre you sure?");
-                    char surecommand = Interface.readkey().KeyChar;
-                    if (surecommand == 'y')
-                    {
-                        End.GameOver();
-                    }
-                }
-                else if (command.Key == ConsoleKey.Escape)
+
+                if (command.Key == ConsoleKey.Escape)
                     Environment.Exit(0);
                 else if (command.KeyChar == '-' && Main.devmode)
                 {
