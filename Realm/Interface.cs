@@ -11,21 +11,30 @@ namespace Realm
     {
         public static string GetTitle()
         {
-            List<string> titlelist = new List<string>();
-            titlelist.Add("Slimes OP");
-            titlelist.Add("Now with Color!");
-            titlelist.Add("Stochastic!");
-            titlelist.Add("Sammy Classic Sonic Fan!");
-            titlelist.Add("Expand");
-            titlelist.Add("Drugs are bad, kids");
-            titlelist.Add("Realm 2 Coming -Soon- Someday!");
-            titlelist.Add("A Game of Slimes");
-            titlelist.Add("Rustling Jimmies since 2013!");
-            titlelist.Add("Revengeance");
-            titlelist.Add("Redemption");
-            titlelist.Add("A Slimes' Tale");
+            List<string> titlelist = new List<string>()
+            {
+            "Slimes OP",
+            "Now with Color!",
+            "Stochastic!",
+            "Sammy Classic Sonic Fan!",
+            "Expand",
+            "Drugs are bad, kids",
+            "Realm 2 Coming -S-o-o-n- -S-o-m-e-d-a-y- Probably!",
+            "A Game of Slimes",
+            "I, for one, welcome our new Slime overlord.",
+            "Revengeance",
+            "Redemption",
+            "A Slimes' Tale",
+            "Masaaki Endoh Version",
+            "Big in Japan",
+            "Is this thing on?"
+            };
             int result = Main.rand.Next(0, titlelist.Count);
             return titlelist[result];
+        }
+        public static void typeNoDelay(string src, ConsoleColor color)
+        {
+            Console.WriteLine(src, color);
         }
         public static void type(string src, int speed)
         {
@@ -49,27 +58,7 @@ namespace Realm
             }
             Main.is_typing = false;
         }
-        //public static void typeAbility(string abilityname)
-        //{
-        //    Main.is_typing = true;
-        //    Console.WriteLine("\r\n");
-        //    string leanred = "Learned '";
-        //    string exclaim = "'!";
-        //    foreach (char c in leanred)
-        //    {
-        //        Console.Write(c);
-        //        Thread.SpinWait(1000000);
-        //    }
-        //    Console.ForegroundColor = ConsoleColor.Cyan;
-        //    Console.Write(abilityname);
-        //    Console.ResetColor();
-        //    foreach (char c in exclaim)
-        //    {
-        //        Console.Write(c);
-        //        Thread.SpinWait(1000000);
-        //    }
-        //    Main.is_typing = false;
-        //}
+
         public static void typeStats()
         {
             Interface.type("--------------STATS-----------------", ConsoleColor.Yellow);

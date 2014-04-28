@@ -37,8 +37,8 @@ namespace Realm
         {
             FileIO.checkver();
             File.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe");
-            Console.Title = "Realm: " + Interface.GetTitle();
-            Interface.type(Main.version, ConsoleColor.White);
+            Console.Title = "Realm: " + Interface.GetTitle() + " (" + Main.version + ")";
+            Interface.type("You are running Realm " + Main.version, ConsoleColor.White);
             Map.gencave();
             Achievement.LoadAchievements();
             if (!Save.LoadGame())
@@ -162,16 +162,14 @@ namespace Realm
                 }
             }
             else
-                Interface.type("Connection error.");
+                Interface.type("Connection error.", ConsoleColor.Red);
         }
         public static void worker()
         {
             BackgroundWorker bw = new BackgroundWorker();
 
-            // this allows our worker to report progress during work
             bw.WorkerReportsProgress = true;
 
-            // what to do in the background thread
             bw.DoWork += new DoWorkEventHandler(
             delegate(object o, DoWorkEventArgs args)
             {
@@ -187,7 +185,6 @@ namespace Realm
                     Interface.type("Failed to connect to server.");
                     Init.failed = true;
                 }
-                // do some simple processing for 10 seconds
             });
             bw.RunWorkerAsync();
         }

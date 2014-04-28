@@ -47,23 +47,38 @@ namespace Realm
                 spd = 1;
                 intl = 1;
                 if (race == "giant" || race == "drake")
+                {
                     maxhp = 12 + (level + 2);
+                    atk = (1 + (level / 3));
+                }
                 else
                     maxhp = 9 + level;
                 if (race == "human")
                 {
-                    def = (1 + (level / 5));
-                    atk = (1 + (level / 5));
-                    spd = (1 + (level / 5));
+                    def = (1 + (level / 3));
+                    atk = (2 + (level / 3));
+                    spd = (1 + (level / 3));
                 }
                 else if (race == "elf" || race == "slime")
+                {
                     intl = (3 + (level / 2));
+                    spd = (1 + (level / 3));
+                }
                 else if (race == "rockman")
+                {
                     def = (3 + (level / 2));
+                    maxhp = 10 + level;
+                }
                 else if (race == "zephyr" || race == "goblin")
+                {
                     spd = (3 + (level / 2));
+                    intl = (1 + (level / 3));
+                }
                 else if (race == "shade" || race == "bandit")
+                {
                     atk = (3 + (level / 2));
+                    spd = (1 + (level / 3));
+                }
                 atk += Main.atkbuff;
                 def += Main.defbuff;
                 spd += Main.spdbuff;

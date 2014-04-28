@@ -1279,16 +1279,20 @@ namespace Realm
                         Interface.drawmap();
                     break;
                 case 'n':
-                    Map.PlayerPosition.y += 1;
+                    if (Map.PlayerPosition.y < Map.map.GetUpperBound(1))
+                        Map.PlayerPosition.y += 1;
                     break;
                 case 'e':
-                    Map.PlayerPosition.x += 1;
+                    if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
+                        Map.PlayerPosition.x += 1;
                     break;
                 case 'w':
-                    Map.PlayerPosition.x -= 1;
+                    if (Map.PlayerPosition.x > 0)
+                        Map.PlayerPosition.x -= 1;
                     break;
                 case 's':
-                    Map.PlayerPosition.y -= 1;
+                    if (Map.PlayerPosition.y > 0)
+                        Map.PlayerPosition.y -= 1;
                     break;
                 case 'g':
                     Merchant m = new Merchant("Toothless man", "You walk up to the toothless man holding wares.", "The toothless man reverently hands you the artifact", "You decide it's too pricey.", new Dictionary<char, Item>() { { '1', new illusory_plate() }, { '2', new spectral_bulwark() }, { '3', new void_cloak() } });

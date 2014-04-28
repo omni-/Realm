@@ -85,7 +85,7 @@ namespace Realm
         {
             List<string> names = new List<string>()
             {
-                "Jean-Philippe", "Jacques-Cartier", "Bill", "Hank", "Ernie", "Selena", "Gomie", "Chambers", "Takeshi", "Clark", "Rosie", "Nick", "Carter", "Charlie", "Claude", "Ben", "Steve", "Margie", "Isabel", "Connor"
+                "Jean-Philippe", "Jacques-Cartier", "Bill", "Hank", "Ernie", "Selena", "Gomie", "Chambers", "Takeshi", "Clark", "Rosie", "Nick", "Carter", "Charlie", "Claude", "Ben", "Steve", "Margie", "Isabel", "Connor", "Alex"
             };
             return names[Main.rand.Next(0, names.Count - 1)];
         }

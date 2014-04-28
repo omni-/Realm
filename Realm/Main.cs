@@ -29,9 +29,7 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
 
         public static void Tutorial()
         {
-            List<string> racelist = new List<string> { "human", "elf", "rockman", "giant", "zephyr", "shade" };
-            List<string> classlist = new List<string> { "warrior", "paladin", "mage", "thief" };
-            List<string> secret = new List<string>();
+            List<string> racelist = new List<string> { "human", "elf", "rockman", "giant", "zephyr", "shade" }, classlist = new List<string> { "warrior", "paladin", "mage", "thief" }, secret = new List<string>();
             if (achieve["100slimes"])
                 secret.Add("Slime");
             if (achieve["100goblins"])

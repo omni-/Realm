@@ -14,7 +14,7 @@ namespace Realm
             {
                 Console.SetWindowSize(Console.LargestWindowWidth - 4, Console.LargestWindowHeight);
                 NativeMethods.ShowWindow(NativeMethods.ThisConsole, NativeMethods.MAXIMIZE);
-                if (args.Contains("wipe"))
+                if (args.Contains("-wipe"))
                 {
                     try { File.Delete(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm"); }
                     catch { }
@@ -31,9 +31,9 @@ namespace Realm
                     try { File.Delete(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt"); }
                     catch { }
                 }
-                if (args.Contains("no-achievements"))
+                if (args.Contains("-noachievements"))
                     Realm.Main.achievements_disabled = true;
-                if (args.Contains("devmode"))
+                if (args.Contains("-devmode"))
                     Realm.Main.devmode = true;
                 Init.Initialize();
             }
