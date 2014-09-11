@@ -25,7 +25,7 @@ namespace Realm
         }
         public virtual Enemy getEnemyList()
         {
-            List<Enemy> templist = new List<Enemy>();
+            var templist = new List<Enemy>();
             templist.Add(new Slime());
             if (Main.Player.level >= 3)
                 templist.Add(new Goblin());
@@ -33,13 +33,13 @@ namespace Realm
                 templist.Add(new Bandit());
             if (Main.Player.level >= 10)
                 templist.Add(new Drake());
-            int randint = Main.rand.Next(1, templist.Count + 1);
+            var randint = Main.rand.Next(1, templist.Count + 1);
 
             return templist[randint - 1];
         }
         public virtual char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Map.PlayerPosition.x > 0)
                 templist.Add('w');
             if (Map.PlayerPosition.x < Map.map.GetUpperBound(0))
@@ -58,7 +58,7 @@ namespace Realm
         }
         public virtual void handleInput(char input)
         {
-            bool inputHandled = false;
+            var inputHandled = false;
             while (!inputHandled)
             {
                 inputHandled = _handleInput(input);
@@ -120,10 +120,8 @@ namespace Realm
         {
             Description = "You run into a travelling merchant. He has a few pieces of gear for sale.";
             List<Item> tempitemlist = new List<Item>(), forsale = new List<Item>();
-            foreach (Item i in Main.MainItemList)
-                if (i.tier >= 5)
-                    tempitemlist.Add(i);
-            for (int i = 0; i < 4; i++ )
+            tempitemlist.AddRange(Main.MainItemList.Where(i => i.tier >= 5));
+            for (var i = 0; i < 4; i++ )
                 forsale.Add(tempitemlist[Main.rand.Next(0, tempitemlist.Count - 1)]);
             m = new Merchant(Map.GetNPCName(), "Hello. Have a look at my wares,", "The merchant thanks you.", "You leave.", new Dictionary<char, Item>() { { '1', forsale[0] }, { '2', forsale[1] }, { '3', forsale[2] }, { '4', forsale[3] } });
         }
@@ -214,7 +212,7 @@ namespace Realm
         }
         public override char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             if (Main.hasmap)
@@ -261,7 +259,7 @@ namespace Realm
                     {
                         Interface.type("You decide to look around. You find a trail leading to a clearing. Once in the  clearing, you see a suit of cardboard armor held together with duct tape, a refrigerator box, and a cardboad tube. Pick them up? Your current commands are y, n");
                         Interface.type("");
-                        char tempinput = Interface.readkey().KeyChar;
+                        var tempinput = Interface.readkey().KeyChar;
                         switch (tempinput)
                         {
                             case 'y':
@@ -308,7 +306,7 @@ namespace Realm
         }
         public override char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             if (Main.hasmap)
@@ -359,20 +357,20 @@ namespace Realm
                 case 't':
                     Interface.type("There is an inn(i) and an arms dealer(a). Or you can investigate the well(w).");
                     Interface.type("");
-                    char tempinput = Interface.readkey().KeyChar;
+                    var tempinput = Interface.readkey().KeyChar;
                     switch (tempinput)
                     {
                         case 'i':
-                            Innkeeper ik = new Innkeeper("Joseph", "Greetings. Would you like to stay at the inn?", "Your health has been fully restored, although you suspect you have lice.", "You leave the grimy inn.");
+                            var ik = new Innkeeper("Joseph", "Greetings. Would you like to stay at the inn?", "Your health has been fully restored, although you suspect you have lice.", "You leave the grimy inn.");
                             ik.Interact();
                             break;
                         case 'a':
-                            Merchant m = new Merchant("Caelan", "\"Hello. I have for sale a high quality ring and a staff of the highest tier.\" You decide he isn't the most trustworthy man.", "The price tag on the staff has an 'o' burned into it.", "You decide the man is far too sleazy.", new Dictionary<char, Item>() { { '1', new plastic_ring() }, { '2', new wood_staff() } });
+                            var m = new Merchant("Caelan", "\"Hello. I have for sale a high quality ring and a staff of the highest tier.\" You decide he isn't the most trustworthy man.", "The price tag on the staff has an 'o' burned into it.", "You decide the man is far too sleazy.", new Dictionary<char, Item>() { { '1', new plastic_ring() }, { '2', new wood_staff() } });
                             m.Interact();
                             break;
                         case 'w':
                             Interface.type("Do you want to look inside the well?(y/n)");
-                            char ___tempinput = Interface.readkey().KeyChar;
+                            var ___tempinput = Interface.readkey().KeyChar;
                             switch (___tempinput)
                             {
                                 case 'y':
@@ -408,7 +406,7 @@ namespace Realm
         }
         public override char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             if (Main.hasmap)
@@ -452,18 +450,18 @@ namespace Realm
                     Map.PlayerPosition.y -= 1;
                     break;
                 case 'i':
-                    Innkeeper ik = new Innkeeper("Johnny", "\"Greetings. Welcome to the inn.\"", "Your back hurts from the prison mattress you slept on, but at least you're rested. You see the letter 'd' in the coffe grounds from your espresso as you leave.", "You decide not to sleep here");
+                    var ik = new Innkeeper("Johnny", "\"Greetings. Welcome to the inn.\"", "Your back hurts from the prison mattress you slept on, but at least you're rested. You see the letter 'd' in the coffe grounds from your espresso as you leave.", "You decide not to sleep here");
                     ik.Interact();
                     break;
                 case 'a':
-                    Merchant m = new Merchant("Hans", "The merchant greets you in a pleasant German accent. He's unfortunately mostly out of stock.", "He thanks you graciously as you struggle to understand him.", "You decide there's nothing here for you.", new Dictionary<char, Item>() { { '1', new iron_lance() }, { '2', new iron_rapier() } });
+                    var m = new Merchant("Hans", "The merchant greets you in a pleasant German accent. He's unfortunately mostly out of stock.", "He thanks you graciously as you struggle to understand him.", "You decide there's nothing here for you.", new Dictionary<char, Item>() { { '1', new iron_lance() }, { '2', new iron_rapier() } });
                     m.Interact();
                     break;
                 case 'l':
                     if (Main.libcounter == 0)
                     {
                         Interface.type("You see a massive building with columns the size of a house. This is obivously the town's main attraction. Nerds are streaming in and out like a river. You try to go inside, but you're stopped at the door. The enterance fee is 3 g. Pay? (y/n)");
-                        char ___tempinput = Interface.readkey().KeyChar;
+                        var ___tempinput = Interface.readkey().KeyChar;
                         switch (___tempinput)
                         {
                             case 'y':
@@ -518,7 +516,7 @@ namespace Realm
         }
         public override char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             if (Main.hasmap)
@@ -564,7 +562,7 @@ namespace Realm
                     Map.PlayerPosition.x -= 1;
                     break;
                 case 'i':
-                    Innkeeper ik = new Innkeeper("Olaf", "THe innkeeper gruffly greets you and offers his cheapest room.", "The mattress smelled of mildew, and now you do too.", "You are taken aback by his taciturn attitude and leave.");
+                    var ik = new Innkeeper("Olaf", "THe innkeeper gruffly greets you and offers his cheapest room.", "The mattress smelled of mildew, and now you do too.", "You are taken aback by his taciturn attitude and leave.");
                     ik.Interact();
                     break;
                 case 't':
@@ -572,7 +570,7 @@ namespace Realm
                     switch (Interface.readkey().KeyChar)
                     {
                         case 'a':
-                            Merchant m = new Merchant("Ji", "You see a stooping old man selling magically charged rings. He offers you one.", "He smiles weakly and thanks you.", "He looks a little downtrodden.", new Dictionary<char, Item>() { { '1', new iron_band() } });
+                            var m = new Merchant("Ji", "You see a stooping old man selling magically charged rings. He offers you one.", "He smiles weakly and thanks you.", "He looks a little downtrodden.", new Dictionary<char, Item>() { { '1', new iron_band() } });
                             m.Interact();
                             break;
                         case 't':
@@ -605,7 +603,7 @@ namespace Realm
         }
         public override char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             if (Main.hasmap)
@@ -756,7 +754,7 @@ namespace Realm
         }
         public override char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             if (Main.hasmap)
@@ -864,7 +862,7 @@ namespace Realm
                     }
                     break;
                 case 'g':
-                    Merchant m = new Merchant("Smith's Guild", "The Smith's Guild has their cumulative project for sale. It's high quality, but very expensive.", "They high five each other, happy that someone appreciates their work.", "You decide your money is more important than protection and move on.", new Dictionary<char, Item>() { { '1', new bt_plate() } });
+                    var m = new Merchant("Smith's Guild", "The Smith's Guild has their cumulative project for sale. It's high quality, but very expensive.", "They high five each other, happy that someone appreciates their work.", "You decide your money is more important than protection and move on.", new Dictionary<char, Item>() { { '1', new bt_plate() } });
                     m.Interact();
                     break;
                 case 'c':
@@ -893,7 +891,7 @@ namespace Realm
         }
         public override char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             if (Main.hasmap)
@@ -977,7 +975,7 @@ namespace Realm
                                 switch (Interface.readkey().KeyChar)
                                 {
                                     case 'y':
-                                        int abilchance = Combat.Dice.roll(1, 6);
+                                        var abilchance = Combat.Dice.roll(1, 6);
                                         if (abilchance == 6)
                                         {
                                             Interface.type("You feel as if something incredible has happened.");
@@ -1008,7 +1006,7 @@ namespace Realm
                     }
                     break;
                 case 'a':
-                    Merchant m = new Merchant("Reginald", "You approach a building with a sigil bearing crossed swords. You suspect this is the weaponsmith. You enter, and he has loads of firepower for sale.", "You are happy with your purchase.", "You leave.", new Dictionary<char, Item>() { { '1', new bt_longsword() }, { '2', new iron_buckler() }, { '3', new iron_mail() }, { '4', new iron_rapier() } });
+                    var m = new Merchant("Reginald", "You approach a building with a sigil bearing crossed swords. You suspect this is the weaponsmith. You enter, and he has loads of firepower for sale.", "You are happy with your purchase.", "You leave.", new Dictionary<char, Item>() { { '1', new bt_longsword() }, { '2', new iron_buckler() }, { '3', new iron_mail() }, { '4', new iron_rapier() } });
                     m.Interact();
                     break;
                 case 'q':
@@ -1046,7 +1044,7 @@ namespace Realm
                     Backpack.BackpackLoop();
                     break;
                 case 'i':
-                    Innkeeper ik = new Innkeeper("Humphrey", "The inn is called 'Donaldius Trumpe'. Humphrey's expression seems to state that he has disadain for plebs.", "You feel refreshed, however the bedsheets smelled like cold blooded capitalism and weasely politicians.", "You leave the posh hotel");
+                    var ik = new Innkeeper("Humphrey", "The inn is called 'Donaldius Trumpe'. Humphrey's expression seems to state that he has disadain for plebs.", "You feel refreshed, however the bedsheets smelled like cold blooded capitalism and weasely politicians.", "You leave the posh hotel");
                     ik.Interact();
                     break;
                 case 'o':
@@ -1084,7 +1082,7 @@ namespace Realm
         }
         public override char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             if (Main.hasmap)
@@ -1130,14 +1128,14 @@ namespace Realm
                     Map.PlayerPosition.x -= 1;
                     break;
                 case 'a':
-                    Merchant m = new Merchant("Rex", "The arms dealer has a small stand, but his wares are valuable.", "He grins an you can't help but smile with him.", "You leave.", new Dictionary<char, Item>() { { '1', new ds_amulet() }, { '2', new ds_kite() }, { '3', new ds_kris() }, { '4', new ds_scale() } });
+                    var m = new Merchant("Rex", "The arms dealer has a small stand, but his wares are valuable.", "He grins an you can't help but smile with him.", "You leave.", new Dictionary<char, Item>() { { '1', new ds_amulet() }, { '2', new ds_kite() }, { '3', new ds_kris() }, { '4', new ds_scale() } });
                     m.Interact();
                     break;
                 case 'b':
                     Backpack.BackpackLoop();
                     break;
                 case 'i':
-                    Innkeeper ik = new Innkeeper("Chandler", "The inn is half burned down, but there are still beds avaiable. The inkeeper seems to have burn scars on his face.", "You stay the night and all your clothes are covered in ash.", "You decide not to risk it.");
+                    var ik = new Innkeeper("Chandler", "The inn is half burned down, but there are still beds avaiable. The inkeeper seems to have burn scars on his face.", "You stay the night and all your clothes are covered in ash.", "You decide not to risk it.");
                     ik.Interact();
                     break;
                 case 'r':
@@ -1171,7 +1169,7 @@ namespace Realm
         }
         public override char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             if (Main.hasmap)
@@ -1217,14 +1215,14 @@ namespace Realm
                     Map.PlayerPosition.y -= 1;
                     break;
                 case 'a':
-                    Merchant m = new Merchant("Ernest", "A very old man is selling some very high end wares.", "You see a glint of greed in the old man's eye.", "You leave", new Dictionary<char, Item>() { { '1', new bt_battleaxe() }, { '2', new bt_greatsword() } });
+                    var m = new Merchant("Ernest", "A very old man is selling some very high end wares.", "You see a glint of greed in the old man's eye.", "You leave", new Dictionary<char, Item>() { { '1', new bt_battleaxe() }, { '2', new bt_greatsword() } });
                     m.Interact();
                     break;
                 case 'b':
                     Backpack.BackpackLoop();
                     break;
                 case 'i':
-                    Innkeeper ik = new Innkeeper("John", "It's a normal-ass inn.", "You sleep the night, and wake up feeling like you slept the night.", "You don't sleep in the inn.");
+                    var ik = new Innkeeper("John", "It's a normal-ass inn.", "You sleep the night, and wake up feeling like you slept the night.", "You don't sleep in the inn.");
                     ik.Interact();
                     break;
                 default:
@@ -1245,7 +1243,7 @@ namespace Realm
         }
         public override char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             if (Main.hasmap)
@@ -1295,7 +1293,7 @@ namespace Realm
                         Map.PlayerPosition.y -= 1;
                     break;
                 case 'g':
-                    Merchant m = new Merchant("Toothless man", "You walk up to the toothless man holding wares.", "The toothless man reverently hands you the artifact", "You decide it's too pricey.", new Dictionary<char, Item>() { { '1', new illusory_plate() }, { '2', new spectral_bulwark() }, { '3', new void_cloak() } });
+                    var m = new Merchant("Toothless man", "You walk up to the toothless man holding wares.", "The toothless man reverently hands you the artifact", "You decide it's too pricey.", new Dictionary<char, Item>() { { '1', new illusory_plate() }, { '2', new spectral_bulwark() }, { '3', new void_cloak() } });
                     m.Interact();
                     break;
                 case 'k':
@@ -1339,7 +1337,7 @@ namespace Realm
         }
         public override char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             if (Main.hasmap)
@@ -1382,11 +1380,11 @@ namespace Realm
                     Map.PlayerPosition.y -= 1;
                     break;
                 case 'i':
-                    Innkeeper ik = new Innkeeper("Archibald", "\"Welcome to the Ritz Hotel\". You've always wanted to stay in one of these.", "You steal all the soap from the shower.", "You leave the posh hotel");
+                    var ik = new Innkeeper("Archibald", "\"Welcome to the Ritz Hotel\". You've always wanted to stay in one of these.", "You steal all the soap from the shower.", "You leave the posh hotel");
                     ik.Interact();
                     break;
                 case 'a':
-                    Merchant m = new Merchant("Sarah", "You visit the arms dealer and it's being manned by a 6 year old girl missing her front teeth.", "She grins and hands you the gear.", "You leave.", new Dictionary<char, Item>() { { '1', new sb_gauntlet() }, { '2', new sb_saber() } });
+                    var m = new Merchant("Sarah", "You visit the arms dealer and it's being manned by a 6 year old girl missing her front teeth.", "She grins and hands you the gear.", "You leave.", new Dictionary<char, Item>() { { '1', new sb_gauntlet() }, { '2', new sb_saber() } });
                     m.Interact();
                     break;
                 case 'b':
@@ -1412,7 +1410,7 @@ namespace Realm
         }
         public override char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             if (Main.hasmap)
@@ -1458,11 +1456,11 @@ namespace Realm
                     Map.PlayerPosition.y -= 1;
                     break;
                 case 'a':
-                    Merchant m = new Merchant("Greg", "A balding middle aged man is running this shop. He is selling fairly valuable wares.", "You buy the gear.", "You leave.", new Dictionary<char, Item>() { { '1', new sb_chain() }, { '2', new sb_shield() } });
+                    var m = new Merchant("Greg", "A balding middle aged man is running this shop. He is selling fairly valuable wares.", "You buy the gear.", "You leave.", new Dictionary<char, Item>() { { '1', new sb_chain() }, { '2', new sb_shield() } });
                     m.Interact();
                     break;
                 case 'i':
-                    Innkeeper ik = new Innkeeper("Johannes", "This hotel is obviously designed for rich people, but there is a clear lack of customers.", "As you're leaving the hotel, you notice a 'Romney 2012' sign. The letter 'i' is carved over Mitt's face", "You can't take the republicanism in this place");
+                    var ik = new Innkeeper("Johannes", "This hotel is obviously designed for rich people, but there is a clear lack of customers.", "As you're leaving the hotel, you notice a 'Romney 2012' sign. The letter 'i' is carved over Mitt's face", "You can't take the republicanism in this place");
                     ik.Interact();
                     break;
                 case 'b':
@@ -1488,7 +1486,7 @@ namespace Realm
         }
         public override char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             if (Main.hasmap)
@@ -1566,7 +1564,7 @@ namespace Realm
         }
         public override char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             if (Main.hasmap)
@@ -1600,18 +1598,18 @@ namespace Realm
                     Map.PlayerPosition.x -= 1;
                     break;
                 case 'a':
-                    Merchant m = new Merchant("Edwin", "You visit the arms dealer. He is old, and the wrinkles in his face are blackened with coal dust. As this town is the only source of the precious black mineral in the all of Realm, these ex-miners are very rich. For sale before you are imported wares from the distant land of Avira.", "He smiles gratefully.", "You are far too plebian to afford his wares.", new Dictionary<char, Item>() { { '1', new a_amulet() }, { '2', new a_mail() }, { '3', new a_staff() } });
+                    var m = new Merchant("Edwin", "You visit the arms dealer. He is old, and the wrinkles in his face are blackened with coal dust. As this town is the only source of the precious black mineral in the all of Realm, these ex-miners are very rich. For sale before you are imported wares from the distant land of Avira.", "He smiles gratefully.", "You are far too plebian to afford his wares.", new Dictionary<char, Item>() { { '1', new a_amulet() }, { '2', new a_mail() }, { '3', new a_staff() } });
                     m.Interact();
                     break;
                 case 'i':
-                    Innkeeper ik = new Innkeeper("Johnson", "Do you want to stay at the coaltown motel?", "Everything in the town, now including you, is coated in a layer of fine black dust, but at least your hp has been restored.", "You decide not to risk the lung cancer.");
+                    var ik = new Innkeeper("Johnson", "Do you want to stay at the coaltown motel?", "Everything in the town, now including you, is coated in a layer of fine black dust, but at least your hp has been restored.", "You decide not to risk the lung cancer.");
                     ik.Interact();
                     break;
                 case 'c':
                         if (Main.minecounter == 0)
                         {
                             Interface.type("This coalmine is abundant with miners and minecarts, carrying the precious black resource back to the surface. You try to swipe a coal nugget from a passing minecart, as the stuff is worth double it's weight in gold, but a burly miner swats your hand. With his pickeaxe. Ow. Do you want to travel deeper into the mine? (y/n)");
-                            int roll = Combat.Dice.roll(1, 10);
+                            var roll = Combat.Dice.roll(1, 10);
                             if (roll == 1)
                             {
                                 Interface.type("The mine collapses and you die.");
@@ -1696,7 +1694,7 @@ namespace Realm
         }
         public override char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             if (Main.hasmap)
@@ -1735,11 +1733,11 @@ namespace Realm
                     Map.PlayerPosition.x -= 1;
                     break;
                 case 'a':
-                    Merchant m = new Merchant("Leif", "A young man with a frosty beard and frostier gear greets you.", "Jesus christ this is so cold oh god I don't want it anymore help me oh god it's so cold", "His head moves, but you're not sure if it's a nod of farewell or a shiver", new Dictionary<char, Item>() { {'1', new ice_amulet()}, {'2', new ice_dagger()}, {'3', new ice_shield()}, {'4', new swifites()} });
+                    var m = new Merchant("Leif", "A young man with a frosty beard and frostier gear greets you.", "Jesus christ this is so cold oh god I don't want it anymore help me oh god it's so cold", "His head moves, but you're not sure if it's a nod of farewell or a shiver", new Dictionary<char, Item>() { {'1', new ice_amulet()}, {'2', new ice_dagger()}, {'3', new ice_shield()}, {'4', new swifites()} });
                     m.Interact();
                     break;
                 case 'i':
-                    Innkeeper ik = new Innkeeper("Bjergsen", "Do you wish to stay at the Iceborn Inn?", "You are well rested, but you have frostbite in three toes.", "It's too damn cold.");
+                    var ik = new Innkeeper("Bjergsen", "Do you wish to stay at the Iceborn Inn?", "You are well rested, but you have frostbite in three toes.", "It's too damn cold.");
                     ik.Interact();
                     break;
                 case 'l':
@@ -1792,7 +1790,7 @@ namespace Realm
         }
         public override char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count >= 1)
                 templist.Add('b');
             if (Main.hasmap)
@@ -1834,11 +1832,11 @@ namespace Realm
                     Map.PlayerPosition.x -= 1;
                     break;
                 case 'a':
-                    Merchant m = new Merchant("Harold", "A young man with one of those stereotypical black and white 'wands' is running the shop.", "He grins a conman's grin.", "You are disgusted with him and leave", new Dictionary<char, Item>() { { '1', new m_amulet() }, { '2', new m_robes() }, { '3', new m_staff() }, { '4', new m_tome() } });
+                    var m = new Merchant("Harold", "A young man with one of those stereotypical black and white 'wands' is running the shop.", "He grins a conman's grin.", "You are disgusted with him and leave", new Dictionary<char, Item>() { { '1', new m_amulet() }, { '2', new m_robes() }, { '3', new m_staff() }, { '4', new m_tome() } });
                     m.Interact();
                     break;
                 case 'i':
-                    Innkeeper ik = new Innkeeper("Dave Ironmeadow", "Do you want to stay at the Rabbit-Inn-Hat?", "Your health has been restored, but when you tried to pull a sock from your suitcase, and infinite chain of rainbow hankies tied together stopped you from actually getting a sock. So now you only have one.", "You almost pass out from all of the phony magic because of flashbacks to bad birthday parties.");
+                    var ik = new Innkeeper("Dave Ironmeadow", "Do you want to stay at the Rabbit-Inn-Hat?", "Your health has been restored, but when you tried to pull a sock from your suitcase, and infinite chain of rainbow hankies tied together stopped you from actually getting a sock. So now you only have one.", "You almost pass out from all of the phony magic because of flashbacks to bad birthday parties.");
                     ik.Interact();
                     break;
                 case 'l':
@@ -1894,19 +1892,19 @@ namespace Realm
         }
         public virtual Enemy getEnemyList()
         {
-            List<Enemy> templist = new List<Enemy>();
+            var templist = new List<Enemy>();
             templist.Add(new Slime());
             if (Main.Player.level >= 3)
                 templist.Add(new cavebat());
             if (Main.Player.level >= 5)
                 templist.Add(new cavespider());
-            int randint = rand.Next(1, templist.Count + 1);
+            var randint = rand.Next(1, templist.Count + 1);
 
             return templist[randint - 1];
         }
         public virtual char[] getAvailableCommands()
         {
-            List<char> templist = new List<char>();
+            var templist = new List<char>();
             if (Main.Player.backpack.Count > 0)
                 templist.Add('b');
             templist.Add('v');
@@ -1916,7 +1914,7 @@ namespace Realm
         }
         public virtual void handleInput(char input)
         {
-            bool inputHandled = false;
+            var inputHandled = false;
             while (!inputHandled)
             {
                 inputHandled = _handleInput(input);
@@ -2012,7 +2010,7 @@ namespace Realm
                     Interface.typeStats();
                     break;
                 case 'c':
-                    int roll = Combat.Dice.roll(1, 4);
+                    var roll = Combat.Dice.roll(1, 4);
                     if (roll == 1)
                     {
                         Main.Player.hp -= 5;
@@ -2068,7 +2066,7 @@ namespace Realm
                     Interface.typeStats();
                     break;
                 case 'd':
-                    int roll = Combat.Dice.roll(1, 2);
+                    var roll = Combat.Dice.roll(1, 2);
                     if (roll == 1)
                     {
                         Main.Player.hp -= 7;

@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
+using System.Reflection;
 
 namespace Realm
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
@@ -16,20 +15,41 @@ namespace Realm
                 NativeMethods.ShowWindow(NativeMethods.ThisConsole, NativeMethods.MAXIMIZE);
                 if (args.Contains("-wipe"))
                 {
-                    try { File.Delete(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm"); }
-                    catch { }
-                    try { File.Delete(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\save.rlm"); }
-                    catch { }
-                    try { File.Delete(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\test.exe"); }
-                    catch { }
-                    try { File.Delete(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm"); }
-                    catch { }
-                    try { File.Delete(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm"); }
-                    catch { }
-                    try { File.Delete(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\update.exe"); }
-                    catch { }
-                    try { File.Delete(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt"); }
-                    catch { }
+                    try { File.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm"); }
+                    catch (FileNotFoundException) { }
+                    catch (DirectoryNotFoundException) { }
+                    catch (ArgumentException) { }
+                    catch (UnauthorizedAccessException) { }
+                    try { File.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\save.rlm"); }
+                    catch (FileNotFoundException) { }
+                    catch (DirectoryNotFoundException) { }
+                    catch (ArgumentException) { }
+                    catch (UnauthorizedAccessException) { }
+                    try { File.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe"); }
+                    catch (FileNotFoundException) { }
+                    catch (DirectoryNotFoundException) { }
+                    catch (ArgumentException) { }
+                    catch (UnauthorizedAccessException) { }
+                    try { File.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm"); }
+                    catch (FileNotFoundException) { }
+                    catch (DirectoryNotFoundException) { }
+                    catch (ArgumentException) { }
+                    catch (UnauthorizedAccessException) { }
+                    try { File.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm"); }
+                    catch (FileNotFoundException) { }
+                    catch (DirectoryNotFoundException) { }
+                    catch (ArgumentException) { }
+                    catch (UnauthorizedAccessException) { }
+                    try { File.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\update.exe"); }
+                    catch (FileNotFoundException) { }
+                    catch (DirectoryNotFoundException) { }
+                    catch (ArgumentException) { }
+                    catch (UnauthorizedAccessException) { }
+                    try { File.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt"); }
+                    catch (FileNotFoundException) { }
+                    catch (DirectoryNotFoundException) { }
+                    catch (ArgumentException) { }
+                    catch (UnauthorizedAccessException) { }
                 }
                 if (args.Contains("-noachievements"))
                     Realm.Main.achievements_disabled = true;

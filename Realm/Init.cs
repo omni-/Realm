@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -20,16 +16,14 @@ namespace Realm
         public static string CalculateMD5Hash(string input)
         {
             // step 1, calculate MD5 hash from input
-            MD5 md5 = System.Security.Cryptography.MD5.Create();
-            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
-            byte[] hash = md5.ComputeHash(inputBytes);
+            var md5 = MD5.Create();
+            var inputBytes = Encoding.ASCII.GetBytes(input);
+            var hash = md5.ComputeHash(inputBytes);
 
             // step 2, convert byte array to hex string
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < hash.Length; i++)
-            {
-                sb.Append(hash[i].ToString("X2"));
-            }
+            var sb = new StringBuilder();
+            foreach (var t in hash)
+                sb.Append(t.ToString("X2"));
             return sb.ToString();
         }
 
@@ -63,10 +57,10 @@ namespace Realm
     {
         public void DropAndRun(string rName, string fName)
         {
-            var assembly = this.GetType().Assembly;
+            var assembly = GetType().Assembly;
             using (var stream = assembly.GetManifestResourceStream(rName))
             {
-                using (FileStream file = new FileStream(fName, FileMode.Create))
+                using (var file = new FileStream(fName, FileMode.Create))
                 {
                     stream.CopyTo(file);
                 }
@@ -131,16 +125,16 @@ namespace Realm
         public static bool isConnected()
         {
             int desc;
-            bool tf = NativeMethods.InternetGetConnectedState(out desc, 0);
+            var tf = NativeMethods.InternetGetConnectedState(out desc, 0);
             return tf;
         }
         public static void checkver()
         {
-            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string programName = "update.exe";
-            string resourceName = "Realm.update.exe";
-            string exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Realm.exe";
-            string temppath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe";
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            const string programName = "update.exe";
+            const string resourceName = "Realm.update.exe";
+            var exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Realm.exe";
+            var temppath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe";
             worker();
             while (!Init.init) { }
 
@@ -164,20 +158,29 @@ namespace Realm
             else
                 Interface.type("Connection error.", ConsoleColor.Red);
         }
+        private void startDownload()
+        {
+            Console.Write("Loading...0%");
+            var temppath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe";
+            var client = new WebClient();
+            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
+            client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
+            client.DownloadFileAsync((new Uri("https://dl.dropboxusercontent.com/u/83385592/Realm.exe")), temppath);
+        }
         public static void worker()
         {
-            BackgroundWorker bw = new BackgroundWorker();
+            var bw = new BackgroundWorker();
 
             bw.WorkerReportsProgress = true;
 
             bw.DoWork += new DoWorkEventHandler(
             delegate(object o, DoWorkEventArgs args)
             {
-                BackgroundWorker b = o as BackgroundWorker;
-                WebClient webClient = new WebClient();
+                var b = o as BackgroundWorker;
+                var webClient = new WebClient();
                 try
                 {
-                    FileIO fio = new FileIO();
+                    var fio = new FileIO();
                     fio.startDownload();
                 }
                 catch (WebException)
@@ -188,20 +191,11 @@ namespace Realm
             });
             bw.RunWorkerAsync();
         }
-        private void startDownload()
-        {
-            Console.Write("Loading...0%");
-            string temppath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe";
-            WebClient client = new WebClient();
-            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
-            client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
-            client.DownloadFileAsync((new Uri("https://dl.dropboxusercontent.com/u/83385592/Realm.exe")), temppath);
-        }
         void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            double bytesIn = double.Parse(e.BytesReceived.ToString());
-            double totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
-            double percentage = bytesIn / totalBytes * 100;
+            var bytesIn = double.Parse(e.BytesReceived.ToString());
+            var totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
+            var percentage = bytesIn / totalBytes * 100;
             Console.Write("\rLoading...{0}%", (int)percentage);
         }
         void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)

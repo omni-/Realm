@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Realm
 {
@@ -10,11 +6,11 @@ namespace Realm
     {
         public static void CaveLoop()
         {
-            caveplace currPlace = new caveplace();
+            var currPlace = new caveplace();
             Main.Player.applybonus();
             while (Main.Player.hp > 0)
             {
-                Enemy enemy = new Enemy();
+                var enemy = new Enemy();
                 Main.Player.levelup();
                 currPlace = Map.cavemap[Map.CavePosition];
                 if (Main.Player.hp > Main.Player.maxhp)
@@ -43,29 +39,29 @@ namespace Realm
                 else
                     Interface.type(currPlace.ToString());
 
-                ConsoleKeyInfo command = Interface.readkey();
+                var command = Interface.readkey();
 
                 if (command.Key == ConsoleKey.Escape)
                     Environment.Exit(0);
                 else if (command.KeyChar == '-' && Main.devmode)
                 {
-                    string input = Interface.readinput();
+                    var input = Interface.readinput();
                     if (input == "e")
                         End.Endgame();
                     else if (input == "c")
                     {
-                        string combat_input = Interface.readinput();
-                        Type etype = Type.GetType("Realm." + combat_input);
-                        Enemy e = (Enemy)Activator.CreateInstance(etype);
+                        var combat_input = Interface.readinput();
+                        var etype = Type.GetType("Realm." + combat_input);
+                        var e = (Enemy)Activator.CreateInstance(etype);
                         Combat.BattleLoop(e);
                     }
                     else if (input == "n")
                         Main.Player.name = Interface.readinput();
                     else if (input == "a")
                     {
-                        string add_input = Interface.readinput();
-                        Type atype = Type.GetType("Realm." + add_input);
-                        Item i = (Item)Activator.CreateInstance(atype);
+                        var add_input = Interface.readinput();
+                        var atype = Type.GetType("Realm." + add_input);
+                        var i = (Item)Activator.CreateInstance(atype);
                         if (Main.Player.backpack.Count <= 10)
                             Main.Player.backpack.Add(i);
                         else
@@ -74,16 +70,16 @@ namespace Realm
                     }
                     else if (input == "p")
                     {
-                        string p_input = Interface.readinput();
-                        Type atype = Type.GetType("Realm." + p_input);
-                        Item i = (Item)Activator.CreateInstance(atype);
+                        var p_input = Interface.readinput();
+                        var atype = Type.GetType("Realm." + p_input);
+                        var i = (Item)Activator.CreateInstance(atype);
                         Main.Player.primary = i;
                     }
                     else if (input == "t")
                     {
-                        string place_input = Interface.readinput();
-                        Type ptype = Type.GetType("Realm." + place_input);
-                        Place p = (Place)Activator.CreateInstance(ptype);
+                        var place_input = Interface.readinput();
+                        var ptype = Type.GetType("Realm." + place_input);
+                        var p = (Place)Activator.CreateInstance(ptype);
                     }
                 }
                 else

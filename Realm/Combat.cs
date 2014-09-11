@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,12 +8,10 @@ namespace Realm
     {
         public static void BattleLoop(Enemy enemy)
         {
-            Main.game_state = 1;
-
             Main.Player.applybonus();
 
-            int enemydmg = 0;
-            int mana = 1 + Main.Player.intl / 10;
+            var enemydmg = 0;
+            var mana = 1 + Main.Player.intl / 10;
             Interface.type("You have entered combat! Ready your weapons!", ConsoleColor.Red);
             Interface.type("Level " + enemy.level + " " + enemy.name + ":", ConsoleColor.Yellow);
             Interface.type("-------------------------", ConsoleColor.Yellow);
@@ -22,7 +19,7 @@ namespace Realm
             Interface.type("Attack: " + enemy.atk, ConsoleColor.Yellow);
             Interface.type("Defense: " + enemy.def, ConsoleColor.Yellow);
             Interface.type("-------------------------", ConsoleColor.Yellow);
-            bool is_turn = enemy.spd < Main.Player.spd;
+            var is_turn = enemy.spd < Main.Player.spd;
             while (enemy.hp >= 0)
             {
                 Interface.type("----------------------", ConsoleColor.Cyan);
@@ -37,10 +34,10 @@ namespace Realm
                         Main.Player.phased = false;
                     Interface.type("\r\nAVAILABLE MOVES:", ConsoleColor.Cyan);
                     Interface.type("-------------", ConsoleColor.Cyan);
-                    int i = 0;
-                    foreach (Realm.Combat.Command c in Main.Player.abilities.commands.Values)
+                    var i = 0;
+                    foreach (var c in Main.Player.abilities.commands.Values)
                     {
-                        string src = "||   " + c.cmdchar + ". " + c.name;
+                        var src = "||   " + c.cmdchar + ". " + c.name;
                         Interface.type(src, ConsoleColor.Cyan);
                         i++;
                     }
@@ -52,7 +49,7 @@ namespace Realm
                     if (Main.Player.on_fire)
                     {
                         Main.Player.fire++;
-                        int dmg = Combat.Dice.roll(1, 3);
+                        var dmg = Dice.roll(1, 3);
                         Main.Player.hp -= dmg;
                         Interface.type("You take " + dmg + " fire damage.", ConsoleColor.Red);
                     }
@@ -60,12 +57,12 @@ namespace Realm
                         Main.Player.blinded = false;
                     if (Main.Player.cursed)
                     {
-                        Main.Player.hp -= Combat.Dice.roll(1, 6);
+                        Main.Player.hp -= Dice.roll(1, 6);
                         Interface.type("You are cursed!", ConsoleColor.Red);
                     }
 
-                    int oldhp = enemy.hp;
-                    char ch = Interface.readkey().KeyChar;
+                    var oldhp = enemy.hp;
+                    var ch = Interface.readkey().KeyChar;
                     while (!Main.Player.abilities.commandChars.Contains(ch))
                     {
                         Interface.type("Invalid.");
@@ -90,16 +87,16 @@ namespace Realm
                     else
                     {
                         Interface.type("You are blind!", ConsoleColor.Red);
-                        if (Combat.Dice.roll(1, 10) == 1)
+                        if (Dice.roll(1, 10) == 1)
                         {
                             Interface.type("By some miracle, you manage to hit", ConsoleColor.Cyan);
                             Main.Player.abilities.ExecuteCommand(ch, enemy);
-                            int blindenemyhp = oldhp - enemy.hp;
+                            var blindenemyhp = oldhp - enemy.hp;
                             if (ch != 'l')
                                 Interface.type("The enemy takes " + blindenemyhp + " damage!", ConsoleColor.Cyan);
                         }
                     }
-                    int enemyhp = oldhp - enemy.hp;
+                    var enemyhp = oldhp - enemy.hp;
                     if (ch != 'l')
                         Interface.type("The enemy takes " + enemyhp + " damage!", ConsoleColor.Cyan);
                     if (enemy.hp <= 0)
@@ -141,13 +138,13 @@ namespace Realm
                     if (Main.Player.on_fire)
                     {
                         Main.Player.fire++;
-                        int dmg = Combat.Dice.roll(1, 3);
+                        var dmg = Dice.roll(1, 3);
                         Main.Player.hp -= dmg;
                         Interface.type("You take " + dmg + " fire damage.", ConsoleColor.Red);
                     }
                     if (Main.Player.cursed)
                     {
-                        Main.Player.hp -= Combat.Dice.roll(1, 6);
+                        Main.Player.hp -= Dice.roll(1, 6);
                         Interface.type("You are cursed!", ConsoleColor.Red);
                     }
                     is_turn = false;
@@ -166,7 +163,7 @@ namespace Realm
                     if (enemy.on_fire)
                     {
                         enemy.fire++;
-                        int dmg = Combat.Dice.roll(1, 3);
+                        var dmg = Dice.roll(1, 3);
                         enemy.hp -= dmg;
                         Interface.type(enemy.name + " takes " + dmg + " fire damage.", ConsoleColor.Cyan);
                         if (enemy.hp <= 0)
@@ -200,7 +197,7 @@ namespace Realm
                     if (enemy.cursed)
                     {
                         Interface.type(enemy.name + " is cursed!", ConsoleColor.Cyan);
-                        enemy.hp -= Combat.Dice.roll(1, 6);
+                        enemy.hp -= Dice.roll(1, 6);
                         if (enemy.hp <= 0)
                         {
                             Interface.type("Your have defeated " + enemy.name + "!", ConsoleColor.Yellow);
@@ -212,7 +209,7 @@ namespace Realm
                     if (enemy.trapped)
                     {
                         Interface.type("Your trap has sprung!");
-                        int dmg = (Main.Player.level / 5) + (Main.Player.intl / 3) + Combat.Dice.roll(1, 5);
+                        var dmg = (Main.Player.level / 5) + (Main.Player.intl / 3) + Dice.roll(1, 5);
                         enemy.hp -= dmg;
                         Interface.type(enemy.name + " takes " + dmg + " damage!", ConsoleColor.Cyan);
                         if (enemy.hp <= 0)
@@ -230,7 +227,7 @@ namespace Realm
                         Main.Player.levelup();
                         return;
                     }
-                    int oldhp = Main.Player.hp;
+                    var oldhp = Main.Player.hp;
                     string ability;
                     if (!Main.Player.guarded && !enemy.blinded)
                     {
@@ -244,7 +241,7 @@ namespace Realm
                         if (Main.Player.blinded)
                         {
                             Interface.type(enemy.name + "is blind!", ConsoleColor.Cyan);
-                            if (Combat.Dice.roll(1, 10) == 1)
+                            if (Dice.roll(1, 10) == 1)
                             {
                                 Interface.type("By some miracle, " + enemy.name + " manages to hit you!", ConsoleColor.Red);
                                 enemy.attack(out ability);
@@ -269,14 +266,14 @@ namespace Realm
                     if (enemy.on_fire)
                     {
                         enemy.fire++;
-                        int dmg = Combat.Dice.roll(1, 3);
+                        var dmg = Dice.roll(1, 3);
                         enemy.hp -= dmg;
                         Interface.type(enemy.name + " takes " + dmg + " fire damage.", ConsoleColor.Cyan);
                     }
                     if (enemy.cursed)
                     {
                         Interface.type(enemy.name + " is cursed!", ConsoleColor.Cyan);
-                        enemy.hp -= Combat.Dice.roll(1, 6);
+                        enemy.hp -= Dice.roll(1, 6);
                     }
                     if (enemy.hp <= 0)
                     {
@@ -318,9 +315,9 @@ namespace Realm
         {
             public static int roll(int numdice, int numsides)
             {
-                int total = 0;
-                Random rand = new Random();
-                for (int i = 0; i < numdice; i++)
+                var total = 0;
+                var rand = new Random();
+                for (var i = 0; i < numdice; i++)
                 {
                     total += rand.Next(1, Math.Abs(numsides + 1));
                 }
@@ -328,7 +325,7 @@ namespace Realm
             }
             public static bool misschance(int spd)
             {
-                int misschance = Dice.roll(1, 101 + (spd * 3));
+                var misschance = roll(1, 101 + (spd * 3));
                 if (misschance == 1)
                 {
                     Interface.type("Missed!", ConsoleColor.White);
@@ -340,15 +337,15 @@ namespace Realm
         }
         public static bool CheckBattle()
         {
-            Random randint = new Random();
-            int rollresult = Dice.roll(1, 3);
+            var randint = new Random();
+            var rollresult = Dice.roll(1, 3);
             return rollresult == 1;
         }
         public static string DecideAttack(List<string> abilities)
         {
-            int i = abilities.Count;
-            Random rand = new Random();
-            int randint = rand.Next(1, ((i * 3) + 1));
+            var i = abilities.Count;
+            var rand = new Random();
+            var randint = rand.Next(1, ((i * 3) + 1));
             if (randint > i)
                 return abilities[0];
             else
@@ -418,7 +415,7 @@ namespace Realm
             {
                 try
                 {
-                    Command cmd = _commands[ch];
+                    var cmd = _commands[ch];
                     cmd.Execute(data);
                 }
                 catch (KeyNotFoundException)
@@ -437,7 +434,7 @@ namespace Realm
             public override bool Execute(object data)
             {
                 // data should be the enemy
-                Enemy target = (Enemy)data;
+                var target = (Enemy)data;
                 double damage = Dice.roll(1, Main.Player.atk);
                 if (Main.Player.primary.multiplier != 0)
                     damage *= Main.Player.primary.multiplier;
@@ -458,7 +455,7 @@ namespace Realm
             public override bool Execute(object data)
             {
                 // data should be the enemy
-                Enemy target = (Enemy)data;
+                var target = (Enemy)data;
                 double damage = Dice.roll(2, Main.Player.intl);
                 if (damage <= 0)
                     damage = 1;
@@ -477,7 +474,7 @@ namespace Realm
             public override bool Execute(object data)
             {
                 // data should be the enemy
-                Enemy target = (Enemy)data;
+                var target = (Enemy)data;
                 double damage = Dice.roll(2, Main.Player.atk);
                 if (damage <= 0)
                     damage = 1;
@@ -496,14 +493,14 @@ namespace Realm
             public override bool Execute(object data)
             {
                 // data should be the enemy
-                Enemy target = (Enemy)data;
+                var target = (Enemy)data;
                 double damage = Dice.roll(2, Main.Player.atk * 2 / 3);
                 if (damage <= 0)
                     damage = 1;
                 if (Dice.misschance(target.spd))
                     damage = 0;
                 target.hp -= Convert.ToInt32(damage);
-                int heal = Convert.ToInt32(damage / 3);
+                var heal = Convert.ToInt32(damage / 3);
                 Main.Player.hp += heal;
                 Interface.type("You gain " + heal + " life.", ConsoleColor.Cyan);
                 return true;
@@ -518,7 +515,7 @@ namespace Realm
             public override bool Execute(object data)
             {
                 // data should be the enemy
-                Enemy target = (Enemy)data;
+                var target = (Enemy)data;
                 double damage = Dice.roll(2, Main.Player.def/2);
                 if (damage <= 0)
                     damage = 1;
@@ -537,7 +534,7 @@ namespace Realm
 
             public override bool Execute(object data)
             {
-                Enemy target = (Enemy)data;
+                var target = (Enemy)data;
                 double damage = Dice.roll((Main.Player.atk + Main.Player.def + Main.Player.spd + Main.Player.intl), Main.Player.level);
                 target.hp -= Convert.ToInt32(damage);
                 return true;
@@ -552,7 +549,7 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
+                var target = (Enemy)Data;
                 target.hp = 0;
                 return true;
             }
@@ -566,7 +563,7 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
+                var target = (Enemy)Data;
                 target.hp -= Dice.roll(1, Main.Player.intl);
                 target.cursed = true;
                 return true;
@@ -581,8 +578,8 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
-                int dmg = Dice.roll(1, Main.Player.atk / 2);
+                var target = (Enemy)Data;
+                var dmg = Dice.roll(1, Main.Player.atk / 2);
                 if (dmg <= 0)
                     dmg = 1;
                 if (Dice.misschance(target.spd))
@@ -600,7 +597,7 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
+                var target = (Enemy)Data;
                 Main.Player.phased = true;
                 target.hp -= 2;
                 return true;
@@ -614,8 +611,8 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
-                int damage = Dice.roll(1, ((Main.Player.atk/3) + Main.Player.intl/3));
+                var target = (Enemy)Data;
+                var damage = Dice.roll(1, ((Main.Player.atk/3) + Main.Player.intl/3));
                 if (damage <= 0)
                     damage = 1;
                 if (Dice.misschance(target.spd))
@@ -632,7 +629,7 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
+                var target = (Enemy)Data;
                 target.hp -= Dice.roll(1, Main.Player.intl);
                 target.on_fire = true;
                 return true;
@@ -646,11 +643,11 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
+                var target = (Enemy)Data;
                 if (stunchance(3))
                     target.stunned = true;
                 target.on_fire = true;
-                int damage = Dice.roll(1, Main.Player.atk / 2);
+                var damage = Dice.roll(1, Main.Player.atk / 2);
                 if (damage <= 0)
                     damage = 1;
                 if (Dice.misschance(target.spd))
@@ -667,10 +664,10 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
+                var target = (Enemy)Data;
                 if (stunchance(2))
                     target.stunned = true;
-                int damage = (Main.Player.atk) + (Main.Player.def / 3);
+                var damage = (Main.Player.atk) + (Main.Player.def / 3);
                 if (damage <= 0)
                     damage = 1;
                 if (Dice.misschance(target.spd))
@@ -687,7 +684,7 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
+                var target = (Enemy)Data;
                 target.stunned = true;
                 target.on_fire = true;
                 target.cursed = true;
@@ -704,8 +701,8 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
-                int chance = Dice.roll(1, 10);
+                var target = (Enemy)Data;
+                var chance = Dice.roll(1, 10);
                 if (chance <= 5)
                 {
                     Main.Player.hp -= 2 * chance;
@@ -739,7 +736,7 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                int heal = Math.Max(((Main.Player.intl * 2) / 3), 1);
+                var heal = Math.Max(((Main.Player.intl * 2) / 3), 1);
                 Main.Player.hp += heal;
                 if (Main.Player.hp > Main.Player.maxhp)
                     Main.Player.hp = Main.Player.maxhp;
@@ -767,8 +764,8 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
-                int damage = (Main.Player.maxhp - Main.Player.hp);
+                var target = (Enemy)Data;
+                var damage = (Main.Player.maxhp - Main.Player.hp);
                 if (damage <= 0)
                     damage = 1;
                 if (Dice.misschance(target.spd))
@@ -785,7 +782,7 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
+                var target = (Enemy)Data;
                 target.hp -= Dice.roll(1, Main.Player.spd) + Dice.roll(1, (Main.Player.spd / 5));
                 return true;
             }
@@ -798,9 +795,9 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
+                var target = (Enemy)Data;
                 target.blinded = true;
-                int dmg = Dice.roll(2, Main.Player.atk);
+                var dmg = Dice.roll(2, Main.Player.atk);
                 if (dmg <= 0)
                     dmg = 1;
                 if (Dice.misschance(target.spd))
@@ -817,8 +814,8 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
-                int dmg = Dice.roll(9, (Main.Player.intl + Main.Player.def) / 10);
+                var target = (Enemy)Data;
+                var dmg = Dice.roll(9, (Main.Player.intl + Main.Player.def) / 10);
                 target.hp -= dmg;
                 return true;
             }
@@ -831,9 +828,9 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
-                int dmg = Dice.roll(6, (Main.Player.intl + Main.Player.atk) / 6);
-                int stun = Dice.roll(1, 5);
+                var target = (Enemy)Data;
+                var dmg = Dice.roll(6, (Main.Player.intl + Main.Player.atk) / 6);
+                var stun = Dice.roll(1, 5);
                 if (stun == 1 || stun == 2 || stun == 3 || stun == 4)
                     target.stunned = true;
                 target.hp -= dmg;
@@ -848,8 +845,8 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
-                int dmg = Dice.roll(1, Main.Player.intl);
+                var target = (Enemy)Data;
+                var dmg = Dice.roll(1, Main.Player.intl);
                 target.blinded = true;
                 target.hp -= dmg;
                 return true;
@@ -863,8 +860,8 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
-                int dmg = Dice.roll(1, (Main.Player.intl + Main.Player.atk) / 2);
+                var target = (Enemy)Data;
+                var dmg = Dice.roll(1, (Main.Player.intl + Main.Player.atk) / 2);
                 target.hp -= dmg;
                 return true;
             }
@@ -877,8 +874,8 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Enemy target = (Enemy)Data;
-                int dmg = Dice.roll(2, Main.Player.intl) - 2;
+                var target = (Enemy)Data;
+                var dmg = Dice.roll(2, Main.Player.intl) - 2;
                 target.hp -= dmg;
                 return true;
             }

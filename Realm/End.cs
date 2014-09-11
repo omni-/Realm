@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Realm
 {
@@ -11,18 +6,26 @@ namespace Realm
     {   
         public static void GameOver()
         {
-            try
-            {
-                throw new Exception();
-            }
+            try { throw new Exception();  }
             catch { }
+            Console.Clear();
+            Main.loop_number = 0;
             Interface.type("Game Over. You have been revived at the last inn you stayed in. You have lost all your gold and half of your levels.", ConsoleColor.DarkRed);
             Main.Player.level = (Main.Player.level / 2 > 0 ? Main.Player.level / 2 : 1);
             Main.Player.g = 0;
             Main.Player.reputation = -50;
             Main.Player.hp = Main.Player.maxhp;
-            Map.PlayerPosition.x = Main.Player.last_inn[0];
-            Map.PlayerPosition.y = Main.Player.last_inn[1];
+            var test = new int[2];
+            if (Main.Player.last_inn != test)
+            {
+                Map.PlayerPosition.x = Main.Player.last_inn[0];
+                Map.PlayerPosition.y = Main.Player.last_inn[1];
+            }
+            else
+            {
+                Map.PlayerPosition.x = 0;
+                Map.PlayerPosition.y = 6;
+            }
             Main.MainLoop();
         }
         public static void Endgame()
@@ -95,7 +98,6 @@ namespace Realm
             Interface.type("- Charlie Catino", ConsoleColor.Yellow);
             Interface.type("- Bradley Lignoski", ConsoleColor.Yellow);
             Interface.type("- Alexander Pfenning", ConsoleColor.Yellow);
-            Interface.type("- Ben Boyd", ConsoleColor.Yellow);
             Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
             Interface.type("Copyright(c) 2013", ConsoleColor.White);
             Interface.type("Press any key to continue.", ConsoleColor.White);
@@ -105,8 +107,8 @@ namespace Realm
 
         public static Tuple<string, int> calcScore()
         {
-            int score = (Main.Player.reputation + (Main.Player.level * 10) + Main.Player.g);
-            string rank = (score >= 1500 ? "S Rank" : score >= 1000 ? "A Rank" : score >= 750 ? "B Rank" : score >= 500 ? "C Rank" : score >= 250 ? "D Rank" : score >= 0 ? "F Rank" : "Reggie?");
+            var score = (Main.Player.reputation + (Main.Player.level * 10) + Main.Player.g);
+            var rank = (score >= 1500 ? "S Rank" : score >= 1000 ? "A Rank" : score >= 750 ? "B Rank" : score >= 500 ? "C Rank" : score >= 250 ? "D Rank" : score >= 0 ? "F Rank" : "Reggie?");
             return new Tuple<string, int>(rank, score);
         }
     }

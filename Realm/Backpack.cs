@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Realm
 {
     public class Backpack
     {
-        public class backpackcommand : Combat.Command
+        private class backpackcommand : Combat.Command
         {
             public backpackcommand(string aname, char cmd)
                 : base(aname, cmd)
@@ -14,7 +13,7 @@ namespace Realm
             }
             public override bool Execute(object Data)
             {
-                Item i = (Item)Data;
+                var i = (Item)Data;
                 Interface.type(i.name);
                 Interface.type("Description: " + i.desc, ConsoleColor.Green);
                 Interface.type("Attack Buff: " + i.atkbuff + " / Defense Buff: " + i.defbuff + " / Speed Buff: " + i.spdbuff + " / Intelligence Buff: " + i.intlbuff, ConsoleColor.Green);
@@ -29,7 +28,7 @@ namespace Realm
                 Interface.type("Tier: ", ConsoleColor.Green);
                 Interface.typeOnSameLine(i.tier.ToString(), (i.tier == 0 ? ConsoleColor.Gray : i.tier == 1 ? ConsoleColor.White : i.tier == 2 ? ConsoleColor.Blue : i.tier == 3 ? ConsoleColor.Yellow : i.tier == 4 ? ConsoleColor.Red : i.tier == 5 ? ConsoleColor.Magenta : i.tier == 6 ? ConsoleColor.Cyan : ConsoleColor.DarkMagenta));
                 Interface.type("Enter (y) to equip this item, (d) to destroy and anything else to go back.", ConsoleColor.Green);
-                char c = Interface.readkey().KeyChar;
+                var c = Interface.readkey().KeyChar;
                 switch (c)
                 {
                     case 'y':
@@ -76,8 +75,7 @@ namespace Realm
         }
         public static void BackpackLoop()
         {
-            bool loopcontrol = true;
-            while (loopcontrol)
+            while (true)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Interface.type("----------Current Equipment----------");
@@ -86,17 +84,17 @@ namespace Realm
                 Interface.type("Armor: " + Main.Player.armor.name);
                 Interface.type("Accessory: " + Main.Player.accessory.name);
                 Interface.type("-------------------------------------");
-                int q = 1;
-                Combat.CommandTable cmd = new Combat.CommandTable();
-                foreach (Item i in Main.Player.backpack)
+                var q = 1;
+                var cmd = new Combat.CommandTable();
+                foreach (var i in Main.Player.backpack)
                 {
                     Interface.type((q - 1) + ". " + i.name);
-                    backpackcommand bpcmd = new backpackcommand(i.name, (char)(q + 47));
+                    var bpcmd = new backpackcommand(i.name, (char)(q + 47));
                     cmd.AddCommand(bpcmd);
                     q++;
                 }
                 Interface.type("");
-                char ch = Interface.readkey().KeyChar;
+                var ch = Interface.readkey().KeyChar;
                 if (!cmd.commandChars.Contains(ch))
                     break;
                 cmd.ExecuteCommand(ch, Main.Player.backpack[(int)Char.GetNumericValue(ch)]);

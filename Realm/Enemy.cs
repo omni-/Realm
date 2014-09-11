@@ -6,9 +6,9 @@ namespace Realm
     public class Enemy
     {
         public string name;
-        public int level,hp, atk, def, spd, xpdice, gpdice, fire, extrarep = 0;
+        public int level,hp, atk, def, spd, xpdice, gpdice, fire, extrarep;
         public bool trapped = false, cursed = false, on_fire = false, stunned = false, blinded = false;
-        public List<string> abilities;
+        protected List<string> abilities;
         
         public virtual void attack(out string ability_used)
         {
@@ -17,17 +17,17 @@ namespace Realm
         }
         public virtual void droploot()
         {
-            int gold = Combat.Dice.roll(1, gpdice);
+            var gold = Combat.Dice.roll(1, gpdice);
             Interface.type("You gain " + gold + " gold.", ConsoleColor.Yellow);
             if (!Main.is_theif)
                 Main.Player.g += gold;
             else
                 Main.Player.g += (gold + (gold / 10));
 
-            int xp = Combat.Dice.roll(1, xpdice);
+            var xp = Combat.Dice.roll(1, xpdice);
             Interface.type("You gained " + xp + " xp.", ConsoleColor.Yellow);
             Main.Player.xp += xp;
-            List<Item> dropcands = Player.getCorrectlyTieredItems();
+            var dropcands = Player.getCorrectlyTieredItems();
 
             if (Main.rand.NextDouble() <= .1d)
             {
@@ -54,14 +54,12 @@ namespace Realm
             spd = level < 3 ? 0 : 2 + (level / 2);
             xpdice = 12 - (level / 5);
             gpdice = 8 - (level / 5);
-            abilities = new List<string>();
-            abilities.Add("BasicAttack");
-            abilities.Add("SuperSlimySlam");
+            abilities = new List<string> { "BasicAttack", "SuperSlimySlam" };
         }
         public override void attack(out string ability_used)
         {
             ability_used = "";
-            int dmg = 0;
+            var dmg = 0;
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
@@ -92,14 +90,11 @@ namespace Realm
             spd = 1 + (level / 2);
             xpdice = 20;
             gpdice = 15;
-            abilities = new List<string>();
-            abilities.Add("BasicAttack");
-            abilities.Add("Impale");
-            abilities.Add("CrazedSlashes");
+            abilities = new List<string> { "BasicAttack", "Impale", "CrazedSlashes" };
         }
         public override void attack(out string ability_used)
         {
-            int dmg = 0;
+            var dmg = 0;
             ability_used = "";
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
@@ -145,7 +140,7 @@ namespace Realm
         }
         public override void attack(out string ability_used)
         {
-            int dmg = 0;
+            var dmg = 0;
             ability_used = "";
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
@@ -191,7 +186,7 @@ namespace Realm
         public override void attack(out string ability_used)
         {
             ability_used = "";
-            int dmg = 0;
+            var dmg = 0;
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
@@ -231,7 +226,7 @@ namespace Realm
         public override void attack(out string ability_used)
         {
             ability_used = "";
-            int dmg = 0;
+            var dmg = 0;
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
@@ -280,7 +275,7 @@ namespace Realm
         public override void attack(out string ability_used)
         {
             ability_used = "";
-            int dmg = 0;
+            var dmg = 0;
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
@@ -328,7 +323,7 @@ namespace Realm
         public override void attack(out string ability_used)
         {
             ability_used = "";
-            int dmg = 0;
+            var dmg = 0;
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
@@ -376,7 +371,7 @@ namespace Realm
         public override void attack(out string ability_used)
         {
             ability_used = "";
-            int dmg = 0;
+            var dmg = 0;
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
@@ -420,7 +415,7 @@ namespace Realm
         public override void attack(out string ability_used)
         {
             ability_used = "";
-            int dmg = 0;
+            var dmg = 0;
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);
@@ -460,7 +455,7 @@ namespace Realm
         public override void attack(out string ability_used)
         {
             ability_used = "";
-            int dmg = 0;
+            var dmg = 0;
             if (Combat.DecideAttack(abilities) == "BasicAttack")
             {
                 double damage = Combat.Dice.roll(1, atk);

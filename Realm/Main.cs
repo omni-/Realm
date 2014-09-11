@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections;
 using System.Linq;
-using System.Windows.Forms;
-using System.IO;
 
 namespace Realm
 {
     public static class Main
     {
-        public static int loop_number = 0, game_state = 0, slimecounter = 0, goblincounter = 0, banditcounter = 0, drakecounter = 0, wkingcounter = 0, slibcounter = 0, forrestcounter = 0, libcounter = 0, centrallibcounter = 0, ramsaycounter = 0, magiccounter = 0, nlibcounter = 0, townfolkcounter = 0, nomadcounter = 0, minecounter = 0, frozencounter = 0, noobcounter = 0, gbooks = 0, intlbuff = 0, defbuff = 0, atkbuff = 0, spdbuff = 0;
+        public static int loop_number = 0, slimecounter = 0, goblincounter = 0, banditcounter = 0, drakecounter = 0, wkingcounter = 0, slibcounter = 0, forrestcounter = 0, libcounter = 0, centrallibcounter = 0, ramsaycounter = 0, magiccounter = 0, nlibcounter = 0, townfolkcounter = 0, nomadcounter = 0, minecounter = 0, frozencounter = 0, noobcounter = 0, gbooks = 0, intlbuff = 0, defbuff = 0, atkbuff = 0, spdbuff = 0;
 
         public static bool raven_dead = false, is_theif = false, wkingdead = false, is_typing = false, devmode = false, hasmap = false, achievements_disabled = false;
 
         public static Achievement ach = new Achievement();
-        public static Player.GamePlayer Player = new Realm.Player.GamePlayer();
+        public static Player.GamePlayer Player = new Player.GamePlayer();
         public static Map globals = new Map();
 
         public static Random rand = new Random();
 
-        public static string version = "Version Number - 1.8.4.4";
+        public static string version = "Version Number - v1.8.4.5";
 
         public static Dictionary<string, bool> achieve = new Dictionary<string, bool>();
 
@@ -60,37 +57,34 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                 if (achieve["100slimes"] || achieve["100goblins"] || achieve["100bandits"] || achieve["100drakes"])
                 {
                     Interface.type("Secret Races: ", ConsoleColor.Yellow);
-                    for (int i = 0; i < secret.Count; i++)
+                    for (var i = 0; i < secret.Count; i++)
                     {
                         if (i > 1)
                             Interface.typeOnSameLine(", ", ConsoleColor.Yellow);
                         Interface.type(secret[i], ConsoleColor.Yellow);
                     }
-                    foreach (string s in secret)
-                    {
-                        racelist.Add(s);
-                    }
+                    racelist.AddRange(secret);
                 }
                 Interface.type("Please enter a race. ");
                 is_typing = false;
-                string race = Interface.readinput();
+                var race = Interface.readinput();
                 while (!racelist.Contains(race))
                 {
                     Interface.type("Invalid. Please try again. ");
                     race = Interface.readinput();
                 }
                 Player.race = race;
-                Interface.type("You have selected " + Interface.ToUpperFirstLetter(Player.race) + ".", ConsoleColor.Magenta);
+                Interface.type("You have selected " + Player.race.ToUpperFirstLetter() + ".", ConsoleColor.Magenta);
                 Interface.type("Each player also has a class. You may choose from Warrior, Paladin, Mage, or Thief.");
                 Interface.type("Please enter a class. ");
-                string pclass = Interface.readinput();
+                var pclass = Interface.readinput();
                 while (!classlist.Contains(pclass))
                 {
                     Interface.type("Invalid. Please try again. ");
                     pclass = Interface.readinput();
                 }
                 Player.pclass = pclass;
-                Interface.type("You have selected " + Interface.ToUpperFirstLetter(Player.pclass) + ".", ConsoleColor.Magenta);
+                Interface.type("You have selected " + Player.pclass.ToUpperFirstLetter() + ".", ConsoleColor.Magenta);
                 Interface.type("You are now ready to play Realm. Good luck!");
                 Interface.type("Press any key to continue.", ConsoleColor.White);
                 Interface.readkey();
@@ -103,8 +97,6 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
         }
         public static void MainLoop()
         {
-            game_state = 0;
-            Place currPlace;
             while (Player.hp > 0)
             {
                 if (slimecounter == 100)
@@ -116,15 +108,15 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                 if (drakecounter == 100)
                     ach.Get("100drakes");
 
-                Tuple<int, int> xy = Map.CoordinatesOf(typeof(Nomad));
+                var xy = Map.CoordinatesOf(typeof(Nomad));
                 Map.map[xy.Item1, xy.Item2] = new Place();
-                Tuple<int, int> nextNomad = Map.getRandomBlankTile();
+                var nextNomad = Map.getRandomBlankTile();
                 Map.map[nextNomad.Item1, nextNomad.Item2] = new Nomad();
 
-                foreach (Place p in Map.map)
+                foreach (var p in Map.map)
                     if (p.GetType() == typeof(Place))
                         p.is_npc_active = false;
-                Tuple<int, int> randomTile = Map.getRandomBlankTile();
+                var randomTile = Map.getRandomBlankTile();
                 if (rand.NextDouble() <= .1)
                     Map.map[randomTile.Item1, randomTile.Item2].is_npc_active = true;
 
@@ -138,9 +130,9 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                     hasmap = true;
                 }
                 Player.applybonus();
-                Enemy enemy = new Enemy();
+                var enemy = new Enemy();
                 Player.levelup();
-                currPlace = Map.map[Map.PlayerPosition.x, Map.PlayerPosition.y];
+                Place currPlace = Map.map[Map.PlayerPosition.x, Map.PlayerPosition.y];
                 if (Player.hp > Player.maxhp)
                     Player.hp = Player.maxhp;
                 if (loop_number >= 1)
@@ -176,30 +168,30 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                     Interface.type(currPlace.Description);
                 else
                     Interface.type(currPlace.ToString());
-                char[] currcommands = currPlace.getAvailableCommands();
+                var currcommands = currPlace.getAvailableCommands();
                 Interface.typeOnSameLine("\r\nYour current commands are x", ConsoleColor.Cyan);
-                foreach (char c in currcommands)
+                foreach (var c in currcommands)
                 {
                     Interface.typeOnSameLine(", " + c, ConsoleColor.Cyan);
                 }
                 Interface.type("");
 
-                ConsoleKeyInfo command = Interface.readkey();
+                var command = Interface.readkey();
 
                 if (command.Key == ConsoleKey.Escape)
                     Environment.Exit(0);
                 else if (command.KeyChar == '-' && devmode)
                 {
-                    string input = Interface.readinput();
+                    var input = Interface.readinput();
                     if (input == "end")
                         End.Endgame();
                     else if (input == "combat")
                     {
-                        string combat_input = Interface.readinput();
-                        Type etype = Type.GetType("Realm." + combat_input);
+                        var combat_input = Interface.readinput();
+                        var etype = Type.GetType("Realm." + combat_input);
                         try
                         {
-                            Enemy e = (Enemy)Activator.CreateInstance(etype);
+                            var e = (Enemy)Activator.CreateInstance(etype);
                             Combat.BattleLoop(e);
                         }
                         catch (ArgumentNullException)
@@ -211,11 +203,11 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                         Player.name = Interface.readinput();
                     else if (input == "additem")
                     {
-                        string add_input = Interface.readinput();
-                        Type atype = Type.GetType("Realm." + add_input);
+                        var add_input = Interface.readinput();
+                        var atype = Type.GetType("Realm." + add_input);
                         try
                         {
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item)Activator.CreateInstance(atype);
 
                             if (Player.backpack.Count <= 10)
                             {
@@ -235,10 +227,10 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
 
                     else if (input == "droploot")
                     {
-                        if (Main.rand.NextDouble() <= .1d)
+                        if (rand.NextDouble() <= .1d)
                         {
-                            Main.Player.backpack.Add(MainItemList[Main.rand.Next(0, MainItemList.Count - 1)]);
-                            Interface.type("Obtained " + MainItemList[Main.rand.Next(0, MainItemList.Count - 1)].name + "!", ConsoleColor.Green);
+                            Player.backpack.Add(MainItemList[rand.Next(0, MainItemList.Count - 1)]);
+                            Interface.type("Obtained " + MainItemList[rand.Next(0, MainItemList.Count - 1)].name + "!", ConsoleColor.Green);
                         }
                         else
                         {
@@ -247,18 +239,18 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                     }
                     else if (input == "teleport")
                     {
-                        int xcoord = Int32.Parse(Interface.readinput());
-                        int ycoord = Int32.Parse(Interface.readinput());
+                        var xcoord = Int32.Parse(Interface.readinput());
+                        var ycoord = Int32.Parse(Interface.readinput());
                         Map.PlayerPosition.x = xcoord;
                         Map.PlayerPosition.y = ycoord;
                     }
                     else if (input == "level")
                     {
-                        Main.Player.level = Convert.ToInt32(Interface.readinput());
+                        Player.level = Convert.ToInt32(Interface.readinput());
                     }
                     else if (input == "levelup")
                     {
-                        Main.Player.xp += Main.Player.xp_next;
+                        Player.xp += Player.xp_next;
                     }
                     else if (input == "getach")
                     {

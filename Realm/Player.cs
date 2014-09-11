@@ -17,7 +17,7 @@ namespace Realm
 
             public bool on_fire = false, cursed = false, stunned = false, guarded = false, blinded = false, phased = false;
 
-            public Realm.Combat.CommandTable abilities;
+            public Combat.CommandTable abilities;
 
             public int[] last_inn = new int[2];
 
@@ -190,7 +190,7 @@ namespace Realm
                 def = 1;
                 intl = 1;
                 backpack = new List<Item>();
-                abilities = new Realm.Combat.CommandTable();
+                abilities = new Combat.CommandTable();
                 abilities.AddCommand(new Combat.BasicAttack("Basic Attack", 'b'));
             }
         }
@@ -230,8 +230,8 @@ namespace Realm
         }
         public static List<Item> getCorrectlyTieredItems()
         {
-            List<Item> Items = new List<Item>();
-            foreach(Item i in Main.MainItemList)
+            var Items = new List<Item>();
+            foreach(var i in Main.MainItemList)
                 if (i.tier <= (Main.Player.level / 5))
                     Items.Add(i);
             return Items;

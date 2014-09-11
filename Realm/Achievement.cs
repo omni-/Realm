@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace Realm
 {
@@ -29,8 +30,8 @@ namespace Realm
         {
             try
             {
-                string tachpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm";
-                string achpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm";
+                var tachpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm";
+                var achpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm";
                 if (achievement == "name" && Main.achieve["name"] == false && !Main.achievements_disabled)
                     Interface.type("Achievement Unlocked!: Howdy, stranger.", ConsoleColor.Green);
                 else if (achievement == "wking" && Main.achieve["wking"] == false && !Main.achievements_disabled)
@@ -67,9 +68,9 @@ namespace Realm
                     Main.achieve[achievement] = true;
                 if (!File.Exists(achpath))
                     File.Create(achpath).Close();
-                using (StreamWriter file = new StreamWriter(tachpath))
+                using (var file = new StreamWriter(tachpath))
                 {
-                    foreach (KeyValuePair<string, bool> pair in Main.achieve)
+                    foreach (var pair in Main.achieve)
                     {
                         file.WriteLine(pair.Key + "=" + pair.Value);
                     }
@@ -80,11 +81,9 @@ namespace Realm
             catch (Exception e)
             {
                 Interface.type("Achievement load failed.");
-                File.Delete(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm");
-                string crashpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt";
-                List<string> listlines = new List<string>();
-                listlines.Add("---Load Achievement Runtime Error---");
-                listlines.Add("Message: \r\n" + e.Message);
+                File.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm");
+                var crashpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt";
+                var listlines = new List<string> { "---Load Achievement Runtime Error---", "Message: \r\n" + e.Message };
                 try
                 {
                     listlines.Add("Inner Exception: \r\n" + e.InnerException.ToString());
@@ -109,33 +108,33 @@ namespace Realm
         }
         public static void LoadAchievements()
         {
-            if (!File.Exists(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm"))
+            if (!File.Exists(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm"))
             {
                 Main.achieve = masterach;
             }
             else
             {
-                Save.DecryptFile(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm", Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm", Save.key);
+                Save.DecryptFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm", Save.key);
                 string aline;
-                using (StreamReader afile = new StreamReader(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm"))
+                using (var afile = new StreamReader(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm"))
                 {
                     if (afile.BaseStream.Length == 0)
                     {
                         Main.achieve = masterach;
                         return;
                     }
-                    Dictionary<string, string> tempdict = new Dictionary<string, string>();
+                    var tempdict = new Dictionary<string, string>();
                     while ((aline = afile.ReadLine()) != null)
                     {
-                        string[] asplit = aline.Split(new char[] { '=' });
+                        var asplit = aline.Split(new char[] { '=' });
                         tempdict.Add(asplit[0], asplit[1]);
                     }
-                    foreach (KeyValuePair<string, bool> entry in masterach)
+                    foreach (var entry in masterach)
                     {
                         if (!tempdict.ContainsKey(entry.Key))
                             tempdict.Add(entry.Key, "False");
                     }
-                    foreach (KeyValuePair<string, string> entry in tempdict)
+                    foreach (var entry in tempdict)
                     {
                         if (entry.Value == "True")
                             Main.achieve.Add(entry.Key, true);

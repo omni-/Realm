@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Realm
 {
@@ -32,7 +29,7 @@ namespace Realm
     {
         public string buy, leave;
 
-        public Dictionary<char, Item> forsale = new Dictionary<char, Item>();
+        private Dictionary<char, Item> forsale = new Dictionary<char, Item>();
 
         /// <summary>
         /// A constructor for the merchant class. Use this to make a new merchant.
@@ -68,32 +65,35 @@ namespace Realm
             {
                 case 'b':
                     Interface.type("Press any key not listed to exit the buy menu.");
-                    bool loop = true;
+                    var loop = true;
                     while (loop)
                     {
-                        foreach (KeyValuePair<char, Item> kv in forsale)
+                        foreach (var kv in forsale)
                             Interface.type(kv.Key + ". " + kv.Value.name + "(" + kv.Value.value + ")", ConsoleColor.Green);
                         Interface.type("");
-                        handleinput(Interface.readkey().KeyChar);
+                        if (!handleinput(Interface.readkey().KeyChar))
+                            loop = false;
                     }
                     break;
                 case 's':
                     Interface.type("Index. Item name.....Item resale value. Press a non-listed key to go back.", ConsoleColor.Yellow);
-                    List<int> indices = new List<int>();
-                    int itr = 1;
-                    foreach (Item item in Main.Player.backpack)
+                    var indices = new List<int>();
+                    var itr = 1;
+                    foreach (var item in Main.Player.backpack)
                     {
-                        Interface.type(itr + ". " + item.name + "....." + (int)(item.value * .6));
+                        Interface.type(itr + ". " + item.name + "....." + (item.value == 1 ? 1 : (int)(item.value * .6)));
                         indices.Add(itr);
+                        itr++;
                     }
-                    char input = Interface.readkey().KeyChar;
+                    var input = Interface.readkey().KeyChar;
                     if (indices.Contains(Convert.ToInt32(input)))
                     {
-                        Main.Player.g += (int)(Main.Player.backpack[Convert.ToInt32(input)].value * .6);
+                        Main.Player.g += (int)(Main.Player.backpack[Convert.ToInt32(input)].value == 1 ? 1 : Main.Player.backpack[Convert.ToInt32(input)].value * .6);
                         Main.Player.backpack.Remove(Main.Player.backpack[Convert.ToInt32(input)]);
                     }
                     break;
                 default:
+                    Interface.type("Error: cmd not found.", ConsoleColor.Red);
                     break;
             }
         }

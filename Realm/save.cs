@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
@@ -14,16 +14,15 @@ namespace Realm
         public static string key = "???t\0sl";
         public static void SaveGame()
         {
-            string tpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm";
-            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\save.rlm";
+            var tpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm";
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\save.rlm";
             Interface.type("Saving...", ConsoleColor.White);
-            List<string> lines = new List<string>();
+            var lines = new List<string>();
             lines.Add("name=" + Main.Player.name);
-            foreach (Combat.Command c in Main.Player.abilities.commands.Values)
-                lines.Add(c.name + "=true");
+            lines.AddRange(Main.Player.abilities.commands.Values.Select(c => c.name + "=true"));
 
-            int bpcounter = 1;
-            foreach (Item i in Main.Player.backpack)
+            var bpcounter = 1;
+            foreach (var i in Main.Player.backpack)
             {
                 lines.Add("bp" + bpcounter + "=" + i);
                 bpcounter++;
@@ -77,37 +76,37 @@ namespace Realm
             lines.Add("xp=" + Main.Player.xp);
             lines.Add("xpos=" + Map.PlayerPosition.x);
             lines.Add("ypos=" + Map.PlayerPosition.y);
-            string[] linesarray = lines.ToArray<string>();
+            var linesarray = lines.ToArray<string>();
             File.WriteAllLines(tpath, linesarray);
             Interface.type("Done.", ConsoleColor.White);
             EncryptFile(tpath, path, key);
         }
         public static bool LoadGame()
         {
-            string tpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm";
-            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\save.rlm";
-            string achpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm";
-            string tachpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm";
+            var tpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm";
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\save.rlm";
+            var achpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm";
+            var tachpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm";
             try
             {
                 if (!File.Exists(path))
                     return false;
                 Interface.type("Loading Save...", ConsoleColor.White);
                 DecryptFile(path, tpath, key);
-                Dictionary<string, string> vals = new Dictionary<string, string>();
+                var vals = new Dictionary<string, string>();
                 string line;
-                using (StreamReader file = new StreamReader(tpath))
+                using (var file = new StreamReader(tpath))
                 {
                     while ((line = file.ReadLine()) != null)
                     {
-                        string[] split = line.Split(new char[] { '=' });
+                        var split = line.Split(new char[] { '=' });
                         vals.Add(split[0], split[1]);
                     }
-                    foreach (KeyValuePair<string, string> entry in vals)
+                    foreach (var entry in vals)
                     {
                         if (entry.Key == "devmode")
                         {
-                            Exception devmode = new Exception("Devmode detected. Load save aborted.");
+                            var devmode = new Exception("Devmode detected. Load save aborted.");
                             throw devmode;
                         }
                         if (entry.Key == "name")
@@ -146,92 +145,92 @@ namespace Realm
                         }
                         if (entry.Key == "bp1")
                         {
-                            Type atype = Type.GetType(entry.Value);
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            var atype = Type.GetType(entry.Value);
+                            var i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp2")
                         {
-                            Type atype = Type.GetType(entry.Value);
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            var atype = Type.GetType(entry.Value);
+                            var i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp3")
                         {
-                            Type atype = Type.GetType(entry.Value);
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            var atype = Type.GetType(entry.Value);
+                            var i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp4")
                         {
-                            Type atype = Type.GetType(entry.Value);
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            var atype = Type.GetType(entry.Value);
+                            var i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp5")
                         {
-                            Type atype = Type.GetType(entry.Value);
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            var atype = Type.GetType(entry.Value);
+                            var i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp6")
                         {
-                            Type atype = Type.GetType(entry.Value);
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            var atype = Type.GetType(entry.Value);
+                            var i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp7")
                         {
-                            Type atype = Type.GetType(entry.Value);
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            var atype = Type.GetType(entry.Value);
+                            var i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp7")
                         {
-                            Type atype = Type.GetType(entry.Value);
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            var atype = Type.GetType(entry.Value);
+                            var i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp8")
                         {
-                            Type atype = Type.GetType(entry.Value);
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            var atype = Type.GetType(entry.Value);
+                            var i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp9")
                         {
-                            Type atype = Type.GetType(entry.Value);
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            var atype = Type.GetType(entry.Value);
+                            var i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp10")
                         {
-                            Type atype = Type.GetType(entry.Value);
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            var atype = Type.GetType(entry.Value);
+                            var i = (Item)Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "primary")
                         {
-                            Type atype = Type.GetType(entry.Value);
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            var atype = Type.GetType(entry.Value);
+                            var i = (Item)Activator.CreateInstance(atype);
                             Main.Player.primary = i;
                         }
                         if (entry.Key == "secondary")
                         {
-                            Type atype = Type.GetType(entry.Value);
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            var atype = Type.GetType(entry.Value);
+                            var i = (Item)Activator.CreateInstance(atype);
                             Main.Player.secondary = i;
                         }
                         if (entry.Key == "armor")
                         {
-                            Type atype = Type.GetType(entry.Value);
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            var atype = Type.GetType(entry.Value);
+                            var i = (Item)Activator.CreateInstance(atype);
                             Main.Player.armor = i;
                         }
                         if (entry.Key == "accessory")
                         {
-                            Type atype = Type.GetType(entry.Value);
-                            Item i = (Item)Activator.CreateInstance(atype);
+                            var atype = Type.GetType(entry.Value);
+                            var i = (Item)Activator.CreateInstance(atype);
                             Main.Player.accessory = i;
                         }
                         if (entry.Key == "slimecounter")
@@ -337,10 +336,10 @@ namespace Realm
             catch (Exception e)
             {
                 Interface.type("Load failed. Would you like to delete your save? (press 'y' to delete)", ConsoleColor.White);
-                char key = Interface.readkey().KeyChar;
-                if (key == 'y')
+                var ckey = Interface.readkey().KeyChar;
+                if (ckey == 'y')
                     File.Delete(path);
-                else if (key == 'e')
+                else if (ckey == 'e')
                 {
                     Interface.type(e.ToString());
                 }
@@ -354,17 +353,19 @@ namespace Realm
         }
         public static void EncryptFile(string sInputFilename, string sOutputFilename, string sKey)
         {
-            using (FileStream fsInput = new FileStream(sInputFilename, FileMode.Open, FileAccess.Read))
+            using (var fsInput = new FileStream(sInputFilename, FileMode.Open, FileAccess.Read))
             {
-                using (FileStream fsEncrypted = new FileStream(sOutputFilename, FileMode.OpenOrCreate, FileAccess.Write))
+                using (var fsEncrypted = new FileStream(sOutputFilename, FileMode.OpenOrCreate, FileAccess.Write))
                 {
-                    DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
-                    DES.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
-                    DES.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
-                    ICryptoTransform desencrypt = DES.CreateEncryptor();
-                    using (CryptoStream cryptostream = new CryptoStream(fsEncrypted, desencrypt, CryptoStreamMode.Write))
+                    var DES = new DESCryptoServiceProvider
                     {
-                        byte[] bytearrayinput = new byte[fsInput.Length];
+                        Key = Encoding.ASCII.GetBytes(sKey),
+                        IV = Encoding.ASCII.GetBytes(sKey)
+                    };
+                    var desencrypt = DES.CreateEncryptor();
+                    using (var cryptostream = new CryptoStream(fsEncrypted, desencrypt, CryptoStreamMode.Write))
+                    {
+                        var bytearrayinput = new byte[fsInput.Length];
                         fsInput.Read(bytearrayinput, 0, bytearrayinput.Length);
                         cryptostream.Write(bytearrayinput, 0, bytearrayinput.Length);
                         cryptostream.Close();
@@ -380,18 +381,20 @@ namespace Realm
         {
             try
             {
-                DESCryptoServiceProvider DES = new DESCryptoServiceProvider();
-                DES.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
-                DES.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
-
-                using (FileStream fsread = new FileStream(sInputFilename, FileMode.Open, FileAccess.Read))
+                var DES = new DESCryptoServiceProvider
                 {
-                    ICryptoTransform desdecrypt = DES.CreateDecryptor();
-                    using (CryptoStream cryptostreamDecr = new CryptoStream(fsread, desdecrypt, CryptoStreamMode.Read))
+                    Key = Encoding.ASCII.GetBytes(sKey),
+                    IV = Encoding.ASCII.GetBytes(sKey)
+                };
+
+                using (var fsread = new FileStream(sInputFilename, FileMode.Open, FileAccess.Read))
+                {
+                    var desdecrypt = DES.CreateDecryptor();
+                    using (var cryptostreamDecr = new CryptoStream(fsread, desdecrypt, CryptoStreamMode.Read))
                     {
                         if (!File.Exists(sOutputFilename))
                             File.Create(sOutputFilename).Close();
-                        using (StreamWriter fsDecrypted = new StreamWriter(sOutputFilename))
+                        using (var fsDecrypted = new StreamWriter(sOutputFilename))
                         {
                             fsDecrypted.Write(new StreamReader(cryptostreamDecr).ReadToEnd());
                             fsDecrypted.Flush();
@@ -408,15 +411,17 @@ namespace Realm
         }
         public static void WriteError(Exception e)
         {
-            string crashpath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt";
-            List<string> listlines = new List<string>();
-            listlines.Add("---Runtime Error: Realm " + Main.version + "---");
-            listlines.Add("Error: " + e.GetBaseException());
-            listlines.Add("Message:\r\n     " + e.Message + "\r\n");
-            try { listlines.Add("Inner Exception: \r\n" + e.InnerException.ToString() + "\r\n"); }
-            catch { }
+            var crashpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt";
+            var listlines = new List<string>
+            {
+                "---Runtime Error: Realm " + Main.version + "---",
+                "Error: " + e.GetBaseException(),
+                "Message:\r\n     " + e.Message + "\r\n"
+            };
+            try { listlines.Add("Inner Exception: \r\n" + e.InnerException + "\r\n"); }
+            catch (NullReferenceException) { }
             listlines.Add("Target Site:\r\n     ");
-            listlines.Add(e.TargetSite.ToString() + "\r\n");
+            listlines.Add(e.TargetSite + "\r\n");
             listlines.Add("Stack Trace:\r\n     ");
             listlines.Add(e.StackTrace);
             listlines.Add("-------------------------------------------------------");
