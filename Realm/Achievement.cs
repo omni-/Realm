@@ -7,30 +7,32 @@ namespace Realm
 {
     public class Achievement
     {
-        public static Dictionary<string, bool> masterach = new Dictionary<string, bool>()
-             {
-               {"name", false},
-               {"wking", false},
-               {"1slime", false},
-               {"100slimes", false},
-               {"raven", false},
-               {"finalboss", false},
-               {"1goblin", false},
-               {"100goblins", false},
-               {"1drake", false},
-               {"100drakes", false},
-               {"1bandit", false},
-               {"100bandits", false},
-               {"itembuy", false},
-               {"cardboard", false},
-               {"dragon", false},
-               {"set", false}
-             };
+        public static Dictionary<string, bool> masterach = new Dictionary<string, bool>
+        {
+            {"name", false},
+            {"wking", false},
+            {"1slime", false},
+            {"100slimes", false},
+            {"raven", false},
+            {"finalboss", false},
+            {"1goblin", false},
+            {"100goblins", false},
+            {"1drake", false},
+            {"100drakes", false},
+            {"1bandit", false},
+            {"100bandits", false},
+            {"itembuy", false},
+            {"cardboard", false},
+            {"dragon", false},
+            {"set", false}
+        };
+
         public void Get(string achievement)
         {
             try
             {
-                var tachpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm";
+                var tachpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                               "\\temp_achievements.rlm";
                 var achpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm";
                 if (achievement == "name" && Main.achieve["name"] == false && !Main.achievements_disabled)
                     Interface.type("Achievement Unlocked!: Howdy, stranger.", ConsoleColor.Green);
@@ -46,24 +48,39 @@ namespace Realm
                     Interface.type("Achievement Unlocked!: The end?");
                 else if (achievement == "1goblin" && Main.achieve["1goblin"] == false && !Main.achievements_disabled)
                     Interface.type("Achievement Unlocked!: On your way...", ConsoleColor.Green);
-                else if (achievement == "100goblins" && Main.achieve["100goblins"] == false && !Main.achievements_disabled)
+                else if (achievement == "100goblins" && Main.achieve["100goblins"] == false &&
+                         !Main.achievements_disabled)
                     Interface.type("Achievement Unlocked!: Are you Rosie?", ConsoleColor.Green);
-                else if (achievement == "1drake" && Main.achieve["1drake"] == false && !Main.achievements_disabled)
+                else if (achievement == "1drake" && Main.achieve["1drake"] == false &&
+                         !Main.achievements_disabled)
                     Interface.type("Achievement Unlocked!: Basically dragonborn.", ConsoleColor.Green);
-                else if (achievement == "100drakes" && Main.achieve["100drakes"] == false && !Main.achievements_disabled)
+                else if (achievement == "100drakes" && Main.achieve["100drakes"] == false &&
+                         !Main.achievements_disabled)
                     Interface.type("Achievement Unlocked!: You monster.", ConsoleColor.Green);
-                else if (achievement == "1bandit" && Main.achieve["1bandit"] == false && !Main.achievements_disabled)
-                    Interface.type("Achievement Unlocked!: Basically Batman.", ConsoleColor.Green);
-                else if (achievement == "100bandits" && Main.achieve["100bandits"] == false && !Main.achievements_disabled)
+                else if (achievement == "1bandit" && Main.achieve["1bandit"] == false &&
+                         !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: Basically Batman.",
+                        ConsoleColor.Green);
+                else if (achievement == "100bandits" && Main.achieve["100bandits"] == false &&
+                         !Main.achievements_disabled)
                     Interface.type("Achievement Unlocked!: The DK Crew", ConsoleColor.Green);
-                else if (achievement == "itembuy" && Main.achieve["itembuy"] == false && !Main.achievements_disabled)
-                    Interface.type("Achievement Unlocked!: One thing isn't a spree, mom.", ConsoleColor.Green);
-                else if (achievement == "cardboard" && Main.achieve["cardboard"] == false && !Main.achievements_disabled)
-                    Interface.type("Achievement Unlocked!: grats on the upgrade", ConsoleColor.Green);
-                else if (achievement == "dragon" && Main.achieve["dragon"] == false && !Main.achievements_disabled)
-                    Interface.type("Achievement Unlocked!: Fus ro dah", ConsoleColor.Green);
-                else if (achievement == "set" && Main.achieve["set"] == false && !Main.achievements_disabled)
-                    Interface.type("Achievement Unlocked!: Wombo Combo!", ConsoleColor.Green);
+                else if (achievement == "itembuy" && Main.achieve["itembuy"] == false &&
+                         !Main.achievements_disabled)
+                    Interface.type(
+                        "Achievement Unlocked!: One thing isn't a spree, mom.",
+                        ConsoleColor.Green);
+                else if (achievement == "cardboard" && Main.achieve["cardboard"] == false &&
+                         !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: grats on the upgrade",
+                        ConsoleColor.Green);
+                else if (achievement == "dragon" && Main.achieve["dragon"] == false &&
+                         !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: Fus ro dah",
+                        ConsoleColor.Green);
+                else if (achievement == "set" && Main.achieve["set"] == false &&
+                         !Main.achievements_disabled)
+                    Interface.type("Achievement Unlocked!: Wombo Combo!",
+                        ConsoleColor.Green);
                 if (Main.achieve.ContainsKey(achievement))
                     Main.achieve[achievement] = true;
                 if (!File.Exists(achpath))
@@ -83,10 +100,10 @@ namespace Realm
                 Interface.type("Achievement load failed.");
                 File.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm");
                 var crashpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt";
-                var listlines = new List<string> { "---Load Achievement Runtime Error---", "Message: \r\n" + e.Message };
+                var listlines = new List<string> {"---Load Achievement Runtime Error---", "Message: \r\n" + e.Message};
                 try
                 {
-                    listlines.Add("Inner Exception: \r\n" + e.InnerException.ToString());
+                    listlines.Add("Inner Exception: \r\n" + e.InnerException);
                 }
                 catch
                 {
@@ -106,6 +123,7 @@ namespace Realm
                 File.WriteAllLines(crashpath, listlines.ToArray());
             }
         }
+
         public static void LoadAchievements()
         {
             if (!File.Exists(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm"))
@@ -114,9 +132,15 @@ namespace Realm
             }
             else
             {
-                Save.DecryptFile(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm", Save.key);
+                Save.DecryptFile(
+                    Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm",
+                    Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm",
+                    Save.key);
                 string aline;
-                using (var afile = new StreamReader(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm"))
+                using (
+                    var afile =
+                        new StreamReader(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                                         "\\temp_achievements.rlm"))
                 {
                     if (afile.BaseStream.Length == 0)
                     {
@@ -126,7 +150,7 @@ namespace Realm
                     var tempdict = new Dictionary<string, string>();
                     while ((aline = afile.ReadLine()) != null)
                     {
-                        var asplit = aline.Split(new char[] { '=' });
+                        var asplit = aline.Split(new[] {'='});
                         tempdict.Add(asplit[0], asplit[1]);
                     }
                     foreach (var entry in masterach)
@@ -146,4 +170,3 @@ namespace Realm
         }
     }
 }
-    

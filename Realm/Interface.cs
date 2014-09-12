@@ -12,29 +12,31 @@ namespace Realm
         {
             var titlelist = new List<string>
             {
-            "Slimes OP",
-            "Now with Color!",
-            "Stochastic!",
-            "Sammy Classic Sonic Fan!",
-            "Expand",
-            "Drugs are bad, kids",
-            "Realm 2 Coming -S-o-o-n- -S-o-m-e-d-a-y- -P-r-o-b-a-b-l-y- It already came, but don't even bother, it's bad!",
-            "A Game of Slimes",
-            "I, for one, welcome our new Slime overlord.",
-            "Revengeance",
-            "Redemption",
-            "A Slimes' Tale",
-            "Masaaki Endoh Version",
-            "Big in Japan",
-            "Is this thing on?"
+                "Slimes OP",
+                "Now with Color!",
+                "Stochastic!",
+                "Sammy Classic Sonic Fan!",
+                "Expand",
+                "Drugs are bad, kids",
+                "Realm 2 Coming -S-o-o-n- -S-o-m-e-d-a-y- -P-r-o-b-a-b-l-y- It already came, but don't even bother, it's bad!",
+                "A Game of Slimes",
+                "I, for one, welcome our new Slime overlord.",
+                "Revengeance",
+                "Redemption",
+                "A Slimes' Tale",
+                "Masaaki Endoh Version",
+                "Big in Japan",
+                "Is this thing on?"
             };
             var result = Main.rand.Next(0, titlelist.Count);
             return titlelist[result];
         }
+
         public static void typeNoDelay(string src, ConsoleColor color)
         {
             Console.WriteLine(src, color);
         }
+
         public static void type(string src, int speed)
         {
             Main.is_typing = true;
@@ -42,10 +44,11 @@ namespace Realm
             foreach (var c in src)
             {
                 Console.Write(c);
-                Thread.SpinWait(speed * 1000000);
+                Thread.SpinWait(speed*1000000);
             }
             Main.is_typing = false;
         }
+
         public static void type(string src)
         {
             Main.is_typing = true;
@@ -61,11 +64,16 @@ namespace Realm
         public static void typeStats()
         {
             type("--------------STATS-----------------", ConsoleColor.Yellow);
-            type(Main.Player.name + "(" + ToUpperFirstLetter(Main.Player.race) + ")," + " Level " + Main.Player.level + " " + ToUpperFirstLetter(Main.Player.pclass) + ":", ConsoleColor.Yellow);
+            type(
+                Main.Player.name + "(" + ToUpperFirstLetter(Main.Player.race) + ")," + " Level " + Main.Player.level +
+                " " + ToUpperFirstLetter(Main.Player.pclass) + ":", ConsoleColor.Yellow);
             type("HP: " + Main.Player.hp + "/" + Main.Player.maxhp, ConsoleColor.Yellow);
-            type("Attack: " + Main.Player.atk + " / Defense: " + Main.Player.def + " / Speed: " + Main.Player.spd + " / Intelligence: " + Main.Player.intl, ConsoleColor.Yellow);
-            type("Mana: " + (1 + (Main.Player.intl / 10)), ConsoleColor.Yellow);
-            type("Gold: " + Main.Player.g + " / Exp to Level: " + (Main.Player.xp_next - Main.Player.xp), ConsoleColor.Yellow);
+            type(
+                "Attack: " + Main.Player.atk + " / Defense: " + Main.Player.def + " / Speed: " + Main.Player.spd +
+                " / Intelligence: " + Main.Player.intl, ConsoleColor.Yellow);
+            type("Mana: " + (1 + (Main.Player.intl/10)), ConsoleColor.Yellow);
+            type("Gold: " + Main.Player.g + " / Exp to Level: " + (Main.Player.xp_next - Main.Player.xp),
+                ConsoleColor.Yellow);
             type("=============Achievements============", ConsoleColor.Cyan);
             foreach (var entry in Main.achieve)
             {
@@ -104,6 +112,7 @@ namespace Realm
             }
             type("-------------------------------------", ConsoleColor.Yellow);
         }
+
         public static void typeOnSameLine(string src)
         {
             Main.is_typing = true;
@@ -114,16 +123,18 @@ namespace Realm
             }
             Main.is_typing = false;
         }
+
         public static void typeOnSameLine(string src, int speed)
         {
             Main.is_typing = true;
             foreach (var c in src)
             {
                 Console.Write(c);
-                Thread.SpinWait(1000000 * speed);
+                Thread.SpinWait(1000000*speed);
             }
             Main.is_typing = false;
         }
+
         public static void typeOnSameLine(string src, ConsoleColor color)
         {
             Main.is_typing = true;
@@ -136,6 +147,7 @@ namespace Realm
             Main.is_typing = false;
             Console.ResetColor();
         }
+
         public static void typeOnSameLine(string src, int speed, ConsoleColor color)
         {
             Main.is_typing = true;
@@ -143,11 +155,12 @@ namespace Realm
             foreach (var c in src)
             {
                 Console.Write(c);
-                Thread.SpinWait(1000000 * speed);
+                Thread.SpinWait(1000000*speed);
             }
             Main.is_typing = false;
             Console.ResetColor();
         }
+
         public static void type(string src, ConsoleColor color)
         {
             Main.is_typing = true;
@@ -161,6 +174,7 @@ namespace Realm
             Main.is_typing = false;
             Console.ResetColor();
         }
+
         public static void type(string src, int speed, ConsoleColor color)
         {
             Main.is_typing = true;
@@ -169,17 +183,28 @@ namespace Realm
             foreach (var c in src)
             {
                 Console.Write(c);
-                Thread.SpinWait(1000000 * speed);
+                Thread.SpinWait(1000000*speed);
             }
             Main.is_typing = false;
             Console.ResetColor();
         }
+
         public static void type(string src, bool rainbow)
         {
             if (rainbow)
             {
                 Main.is_typing = true;
-                var colors = new List<ConsoleColor> { ConsoleColor.Blue, ConsoleColor.Cyan, ConsoleColor.DarkMagenta, ConsoleColor.Green, ConsoleColor.Magenta, ConsoleColor.Red, ConsoleColor.White, ConsoleColor.Yellow };
+                var colors = new List<ConsoleColor>
+                {
+                    ConsoleColor.Blue,
+                    ConsoleColor.Cyan,
+                    ConsoleColor.DarkMagenta,
+                    ConsoleColor.Green,
+                    ConsoleColor.Magenta,
+                    ConsoleColor.Red,
+                    ConsoleColor.White,
+                    ConsoleColor.Yellow
+                };
                 Console.WriteLine("\r\n");
                 var words = src.Split();
                 var i = 0;
@@ -212,12 +237,23 @@ namespace Realm
                 Main.is_typing = false;
             }
         }
+
         public static void type(string src, int speed, bool rainbow)
         {
             if (rainbow)
             {
                 Main.is_typing = true;
-                var colors = new List<ConsoleColor> { ConsoleColor.Blue, ConsoleColor.Cyan, ConsoleColor.DarkMagenta, ConsoleColor.Green, ConsoleColor.Magenta, ConsoleColor.Red, ConsoleColor.White, ConsoleColor.Yellow };
+                var colors = new List<ConsoleColor>
+                {
+                    ConsoleColor.Blue,
+                    ConsoleColor.Cyan,
+                    ConsoleColor.DarkMagenta,
+                    ConsoleColor.Green,
+                    ConsoleColor.Magenta,
+                    ConsoleColor.Red,
+                    ConsoleColor.White,
+                    ConsoleColor.Yellow
+                };
                 Console.WriteLine("\r\n");
                 var words = src.Split();
                 var i = 0;
@@ -229,7 +265,7 @@ namespace Realm
                     foreach (var c in word)
                     {
                         Console.Write(c);
-                        Thread.SpinWait(1000000 * speed);
+                        Thread.SpinWait(1000000*speed);
                     }
                     i++;
                     if (i > colors.Count - 1)
@@ -245,11 +281,12 @@ namespace Realm
                 foreach (var c in src)
                 {
                     Console.Write(c);
-                    Thread.SpinWait(1000000 * speed);
+                    Thread.SpinWait(1000000*speed);
                 }
                 Main.is_typing = false;
             }
         }
+
         public static ConsoleKeyInfo readkey()
         {
             while (Main.is_typing)
@@ -259,6 +296,7 @@ namespace Realm
             }
             return Console.ReadKey();
         }
+
         public static string readinput()
         {
             while (Main.is_typing)
@@ -268,6 +306,7 @@ namespace Realm
             }
             return Console.ReadLine().ToLower();
         }
+
         public static string readinput(bool ExactSpelling)
         {
             if (ExactSpelling)
@@ -279,16 +318,14 @@ namespace Realm
                 }
                 return Console.ReadLine();
             }
-            else
+            while (Main.is_typing)
             {
-                while (Main.is_typing)
-                {
-                    while (Console.KeyAvailable) Console.ReadKey(true);
-                    var key = Console.ReadKey(true);
-                }
-                return Console.ReadLine().ToLower();
+                while (Console.KeyAvailable) Console.ReadKey(true);
+                var key = Console.ReadKey(true);
             }
+            return Console.ReadLine().ToLower();
         }
+
         public static void drawmap()
         {
             type("_________________________________________________________________________", 0, ConsoleColor.Yellow);
@@ -321,6 +358,7 @@ namespace Realm
             type("I-----------I-----------I--KINGDOM--I-----------I--FJORDS---I-----------I", 0, ConsoleColor.Yellow);
             type("_________________________________________________________________________", 0, ConsoleColor.Yellow);
         }
+
         public static string ToUpperFirstLetter(this string source)
         {
             if (string.IsNullOrEmpty(source))
@@ -332,6 +370,7 @@ namespace Realm
             // return the array made of the new char array
             return new string(letters);
         }
+
         public static SecureString getPassword()
         {
             var pwd = new SecureString();
@@ -342,16 +381,15 @@ namespace Realm
                 {
                     break;
                 }
-                else if (i.Key == ConsoleKey.Backspace)
+                if (i.Key == ConsoleKey.Backspace)
                 {
                     try
                     {
                         pwd.RemoveAt(pwd.Length - 1);
                         Console.Write("\b \b");
                     }
-                    catch(ArgumentOutOfRangeException)
+                    catch (ArgumentOutOfRangeException)
                     {
-
                     }
                 }
                 else
@@ -362,6 +400,7 @@ namespace Realm
             }
             return pwd;
         }
+
         public static String SecureStringToString(SecureString value)
         {
             var bstr = Marshal.SecureStringToBSTR(value);

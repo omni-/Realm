@@ -6,41 +6,40 @@ namespace Realm
 {
     public static class Main
     {
-        public static int loop_number = 0,
-            slimecounter = 0,
-            goblincounter = 0,
-            banditcounter = 0,
-            drakecounter = 0,
-            wkingcounter = 0,
-            slibcounter = 0,
-            forrestcounter = 0,
-            libcounter = 0,
-            centrallibcounter = 0,
-            ramsaycounter = 0,
-            magiccounter = 0,
-            nlibcounter = 0,
-            townfolkcounter = 0,
-            nomadcounter = 0,
-            minecounter = 0,
-            frozencounter = 0,
-            noobcounter = 0,
-            gbooks = 0,
-            intlbuff = 0,
-            defbuff = 0,
-            atkbuff = 0,
-            spdbuff = 0;
+        public static int loop_number,
+            slimecounter,
+            goblincounter,
+            banditcounter,
+            drakecounter,
+            wkingcounter,
+            slibcounter,
+            forrestcounter,
+            libcounter,
+            centrallibcounter,
+            ramsaycounter,
+            magiccounter,
+            nlibcounter,
+            townfolkcounter,
+            nomadcounter,
+            minecounter,
+            frozencounter,
+            noobcounter,
+            gbooks,
+            intlbuff,
+            defbuff,
+            atkbuff,
+            spdbuff;
 
         public static bool raven_dead,
             is_theif,
-            wkingdead = false,
-            is_typing = false,
-            devmode = false,
-            hasmap = false,
-            achievements_disabled = false;
+            wkingdead,
+            is_typing,
+            devmode,
+            hasmap,
+            achievements_disabled;
 
         public static Achievement ach = new Achievement();
         public static Player.GamePlayer Player = new Player.GamePlayer();
-        public static Map globals = new Map();
 
         public static readonly Random rand = new Random();
 
@@ -48,7 +47,7 @@ namespace Realm
 
         public static Dictionary<string, bool> achieve = new Dictionary<string, bool>();
 
-        public static List<Item> MainItemList = new List<Item>
+        public static readonly List<Item> MainItemList = new List<Item>
         {
             new cardboard_armor(),
             new cardboard_shield(),

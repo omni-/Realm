@@ -13,6 +13,7 @@ namespace Realm
     {
         public static bool init = false;
         public static bool failed = false;
+
         public static string CalculateMD5Hash(string input)
         {
             // step 1, calculate MD5 hash from input
@@ -53,7 +54,8 @@ namespace Realm
                 Main.MainLoop();
         }
     }
-    class Plop
+
+    internal class Plop
     {
         public void DropAndRun(string rName, string fName)
         {
@@ -68,6 +70,7 @@ namespace Realm
             }
         }
     }
+
     public class FileIO
     {
         public static bool FileCompare(string file1, string file2)
@@ -110,8 +113,7 @@ namespace Realm
                 // Read one byte from each file.
                 file1byte = fs1.ReadByte();
                 file2byte = fs2.ReadByte();
-            }
-            while ((file1byte == file2byte) && (file1byte != -1));
+            } while ((file1byte == file2byte) && (file1byte != -1));
 
             // Close the files.
             fs1.Close();
@@ -122,12 +124,14 @@ namespace Realm
             // the same.
             return ((file1byte - file2byte) == 0);
         }
+
         public static bool isConnected()
         {
             int desc;
             var tf = NativeMethods.InternetGetConnectedState(out desc, 0);
             return tf;
         }
+
         public static void checkver()
         {
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -136,7 +140,9 @@ namespace Realm
             var exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Realm.exe";
             var temppath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe";
             worker();
-            while (!Init.init) { }
+            while (!Init.init)
+            {
+            }
 
             if (isConnected())
             {
@@ -158,23 +164,24 @@ namespace Realm
             else
                 Interface.type("Connection error.", ConsoleColor.Red);
         }
+
         private void startDownload()
         {
             Console.Write("Loading...0%");
             var temppath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe";
             var client = new WebClient();
-            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
-            client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
+            client.DownloadProgressChanged += client_DownloadProgressChanged;
+            client.DownloadFileCompleted += client_DownloadFileCompleted;
             client.DownloadFileAsync((new Uri("https://dl.dropboxusercontent.com/u/83385592/Realm.exe")), temppath);
         }
+
         public static void worker()
         {
             var bw = new BackgroundWorker();
 
             bw.WorkerReportsProgress = true;
 
-            bw.DoWork += new DoWorkEventHandler(
-            delegate(object o, DoWorkEventArgs args)
+            bw.DoWork += delegate(object o, DoWorkEventArgs args)
             {
                 var b = o as BackgroundWorker;
                 var webClient = new WebClient();
@@ -188,20 +195,22 @@ namespace Realm
                     Interface.type("Failed to connect to server.");
                     Init.failed = true;
                 }
-            });
+            };
             bw.RunWorkerAsync();
         }
-        void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+
+        private void client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             var bytesIn = double.Parse(e.BytesReceived.ToString());
             var totalBytes = double.Parse(e.TotalBytesToReceive.ToString());
-            var percentage = bytesIn / totalBytes * 100;
-            Console.Write("\rLoading...{0}%", (int)percentage);
+            var percentage = bytesIn/totalBytes*100;
+            Console.Write("\rLoading...{0}%", (int) percentage);
         }
-        void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+
+        private void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             Interface.type("Done.");
             Init.init = true;
         }
-    } 
+    }
 }

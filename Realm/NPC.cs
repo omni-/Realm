@@ -16,7 +16,9 @@ namespace Realm
             commands = Commands;
         }
 
-        public NPC() { }
+        public NPC()
+        {
+        }
 
         public virtual void Interact()
         {
@@ -25,6 +27,7 @@ namespace Realm
             Interface.type(text);
         }
     }
+
     public class Merchant : NPC
     {
         public string buy, leave;
@@ -39,7 +42,8 @@ namespace Realm
         /// <param name="buyText">The text that displays when you purchase something from the merchant.</param>
         /// <param name="leaveText">The text that displays when you leave.</param>
         /// <param name="ItemsForSale">A dictionary which has unique char keys corresponding to items. These are the things you can buy from the merchant.</param>
-        public Merchant(string MerchantName, string GreetingText, string buyText, string leaveText, Dictionary<char, Item> ItemsForSale)
+        public Merchant(string MerchantName, string GreetingText, string buyText, string leaveText,
+            Dictionary<char, Item> ItemsForSale)
         {
             name = MerchantName;
             text = GreetingText;
@@ -47,20 +51,20 @@ namespace Realm
             buy = buyText;
             leave = leaveText;
         }
+
         private bool handleinput(char c)
         {
             if (!forsale.ContainsKey(c))
                 return false;
-            else
-            {
-                Player.Purchase(forsale[c].value, forsale[c]);
-                return true;
-            }
+            Player.Purchase(forsale[c].value, forsale[c]);
+            return true;
         }
+
         public override void Interact()
         {
             base.Interact();
-            Interface.type("Press 'b' to go into the buy menu, 's' to go into the sell menu, or anything else to go back.");
+            Interface.type(
+                "Press 'b' to go into the buy menu, 's' to go into the sell menu, or anything else to go back.");
             switch (Interface.readkey().KeyChar)
             {
                 case 'b':
@@ -69,26 +73,32 @@ namespace Realm
                     while (loop)
                     {
                         foreach (var kv in forsale)
-                            Interface.type(kv.Key + ". " + kv.Value.name + "(" + kv.Value.value + ")", ConsoleColor.Green);
+                            Interface.type(kv.Key + ". " + kv.Value.name + "(" + kv.Value.value + ")",
+                                ConsoleColor.Green);
                         Interface.type("");
                         if (!handleinput(Interface.readkey().KeyChar))
                             loop = false;
                     }
                     break;
                 case 's':
-                    Interface.type("Index. Item name.....Item resale value. Press a non-listed key to go back.", ConsoleColor.Yellow);
+                    Interface.type("Index. Item name.....Item resale value. Press a non-listed key to go back.",
+                        ConsoleColor.Yellow);
                     var indices = new List<int>();
                     var itr = 1;
                     foreach (var item in Main.Player.backpack)
                     {
-                        Interface.type(itr + ". " + item.name + "....." + (item.value == 1 ? 1 : (int)(item.value * .6)));
+                        Interface.type(itr + ". " + item.name + "....." + (item.value == 1 ? 1 : (int) (item.value*.6)));
                         indices.Add(itr);
                         itr++;
                     }
                     var input = Interface.readkey().KeyChar;
                     if (indices.Contains(Convert.ToInt32(input)))
                     {
-                        Main.Player.g += (int)(Main.Player.backpack[Convert.ToInt32(input)].value == 1 ? 1 : Main.Player.backpack[Convert.ToInt32(input)].value * .6);
+                        Main.Player.g +=
+                            (int)
+                                (Main.Player.backpack[Convert.ToInt32(input)].value == 1
+                                    ? 1
+                                    : Main.Player.backpack[Convert.ToInt32(input)].value*.6);
                         Main.Player.backpack.Remove(Main.Player.backpack[Convert.ToInt32(input)]);
                     }
                     break;
@@ -106,7 +116,7 @@ namespace Realm
 
         public Innkeeper(string Name, string Text, string stayText, string leaveText)
         {
-            price = 2 + (int)(Main.Player.level * 1.5);
+            price = 2 + (int) (Main.Player.level*1.5);
             name = Name;
             text = Text;
             stay = stayText;

@@ -27,11 +27,14 @@ namespace Realm
                 if (!Main.devmode)
                 {
                     Interface.type("-------------------------------------");
-                    Interface.type(Main.Player.name + "(" + Main.Player.race + ")," + " Level " + Main.Player.level + " " + Main.Player.pclass + ":");
+                    Interface.type(Main.Player.name + "(" + Main.Player.race + ")," + " Level " + Main.Player.level +
+                                   " " + Main.Player.pclass + ":");
                     Interface.type("HP: " + Main.Player.hp + "/" + Main.Player.maxhp);
-                    Interface.type("Attack: " + Main.Player.atk + " / Defense: " + Main.Player.def + " / Speed: " + Main.spdbuff + " / Intelligence: " + Main.Player.intl);
-                    Interface.type("Mana: " + (1 + (Main.Player.intl / 10)));
-                    Interface.type("Gold: " + Main.Player.g + " / Exp to Level: " + (Main.Player.xp_next - Main.Player.xp));
+                    Interface.type("Attack: " + Main.Player.atk + " / Defense: " + Main.Player.def + " / Speed: " +
+                                   Main.spdbuff + " / Intelligence: " + Main.Player.intl);
+                    Interface.type("Mana: " + (1 + (Main.Player.intl/10)));
+                    Interface.type("Gold: " + Main.Player.g + " / Exp to Level: " +
+                                   (Main.Player.xp_next - Main.Player.xp));
                     Interface.type("-------------------------------------");
                 }
                 if (!Main.devmode)
@@ -52,7 +55,7 @@ namespace Realm
                     {
                         var combat_input = Interface.readinput();
                         var etype = Type.GetType("Realm." + combat_input);
-                        var e = (Enemy)Activator.CreateInstance(etype);
+                        var e = (Enemy) Activator.CreateInstance(etype);
                         Combat.BattleLoop(e);
                     }
                     else if (input == "n")
@@ -61,7 +64,7 @@ namespace Realm
                     {
                         var add_input = Interface.readinput();
                         var atype = Type.GetType("Realm." + add_input);
-                        var i = (Item)Activator.CreateInstance(atype);
+                        var i = (Item) Activator.CreateInstance(atype);
                         if (Main.Player.backpack.Count <= 10)
                             Main.Player.backpack.Add(i);
                         else
@@ -72,14 +75,14 @@ namespace Realm
                     {
                         var p_input = Interface.readinput();
                         var atype = Type.GetType("Realm." + p_input);
-                        var i = (Item)Activator.CreateInstance(atype);
+                        var i = (Item) Activator.CreateInstance(atype);
                         Main.Player.primary = i;
                     }
                     else if (input == "t")
                     {
                         var place_input = Interface.readinput();
                         var ptype = Type.GetType("Realm." + place_input);
-                        var p = (Place)Activator.CreateInstance(ptype);
+                        var p = (Place) Activator.CreateInstance(ptype);
                     }
                 }
                 else

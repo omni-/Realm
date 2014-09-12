@@ -6,11 +6,7 @@ namespace Realm
 {
     public class Place
     {
-        public int q;
-        public Map globals = new Map();
-        public List<Enemy> enemylist = new List<Enemy>();
-
-        public bool is_npc_active = false;
+        public bool is_npc_active;
 
         private Merchant m;
 
@@ -1822,16 +1818,12 @@ namespace Realm
                                             switch (Interface.readkey().KeyChar)
                                             {
                                                 case 'y':
-                                                    if (Main.Player.backpack.Count >= 10)
-                                                        Interface.type("Your backpack is full.");
-                                                    else
-                                                    {
-                                                        Main.Player.backpack.Add(new tome());
-                                                        Interface.type("You pick up the book.");
-                                                        if (!Main.Player.abilities.commands.ContainsKey('p'))
-                                                            Main.Player.abilities.AddCommand(
-                                                                new Combat.ForcePulse("Force Pulse", 'f'));
-                                                    }
+                                                    Main.Player.backpack.Add(new tome());
+                                                    Interface.type("You pick up the book.");
+                                                    if (!Main.Player.abilities.commands.ContainsKey('p'))
+                                                        Main.Player.abilities.AddCommand(
+                                                            new Combat.ForcePulse("Force Pulse", 'f'));
+
                                                     Interface.type(
                                                         "It takes a few hours, but you climb your way out of the mine. You surface looking like a chimney sweep.");
                                                     break;
@@ -2097,9 +2089,7 @@ namespace Realm
 
     public class caveplace
     {
-        public Random rand;
-        public int q;
-        public Map globals = new Map();
+        private Random rand;
         public List<Enemy> enemylist = new List<Enemy>();
 
         protected virtual string GetDesc()
