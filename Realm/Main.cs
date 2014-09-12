@@ -6,27 +6,101 @@ namespace Realm
 {
     public static class Main
     {
-        public static int loop_number = 0, slimecounter = 0, goblincounter = 0, banditcounter = 0, drakecounter = 0, wkingcounter = 0, slibcounter = 0, forrestcounter = 0, libcounter = 0, centrallibcounter = 0, ramsaycounter = 0, magiccounter = 0, nlibcounter = 0, townfolkcounter = 0, nomadcounter = 0, minecounter = 0, frozencounter = 0, noobcounter = 0, gbooks = 0, intlbuff = 0, defbuff = 0, atkbuff = 0, spdbuff = 0;
+        public static int loop_number = 0,
+            slimecounter = 0,
+            goblincounter = 0,
+            banditcounter = 0,
+            drakecounter = 0,
+            wkingcounter = 0,
+            slibcounter = 0,
+            forrestcounter = 0,
+            libcounter = 0,
+            centrallibcounter = 0,
+            ramsaycounter = 0,
+            magiccounter = 0,
+            nlibcounter = 0,
+            townfolkcounter = 0,
+            nomadcounter = 0,
+            minecounter = 0,
+            frozencounter = 0,
+            noobcounter = 0,
+            gbooks = 0,
+            intlbuff = 0,
+            defbuff = 0,
+            atkbuff = 0,
+            spdbuff = 0;
 
-        public static bool raven_dead = false, is_theif = false, wkingdead = false, is_typing = false, devmode = false, hasmap = false, achievements_disabled = false;
+        public static bool raven_dead,
+            is_theif,
+            wkingdead = false,
+            is_typing = false,
+            devmode = false,
+            hasmap = false,
+            achievements_disabled = false;
 
         public static Achievement ach = new Achievement();
         public static Player.GamePlayer Player = new Player.GamePlayer();
         public static Map globals = new Map();
 
-        public static Random rand = new Random();
+        public static readonly Random rand = new Random();
 
-        public static string version = "Version Number - v1.8.4.5";
+        public const string version = "Version Number - v1.8.4.5";
 
         public static Dictionary<string, bool> achieve = new Dictionary<string, bool>();
 
-        public static List<Item> MainItemList = new List<Item> {
-new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_band(), new iron_buckler(), new iron_lance(), new iron_mail(), new iron_rapier(), new wood_armor(), new wood_plank(), new wood_staff(), new fmBP(), new sonictee(), new slwscreen(), new plastic_ring(), new m_amulet(), new m_robes(), new m_staff(), new m_tome(), new bt_battleaxe(), new bt_greatsword(), new bt_longsword(), new bt_plate(), new blood_amulet(), new swifites(), new ice_amulet(), new ice_dagger(), new ice_shield(), new p_mail(), new p_shield(), new p_shortsword(), new goldcloth_cloak(), new a_amulet(), new a_mail(), new a_staff(), new tome(), new ds_amulet(), new ds_kite(), new ds_kris(), new ds_scale(), new sb_saber(), new sb_chain(), new sb_gauntlet(), new sb_shield()
+        public static List<Item> MainItemList = new List<Item>
+        {
+            new cardboard_armor(),
+            new cardboard_shield(),
+            new cardboard_sword(),
+            new iron_band(),
+            new iron_buckler(),
+            new iron_lance(),
+            new iron_mail(),
+            new iron_rapier(),
+            new wood_armor(),
+            new wood_plank(),
+            new wood_staff(),
+            new fmBP(),
+            new sonictee(),
+            new slwscreen(),
+            new plastic_ring(),
+            new m_amulet(),
+            new m_robes(),
+            new m_staff(),
+            new m_tome(),
+            new bt_battleaxe(),
+            new bt_greatsword(),
+            new bt_longsword(),
+            new bt_plate(),
+            new blood_amulet(),
+            new swifites(),
+            new ice_amulet(),
+            new ice_dagger(),
+            new ice_shield(),
+            new p_mail(),
+            new p_shield(),
+            new p_shortsword(),
+            new goldcloth_cloak(),
+            new a_amulet(),
+            new a_mail(),
+            new a_staff(),
+            new tome(),
+            new ds_amulet(),
+            new ds_kite(),
+            new ds_kris(),
+            new ds_scale(),
+            new sb_saber(),
+            new sb_chain(),
+            new sb_gauntlet(),
+            new sb_shield()
         };
 
         public static void Tutorial()
         {
-            List<string> racelist = new List<string> { "human", "elf", "rockman", "giant", "zephyr", "shade" }, classlist = new List<string> { "warrior", "paladin", "mage", "thief" }, secret = new List<string>();
+            List<string> racelist = new List<string> {"human", "elf", "rockman", "giant", "zephyr", "shade"},
+                classlist = new List<string> {"warrior", "paladin", "mage", "thief"},
+                secret = new List<string>();
             if (achieve["100slimes"])
                 secret.Add("Slime");
             if (achieve["100goblins"])
@@ -48,12 +122,16 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                 {
                     Interface.type("To do anything in Realm, simply press one of the listed commands.");
                     Interface.type("If at any time, you wish to you view you stats, press 'v'");
-                    Interface.type("Make sure to visit every library! They offer many valuable abilities as well as experience.");
-                    Interface.type("When in combat, select an availible move. All damage is randomized. Mana is refilled after each fight.");
-                    Interface.type("While in the backpack, simply select a number corresponding to an item. You may swap this item in or out. Make sure to equip an item once you pick it up!");
+                    Interface.type(
+                        "Make sure to visit every library! They offer many valuable abilities as well as experience.");
+                    Interface.type(
+                        "When in combat, select an availible move. All damage is randomized. Mana is refilled after each fight.");
+                    Interface.type(
+                        "While in the backpack, simply select a number corresponding to an item. You may swap this item in or out. Make sure to equip an item once you pick it up!");
                     Interface.type("At any specified time, you may press #. Doing so will save the game.");
                 }
-                Interface.type("In Realm, every player selects a race. Each race gives its own bonuses. You may choose from Human, Elf, Rockman, Giant, Zephyr, or Shade.");
+                Interface.type(
+                    "In Realm, every player selects a race. Each race gives its own bonuses. You may choose from Human, Elf, Rockman, Giant, Zephyr, or Shade.");
                 if (achieve["100slimes"] || achieve["100goblins"] || achieve["100bandits"] || achieve["100drakes"])
                 {
                     Interface.type("Secret Races: ", ConsoleColor.Yellow);
@@ -95,6 +173,7 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
             }
             MainLoop();
         }
+
         public static void MainLoop()
         {
             while (Player.hp > 0)
@@ -108,13 +187,13 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                 if (drakecounter == 100)
                     ach.Get("100drakes");
 
-                var xy = Map.CoordinatesOf(typeof(Nomad));
+                var xy = Map.CoordinatesOf(typeof (Nomad));
                 Map.map[xy.Item1, xy.Item2] = new Place();
                 var nextNomad = Map.getRandomBlankTile();
                 Map.map[nextNomad.Item1, nextNomad.Item2] = new Nomad();
 
                 foreach (var p in Map.map)
-                    if (p.GetType() == typeof(Place))
+                    if (p.GetType() == typeof (Place))
                         p.is_npc_active = false;
                 var randomTile = Map.getRandomBlankTile();
                 if (rand.NextDouble() <= .1)
@@ -147,7 +226,8 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                 Item sb = new spectral_bulwark();
                 Item ip = new illusory_plate();
                 Item vc = new void_cloak();
-                if ((Player.backpack.Contains(pc) && Player.backpack.Contains(sb) && Player.backpack.Contains(ip) && Player.backpack.Contains(vc)) || devmode)
+                if ((Player.backpack.Contains(pc) && Player.backpack.Contains(sb) && Player.backpack.Contains(ip) &&
+                     Player.backpack.Contains(vc)) || devmode)
                 {
                     if (!Player.abilities.commandChars.Contains('*'))
                         Player.abilities.AddCommand(new Combat.EndtheIllusion("End the Illusion", '*'));
@@ -161,7 +241,8 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                     Player.applydevbonus();
                 if (gbooks >= 3 && !Player.abilities.commandChars.Contains('@'))
                 {
-                    Interface.type("Having read all of the Ramsay books, you are enlightened in the ways of Gordon Ramsay.");
+                    Interface.type(
+                        "Having read all of the Ramsay books, you are enlightened in the ways of Gordon Ramsay.");
                     Player.abilities.AddCommand(new Combat.HellsKitchen("Hell's Kitchen", '@'));
                 }
                 if (!devmode)
@@ -191,7 +272,7 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                         var etype = Type.GetType("Realm." + combat_input);
                         try
                         {
-                            var e = (Enemy)Activator.CreateInstance(etype);
+                            var e = (Enemy) Activator.CreateInstance(etype);
                             Combat.BattleLoop(e);
                         }
                         catch (ArgumentNullException)
@@ -207,7 +288,7 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                         var atype = Type.GetType("Realm." + add_input);
                         try
                         {
-                            var i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item) Activator.CreateInstance(atype);
 
                             if (Player.backpack.Count <= 10)
                             {
@@ -230,7 +311,8 @@ new cardboard_armor(), new cardboard_shield(), new cardboard_sword(), new iron_b
                         if (rand.NextDouble() <= .1d)
                         {
                             Player.backpack.Add(MainItemList[rand.Next(0, MainItemList.Count - 1)]);
-                            Interface.type("Obtained " + MainItemList[rand.Next(0, MainItemList.Count - 1)].name + "!", ConsoleColor.Green);
+                            Interface.type("Obtained " + MainItemList[rand.Next(0, MainItemList.Count - 1)].name + "!",
+                                ConsoleColor.Green);
                         }
                         else
                         {

@@ -8,28 +8,32 @@ namespace Realm
         public int x;
         public int y;
     }
+
     public class Map
     {
-        public static Place[,] map = new Place[,] {
-
-        {new Place(), new Place(), new Seaport(), new Place(), new IllusionForest(), new Place(), new WKingdom()},
-
-        {new Place(), new Valleyburg(), new Place(), new Place(), new Place(), new Riverwell(), new Place()},
-        
-        {new SKingdom(), new Place(), new MagicCity(), new Place(), new Place(), new Place(), new NKingdom()},
- 
-        {new Place(), new Place(), new Place(), new CentralKingdom(), new Place(), new NMtns(), new Place()},
-        
-        {new FrozenFjords(), new Place(), new TwinPaths(), new Place(), new Newport(), new Place(), new Place()},
-         
-        {new Place(), new Ravenkeep(), new Place(), new EKingdom(), new Place(), new Nomad(), new Coaltown()}
-
+        public static Place[,] map =
+        {
+            {new Place(), new Place(), new Seaport(), new Place(), new IllusionForest(), new Place(), new WKingdom()},
+            {new Place(), new Valleyburg(), new Place(), new Place(), new Place(), new Riverwell(), new Place()},
+            {new SKingdom(), new Place(), new MagicCity(), new Place(), new Place(), new Place(), new NKingdom()},
+            {new Place(), new Place(), new Place(), new CentralKingdom(), new Place(), new NMtns(), new Place()},
+            {new FrozenFjords(), new Place(), new TwinPaths(), new Place(), new Newport(), new Place(), new Place()},
+            {new Place(), new Ravenkeep(), new Place(), new EKingdom(), new Place(), new Nomad(), new Coaltown()}
         };
 
         public static caveplace[] cavemap = new caveplace[5];
-        public static List<caveplace> cavelist = new List<caveplace> { new caveplace(), new caveplace(), new crystal(), new mushrooms() };
+
+        public static List<caveplace> cavelist = new List<caveplace>
+        {
+            new caveplace(),
+            new caveplace(),
+            new crystal(),
+            new mushrooms()
+        };
+
         public static int CavePosition;
         public static Point PlayerPosition;
+
         public static void gencave()
         {
             var rand = new Random();
@@ -37,7 +41,7 @@ namespace Realm
             for (var i = 0; i < 5; i++)
             {
                 if (cavelist.Count > 1)
-                    curr = cavelist[Combat.Dice.roll(1, cavelist.Count - 1)];
+                    curr = cavelist[Dice.roll(1, cavelist.Count - 1)];
                 else if (cavelist.Count == 1)
                     curr = cavelist[0];
                 else
@@ -70,9 +74,9 @@ namespace Realm
             var blanks = new List<Tuple<int, int>>();
             for (var x = 0; x < map.GetUpperBound(0); x++)
             {
-                for (var y = 0; y < map.GetUpperBound(1); y++ )
+                for (var y = 0; y < map.GetUpperBound(1); y++)
                 {
-                    if (map[x, y].GetType() == typeof(Place))
+                    if (map[x, y].GetType() == typeof (Place))
                         blanks.Add(new Tuple<int, int>(x, y));
                 }
             }
@@ -82,9 +86,29 @@ namespace Realm
 
         public static string GetNPCName()
         {
-            var names = new List<string>()
+            var names = new List<string>
             {
-                "Jean-Philippe", "Jacques-Cartier", "Bill", "Hank", "Ernie", "Selena", "Gomie", "Chambers", "Takeshi", "Clark", "Rosie", "Nick", "Carter", "Charlie", "Claude", "Ben", "Steve", "Margie", "Isabel", "Connor", "Alex"
+                "Jean-Philippe",
+                "Jacques-Cartier",
+                "Bill",
+                "Hank",
+                "Ernie",
+                "Selena",
+                "Gomie",
+                "Chambers",
+                "Takeshi",
+                "Clark",
+                "Rosie",
+                "Nick",
+                "Carter",
+                "Charlie",
+                "Claude",
+                "Ben",
+                "Steve",
+                "Margie",
+                "Isabel",
+                "Connor",
+                "Alex"
             };
             return names[Main.rand.Next(0, names.Count - 1)];
         }

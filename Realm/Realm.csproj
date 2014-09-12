@@ -88,6 +88,7 @@
     <Compile Include="Backpack.cs" />
     <Compile Include="Cave.cs" />
     <Compile Include="Combat.cs" />
+    <Compile Include="Dice.cs" />
     <Compile Include="End.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Map.cs" />

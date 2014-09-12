@@ -11,7 +11,7 @@ namespace Realm
             Main.Player.applybonus();
 
             var enemydmg = 0;
-            var mana = 1 + Main.Player.intl / 10;
+            var mana = 1 + Main.Player.intl/10;
             Interface.type("You have entered combat! Ready your weapons!", ConsoleColor.Red);
             Interface.type("Level " + enemy.level + " " + enemy.name + ":", ConsoleColor.Yellow);
             Interface.type("-------------------------", ConsoleColor.Yellow);
@@ -171,26 +171,26 @@ namespace Realm
                             Interface.type("Your have defeated " + enemy.name + "!", ConsoleColor.Yellow);
                             enemy.droploot();
                             Main.Player.levelup();
-                        if (enemy.name == "slime")
-                        {
-                            Main.slimecounter++;
-                            Main.ach.Get("1slime");
-                        }
-                        else if (enemy.name == "goblin")
-                        {
-                            Main.ach.Get("1goblin");
-                            Main.goblincounter++;
-                        }
-                        else if (enemy.name == "bandit")
-                        {
-                            Main.banditcounter++;
-                            Main.ach.Get("1bandit");
-                        }
-                        else if (enemy.name == "drake")
-                        {
-                            Main.ach.Get("1drake");
-                            Main.drakecounter++;
-                        }
+                            if (enemy.name == "slime")
+                            {
+                                Main.slimecounter++;
+                                Main.ach.Get("1slime");
+                            }
+                            else if (enemy.name == "goblin")
+                            {
+                                Main.ach.Get("1goblin");
+                                Main.goblincounter++;
+                            }
+                            else if (enemy.name == "bandit")
+                            {
+                                Main.banditcounter++;
+                                Main.ach.Get("1bandit");
+                            }
+                            else if (enemy.name == "drake")
+                            {
+                                Main.ach.Get("1drake");
+                                Main.drakecounter++;
+                            }
                             return;
                         }
                     }
@@ -209,7 +209,7 @@ namespace Realm
                     if (enemy.trapped)
                     {
                         Interface.type("Your trap has sprung!");
-                        var dmg = (Main.Player.level / 5) + (Main.Player.intl / 3) + Dice.roll(1, 5);
+                        var dmg = (Main.Player.level/5) + (Main.Player.intl/3) + Dice.roll(1, 5);
                         enemy.hp -= dmg;
                         Interface.type(enemy.name + " takes " + dmg + " damage!", ConsoleColor.Cyan);
                         if (enemy.hp <= 0)
@@ -243,7 +243,8 @@ namespace Realm
                             Interface.type(enemy.name + "is blind!", ConsoleColor.Cyan);
                             if (Dice.roll(1, 10) == 1)
                             {
-                                Interface.type("By some miracle, " + enemy.name + " manages to hit you!", ConsoleColor.Red);
+                                Interface.type("By some miracle, " + enemy.name + " manages to hit you!",
+                                    ConsoleColor.Red);
                                 enemy.attack(out ability);
                                 enemydmg = oldhp - Main.Player.hp;
                                 Interface.type(enemy.name + " used " + ability, ConsoleColor.Red);
@@ -303,64 +304,39 @@ namespace Realm
                         return;
                     }
                     is_turn = true;
-
                 }
             }
         }
+
         public static void SammysAdventure()
         {
+        }
 
-        }
-        public static class Dice
-        {
-            public static int roll(int numdice, int numsides)
-            {
-                var total = 0;
-                var rand = new Random();
-                for (var i = 0; i < numdice; i++)
-                {
-                    total += rand.Next(1, Math.Abs(numsides + 1));
-                }
-                return total;
-            }
-            public static bool misschance(int spd)
-            {
-                var misschance = roll(1, 101 + (spd * 3));
-                if (misschance == 1)
-                {
-                    Interface.type("Missed!", ConsoleColor.White);
-                    return true;
-                }
-                else
-                    return false;
-            }
-        }
         public static bool CheckBattle()
         {
             var randint = new Random();
             var rollresult = Dice.roll(1, 3);
             return rollresult == 1;
         }
+
         public static string DecideAttack(List<string> abilities)
         {
             var i = abilities.Count;
             var rand = new Random();
-            var randint = rand.Next(1, ((i * 3) + 1));
+            var randint = rand.Next(1, ((i*3) + 1));
             if (randint > i)
                 return abilities[0];
-            else
-            {
-                return abilities[rand.Next(1, abilities.Count)];
-            }
+            return abilities[rand.Next(1, abilities.Count)];
             //return abilities[1];
         }
+
         public static bool stunchance(int chance)
         {
             if (Dice.roll(1, chance) == 1)
                 return true;
-            else
-                return false;
+            return false;
         }
+
         public class Command
         {
             public string name;
@@ -391,18 +367,21 @@ namespace Realm
                 _commands = new Dictionary<char, Command>();
             }
 
-            public int Count { get { return _commands.Count; } }
+            public int Count
+            {
+                get { return _commands.Count; }
+            }
 
             public void AddCommand(Command cmd)
             {
                 _commands.Add(cmd.cmdchar, cmd);
-                if (cmd.name != "Basic Attack" && cmd.GetType() == typeof(Command))
+                if (cmd.name != "Basic Attack" && cmd.GetType() == typeof (Command))
                     Interface.type("Learned " + cmd.name + "!", ConsoleColor.Cyan);
             }
 
             public char[] commandChars
             {
-                get { return _commands.Keys.ToArray<char>(); }
+                get { return _commands.Keys.ToArray(); }
             }
 
             public Dictionary<char, Command> commands
@@ -425,16 +404,18 @@ namespace Realm
                 return true;
             }
         }
+
         public class BasicAttack : Command
         {
             public BasicAttack(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object data)
             {
                 // data should be the enemy
-                var target = (Enemy)data;
+                var target = (Enemy) data;
                 double damage = Dice.roll(1, Main.Player.atk);
                 if (Main.Player.primary.multiplier != 0)
                     damage *= Main.Player.primary.multiplier;
@@ -446,16 +427,18 @@ namespace Realm
                 return true;
             }
         }
+
         public class EnergyOverload : Command
         {
             public EnergyOverload(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object data)
             {
                 // data should be the enemy
-                var target = (Enemy)data;
+                var target = (Enemy) data;
                 double damage = Dice.roll(2, Main.Player.intl);
                 if (damage <= 0)
                     damage = 1;
@@ -465,16 +448,18 @@ namespace Realm
                 return true;
             }
         }
+
         public class BladeDash : Command
         {
             public BladeDash(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object data)
             {
                 // data should be the enemy
-                var target = (Enemy)data;
+                var target = (Enemy) data;
                 double damage = Dice.roll(2, Main.Player.atk);
                 if (damage <= 0)
                     damage = 1;
@@ -484,38 +469,42 @@ namespace Realm
                 return true;
             }
         }
+
         public class ConsumeSoul : Command
         {
             public ConsumeSoul(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object data)
             {
                 // data should be the enemy
-                var target = (Enemy)data;
-                double damage = Dice.roll(2, Main.Player.atk * 2 / 3);
+                var target = (Enemy) data;
+                double damage = Dice.roll(2, Main.Player.atk*2/3);
                 if (damage <= 0)
                     damage = 1;
                 if (Dice.misschance(target.spd))
                     damage = 0;
                 target.hp -= Convert.ToInt32(damage);
-                var heal = Convert.ToInt32(damage / 3);
+                var heal = Convert.ToInt32(damage/3);
                 Main.Player.hp += heal;
                 Interface.type("You gain " + heal + " life.", ConsoleColor.Cyan);
                 return true;
             }
         }
+
         public class HolySmite : Command
         {
             public HolySmite(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object data)
             {
                 // data should be the enemy
-                var target = (Enemy)data;
+                var target = (Enemy) data;
                 double damage = Dice.roll(2, Main.Player.def/2);
                 if (damage <= 0)
                     damage = 1;
@@ -525,6 +514,7 @@ namespace Realm
                 return true;
             }
         }
+
         public class EndtheIllusion : Command
         {
             public EndtheIllusion(string aname, char cmd)
@@ -534,12 +524,14 @@ namespace Realm
 
             public override bool Execute(object data)
             {
-                var target = (Enemy)data;
-                double damage = Dice.roll((Main.Player.atk + Main.Player.def + Main.Player.spd + Main.Player.intl), Main.Player.level);
+                var target = (Enemy) data;
+                double damage = Dice.roll((Main.Player.atk + Main.Player.def + Main.Player.spd + Main.Player.intl),
+                    Main.Player.level);
                 target.hp -= Convert.ToInt32(damage);
                 return true;
             }
         }
+
         public class ArrowsofLies : Command
         {
             public ArrowsofLies(string aname, char cmd)
@@ -549,7 +541,7 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
+                var target = (Enemy) Data;
                 target.hp = 0;
                 return true;
             }
@@ -561,9 +553,10 @@ namespace Realm
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
+                var target = (Enemy) Data;
                 target.hp -= Dice.roll(1, Main.Player.intl);
                 target.cursed = true;
                 return true;
@@ -576,42 +569,47 @@ namespace Realm
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
-                var dmg = Dice.roll(1, Main.Player.atk / 2);
+                var target = (Enemy) Data;
+                var dmg = Dice.roll(1, Main.Player.atk/2);
                 if (dmg <= 0)
                     dmg = 1;
                 if (Dice.misschance(target.spd))
                     dmg = 0;
                 target.hp -= dmg;
-                Main.Player.hp -= dmg / 2;
+                Main.Player.hp -= dmg/2;
                 return true;
             }
         }
+
         public class Phase : Command
         {
             public Phase(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
+                var target = (Enemy) Data;
                 Main.Player.phased = true;
                 target.hp -= 2;
                 return true;
             }
         }
+
         public class VorpalBlades : Command
         {
             public VorpalBlades(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
+                var target = (Enemy) Data;
                 var damage = Dice.roll(1, ((Main.Player.atk/3) + Main.Player.intl/3));
                 if (damage <= 0)
                     damage = 1;
@@ -621,33 +619,37 @@ namespace Realm
                 return true;
             }
         }
+
         public class Incinerate : Command
         {
             public Incinerate(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
+                var target = (Enemy) Data;
                 target.hp -= Dice.roll(1, Main.Player.intl);
                 target.on_fire = true;
                 return true;
             }
         }
+
         public class Dawnstrike : Command
         {
             public Dawnstrike(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
+                var target = (Enemy) Data;
                 if (stunchance(3))
                     target.stunned = true;
                 target.on_fire = true;
-                var damage = Dice.roll(1, Main.Player.atk / 2);
+                var damage = Dice.roll(1, Main.Player.atk/2);
                 if (damage <= 0)
                     damage = 1;
                 if (Dice.misschance(target.spd))
@@ -656,18 +658,20 @@ namespace Realm
                 return true;
             }
         }
+
         public class Heavensplitter : Command
         {
             public Heavensplitter(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
+                var target = (Enemy) Data;
                 if (stunchance(2))
                     target.stunned = true;
-                var damage = (Main.Player.atk) + (Main.Player.def / 3);
+                var damage = (Main.Player.atk) + (Main.Player.def/3);
                 if (damage <= 0)
                     damage = 1;
                 if (Dice.misschance(target.spd))
@@ -676,15 +680,17 @@ namespace Realm
                 return true;
             }
         }
+
         public class HellsKitchen : Command
         {
             public HellsKitchen(string aname, char cmd)
-                : base (aname, cmd)
+                : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
+                var target = (Enemy) Data;
                 target.stunned = true;
                 target.on_fire = true;
                 target.cursed = true;
@@ -695,48 +701,53 @@ namespace Realm
 
         public class Gamble : Command
         {
-            public Gamble (string aname, char cmd)
+            public Gamble(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
+                var target = (Enemy) Data;
                 var chance = Dice.roll(1, 10);
                 if (chance <= 5)
                 {
-                    Main.Player.hp -= 2 * chance;
+                    Main.Player.hp -= 2*chance;
                 }
                 else
                 {
-                    target.hp -= Main.Player.atk * 5;
+                    target.hp -= Main.Player.atk*5;
                     target.stunned = true;
                     target.on_fire = true;
                     target.cursed = true;
                 }
-                    return true;
+                return true;
             }
         }
+
         public class Mimic : Command
         {
             public Mimic(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
                 return true;
             }
         }
+
         public class Heal : Command
         {
             public Heal(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var heal = Math.Max(((Main.Player.intl * 2) / 3), 1);
+                var heal = Math.Max(((Main.Player.intl*2)/3), 1);
                 Main.Player.hp += heal;
                 if (Main.Player.hp > Main.Player.maxhp)
                     Main.Player.hp = Main.Player.maxhp;
@@ -744,27 +755,31 @@ namespace Realm
                 return true;
             }
         }
+
         public class Safeguard : Command
         {
             public Safeguard(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
                 Main.Player.guarded = true;
                 return true;
             }
         }
+
         public class Rage : Command
         {
             public Rage(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
+                var target = (Enemy) Data;
                 var damage = (Main.Player.maxhp - Main.Player.hp);
                 if (damage <= 0)
                     damage = 1;
@@ -774,28 +789,32 @@ namespace Realm
                 return true;
             }
         }
+
         public class Lightspeed : Command
         {
             public Lightspeed(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
-                target.hp -= Dice.roll(1, Main.Player.spd) + Dice.roll(1, (Main.Player.spd / 5));
+                var target = (Enemy) Data;
+                target.hp -= Dice.roll(1, Main.Player.spd) + Dice.roll(1, (Main.Player.spd/5));
                 return true;
             }
         }
+
         public class Nightshade : Command
         {
             public Nightshade(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
+                var target = (Enemy) Data;
                 target.blinded = true;
                 var dmg = Dice.roll(2, Main.Player.atk);
                 if (dmg <= 0)
@@ -806,30 +825,34 @@ namespace Realm
                 return true;
             }
         }
+
         public class ForcePulse : Command
         {
             public ForcePulse(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
-                var dmg = Dice.roll(9, (Main.Player.intl + Main.Player.def) / 10);
+                var target = (Enemy) Data;
+                var dmg = Dice.roll(9, (Main.Player.intl + Main.Player.def)/10);
                 target.hp -= dmg;
                 return true;
             }
         }
+
         public class IceChains : Command
         {
             public IceChains(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
-                var dmg = Dice.roll(6, (Main.Player.intl + Main.Player.atk) / 6);
+                var target = (Enemy) Data;
+                var dmg = Dice.roll(6, (Main.Player.intl + Main.Player.atk)/6);
                 var stun = Dice.roll(1, 5);
                 if (stun == 1 || stun == 2 || stun == 3 || stun == 4)
                     target.stunned = true;
@@ -837,44 +860,50 @@ namespace Realm
                 return true;
             }
         }
+
         public class NowYouSeeMe : Command
         {
             public NowYouSeeMe(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
+                var target = (Enemy) Data;
                 var dmg = Dice.roll(1, Main.Player.intl);
                 target.blinded = true;
                 target.hp -= dmg;
                 return true;
             }
         }
+
         public class Illusion : Command
         {
             public Illusion(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
-                var dmg = Dice.roll(1, (Main.Player.intl + Main.Player.atk) / 2);
+                var target = (Enemy) Data;
+                var dmg = Dice.roll(1, (Main.Player.intl + Main.Player.atk)/2);
                 target.hp -= dmg;
                 return true;
             }
         }
+
         public class PewPewPew : Command
         {
             public PewPewPew(string aname, char cmd)
                 : base(aname, cmd)
             {
             }
+
             public override bool Execute(object Data)
             {
-                var target = (Enemy)Data;
+                var target = (Enemy) Data;
                 var dmg = Dice.roll(2, Main.Player.intl) - 2;
                 target.hp -= dmg;
                 return true;
@@ -882,4 +911,3 @@ namespace Realm
         }
     }
 }
-   

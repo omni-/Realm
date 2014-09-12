@@ -12,6 +12,7 @@ namespace Realm
     public class Save
     {
         public static string key = "???t\0sl";
+
         public static void SaveGame()
         {
             var tpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm";
@@ -81,6 +82,7 @@ namespace Realm
             Interface.type("Done.", ConsoleColor.White);
             EncryptFile(tpath, path, key);
         }
+
         public static bool LoadGame()
         {
             var tpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm";
@@ -99,7 +101,7 @@ namespace Realm
                 {
                     while ((line = file.ReadLine()) != null)
                     {
-                        var split = line.Split(new char[] { '=' });
+                        var split = line.Split(new[] {'='});
                         vals.Add(split[0], split[1]);
                     }
                     foreach (var entry in vals)
@@ -146,91 +148,91 @@ namespace Realm
                         if (entry.Key == "bp1")
                         {
                             var atype = Type.GetType(entry.Value);
-                            var i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item) Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp2")
                         {
                             var atype = Type.GetType(entry.Value);
-                            var i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item) Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp3")
                         {
                             var atype = Type.GetType(entry.Value);
-                            var i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item) Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp4")
                         {
                             var atype = Type.GetType(entry.Value);
-                            var i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item) Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp5")
                         {
                             var atype = Type.GetType(entry.Value);
-                            var i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item) Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp6")
                         {
                             var atype = Type.GetType(entry.Value);
-                            var i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item) Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp7")
                         {
                             var atype = Type.GetType(entry.Value);
-                            var i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item) Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp7")
                         {
                             var atype = Type.GetType(entry.Value);
-                            var i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item) Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp8")
                         {
                             var atype = Type.GetType(entry.Value);
-                            var i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item) Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp9")
                         {
                             var atype = Type.GetType(entry.Value);
-                            var i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item) Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "bp10")
                         {
                             var atype = Type.GetType(entry.Value);
-                            var i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item) Activator.CreateInstance(atype);
                             Main.Player.backpack.Add(i);
                         }
                         if (entry.Key == "primary")
                         {
                             var atype = Type.GetType(entry.Value);
-                            var i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item) Activator.CreateInstance(atype);
                             Main.Player.primary = i;
                         }
                         if (entry.Key == "secondary")
                         {
                             var atype = Type.GetType(entry.Value);
-                            var i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item) Activator.CreateInstance(atype);
                             Main.Player.secondary = i;
                         }
                         if (entry.Key == "armor")
                         {
                             var atype = Type.GetType(entry.Value);
-                            var i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item) Activator.CreateInstance(atype);
                             Main.Player.armor = i;
                         }
                         if (entry.Key == "accessory")
                         {
                             var atype = Type.GetType(entry.Value);
-                            var i = (Item)Activator.CreateInstance(atype);
+                            var i = (Item) Activator.CreateInstance(atype);
                             Main.Player.accessory = i;
                         }
                         if (entry.Key == "slimecounter")
@@ -279,7 +281,7 @@ namespace Realm
                             Main.Player.abilities.AddCommand(new Combat.Rage("Rage", 'r'));
                         if (entry.Key == "Hell's Kitchen")
                             Main.Player.abilities.AddCommand(new Combat.HellsKitchen("Hell's Kitchen", '@'));
-                        if (entry.Key == "Ice Chains")
+                        if (entry.Key == "cl")
                             Main.Player.abilities.AddCommand(new Combat.IceChains("Ice Chains", 'i'));
                         if (entry.Key == "Now You See Me")
                             Main.Player.abilities.AddCommand(new Combat.NowYouSeeMe("Now You See Me", 'y'));
@@ -335,7 +337,8 @@ namespace Realm
             }
             catch (Exception e)
             {
-                Interface.type("Load failed. Would you like to delete your save? (press 'y' to delete)", ConsoleColor.White);
+                Interface.type("Load failed. Would you like to delete your save? (press 'y' to delete)",
+                    ConsoleColor.White);
                 var ckey = Interface.readkey().KeyChar;
                 if (ckey == 'y')
                     File.Delete(path);
@@ -351,6 +354,7 @@ namespace Realm
                 return false;
             }
         }
+
         public static void EncryptFile(string sInputFilename, string sOutputFilename, string sKey)
         {
             using (var fsInput = new FileStream(sInputFilename, FileMode.Open, FileAccess.Read))
@@ -409,6 +413,7 @@ namespace Realm
             {
             }
         }
+
         public static void WriteError(Exception e)
         {
             var crashpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt";
@@ -418,8 +423,13 @@ namespace Realm
                 "Error: " + e.GetBaseException(),
                 "Message:\r\n     " + e.Message + "\r\n"
             };
-            try { listlines.Add("Inner Exception: \r\n" + e.InnerException + "\r\n"); }
-            catch (NullReferenceException) { }
+            try
+            {
+                listlines.Add("Inner Exception: \r\n" + e.InnerException + "\r\n");
+            }
+            catch (NullReferenceException)
+            {
+            }
             listlines.Add("Target Site:\r\n     ");
             listlines.Add(e.TargetSite + "\r\n");
             listlines.Add("Stack Trace:\r\n     ");
@@ -431,9 +441,12 @@ namespace Realm
                     File.Create(crashpath).Dispose();
                 listlines.Add(e.InnerException.ToString());
             }
-            catch (NullReferenceException) { }
+            catch (NullReferenceException)
+            {
+            }
             File.AppendAllLines(crashpath, listlines.ToArray());
-            MessageBox.Show(e.Message + e.InnerException, "Realm has encountered an error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(e.Message + e.InnerException, "Realm has encountered an error!", MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Realm
 {
@@ -7,15 +8,20 @@ namespace Realm
     {
         public class GamePlayer
         {
-            public int hp, maxhp, spd, atk, intl, def, g, level,xp, xp_next, fire, guard, reputation;
+            public int hp, maxhp, spd, atk, intl, def, g, level, xp, xp_next, fire, guard, reputation;
 
             public string pclass, race, name;
 
             public Item primary = new Item(), secondary = new Item(), armor = new Item(), accessory = new Item();
 
-            public List<Item> backpack;
+            public BP backpack;
 
-            public bool on_fire = false, cursed = false, stunned = false, guarded = false, blinded = false, phased = false;
+            public bool on_fire = false,
+                cursed = false,
+                stunned = false,
+                guarded = false,
+                blinded = false,
+                phased = false;
 
             public Combat.CommandTable abilities;
 
@@ -24,7 +30,7 @@ namespace Realm
             public void levelup()
             {
                 int xp_overlap;
-                xp_next = level >= 10 ? 62 + (level - 10) * 7 : (level >= 5 ? 17 + (level - 5) * 3 : 17);
+                xp_next = level >= 10 ? 62 + (level - 10)*7 : (level >= 5 ? 17 + (level - 5)*3 : 17);
                 if (xp >= xp_next)
                 {
                     level++;
@@ -35,11 +41,12 @@ namespace Realm
                     else
                         xp_overlap = 0;
                     xp = xp_overlap;
-                    xp_next = (level >= 10 ? 62 + (level - 10) * 7 : (level >= 5 ? 17 + (level - 5) * 3 : 17));
+                    xp_next = (level >= 10 ? 62 + (level - 10)*7 : (level >= 5 ? 17 + (level - 5)*3 : 17));
                     if (xp >= xp_next)
                         levelup();
                 }
             }
+
             public void applybonus()
             {
                 atk = 1;
@@ -49,35 +56,35 @@ namespace Realm
                 if (race == "giant" || race == "drake")
                 {
                     maxhp = 12 + (level + 2);
-                    atk = (1 + (level / 3));
+                    atk = (1 + (level/3));
                 }
                 else
                     maxhp = 9 + level;
                 if (race == "human")
                 {
-                    def = (1 + (level / 3));
-                    atk = (2 + (level / 3));
-                    spd = (1 + (level / 3));
+                    def = (1 + (level/3));
+                    atk = (2 + (level/3));
+                    spd = (1 + (level/3));
                 }
                 else if (race == "elf" || race == "slime")
                 {
-                    intl = (3 + (level / 2));
-                    spd = (1 + (level / 3));
+                    intl = (3 + (level/2));
+                    spd = (1 + (level/3));
                 }
                 else if (race == "rockman")
                 {
-                    def = (3 + (level / 2));
+                    def = (3 + (level/2));
                     maxhp = 10 + level;
                 }
                 else if (race == "zephyr" || race == "goblin")
                 {
-                    spd = (3 + (level / 2));
-                    intl = (1 + (level / 3));
+                    spd = (3 + (level/2));
+                    intl = (1 + (level/3));
                 }
                 else if (race == "shade" || race == "bandit")
                 {
-                    atk = (3 + (level / 2));
-                    spd = (1 + (level / 3));
+                    atk = (3 + (level/2));
+                    spd = (1 + (level/3));
                 }
                 atk += Main.atkbuff;
                 def += Main.defbuff;
@@ -108,13 +115,13 @@ namespace Realm
                     //abilities.AddCommand();
                 }
                 if (pclass == "warrior")
-                    atk += (1 + (Main.Player.level / 5));
+                    atk += (1 + (Main.Player.level/5));
                 if (pclass == "paladin")
-                    def += (1 + (Main.Player.level / 5));
+                    def += (1 + (Main.Player.level/5));
                 if (pclass == "mage")
-                    intl += (1 + (Main.Player.level / 5));
+                    intl += (1 + (Main.Player.level/5));
                 if (pclass == "thief")
-                    spd += (1 + (Main.Player.level / 5));
+                    spd += (1 + (Main.Player.level/5));
 
                 if (!secondary.Equals(default(Item)))
                 {
@@ -139,6 +146,7 @@ namespace Realm
                     spd += accessory.spdbuff;
                 }
             }
+
             public void applydevbonus()
             {
                 atk = 1000;
@@ -180,6 +188,7 @@ namespace Realm
                 }
                 hp = maxhp;
             }
+
             public GamePlayer()
             {
                 maxhp = 11;
@@ -189,11 +198,12 @@ namespace Realm
                 g = 15;
                 def = 1;
                 intl = 1;
-                backpack = new List<Item>();
+                backpack = new BP();
                 abilities = new Combat.CommandTable();
                 abilities.AddCommand(new Combat.BasicAttack("Basic Attack", 'b'));
             }
         }
+
         public static bool Purchase(int cost)
         {
             if (cost > Main.Player.g)
@@ -201,14 +211,12 @@ namespace Realm
                 Interface.type("You don't have enough gold.");
                 return false;
             }
-            else
-            {
-                Main.Player.g -= cost;
-                Main.ach.Get("itembuy");
-                return true;
-            }
+            Main.Player.g -= cost;
+            Main.ach.Get("itembuy");
+            return true;
         }
-        public static bool Purchase(int cost, Item i)
+
+        public static void Purchase(int cost, Item i)
         {
             if (cost <= Main.Player.g)
             {
@@ -220,21 +228,16 @@ namespace Realm
                 }
                 else
                     Interface.type("Not enough space.");
-                return true;
             }
             else
             {
                 Interface.type("You don't have enough gold.");
-                return false;
             }
         }
+
         public static List<Item> getCorrectlyTieredItems()
         {
-            var Items = new List<Item>();
-            foreach(var i in Main.MainItemList)
-                if (i.tier <= (Main.Player.level / 5))
-                    Items.Add(i);
-            return Items;
+            return Main.MainItemList.Where(i => i.tier <= (Main.Player.level/5)).ToList();
         }
     }
 }
