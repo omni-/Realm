@@ -97,9 +97,9 @@ namespace Realm
             Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
             Interface.type("Secondary Content Designer: Cooper Teixeira", ConsoleColor.Yellow);
             Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
-            Interface.type("Chief Tester: Rosemary Rogal", ConsoleColor.Yellow);
+            Interface.type("Executive Game Tester: Rosemary Rogal", ConsoleColor.Yellow);
             Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
-            Interface.type("Lead Art Designer: Rosemary Rogal", ConsoleColor.Yellow);
+            Interface.type("Lead Art Consultant: Rosemary Rogal", ConsoleColor.Yellow);
             Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
             Interface.type("Secondary Art Designer: Giorgio Lo", ConsoleColor.Yellow);
             Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);

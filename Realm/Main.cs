@@ -38,7 +38,7 @@ namespace Realm
             hasmap,
             achievements_disabled;
 
-        public static Achievement ach = new Achievement();
+        public static readonly Achievement ach = new Achievement();
         public static Player.GamePlayer Player = new Player.GamePlayer();
 
         public static readonly Random rand = new Random();
@@ -97,8 +97,8 @@ namespace Realm
 
         public static void Tutorial()
         {
-            List<string> racelist = new List<string> {"human", "elf", "rockman", "giant", "zephyr", "shade"},
-                classlist = new List<string> {"warrior", "paladin", "mage", "thief"},
+            List<string> racelist = new List<string> { "human", "elf", "rockman", "giant", "zephyr", "shade" },
+                classlist = new List<string> { "warrior", "paladin", "mage", "thief" },
                 secret = new List<string>();
             if (achieve["100slimes"])
                 secret.Add("Slime");
@@ -186,13 +186,13 @@ namespace Realm
                 if (drakecounter == 100)
                     ach.Get("100drakes");
 
-                var xy = Map.CoordinatesOf(typeof (Nomad));
+                var xy = Map.CoordinatesOf(typeof(Nomad));
                 Map.map[xy.Item1, xy.Item2] = new Place();
                 var nextNomad = Map.getRandomBlankTile();
                 Map.map[nextNomad.Item1, nextNomad.Item2] = new Nomad();
 
                 foreach (var p in Map.map)
-                    if (p.GetType() == typeof (Place))
+                    if (p.GetType() == typeof(Place))
                         p.is_npc_active = false;
                 var randomTile = Map.getRandomBlankTile();
                 if (rand.NextDouble() <= .1)
@@ -262,83 +262,95 @@ namespace Realm
                     Environment.Exit(0);
                 else if (command.KeyChar == '-' && devmode)
                 {
-                    var input = Interface.readinput();
-                    if (input == "end")
-                        End.Endgame();
-                    else if (input == "combat")
+                    try
                     {
-                        var combat_input = Interface.readinput();
-                        var etype = Type.GetType("Realm." + combat_input);
-                        try
+                        var cmdargs = Interface.readinput().Split();
+                        var cmd = cmdargs[0];
+                        var numargs = cmdargs.Length;
+                        switch (cmd)
                         {
-                            var e = (Enemy) Activator.CreateInstance(etype);
-                            Combat.BattleLoop(e);
-                        }
-                        catch (ArgumentNullException)
-                        {
-                            Interface.type("Invalid Enemy.");
-                        }
-                    }
-                    else if (input == "name")
-                        Player.name = Interface.readinput();
-                    else if (input == "additem")
-                    {
-                        var add_input = Interface.readinput();
-                        var atype = Type.GetType("Realm." + add_input);
-                        try
-                        {
-                            var i = (Item) Activator.CreateInstance(atype);
+                            case "end":
+                                End.Endgame();
+                                break;
+                            case "combat":
+                                {
+                                    var etype = Type.GetType("Realm." + cmdargs[1]);
+                                    try
+                                    {
+                                        var e = (Enemy)Activator.CreateInstance(etype);
+                                        Combat.BattleLoop(e);
+                                    }
+                                    catch (ArgumentNullException)
+                                    {
+                                        Interface.type("Invalid Enemy.");
+                                    }
+                                }
+                                break;
+                            case "name":
+                                Player.name = cmdargs[1];
+                                break;
+                            case "additem":
+                                var atype = Type.GetType("Realm." + cmdargs[1]);
+                                try
+                                {
+                                    var i = (Item)Activator.CreateInstance(atype);
 
-                            if (Player.backpack.Count <= 10)
-                            {
-                                Player.backpack.Add(i);
-                                Interface.type("Obtained '" + i.name + "'!");
-                            }
-                            else
-                            {
-                                Interface.type("Not enough space.");
-                            }
+                                    if (Player.backpack.Count <= 10)
+                                    {
+                                        if (numargs >= 3)
+                                        {
+                                            for (int j = 0; j < int.Parse(cmdargs[2]); j++)
+                                                Player.backpack.Add(i);
+                                        }
+                                        else
+                                            Player.backpack.Add(i);
+                                        Interface.type("Obtained '" + i.name + "'!");
+                                    }
+                                    else
+                                    {
+                                        Interface.type("Not enough space.");
+                                    }
+                                }
+                                catch (ArgumentNullException)
+                                {
+                                    Interface.type("Invalid Item.");
+                                }
+                                break;
+                            case "droploot":
+                                if (rand.NextDouble() <= .1d)
+                                {
+                                    Player.backpack.Add(MainItemList[rand.Next(0, MainItemList.Count - 1)]);
+                                    Interface.type("Obtained " + MainItemList[rand.Next(0, MainItemList.Count - 1)].name + "!",
+                                        ConsoleColor.Green);
+                                }
+                                else
+                                {
+                                    Interface.type("Nothing dropped.");
+                                }
+                                break;
+                            case "teleport":
+                                {
+                                    var xcoord = int.Parse(cmdargs[1]);
+                                    var ycoord = int.Parse(cmdargs[2]);
+                                    Map.PlayerPosition.x = xcoord;
+                                    Map.PlayerPosition.y = ycoord;
+                                }
+                                break;
+                            case "level":
+                                Player.level = int.Parse(cmdargs[1]);
+                                break;
+                            case "levelup":
+                                Player.xp += Player.xp_next;
+                                break;
+                            case "getach":
+                                ach.Get(cmdargs[1]);
+                                break;
+                            case "suicide":
+                                End.GameOver();
+                                break;
                         }
-                        catch (ArgumentNullException)
-                        {
-                            Interface.type("Invalid Item.");
-                        }
                     }
-
-                    else if (input == "droploot")
-                    {
-                        if (rand.NextDouble() <= .1d)
-                        {
-                            Player.backpack.Add(MainItemList[rand.Next(0, MainItemList.Count - 1)]);
-                            Interface.type("Obtained " + MainItemList[rand.Next(0, MainItemList.Count - 1)].name + "!",
-                                ConsoleColor.Green);
-                        }
-                        else
-                        {
-                            Interface.type("Nothing dropped.");
-                        }
-                    }
-                    else if (input == "teleport")
-                    {
-                        var xcoord = Int32.Parse(Interface.readinput());
-                        var ycoord = Int32.Parse(Interface.readinput());
-                        Map.PlayerPosition.x = xcoord;
-                        Map.PlayerPosition.y = ycoord;
-                    }
-                    else if (input == "level")
-                    {
-                        Player.level = Convert.ToInt32(Interface.readinput());
-                    }
-                    else if (input == "levelup")
-                    {
-                        Player.xp += Player.xp_next;
-                    }
-                    else if (input == "getach")
-                    {
-                        ach.Get(Interface.readinput());
-                    }
-                    else if (input == "suicide")
-                        End.GameOver();
+                    catch (IndexOutOfRangeException) { }
                 }
                 else
                     currPlace.handleInput(command.KeyChar);

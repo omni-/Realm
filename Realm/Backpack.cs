@@ -22,16 +22,16 @@ namespace Realm
             else
             {
                 Interface.type(
-                    "Your backpack is full. Please enter the index of an item to drop, or anything else to go back.");
+                    "Your backpack is full. Please enter the index of an item to drop, or anything else to go back.", ConsoleColor.Red);
                 for (int j = 0; j < Count; j++)
                 {
-                    Interface.type(item + ". " + item.name);
+                    Interface.type(j + ". " + this[j].name);
                 }
-                var k = -1;
+                var k = 0;
                 var result = Int32.TryParse(Interface.readkey().KeyChar.ToString(), out k);
                 if (result && Count - 1 >= k && k >= 0)
                 {
-                    base.InsertItem(index, item);
+                    base.InsertItem(IndexOf(this[k]), item);
                     Remove(this[k]);
                 }
                 else

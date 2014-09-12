@@ -11,15 +11,14 @@ namespace Realm
 {
     public class Save
     {
-        public static string key = "???t\0sl";
+        public const string key = "???t\0sl";
 
         public static void SaveGame()
         {
             var tpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm";
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\save.rlm";
             Interface.type("Saving...", ConsoleColor.White);
-            var lines = new List<string>();
-            lines.Add("name=" + Main.Player.name);
+            var lines = new List<string> { "name=" + Main.Player.name };
             lines.AddRange(Main.Player.abilities.commands.Values.Select(c => c.name + "=true"));
 
             var bpcounter = 1;
