@@ -15,9 +15,9 @@ namespace Realm
             ability_used = "";
         }
 
-        public virtual void droploot()
+        public void droploot()
         {
-            var gold = Dice.roll(1, gpdice);
+            var gold = Dice.roll(1 + (level / 2), gpdice);
             Interface.type("You gain " + gold + " gold.", ConsoleColor.Yellow);
             if (!Main.is_theif)
                 Main.Player.g += gold;
@@ -222,7 +222,7 @@ namespace Realm
         {
             name = "Drake";
             hp = 30 + (level/2);
-            atk = 12 + (level/2);
+            atk = 7 + (level/2);
             def = 10 + (level/2);
             spd = 10 + (level/2);
             xpdice = 35;

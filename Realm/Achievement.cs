@@ -7,7 +7,7 @@ namespace Realm
 {
     public class Achievement
     {
-        public static Dictionary<string, bool> masterach = new Dictionary<string, bool>
+        private static readonly Dictionary<string, bool> masterach = new Dictionary<string, bool>
         {
             {"name", false},
             {"wking", false},
@@ -31,9 +31,6 @@ namespace Realm
         {
             try
             {
-                var tachpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                               "\\temp_achievements.rlm";
-                var achpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm";
                 if (achievement == "name" && Main.achieve["name"] == false && !Main.achievements_disabled)
                     Interface.type("Achievement Unlocked!: Howdy, stranger.", ConsoleColor.Green);
                 else if (achievement == "wking" && Main.achieve["wking"] == false && !Main.achievements_disabled)
@@ -83,23 +80,22 @@ namespace Realm
                         ConsoleColor.Green);
                 if (Main.achieve.ContainsKey(achievement))
                     Main.achieve[achievement] = true;
-                if (!File.Exists(achpath))
-                    File.Create(achpath).Close();
-                using (var file = new StreamWriter(tachpath))
+                if (!File.Exists(Main.achpath))
+                    File.Create(Main.achpath).Close();
+                using (var file = new StreamWriter(Main.tachpath))
                 {
                     foreach (var pair in Main.achieve)
                     {
                         file.WriteLine(pair.Key + "=" + pair.Value);
                     }
                 }
-                Save.EncryptFile(tachpath, achpath, Save.key);
-                File.Delete(tachpath);
+                Save.EncryptFile(Main.tachpath, Main.achpath, Save.key);
+                File.Delete(Main.tachpath);
             }
             catch (Exception e)
             {
                 Interface.type("Achievement load failed.");
-                File.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm");
-                var crashpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt";
+                File.Delete(Path.GetDirectoryName(Main.tachpath));
                 var listlines = new List<string> {"---Load Achievement Runtime Error---", "Message: \r\n" + e.Message};
                 try
                 {
@@ -111,36 +107,35 @@ namespace Realm
                 listlines.Add("------------------------------------");
                 try
                 {
-                    if (!File.Exists(crashpath))
+                    if (!File.Exists(Main.crashpath))
                     {
-                        File.Create(crashpath).Dispose();
+                        File.Create(Main.crashpath).Dispose();
                     }
                     listlines.Add(e.InnerException.ToString());
                 }
                 catch (NullReferenceException)
                 {
                 }
-                File.WriteAllLines(crashpath, listlines.ToArray());
+                File.WriteAllLines(Main.crashpath, listlines.ToArray());
             }
         }
 
         public static void LoadAchievements()
         {
-            if (!File.Exists(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm"))
+            if (!File.Exists(Main.achpath))
             {
                 Main.achieve = masterach;
             }
             else
             {
                 Save.DecryptFile(
-                    Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm",
-                    Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm",
+                    Main.achpath,
+                    Main.tachpath,
                     Save.key);
                 string aline;
                 using (
                     var afile =
-                        new StreamReader(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
-                                         "\\temp_achievements.rlm"))
+                        new StreamReader(Main.tachpath))
                 {
                     if (afile.BaseStream.Length == 0)
                     {

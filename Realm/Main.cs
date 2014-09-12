@@ -43,7 +43,13 @@ namespace Realm
 
         public static readonly Random rand = new Random();
 
-        public const string version = "Version Number - v1.8.4.5";
+        public const string version = "v1.8.4.7";
+
+        public static string tpath,
+            path,
+            achpath,
+            tachpath,
+            crashpath;
 
         public static Dictionary<string, bool> achieve = new Dictionary<string, bool>();
 
@@ -97,8 +103,8 @@ namespace Realm
 
         public static void Tutorial()
         {
-            List<string> racelist = new List<string> { "human", "elf", "rockman", "giant", "zephyr", "shade" },
-                classlist = new List<string> { "warrior", "paladin", "mage", "thief" },
+            List<string> racelist = new List<string> {"human", "elf", "rockman", "giant", "zephyr", "shade"},
+                classlist = new List<string> {"warrior", "paladin", "mage", "thief"},
                 secret = new List<string>();
             if (achieve["100slimes"])
                 secret.Add("Slime");
@@ -143,31 +149,22 @@ namespace Realm
                     racelist.AddRange(secret);
                 }
                 Interface.type("Please enter a race. ");
-                is_typing = false;
-                var race = Interface.readinput();
-                while (!racelist.Contains(race))
-                {
-                    Interface.type("Invalid. Please try again. ");
-                    race = Interface.readinput();
-                }
-                Player.race = race;
-                Interface.type("You have selected " + Player.race.ToUpperFirstLetter() + ".", ConsoleColor.Magenta);
+                bool rresult = false;
+                while (!rresult)
+                    rresult = Enum.TryParse(Interface.readinput(), true, out Player.race);
+                Interface.type("You have selected " + Player.race.ToString().ToUpperFirstLetter() + ".", ConsoleColor.Magenta);
                 Interface.type("Each player also has a class. You may choose from Warrior, Paladin, Mage, or Thief.");
                 Interface.type("Please enter a class. ");
-                var pclass = Interface.readinput();
-                while (!classlist.Contains(pclass))
-                {
-                    Interface.type("Invalid. Please try again. ");
-                    pclass = Interface.readinput();
-                }
-                Player.pclass = pclass;
-                Interface.type("You have selected " + Player.pclass.ToUpperFirstLetter() + ".", ConsoleColor.Magenta);
+                bool cresult = false;
+                while (!cresult)
+                    cresult = Enum.TryParse(Interface.readinput(), true, out Player.pclass);
+                Interface.type("You have selected " + Player.pclass.ToString().ToUpperFirstLetter() + ".", ConsoleColor.Magenta);
                 Interface.type("You are now ready to play Realm. Good luck!");
                 Interface.type("Press any key to continue.", ConsoleColor.White);
                 Interface.readkey();
                 Map.PlayerPosition.x = 0;
                 Map.PlayerPosition.y = 6;
-                if (Player.race == "giant")
+                if (Player.race == pRace.giant)
                     Player.hp = 15;
             }
             MainLoop();
@@ -186,13 +183,13 @@ namespace Realm
                 if (drakecounter == 100)
                     ach.Get("100drakes");
 
-                var xy = Map.CoordinatesOf(typeof(Nomad));
+                var xy = Map.CoordinatesOf(typeof (Nomad));
                 Map.map[xy.Item1, xy.Item2] = new Place();
                 var nextNomad = Map.getRandomBlankTile();
                 Map.map[nextNomad.Item1, nextNomad.Item2] = new Nomad();
 
                 foreach (var p in Map.map)
-                    if (p.GetType() == typeof(Place))
+                    if (p.GetType() == typeof (Place))
                         p.is_npc_active = false;
                 var randomTile = Map.getRandomBlankTile();
                 if (rand.NextDouble() <= .1)
@@ -273,18 +270,18 @@ namespace Realm
                                 End.Endgame();
                                 break;
                             case "combat":
+                            {
+                                var etype = Type.GetType("Realm." + cmdargs[1]);
+                                try
                                 {
-                                    var etype = Type.GetType("Realm." + cmdargs[1]);
-                                    try
-                                    {
-                                        var e = (Enemy)Activator.CreateInstance(etype);
-                                        Combat.BattleLoop(e);
-                                    }
-                                    catch (ArgumentNullException)
-                                    {
-                                        Interface.type("Invalid Enemy.");
-                                    }
+                                    var e = (Enemy) Activator.CreateInstance(etype);
+                                    Combat.BattleLoop(e);
                                 }
+                                catch (ArgumentNullException)
+                                {
+                                    Interface.type("Invalid Enemy.");
+                                }
+                            }
                                 break;
                             case "name":
                                 Player.name = cmdargs[1];
@@ -293,7 +290,7 @@ namespace Realm
                                 var atype = Type.GetType("Realm." + cmdargs[1]);
                                 try
                                 {
-                                    var i = (Item)Activator.CreateInstance(atype);
+                                    var i = (Item) Activator.CreateInstance(atype);
 
                                     if (Player.backpack.Count <= 10)
                                     {
@@ -320,7 +317,8 @@ namespace Realm
                                 if (rand.NextDouble() <= .1d)
                                 {
                                     Player.backpack.Add(MainItemList[rand.Next(0, MainItemList.Count - 1)]);
-                                    Interface.type("Obtained " + MainItemList[rand.Next(0, MainItemList.Count - 1)].name + "!",
+                                    Interface.type(
+                                        "Obtained " + MainItemList[rand.Next(0, MainItemList.Count - 1)].name + "!",
                                         ConsoleColor.Green);
                                 }
                                 else
@@ -329,12 +327,12 @@ namespace Realm
                                 }
                                 break;
                             case "teleport":
-                                {
-                                    var xcoord = int.Parse(cmdargs[1]);
-                                    var ycoord = int.Parse(cmdargs[2]);
-                                    Map.PlayerPosition.x = xcoord;
-                                    Map.PlayerPosition.y = ycoord;
-                                }
+                            {
+                                var xcoord = int.Parse(cmdargs[1]);
+                                var ycoord = int.Parse(cmdargs[2]);
+                                Map.PlayerPosition.x = xcoord;
+                                Map.PlayerPosition.y = ycoord;
+                            }
                                 break;
                             case "level":
                                 Player.level = int.Parse(cmdargs[1]);
@@ -350,7 +348,9 @@ namespace Realm
                                 break;
                         }
                     }
-                    catch (IndexOutOfRangeException) { }
+                    catch (IndexOutOfRangeException)
+                    {
+                    }
                 }
                 else
                     currPlace.handleInput(command.KeyChar);

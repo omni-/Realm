@@ -35,6 +35,7 @@ namespace Realm
             Console.Title = "Realm: " + Interface.GetTitle() + " (" + Main.version + ")";
             Interface.type("You are running Realm " + Main.version, ConsoleColor.White);
             Map.gencave();
+
             Achievement.LoadAchievements();
             if (!Save.LoadGame())
             {
@@ -44,8 +45,8 @@ namespace Realm
                 if (Main.devmode)
                 {
                     Console.Clear();
-                    Main.Player.race = Interface.readinput();
-                    Main.Player.pclass = Interface.readinput();
+                    Main.Player.race = (pRace)int.Parse(Interface.readinput());
+                    Main.Player.pclass = (pClass)int.Parse(Interface.readinput());
                 }
                 Main.ach.Get("name");
                 Main.Tutorial();
@@ -125,7 +126,7 @@ namespace Realm
             return ((file1byte - file2byte) == 0);
         }
 
-        public static bool isConnected()
+        private static bool isConnected()
         {
             int desc;
             var tf = NativeMethods.InternetGetConnectedState(out desc, 0);
@@ -137,8 +138,8 @@ namespace Realm
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             const string programName = "update.exe";
             const string resourceName = "Realm.update.exe";
-            var exepath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Realm.exe";
-            var temppath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe";
+            var exepath = path + "\\Realm.exe";
+            var temppath = path + "\\test.exe";
             worker();
             while (!Init.init)
             {

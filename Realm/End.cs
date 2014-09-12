@@ -4,13 +4,14 @@ namespace Realm
 {
     public class End
     {
+        private class GameOverException : Exception { }
         public static void GameOver()
         {
             try
             {
-                throw new Exception();
+                throw new GameOverException();
             }
-            catch
+            catch (GameOverException)
             {
             }
             Console.Clear();
@@ -18,10 +19,13 @@ namespace Realm
             Interface.type(
                 "Game Over. You have been revived at the last inn you stayed in. You have lost all your gold and half of your levels.",
                 ConsoleColor.DarkRed);
-            Main.Player.level = (Main.Player.level/2 > 0 ? Main.Player.level/2 : 1);
             Main.Player.g = 0;
             Main.Player.reputation = -50;
+            Main.Player.xp = 0;
             Main.Player.hp = Main.Player.maxhp;
+            int rand = Main.rand.Next(0, Main.Player.backpack.Count == 0 ? 0 : Main.Player.backpack.Count - 1);
+            if (Main.Player.backpack.Count > 0)
+                Main.Player.backpack.RemoveAt(rand);
             var test = new int[2];
             if (Main.Player.last_inn != test)
             {
@@ -60,8 +64,8 @@ namespace Realm
             Interface.type("GAME CLEAR!", ConsoleColor.Yellow);
             Interface.type("==========STATS==========", ConsoleColor.Yellow);
             Interface.type("Name: " + Main.Player.name, ConsoleColor.Yellow);
-            Interface.type("Race: " + Main.Player.race.ToUpperFirstLetter(), ConsoleColor.Yellow);
-            Interface.type("Class: " + Main.Player.pclass.ToUpperFirstLetter(), ConsoleColor.Yellow);
+            Interface.type("Race: " + Main.Player.race.ToString().ToUpperFirstLetter(), ConsoleColor.Yellow);
+            Interface.type("Class: " + Main.Player.pclass.ToString().ToUpperFirstLetter(), ConsoleColor.Yellow);
             Interface.type("Level: " + Main.Player.level, ConsoleColor.Yellow);
             Interface.type("Gold: " + Main.Player.g, ConsoleColor.Yellow);
             Interface.type("Reputation " + Main.Player.reputation, ConsoleColor.Yellow);

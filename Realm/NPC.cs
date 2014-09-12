@@ -130,13 +130,15 @@ namespace Realm
             switch (Interface.readkey().KeyChar)
             {
                 case 's':
-                    Player.Purchase(price);
-                    Main.Player.hp = Main.Player.maxhp;
-                    Interface.type("Your health has been restored.", ConsoleColor.Cyan);
-                    if (!String.IsNullOrEmpty(stay))
-                        Interface.type(stay);
-                    Main.Player.last_inn[0] = Map.PlayerPosition.x;
-                    Main.Player.last_inn[1] = Map.PlayerPosition.y;
+                    if (Player.Purchase(price))
+                    {
+                        Main.Player.hp = Main.Player.maxhp;
+                        Interface.type("Your health has been restored.", ConsoleColor.Cyan);
+                        if (!String.IsNullOrEmpty(stay))
+                            Interface.type(stay);
+                        Main.Player.last_inn[0] = Map.PlayerPosition.x;
+                        Main.Player.last_inn[1] = Map.PlayerPosition.y;
+                    }
                     break;
                 default:
                     if (!String.IsNullOrEmpty(leave))

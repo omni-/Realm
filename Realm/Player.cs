@@ -4,24 +4,48 @@ using System.Linq;
 
 namespace Realm
 {
+    public enum pClass
+    {
+        warrior,
+        paladin,
+        mage,
+        thief
+    }
+    public enum pRace
+    {
+        giant,
+        human,
+        elf,
+        rockman,
+        zephyr,
+        shade,
+        drake,
+        slime,
+        bandit,
+        goblin
+    }
     public class Player
     {
         public class GamePlayer
         {
             public int hp, maxhp, spd, atk, intl, def, g, level, xp, xp_next, fire, guard, reputation;
 
-            public string pclass, race, name;
+            public string name;
+
+            public pClass pclass;
+
+            public pRace race;
 
             public Item primary = new Item(), secondary = new Item(), armor = new Item(), accessory = new Item();
 
             public BP backpack;
 
-            public bool on_fire = false,
-                cursed = false,
-                stunned = false,
-                guarded = false,
-                blinded = false,
-                phased = false;
+            public bool on_fire,
+                cursed,
+                stunned,
+                guarded,
+                blinded,
+                phased;
 
             public Combat.CommandTable abilities;
 
@@ -53,35 +77,35 @@ namespace Realm
                 def = 1;
                 spd = 1;
                 intl = 1;
-                if (race == "giant" || race == "drake")
+                if (race == pRace.giant || race == pRace.drake)
                 {
                     maxhp = 12 + (level + 2);
                     atk = (1 + (level/3));
                 }
                 else
                     maxhp = 9 + level;
-                if (race == "human")
+                if (race == pRace.human)
                 {
                     def = (1 + (level/3));
                     atk = (2 + (level/3));
                     spd = (1 + (level/3));
                 }
-                else if (race == "elf" || race == "slime")
+                else if (race == pRace.elf || race == pRace.slime)
                 {
                     intl = (3 + (level/2));
                     spd = (1 + (level/3));
                 }
-                else if (race == "rockman")
+                else if (race == pRace.rockman)
                 {
                     def = (3 + (level/2));
                     maxhp = 10 + level;
                 }
-                else if (race == "zephyr" || race == "goblin")
+                else if (race == pRace.zephyr || race == pRace.goblin)
                 {
                     spd = (3 + (level/2));
                     intl = (1 + (level/3));
                 }
-                else if (race == "shade" || race == "bandit")
+                else if (race == pRace.shade || race == pRace.bandit)
                 {
                     atk = (3 + (level/2));
                     spd = (1 + (level/3));
@@ -98,29 +122,29 @@ namespace Realm
                     intl += primary.intlbuff;
                     spd += primary.spdbuff;
                 }
-                if (level >= 5 && race == "human" && !abilities.commands.ContainsKey('m'))
+                if (level >= 5 && race == pRace.human && !abilities.commands.ContainsKey('m'))
                     abilities.AddCommand(new Combat.Mimic("Mimic", 'm'));
-                else if (level >= 5 && race == "elf" && !abilities.commands.ContainsKey('l'))
+                else if (level >= 5 && race == pRace.elf && !abilities.commands.ContainsKey('l'))
                     abilities.AddCommand(new Combat.Heal("Heal", 'l'));
-                else if (level >= 5 && race == "rockman" && !abilities.commands.ContainsKey('g'))
+                else if (level >= 5 && race == pRace.rockman && !abilities.commands.ContainsKey('g'))
                     abilities.AddCommand(new Combat.Safeguard("Safeguard", 'g'));
-                else if (level >= 5 && race == "giant" && !abilities.commands.ContainsKey('r'))
+                else if (level >= 5 && race == pRace.giant && !abilities.commands.ContainsKey('r'))
                     abilities.AddCommand(new Combat.Rage("Rage", 'r'));
-                else if (level >= 5 && race == "zephyr" && !abilities.commands.ContainsKey('!'))
+                else if (level >= 5 && race == pRace.zephyr && !abilities.commands.ContainsKey('!'))
                     abilities.AddCommand(new Combat.Lightspeed("Lightspeed", '!'));
-                else if (level >= 5 && race == "shade" && !abilities.commands.ContainsKey('n'))
+                else if (level >= 5 && race == pRace.shade && !abilities.commands.ContainsKey('n'))
                     abilities.AddCommand(new Combat.Nightshade("Nightshade", 'n'));
-                else if (level >= 5 && race == "slime" && !abilities.commands.ContainsKey('m'))
+                else if (level >= 5 && race == pRace.slime && !abilities.commands.ContainsKey('m'))
                 {
                     //abilities.AddCommand();
                 }
-                if (pclass == "warrior")
+                if (pclass == pClass.warrior)
                     atk += (1 + (Main.Player.level/5));
-                if (pclass == "paladin")
+                if (pclass == pClass.paladin)
                     def += (1 + (Main.Player.level/5));
-                if (pclass == "mage")
+                if (pclass == pClass.mage)
                     intl += (1 + (Main.Player.level/5));
-                if (pclass == "thief")
+                if (pclass == pClass.thief)
                     spd += (1 + (Main.Player.level/5));
 
                 if (!secondary.Equals(default(Item)))

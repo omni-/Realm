@@ -15,8 +15,6 @@ namespace Realm
 
         public static void SaveGame()
         {
-            var tpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm";
-            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\save.rlm";
             Interface.type("Saving...", ConsoleColor.White);
             var lines = new List<string> { "name=" + Main.Player.name };
             lines.AddRange(Main.Player.abilities.commands.Values.Select(c => c.name + "=true"));
@@ -27,8 +25,8 @@ namespace Realm
                 lines.Add("bp" + bpcounter + "=" + i);
                 bpcounter++;
             }
-            lines.Add("race=" + Main.Player.race);
-            lines.Add("class=" + Main.Player.pclass);
+            lines.Add("race=" + Convert.ChangeType(Main.Player.race, Main.Player.race.GetTypeCode()));
+            lines.Add("class=" + Convert.ChangeType(Main.Player.pclass, Main.Player.pclass.GetTypeCode()));
             if (!Main.Player.primary.Equals(new Item()))
                 lines.Add("primary=" + Main.Player.primary);
             if (!Main.Player.secondary.Equals(new Item()))
@@ -77,26 +75,22 @@ namespace Realm
             lines.Add("xpos=" + Map.PlayerPosition.x);
             lines.Add("ypos=" + Map.PlayerPosition.y);
             var linesarray = lines.ToArray<string>();
-            File.WriteAllLines(tpath, linesarray);
+            File.WriteAllLines(Main.tpath, linesarray);
             Interface.type("Done.", ConsoleColor.White);
-            EncryptFile(tpath, path, key);
+            EncryptFile(Main.tpath, Main.path, key);
         }
 
         public static bool LoadGame()
         {
-            var tpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_save.rlm";
-            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\save.rlm";
-            var achpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\achievements.rlm";
-            var tachpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\temp_achievements.rlm";
             try
             {
-                if (!File.Exists(path))
+                if (!File.Exists(Main.path))
                     return false;
                 Interface.type("Loading Save...", ConsoleColor.White);
-                DecryptFile(path, tpath, key);
+                DecryptFile(Main.path, Main.tpath, key);
                 var vals = new Dictionary<string, string>();
                 string line;
-                using (var file = new StreamReader(tpath))
+                using (var file = new StreamReader(Main.tpath))
                 {
                     while ((line = file.ReadLine()) != null)
                     {
@@ -133,16 +127,16 @@ namespace Realm
                         if (entry.Key == "race")
                         {
                             if (!String.IsNullOrEmpty(entry.Value))
-                                Main.Player.race = entry.Value;
+                                Main.Player.race = (pRace)int.Parse(entry.Value);
                             else
-                                Main.Player.race = "human";
+                                Main.Player.race = pRace.human;
                         }
                         if (entry.Key == "class")
                         {
                             if (!String.IsNullOrEmpty(entry.Value))
-                                Main.Player.pclass = entry.Value;
+                                Main.Player.pclass = (pClass)int.Parse(entry.Value);
                             else
-                                Main.Player.pclass = "warrior";
+                                Main.Player.pclass = pClass.warrior;
                         }
                         if (entry.Key == "bp1")
                         {
@@ -329,8 +323,8 @@ namespace Realm
                     }
                     Interface.type("Done.", ConsoleColor.White);
                     file.Close();
-                    File.Delete(tpath);
-                    File.Delete(tachpath);
+                    File.Delete(Main.tpath);
+                    File.Delete(Main.tachpath);
                     return true;
                 }
             }
@@ -340,13 +334,13 @@ namespace Realm
                     ConsoleColor.White);
                 var ckey = Interface.readkey().KeyChar;
                 if (ckey == 'y')
-                    File.Delete(path);
+                    File.Delete(Main.path);
                 else if (ckey == 'e')
                 {
                     Interface.type(e.ToString());
                 }
-                File.Delete(tachpath);
-                File.Delete(tpath);
+                File.Delete(Main.tachpath);
+                File.Delete(Main.tpath);
 
                 WriteError(e);
 
@@ -415,7 +409,6 @@ namespace Realm
 
         public static void WriteError(Exception e)
         {
-            var crashpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\crashlog.txt";
             var listlines = new List<string>
             {
                 "---Runtime Error: Realm " + Main.version + "---",
@@ -436,14 +429,14 @@ namespace Realm
             listlines.Add("-------------------------------------------------------");
             try
             {
-                if (!File.Exists(crashpath))
-                    File.Create(crashpath).Dispose();
+                if (!File.Exists(Main.crashpath))
+                    File.Create(Main.crashpath).Dispose();
                 listlines.Add(e.InnerException.ToString());
             }
             catch (NullReferenceException)
             {
             }
-            File.AppendAllLines(crashpath, listlines.ToArray());
+            File.AppendAllLines(Main.crashpath, listlines.ToArray());
             MessageBox.Show(e.Message + e.InnerException, "Realm has encountered an error!", MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
         }

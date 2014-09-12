@@ -65,8 +65,8 @@ namespace Realm
         {
             type("--------------STATS-----------------", ConsoleColor.Yellow);
             type(
-                Main.Player.name + "(" + ToUpperFirstLetter(Main.Player.race) + ")," + " Level " + Main.Player.level +
-                " " + ToUpperFirstLetter(Main.Player.pclass) + ":", ConsoleColor.Yellow);
+                Main.Player.name + "(" + ToUpperFirstLetter(Main.Player.race.ToString()) + ")," + " Level " + Main.Player.level +
+                " " + ToUpperFirstLetter(Main.Player.pclass.ToString()) + ":", ConsoleColor.Yellow);
             type("HP: " + Main.Player.hp + "/" + Main.Player.maxhp, ConsoleColor.Yellow);
             type(
                 "Attack: " + Main.Player.atk + " / Defense: " + Main.Player.def + " / Speed: " + Main.Player.spd +
