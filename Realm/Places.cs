@@ -134,13 +134,10 @@ namespace Realm
         {
             if (Main.wkingdead)
                 return "There's nothing here. r to leave.";
-            if (Main.wkingcounter < 1)
-            {
-                Main.wkingcounter++;
-                return
-                    "King: \"Come, for I plan to give you the ultimate gift, eternal respite.\"\r\nYou're not sure why he has called you but you don't like it. The Western King approaches and unsheathes his blade emitting a strong aura of bloodlust. He seems to have powers far beyond anything you can imagine. Fight(f) or run(r)?";
-            }
-            return "King: 'Back so soon? Do you want to fight now, coward?'";
+            if (Main.wkingcounter >= 1) return "King: 'Back so soon? Do you want to fight now, coward?'";
+            Main.wkingcounter++;
+            return
+                "King: \"Come, for I plan to give you the ultimate gift, eternal respite.\"\r\nYou're not sure why he has called you but you don't like it. The Western King approaches and unsheathes his blade emitting a strong aura of bloodlust. He seems to have powers far beyond anything you can imagine. Fight(f) or run(r)?";
         }
 
         public override Enemy getEnemyList()
@@ -150,9 +147,7 @@ namespace Realm
 
         public override char[] getAvailableCommands()
         {
-            if (!Main.wkingdead)
-                return new[] {'f', 'r', 'v', '#'};
-            return new[] {'r', 'v', '#'};
+            return !Main.wkingdead ? new[] {'f', 'r', 'v', '#'} : new[] {'r', 'v', '#'};
         }
 
         protected override bool _handleInput(char input)

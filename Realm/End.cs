@@ -17,7 +17,7 @@ namespace Realm
             Console.Clear();
             Main.loop_number = 0;
             Interface.type(
-                "Game Over. You have been revived at the last inn you stayed in. You have lost all your gold and half of your levels.",
+                "Game Over. You have been revived at the last inn you stayed in. You have lost all your gold and a random item.",
                 ConsoleColor.DarkRed);
             Main.Player.g = 0;
             Main.Player.reputation = -50;
@@ -125,7 +125,7 @@ namespace Realm
             Environment.Exit(0);
         }
 
-        public static Tuple<string, int> calcScore()
+        private static Tuple<string, int> calcScore()
         {
             var score = (Main.Player.reputation + (Main.Player.level*10) + Main.Player.g);
             var rank = (score >= 1500
@@ -134,7 +134,7 @@ namespace Realm
                     ? "A Rank"
                     : score >= 750
                         ? "B Rank"
-                        : score >= 500 ? "C Rank" : score >= 250 ? "D Rank" : score >= 0 ? "F Rank" : "Reggie?");
+                        : score >= 500 ? "C Rank" : score >= 250 ? "D Rank" : score >= 0 ? "F Rank" : "you tried");
             return new Tuple<string, int>(rank, score);
         }
     }

@@ -2,23 +2,21 @@
 
 namespace Realm
 {
-    public class Cave
+    public static class Cave
     {
         public static void CaveLoop()
         {
-            var currPlace = new caveplace();
+            caveplace currPlace;
             Main.Player.applybonus();
             while (Main.Player.hp > 0)
             {
-                var enemy = new Enemy();
                 Main.Player.levelup();
                 currPlace = Map.cavemap[Map.CavePosition];
                 if (Main.Player.hp > Main.Player.maxhp)
                     Main.Player.hp = Main.Player.maxhp;
                 if (Combat.CheckBattle() && currPlace.getEnemyList() != null)
                 {
-                    enemy = currPlace.getEnemyList();
-                    Combat.BattleLoop(enemy);
+                    Combat.BattleLoop(currPlace.getEnemyList());
                 }
                 if (!Main.devmode)
                     Main.Player.applybonus();
@@ -37,10 +35,7 @@ namespace Realm
                                    (Main.Player.xp_next - Main.Player.xp));
                     Interface.type("-------------------------------------");
                 }
-                if (!Main.devmode)
-                    Interface.type(currPlace.Description);
-                else
-                    Interface.type(currPlace.ToString());
+                Interface.type(!Main.devmode ? currPlace.Description : currPlace.ToString());
 
                 var command = Interface.readkey();
 

@@ -7,7 +7,7 @@ namespace Realm
     {
         public string name, text;
         public int cmdp;
-        public char[] commands;
+        private char[] commands;
 
         public NPC(string Name, string Text, char[] Commands)
         {
@@ -16,7 +16,7 @@ namespace Realm
             commands = Commands;
         }
 
-        public NPC()
+        protected NPC()
         {
         }
 
@@ -102,16 +102,13 @@ namespace Realm
                         Main.Player.backpack.Remove(Main.Player.backpack[Convert.ToInt32(input)]);
                     }
                     break;
-                default:
-                    Interface.type("Error: cmd not found.", ConsoleColor.Red);
-                    break;
             }
         }
     }
 
     public class Innkeeper : NPC
     {
-        public int price;
+        private int price;
         public string stay, leave;
 
         public Innkeeper(string Name, string Text, string stayText, string leaveText)

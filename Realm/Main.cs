@@ -205,7 +205,7 @@ namespace Realm
                     hasmap = true;
                 }
                 Player.applybonus();
-                var enemy = new Enemy();
+                Enemy enemy;
                 Player.levelup();
                 Place currPlace = Map.map[Map.PlayerPosition.x, Map.PlayerPosition.y];
                 if (Player.hp > Player.maxhp)
@@ -241,16 +241,11 @@ namespace Realm
                         "Having read all of the Ramsay books, you are enlightened in the ways of Gordon Ramsay.");
                     Player.abilities.AddCommand(new Combat.HellsKitchen("Hell's Kitchen", '@'));
                 }
-                if (!devmode)
-                    Interface.type(currPlace.Description);
-                else
-                    Interface.type(currPlace.ToString());
+                Interface.type(!devmode ? currPlace.Description : currPlace.ToString());
                 var currcommands = currPlace.getAvailableCommands();
-                Interface.typeOnSameLine("\r\nYour current commands are x", ConsoleColor.Cyan);
-                foreach (var c in currcommands)
-                {
+                Interface.typeOnSameLine("\r\nYour current commands are " + currcommands[0], ConsoleColor.Cyan);
+                foreach (var c in currcommands.Skip(1))
                     Interface.typeOnSameLine(", " + c, ConsoleColor.Cyan);
-                }
                 Interface.type("");
 
                 var command = Interface.readkey();

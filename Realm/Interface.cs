@@ -350,8 +350,8 @@ namespace Realm
             type("I-----------I-----------I---CITY----I-----------I---PATHS---I-----------I", 0, ConsoleColor.Yellow);
             type("I_______________________________________________________________________I", 0, ConsoleColor.Yellow);
             type("I-----------I-----------I-----------I-----------I-----------I-----------I", 0, ConsoleColor.Yellow);
-            type("I-----------I-VALLEYBURGI-----------I-----------I-----------I-RAVENKEEP-I", 0, ConsoleColor.Yellow);
-            type("I-----------I-----------I-----------I-----------I-----------I-----------I", 0, ConsoleColor.Yellow);
+            type("I-----------I--VALLEY---I-----------I-----------I-----------I-RAVENKEEP-I", 0, ConsoleColor.Yellow);
+            type("I-----------I---BURG----I-----------I-----------I-----------I-----------I", 0, ConsoleColor.Yellow);
             type("_________________________________________________________________________", 0, ConsoleColor.Yellow);
             type("I-----------I-----------I-SOUTHERN--I-----------I--FROZEN---I-----------I", 0, ConsoleColor.Yellow);
             type("I-----------I-----------I-----------I-----------I-----------I-----------I", 0, ConsoleColor.Yellow);
