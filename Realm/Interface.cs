@@ -1,4 +1,13 @@
-﻿using System;
+﻿// /////////////////////////////////////////////////////////////////////////////////////////////////////                                                                                           
+// Project - Realm created on 09/17/2013 by Cooper Teixeira                                           //
+//                                                                                                    //
+// Copyright (c) 2014 - All rights reserved                                                           //
+//                                                                                                    //
+// This software is provided 'as-is', without any express or implied warranty.                        //
+// In no event will the authors be held liable for any damages arising from the use of this software. //
+// /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -18,7 +27,7 @@ namespace Realm
                 "Sammy Classic Sonic Fan!",
                 "Expand",
                 "Drugs are bad, kids",
-                "Realm 2 Coming -S-o-o-n- -S-o-m-e-d-a-y- -P-r-o-b-a-b-l-y- It already came, but don't even bother, it's bad!",
+                "Avoid Realm 2!",
                 "A Game of Slimes",
                 "I, for one, welcome our new Slime overlord.",
                 "Revengeance",
@@ -26,7 +35,17 @@ namespace Realm
                 "A Slimes' Tale",
                 "Masaaki Endoh Version",
                 "Big in Japan",
-                "Is this thing on?"
+                "Is this thing on?",
+                "Better than the sequel!",
+                "Forever in our Hearts",
+                "Platinum Edition",
+                "Try the Bear DLC for only $49.99!",
+                "Inspired by 'Go Go Nippon'",
+                "u weeb",
+                "wedsmok stonr",
+                "slimecounter++;",
+                "no more luigi",
+                "mayro"
             };
             var result = Main.rand.Next(0, titlelist.Count);
             return titlelist[result];
@@ -65,7 +84,8 @@ namespace Realm
         {
             type("--------------STATS-----------------", ConsoleColor.Yellow);
             type(
-                Main.Player.name + "(" + ToUpperFirstLetter(Main.Player.race.ToString()) + ")," + " Level " + Main.Player.level +
+                Main.Player.name + "(" + ToUpperFirstLetter(Main.Player.race.ToString()) + ")," + " Level " +
+                Main.Player.level +
                 " " + ToUpperFirstLetter(Main.Player.pclass.ToString()) + ":", ConsoleColor.Yellow);
             type("HP: " + Main.Player.hp + "/" + Main.Player.maxhp, ConsoleColor.Yellow);
             type(

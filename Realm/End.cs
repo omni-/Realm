@@ -1,10 +1,22 @@
-﻿using System;
+﻿// /////////////////////////////////////////////////////////////////////////////////////////////////////                                                                                           
+// Project - Realm created on 09/27/2013 by Cooper Teixeira                                           //
+//                                                                                                    //
+// Copyright (c) 2014 - All rights reserved                                                           //
+//                                                                                                    //
+// This software is provided 'as-is', without any express or implied warranty.                        //
+// In no event will the authors be held liable for any damages arising from the use of this software. //
+// /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 
 namespace Realm
 {
     public class End
     {
-        private class GameOverException : Exception { }
+        private class GameOverException : Exception
+        {
+        }
+
         public static void GameOver()
         {
             try
@@ -50,14 +62,14 @@ namespace Realm
                 Interface.type(
                     "\"I am Janus.\" The man before you says. You stand in front of the protetorate, Janus. He says \"" +
                     Main.Player.name +
-                    ", have you realized that this world is an illusion?\" You nod your head. \"You will result in the Realm\"s demise, you must be purged. Shimmering light gathers around him, and beams of blue light blast out of him.");
+                    ", have you realized that this world is an illusion?\" You nod your head. \"You will result in the Realm\"s demise, you must be purged. Shimmering darkness gathers around him, and beams of blue light blindingly blast outwards.");
                 Interface.type("I regret to say it, but we must fight.");
                 Combat.BattleLoop(new finalboss());
                 Main.ach.Get("finalboss");
                 Interface.type(
                     "Janus defeated, the world vanishes and you both are standing on glass in a blank world of black void.");
                 Interface.type(
-                    "The protectorate kneels on the ground in front of you. \"Do you truly wish to end the illusion?\", he says. You look at him without uttering a word. \"Very well, I must ask of you one last favor; even though the realm is no more, do not let it vanish from within you.\" Everything around you goes black. (Press any key to continue)");
+                    "The protectorate kneels on the ground in front of you. \"Is this truly what you want?\", he says. You look at him without uttering a word. \"Very well, I must ask of you one last favor; even though the Realm is no more, do not let it vanish from within you.\" Everything around you goes black. (Press any key to continue)");
                 Interface.readkey();
                 Console.Clear();
             }

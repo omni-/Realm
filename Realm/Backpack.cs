@@ -1,4 +1,13 @@
-﻿using System;
+﻿// /////////////////////////////////////////////////////////////////////////////////////////////////////                                                                                           
+// Project - Realm created on 09/30/2013 by Cooper Teixeira                                           //
+//                                                                                                    //
+// Copyright (c) 2014 - All rights reserved                                                           //
+//                                                                                                    //
+// This software is provided 'as-is', without any express or implied warranty.                        //
+// In no event will the authors be held liable for any damages arising from the use of this software. //
+// /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -22,7 +31,8 @@ namespace Realm
             else
             {
                 Interface.type(
-                    "Your backpack is full. Please enter the index of an item to drop, or anything else to go back.", ConsoleColor.Red);
+                    "Your backpack is full. Please enter the index of an item to drop, or anything else to go back.",
+                    ConsoleColor.Red);
                 for (int j = 0; j < Count; j++)
                 {
                     Interface.type(j + ". " + this[j].name);

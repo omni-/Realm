@@ -1,22 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region Header
+
+// Project - Realm - Created on 09/25/2013 by Cooper Teixeira
+// 
+// Copyright (c) 2014 - All rights reserved
+// 
+// This software is provided 'as-is', without any express or implied warranty.
+// In no event will the authors be held liable for any damages arising from the use of this software.
+
+#endregion
+
+using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace update
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            string path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\Realm.exe";
+            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Realm.exe";
             try
             {
-                WebClient webClient = new WebClient();
+                var webClient = new WebClient();
                 webClient.OpenRead("https://dl.dropboxusercontent.com/u/83385592/Realm.exe");
                 webClient.OpenWrite("https://dl.dropboxusercontent.com/u/83385592/Realm.exe");
                 webClient.DownloadFile("https://dl.dropboxusercontent.com/u/83385592/Realm.exe", path);

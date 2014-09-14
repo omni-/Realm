@@ -1,4 +1,13 @@
-﻿using System;
+﻿// /////////////////////////////////////////////////////////////////////////////////////////////////////                                                                                           
+// Project - Realm created on 04/23/2014 by Cooper Teixeira                                           //
+//                                                                                                    //
+// Copyright (c) 2014 - All rights reserved                                                           //
+//                                                                                                    //
+// This software is provided 'as-is', without any express or implied warranty.                        //
+// In no event will the authors be held liable for any damages arising from the use of this software. //
+// /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Runtime.InteropServices;
 
 namespace Realm

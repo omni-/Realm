@@ -1,4 +1,13 @@
-﻿namespace Realm
+﻿// /////////////////////////////////////////////////////////////////////////////////////////////////////                                                                                           
+// Project - Realm created on 09/27/2013 by Cooper Teixeira                                           //
+//                                                                                                    //
+// Copyright (c) 2014 - All rights reserved                                                           //
+//                                                                                                    //
+// This software is provided 'as-is', without any express or implied warranty.                        //
+// In no event will the authors be held liable for any damages arising from the use of this software. //
+// /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+namespace Realm
 {
     public class Item
     {
@@ -15,22 +24,24 @@
             multiplier = 1;
         }
     }
+
     public class nightbringer : Item
     {
-       public nightbringer()
+        public nightbringer()
         {
-           name = "Nightbringer";
-           value = 500;
-           desc = "You cannot percieve its existence; you only know it to be there when you need it.";
-           atkbuff = 3 + (Main.Player.level >= 15 ? Main.Player.level : (int)(Main.Player.level * 2.5));
-           spdbuff = 1 + (Main.Player.level >= 15 ? Main.Player.level : (int)(Main.Player.level * 1.5));
-           defbuff = 1 + Main.Player.level;
-           intlbuff = Main.Player.level;
-           slot = 1;
-           tier = 7;
-           multiplier = 4;
+            name = "Nightbringer";
+            value = 500;
+            desc = "You cannot percieve its existence; you only know it to be there when you need it.";
+            atkbuff = 3 + (Main.Player.level >= 15 ? Main.Player.level : (int) (Main.Player.level*2.5));
+            spdbuff = 1 + (Main.Player.level >= 15 ? Main.Player.level : (int) (Main.Player.level*1.5));
+            defbuff = 1 + Main.Player.level;
+            intlbuff = Main.Player.level;
+            slot = 1;
+            tier = 7;
+            multiplier = 4;
         }
     }
+
     public class cardboard_armor : Item
     {
         public cardboard_armor()
@@ -43,6 +54,7 @@
             slot = 3;
         }
     }
+
     public class cardboard_sword : Item
     {
         public cardboard_sword()
@@ -56,6 +68,7 @@
             multiplier = 1;
         }
     }
+
     public class cardboard_shield : Item
     {
         public cardboard_shield()
@@ -68,12 +81,12 @@
             slot = 2;
         }
     }
+
     //sammy tier
     public class wood_staff : Item
     {
         public wood_staff()
         {
-
             name = "Wood Staff";
             desc = "A label that reads 'Luigi(sammy)' is stuck on it. There's also blood on the hilt.";
             value = 5;
@@ -86,6 +99,7 @@
             multiplier = 1.075f;
         }
     }
+
     public class fmBP : Item
     {
         public fmBP()
@@ -98,6 +112,7 @@
             slot = 4;
         }
     }
+
     public class sonictee : Item
     {
         public sonictee()
@@ -111,6 +126,7 @@
             slot = 3;
         }
     }
+
     public class slwscreen : Item
     {
         public slwscreen()
@@ -123,6 +139,7 @@
             slot = 3;
         }
     }
+
     //Bad tier
     public class wood_armor : Item
     {
@@ -136,6 +153,7 @@
             slot = 3;
         }
     }
+
     public class wood_plank : Item
     {
         public wood_plank()
@@ -150,6 +168,7 @@
             multiplier = 1.1f;
         }
     }
+
     public class plastic_ring : Item
     {
         public plastic_ring()
@@ -163,6 +182,7 @@
             slot = 4;
         }
     }
+
     //mediocre tier
     public class m_robes : Item
     {
@@ -177,6 +197,7 @@
             slot = 3;
         }
     }
+
     public class m_staff : Item
     {
         public m_staff()
@@ -190,6 +211,7 @@
             slot = 1;
         }
     }
+
     public class m_tome : Item
     {
         public m_tome()
@@ -203,6 +225,7 @@
             slot = 2;
         }
     }
+
     public class m_amulet : Item
     {
         public m_amulet()
@@ -216,6 +239,7 @@
             slot = 4;
         }
     }
+
     public class iron_lance : Item
     {
         public iron_lance()
@@ -231,6 +255,7 @@
             multiplier = 1.1f;
         }
     }
+
     public class iron_rapier : Item
     {
         public iron_rapier()
@@ -245,6 +270,7 @@
             multiplier = 1.1f;
         }
     }
+
     public class iron_mail : Item
     {
         public iron_mail()
@@ -258,6 +284,7 @@
             slot = 3;
         }
     }
+
     public class iron_buckler : Item
     {
         public iron_buckler()
@@ -270,6 +297,7 @@
             slot = 2;
         }
     }
+
     public class iron_band : Item
     {
         public iron_band()
@@ -284,6 +312,7 @@
             multiplier = 1.05f;
         }
     }
+
     //ok tier
     public class bt_longsword : Item
     {
@@ -291,13 +320,15 @@
         {
             value = 50;
             name = "Bloodthirsty Longsword";
-            desc = "A longsword that has rusted from all of the blood that it has drawn from its prey. It is unknown as to why the rust is crimson.";
+            desc =
+                "A longsword that has rusted from all of the blood that it has drawn from its prey. It is unknown as to why the rust is crimson.";
             atkbuff = 12;
             slot = 1;
             tier = 3;
             multiplier = 1.3f;
         }
     }
+
     public class bt_battleaxe : Item
     {
         public bt_battleaxe()
@@ -313,6 +344,7 @@
             multiplier = 1.25f;
         }
     }
+
     public class bt_greatsword : Item
     {
         public bt_greatsword()
@@ -326,6 +358,7 @@
             multiplier = 1.31f;
         }
     }
+
     public class bt_plate : Item
     {
         public bt_plate()
@@ -339,6 +372,7 @@
             slot = 3;
         }
     }
+
     public class blood_amulet : Item
     {
         public blood_amulet()
@@ -353,19 +387,22 @@
             slot = 4;
         }
     }
+
     public class swifites : Item
     {
         public swifites()
         {
             value = 80;
             name = "Icy Boots of Fast";
-            desc = "Although offering little protection, they make you go fast. And what could be more important than fast.";
+            desc =
+                "Although offering little protection, they make you go fast. And what could be more important than fast.";
             spdbuff = 10;
             defbuff = 3;
             tier = 4;
             slot = 3;
         }
     }
+
     public class ice_amulet : Item
     {
         public ice_amulet()
@@ -380,6 +417,7 @@
             tier = 4;
         }
     }
+
     public class ice_dagger : Item
     {
         public ice_dagger()
@@ -388,11 +426,12 @@
             name = "Ice Dagger";
             desc = "The user almost seems to teleport, they go so fast.";
             spdbuff = 6;
-            atkbuff = 6; 
+            atkbuff = 6;
             slot = 1;
             tier = 4;
         }
     }
+
     public class ice_shield : Item
     {
         public ice_shield()
@@ -406,6 +445,7 @@
             tier = 4;
         }
     }
+
     public class p_shield : Item
     {
         public p_shield()
@@ -419,6 +459,7 @@
             slot = 3;
         }
     }
+
     public class p_shortsword : Item
     {
         public p_shortsword()
@@ -434,6 +475,7 @@
             multiplier = 1.25f;
         }
     }
+
     public class p_mail : Item
     {
         public p_mail()
@@ -447,6 +489,7 @@
             slot = 3;
         }
     }
+
     public class goldcloth_cloak : Item
     {
         public goldcloth_cloak()
@@ -460,6 +503,7 @@
             slot = 4;
         }
     }
+
     public class a_mail : Item
     {
         public a_mail()
@@ -473,6 +517,7 @@
             slot = 3;
         }
     }
+
     public class a_staff : Item
     {
         public a_staff()
@@ -486,19 +531,22 @@
             slot = 1;
         }
     }
+
     public class tome : Item
     {
         public tome()
         {
             value = 105;
             name = "Dusty Tome";
-            desc = "An old tome with an azurite gem adorning the cover. It glows with magical power. You can also block punches with it, you suppose.";
+            desc =
+                "An old tome with an azurite gem adorning the cover. It glows with magical power. You can also block punches with it, you suppose.";
             intlbuff = 10;
             defbuff = 5;
             tier = 5;
             slot = 2;
         }
     }
+
     public class a_amulet : Item
     {
         public a_amulet()
@@ -511,6 +559,7 @@
             slot = 4;
         }
     }
+
     //excellent tier
     public class ds_amulet : Item
     {
@@ -518,13 +567,15 @@
         {
             value = 100;
             name = "Darksteel Amulet";
-            desc = " An indestructible amulet that was worn by the protectorate when he salvaged the realm from chaos. It reads ' Do not cast the shadow away from light'.";
+            desc =
+                " An indestructible amulet that was worn by the protectorate when he salvaged the realm from chaos. It reads ' Do not cast the shadow away from light'.";
             defbuff = 7;
             intlbuff = 15;
             tier = 5;
             slot = 4;
         }
     }
+
     public class ds_kite : Item
     {
         public ds_kite()
@@ -538,6 +589,7 @@
             slot = 3;
         }
     }
+
     public class ds_kris : Item
     {
         public ds_kris()
@@ -553,6 +605,7 @@
             multiplier = 1.35f;
         }
     }
+
     public class ds_scale : Item
     {
         public ds_scale()
@@ -565,6 +618,7 @@
             slot = 3;
         }
     }
+
     public class sb_saber : Item
     {
         public sb_saber()
@@ -578,6 +632,7 @@
             tier = 5;
         }
     }
+
     public class sb_chain : Item
     {
         public sb_chain()
@@ -591,6 +646,7 @@
             slot = 3;
         }
     }
+
     public class sb_gauntlet : Item
     {
         public sb_gauntlet()
@@ -605,6 +661,7 @@
             tier = 5;
         }
     }
+
     public class sb_shield : Item
     {
         public sb_shield()
@@ -618,6 +675,7 @@
             tier = 5;
         }
     }
+
     //god tier
     public class phantasmal_claymore : Item
     {
@@ -635,6 +693,7 @@
             multiplier = 3.5f;
         }
     }
+
     public class spectral_bulwark : Item
     {
         public spectral_bulwark()
@@ -650,6 +709,7 @@
             slot = 2;
         }
     }
+
     public class illusory_plate : Item
     {
         public illusory_plate()
@@ -663,6 +723,7 @@
             slot = 3;
         }
     }
+
     public class void_cloak : Item
     {
         public void_cloak()

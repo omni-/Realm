@@ -1,4 +1,13 @@
-﻿using System;
+﻿// /////////////////////////////////////////////////////////////////////////////////////////////////////                                                                                           
+// Project - Realm created on 09/27/2013 by Cooper Teixeira                                           //
+//                                                                                                    //
+// Copyright (c) 2014 - All rights reserved                                                           //
+//                                                                                                    //
+// This software is provided 'as-is', without any express or implied warranty.                        //
+// In no event will the authors be held liable for any damages arising from the use of this software. //
+// /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,6 +20,7 @@ namespace Realm
         mage,
         thief
     }
+
     public enum pRace
     {
         giant,
@@ -24,6 +34,7 @@ namespace Realm
         bandit,
         goblin
     }
+
     public class Player
     {
         public class GamePlayer

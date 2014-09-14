@@ -1,8 +1,16 @@
-﻿using System;
+﻿// /////////////////////////////////////////////////////////////////////////////////////////////////////                                                                                           
+// Project - Realm created on 09/17/2013 by Cooper Teixeira                                           //
+//                                                                                                    //
+// Copyright (c) 2014 - All rights reserved                                                           //
+//                                                                                                    //
+// This software is provided 'as-is', without any express or implied warranty.                        //
+// In no event will the authors be held liable for any damages arising from the use of this software. //
+// /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
@@ -16,7 +24,7 @@ namespace Realm
         public static void SaveGame()
         {
             Interface.type("Saving...", ConsoleColor.White);
-            var lines = new List<string> { "name=" + Main.Player.name };
+            var lines = new List<string> {"name=" + Main.Player.name};
             lines.AddRange(Main.Player.abilities.commands.Values.Select(c => c.name + "=true"));
 
             var bpcounter = 1;
@@ -127,14 +135,14 @@ namespace Realm
                         if (entry.Key == "race")
                         {
                             if (!String.IsNullOrEmpty(entry.Value))
-                                Main.Player.race = (pRace)int.Parse(entry.Value);
+                                Main.Player.race = (pRace) int.Parse(entry.Value);
                             else
                                 Main.Player.race = pRace.human;
                         }
                         if (entry.Key == "class")
                         {
                             if (!String.IsNullOrEmpty(entry.Value))
-                                Main.Player.pclass = (pClass)int.Parse(entry.Value);
+                                Main.Player.pclass = (pClass) int.Parse(entry.Value);
                             else
                                 Main.Player.pclass = pClass.warrior;
                         }

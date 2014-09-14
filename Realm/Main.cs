@@ -1,4 +1,13 @@
-﻿using System;
+﻿// /////////////////////////////////////////////////////////////////////////////////////////////////////                                                                                           
+// Project - Realm created on 09/27/2013 by Cooper Teixeira                                           //
+//                                                                                                    //
+// Copyright (c) 2014 - All rights reserved                                                           //
+//                                                                                                    //
+// This software is provided 'as-is', without any express or implied warranty.                        //
+// In no event will the authors be held liable for any damages arising from the use of this software. //
+// /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -152,13 +161,15 @@ namespace Realm
                 bool rresult = false;
                 while (!rresult)
                     rresult = Enum.TryParse(Interface.readinput(), true, out Player.race);
-                Interface.type("You have selected " + Player.race.ToString().ToUpperFirstLetter() + ".", ConsoleColor.Magenta);
+                Interface.type("You have selected " + Player.race.ToString().ToUpperFirstLetter() + ".",
+                    ConsoleColor.Magenta);
                 Interface.type("Each player also has a class. You may choose from Warrior, Paladin, Mage, or Thief.");
                 Interface.type("Please enter a class. ");
                 bool cresult = false;
                 while (!cresult)
                     cresult = Enum.TryParse(Interface.readinput(), true, out Player.pclass);
-                Interface.type("You have selected " + Player.pclass.ToString().ToUpperFirstLetter() + ".", ConsoleColor.Magenta);
+                Interface.type("You have selected " + Player.pclass.ToString().ToUpperFirstLetter() + ".",
+                    ConsoleColor.Magenta);
                 Interface.type("You are now ready to play Realm. Good luck!");
                 Interface.type("Press any key to continue.", ConsoleColor.White);
                 Interface.readkey();

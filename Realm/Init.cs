@@ -1,4 +1,13 @@
-﻿using System;
+﻿// /////////////////////////////////////////////////////////////////////////////////////////////////////                                                                                           
+// Project - Realm created on 09/17/2013 by Cooper Teixeira                                           //
+//                                                                                                    //
+// Copyright (c) 2014 - All rights reserved                                                           //
+//                                                                                                    //
+// This software is provided 'as-is', without any express or implied warranty.                        //
+// In no event will the authors be held liable for any damages arising from the use of this software. //
+// /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -45,8 +54,8 @@ namespace Realm
                 if (Main.devmode)
                 {
                     Console.Clear();
-                    Main.Player.race = (pRace)int.Parse(Interface.readinput());
-                    Main.Player.pclass = (pClass)int.Parse(Interface.readinput());
+                    Main.Player.race = (pRace) int.Parse(Interface.readinput());
+                    Main.Player.pclass = (pClass) int.Parse(Interface.readinput());
                 }
                 Main.ach.Get("name");
                 Main.Tutorial();
