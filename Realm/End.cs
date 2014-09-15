@@ -40,13 +40,13 @@ namespace Realm
             {
                 var toRemove = Main.Player.backpack[rand];
                 Main.Player.backpack.RemoveAt(rand);
-                if (!Main.Player.backpack.Contains(toRemove) && Main.Player.primary.Equals(toRemove))
+                if (!Main.Player.backpack.Contains(toRemove) && Main.Player.primary.name == toRemove.name)
                     Main.Player.primary = new Item();
-                if (!Main.Player.backpack.Contains(toRemove) && Main.Player.secondary.Equals(toRemove))
+                if (!Main.Player.backpack.Contains(toRemove) && Main.Player.secondary.name == toRemove.name)
                     Main.Player.secondary = new Item();
-                if (!Main.Player.backpack.Contains(toRemove) && Main.Player.armor.Equals(toRemove))
+                if (!Main.Player.backpack.Contains(toRemove) && Main.Player.armor.name == toRemove.name)
                     Main.Player.armor = new Item();
-                if (!Main.Player.backpack.Contains(toRemove) && Main.Player.accessory.Equals(toRemove))
+                if (!Main.Player.backpack.Contains(toRemove) && Main.Player.accessory.name == toRemove.name)
                     Main.Player.accessory = new Item();
             }
             var test = new int[2];

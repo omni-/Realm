@@ -11,25 +11,6 @@ namespace Realm
 {
     public class Item
     {
-        protected bool Equals(Item other)
-        {
-            return string.Equals(name, other.name) && atkbuff == other.atkbuff && defbuff == other.defbuff && spdbuff == other.spdbuff && intlbuff == other.intlbuff && multiplier.Equals(other.multiplier);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int hashCode = (name != null ? name.GetHashCode() : 0);
-                hashCode = (hashCode*397) ^ atkbuff;
-                hashCode = (hashCode*397) ^ defbuff;
-                hashCode = (hashCode*397) ^ spdbuff;
-                hashCode = (hashCode*397) ^ intlbuff;
-                hashCode = (hashCode*397) ^ multiplier.GetHashCode();
-                return hashCode;
-            }
-        }
-
         public string name, desc;
         public int atkbuff, defbuff, spdbuff, intlbuff, tier, slot, value;
         public float multiplier;
@@ -41,11 +22,6 @@ namespace Realm
             spdbuff = 0;
             intlbuff = 0;
             multiplier = 1;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return name == ((Item)obj).name;
         }
     }
 

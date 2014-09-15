@@ -158,6 +158,7 @@ namespace Realm
             catch (Exception e)
             {
                 Save.WriteError(e);
+                throw e;
             }
         }
     }

@@ -2079,7 +2079,7 @@ namespace Realm
                         Main.noobcounter++;
                     }
                     else
-                        Interface.type("The library is cloed.");
+                        Interface.type("The library is closed.");
                     break;
                 case '#':
                     Save.SaveGame();

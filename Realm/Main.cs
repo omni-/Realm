@@ -43,6 +43,7 @@ namespace Realm
             is_theif,
             wkingdead, devmode,
             hasmap,
+            is_typing,
             hasFarmedCrystal,
             achievements_disabled;
 

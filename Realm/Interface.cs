@@ -58,22 +58,26 @@ namespace Realm
 
         public static void type(string src, int speed)
         {
+            Main.is_typing = true;
             Console.WriteLine("\r\n");
             foreach (var c in src)
             {
                 Console.Write(c);
-                Thread.SpinWait(speed * 1000000);
+                Thread.SpinWait(speed*1000000);
             }
+            Main.is_typing = false;
         }
 
         public static void type(string src)
         {
+            Main.is_typing = true;
             Console.WriteLine("\r\n");
             foreach (var c in src)
             {
                 Console.Write(c);
                 Thread.SpinWait(1000000);
             }
+            Main.is_typing = false;
         }
 
         public static void typeStats()
@@ -87,7 +91,7 @@ namespace Realm
             type(
                 "Attack: " + Main.Player.atk + " / Defense: " + Main.Player.def + " / Speed: " + Main.Player.spd +
                 " / Intelligence: " + Main.Player.intl, ConsoleColor.Yellow);
-            type("Mana: " + (1 + (Main.Player.intl / 10)), ConsoleColor.Yellow);
+            type("Mana: " + (1 + (Main.Player.intl/10)), ConsoleColor.Yellow);
             type("Gold: " + Main.Player.g + " / Exp to Level: " + (Main.Player.xp_next - Main.Player.xp),
                 ConsoleColor.Yellow);
             type("=============Achievements============", ConsoleColor.Cyan);
@@ -131,46 +135,55 @@ namespace Realm
 
         public static void typeOnSameLine(string src)
         {
+            Main.is_typing = true;
             foreach (var c in src)
             {
                 Console.Write(c);
                 Thread.SpinWait(1000000);
             }
+            Main.is_typing = false;
         }
 
         public static void typeOnSameLine(string src, int speed)
         {
+            Main.is_typing = true;
             foreach (var c in src)
             {
                 Console.Write(c);
-                Thread.SpinWait(1000000 * speed);
+                Thread.SpinWait(1000000*speed);
             }
+            Main.is_typing = false;
         }
 
         public static void typeOnSameLine(string src, ConsoleColor color)
         {
+            Main.is_typing = true;
             Console.ForegroundColor = color;
             foreach (var c in src)
             {
                 Console.Write(c);
                 Thread.SpinWait(1000000);
             }
+            Main.is_typing = false;
             Console.ResetColor();
         }
 
         public static void typeOnSameLine(string src, int speed, ConsoleColor color)
         {
+            Main.is_typing = true;
             Console.ForegroundColor = color;
             foreach (var c in src)
             {
                 Console.Write(c);
-                Thread.SpinWait(1000000 * speed);
+                Thread.SpinWait(1000000*speed);
             }
+            Main.is_typing = false;
             Console.ResetColor();
         }
 
         public static void type(string src, ConsoleColor color)
         {
+            Main.is_typing = true;
             Console.ForegroundColor = color;
             Console.WriteLine("\r\n");
             foreach (var c in src)
@@ -178,18 +191,21 @@ namespace Realm
                 Console.Write(c);
                 Thread.SpinWait(1000000);
             }
+            Main.is_typing = false;
             Console.ResetColor();
         }
 
         public static void type(string src, int speed, ConsoleColor color)
         {
+            Main.is_typing = true;
             Console.ForegroundColor = color;
             Console.WriteLine("\r\n");
             foreach (var c in src)
             {
                 Console.Write(c);
-                Thread.SpinWait(1000000 * speed);
+                Thread.SpinWait(1000000*speed);
             }
+            Main.is_typing = false;
             Console.ResetColor();
         }
 
@@ -197,6 +213,7 @@ namespace Realm
         {
             if (rainbow)
             {
+                Main.is_typing = true;
                 var colors = new List<ConsoleColor>
                 {
                     ConsoleColor.Blue,
@@ -225,16 +242,19 @@ namespace Realm
                     if (i > colors.Count - 1)
                         i = 0;
                 }
+                Main.is_typing = false;
                 Console.ResetColor();
             }
             else
             {
+                Main.is_typing = true;
                 Console.WriteLine("\r\n");
                 foreach (var c in src)
                 {
                     Console.Write(c);
                     Thread.SpinWait(1000000);
                 }
+                Main.is_typing = false;
             }
         }
 
@@ -242,6 +262,7 @@ namespace Realm
         {
             if (rainbow)
             {
+                Main.is_typing = true;
                 var colors = new List<ConsoleColor>
                 {
                     ConsoleColor.Blue,
@@ -264,36 +285,45 @@ namespace Realm
                     foreach (var c in word)
                     {
                         Console.Write(c);
-                        Thread.SpinWait(1000000 * speed);
+                        Thread.SpinWait(1000000*speed);
                     }
                     i++;
                     if (i > colors.Count - 1)
                         i = 0;
                 }
+                Main.is_typing = false;
                 Console.ResetColor();
             }
             else
             {
+                Main.is_typing = true;
                 Console.WriteLine("\r\n");
                 foreach (var c in src)
                 {
                     Console.Write(c);
-                    Thread.SpinWait(1000000 * speed);
+                    Thread.SpinWait(1000000*speed);
                 }
+                Main.is_typing = false;
             }
         }
 
         public static ConsoleKeyInfo readkey()
         {
-            while (Console.KeyAvailable) Console.ReadKey(true);
-            var key = Console.ReadKey(true);
+            while (Main.is_typing)
+            {
+                while (Console.KeyAvailable) Console.ReadKey(true);
+                var key = Console.ReadKey(true);
+            }
             return Console.ReadKey();
         }
 
         public static string readinput()
         {
-            while (Console.KeyAvailable) Console.ReadKey(true);
-            var key = Console.ReadKey(true);
+            while (Main.is_typing)
+            {
+                while (Console.KeyAvailable) Console.ReadKey(true);
+                var key = Console.ReadKey(true);
+            }
             return Console.ReadLine().ToLower();
         }
 
@@ -301,11 +331,18 @@ namespace Realm
         {
             if (ExactSpelling)
             {
-                while (Console.KeyAvailable) Console.ReadKey(true);
+                while (Main.is_typing)
+                {
+                    while (Console.KeyAvailable) Console.ReadKey(true);
+                    var key = Console.ReadKey(true);
+                }
                 return Console.ReadLine();
             }
-            while (Console.KeyAvailable) Console.ReadKey(true);
-            var key = Console.ReadKey(true);
+            while (Main.is_typing)
+            {
+                while (Console.KeyAvailable) Console.ReadKey(true);
+                var key = Console.ReadKey(true);
+            }
             return Console.ReadLine().ToLower();
         }
 
