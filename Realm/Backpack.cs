@@ -27,7 +27,10 @@ namespace Realm
         protected override void InsertItem(int index, Item item)
         {
             if (Count < 10)
+            {
                 base.InsertItem(index, item);
+                Interface.type("Obtained " + item.name + "!", ConsoleColor.Green);
+            }
             else
             {
                 Interface.type(
@@ -42,6 +45,7 @@ namespace Realm
                 if (result && Count - 1 >= k && k >= 0)
                 {
                     base.InsertItem(IndexOf(this[k]), item);
+                    Interface.type("Obtained " + item.name + "!", ConsoleColor.Green);
                     Remove(this[k]);
                 }
                 else

@@ -14,8 +14,7 @@
     <EnableSecurityDebugging>false</EnableSecurityDebugging>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <StartArguments>
-    </StartArguments>
+    <StartArguments>-devmode -noachievements</StartArguments>
     <StartWorkingDirectory>C:\Users\Cooper\Documents\GitHub\Realm\Realm\bin\Release\</StartWorkingDirectory>
   </PropertyGroup>
 </Project>

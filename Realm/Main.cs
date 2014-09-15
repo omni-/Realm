@@ -52,7 +52,7 @@ namespace Realm
 
         public static readonly Random rand = new Random();
 
-        public const string version = "v1.8.4.8";
+        public const string version = "v1.8.4.9";
 
         public static string tpath,
             path,
@@ -313,7 +313,6 @@ namespace Realm
                                         }
                                         else
                                             Player.backpack.Add(i);
-                                        Interface.type("Obtained '" + i.name + "'!");
                                     }
                                     else
                                     {
@@ -329,9 +328,6 @@ namespace Realm
                                 if (rand.NextDouble() <= .1d)
                                 {
                                     Player.backpack.Add(MainItemList[rand.Next(0, MainItemList.Count - 1)]);
-                                    Interface.type(
-                                        "Obtained " + MainItemList[rand.Next(0, MainItemList.Count - 1)].name + "!",
-                                        ConsoleColor.Green);
                                 }
                                 else
                                 {

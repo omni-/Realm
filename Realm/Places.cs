@@ -278,11 +278,8 @@ namespace Realm
                                 if (Main.Player.backpack.Count <= 7)
                                 {
                                     Main.Player.backpack.Add(new cardboard_armor());
-                                    Interface.type("Obtained 'Cardboard Armor'!", ConsoleColor.Green);
                                     Main.Player.backpack.Add(new cardboard_sword());
-                                    Interface.type("Obtained 'Cardboard Shield'!", ConsoleColor.Green);
                                     Main.Player.backpack.Add(new cardboard_shield());
-                                    Interface.type("Obtained 'Cardboard Shield'!", ConsoleColor.Green);
                                     Main.ach.Get("cardboard");
                                     Main.forrestcounter++;
                                 }
@@ -888,12 +885,12 @@ namespace Realm
                                         break;
                                     case 'n':
                                         Interface.type(
-                                            "You decide that completing this book is not worth the time. Do you wish to put the book back in it's original spot on the bookshelf?(y/n)");
+                                            "You decide that completing this book is not worth the time. Do you wish to put the book back in its original spot on the bookshelf?(y/n)");
                                         switch (Interface.readkey().KeyChar)
                                         {
                                             case 'y':
                                                 Interface.type(
-                                                    "You place the book back in it's original position. You daydream about a perfect society where all of mankind would put books back in bookshelves.");
+                                                    "You place the book back in its original position. You daydream about a perfect society where all of mankind would put books back in bookshelves.");
                                                 break;
                                             case 'n':
 
@@ -1691,7 +1688,6 @@ namespace Realm
                                 if (Main.Player.backpack.Count <= 10)
                                 {
                                     Main.Player.backpack.Add(new phantasmal_claymore());
-                                    Interface.type("Obtained 'Phantasmal Claymore'!", ConsoleColor.Green);
                                 }
                                 else
                                     Interface.type("Not enough space.");
@@ -1785,7 +1781,7 @@ namespace Realm
                     if (Main.minecounter == 0)
                     {
                         Interface.type(
-                            "This coalmine is abundant with miners and minecarts, carrying the precious black resource back to the surface. You try to swipe a coal nugget from a passing minecart, as the stuff is worth double it's weight in gold, but a burly miner swats your hand. With his pickeaxe. Ow. Do you want to travel deeper into the mine? (y/n)");
+                            "This coalmine is abundant with miners and minecarts, carrying the precious black resource back to the surface. You try to swipe a coal nugget from a passing minecart, as the stuff is worth double its weight in gold, but a burly miner swats your hand. With his pickeaxe. Ow. Do you want to travel deeper into the mine? (y/n)");
                         var roll = Dice.roll(1, 10);
                         if (roll == 1)
                         {

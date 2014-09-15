@@ -42,8 +42,10 @@ namespace Realm
             {
                 var i = dropcands[Main.rand.Next(0, dropcands.Count - 1)];
                 Main.Player.backpack.Add(i);
-                Interface.type("Obtained " + i.name + "!",
-                    ConsoleColor.Green);
+            }
+            if (Main.rand.NextDouble() <= .05d)
+            {
+                Main.Player.backpack.Add(new lucky_slots());
             }
 
             Main.Player.reputation += (1 + extrarep);

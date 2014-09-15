@@ -41,7 +41,7 @@ namespace Realm
                 {
                     if (Main.Player.phased)
                         Main.Player.phased = false;
-                    Interface.type("\r\nAVAILABLE MOVES:", ConsoleColor.Cyan);
+                    Interface.type("\r\nAvailable Moves:", ConsoleColor.Cyan);
                     Interface.type("-------------", ConsoleColor.Cyan);
                     var i = 0;
                     foreach (var c in Main.Player.abilities.commands.Values)
@@ -83,6 +83,26 @@ namespace Realm
                         Interface.type("Out of mana!", ConsoleColor.Red);
                         Interface.type("");
                         ch = Interface.readkey().KeyChar;
+                    }
+                    if (ch == 'b' && Main.Player.primary.name == "Lucky Slots")
+                    {
+                        int result = Main.rand.NextDouble() <= .05d ? 0 : Main.rand.Next(1, 8);
+                        var lucky = new List<Command> { 
+                            new destiny("Destiny", '&'), 
+                            new aura_burst("Aura Burst", '&'), 
+                            new chronoshift("Chronoshift", '&'), 
+                            new enhanced_blows("Aura Strikes", '&'), 
+                            new event_horizon("Event Horizon", '&'), 
+                            new piercing_light("Piercing Light", '&'), 
+                            new soul_flare("Soul Flare", '&'), 
+                            new tempests_eye("Eye of the Tempest", '&') };
+                        Interface.type("LUCKY SLOTS ARE SPINNING... RESULT IS...", true);
+                        Interface.typeOnSameLine(result.ToString(), ConsoleColor.White);
+                        Main.Player.abilities.AddCommand(lucky[result]);
+                    }
+                    if (ch == '&')
+                    {
+                        Main.Player.abilities.RemoveCommand('&');
                     }
                     if (ch != 'b')
                         mana--;
@@ -388,6 +408,12 @@ namespace Realm
                     Interface.type("Learned " + cmd.name + "!", ConsoleColor.Cyan);
             }
 
+            public void RemoveCommand(char c)
+            {
+                Interface.type("Forgot " + _commands[c] + "!");
+                _commands.Remove(c);
+            }
+
             public char[] commandChars
             {
                 get { return _commands.Keys.ToArray(); }
@@ -424,6 +450,10 @@ namespace Realm
             public override bool Execute(object data)
             {
                 // data should be the enemy
+                if (Main.Player.primary.name == "Lucky Slots")
+                {
+                    return true;
+                }
                 var target = (Enemy) data;
                 double damage = Dice.roll(1, Main.Player.atk);
                 if (Main.Player.primary.multiplier != 0)

@@ -114,6 +114,7 @@ namespace Realm
                 else if (race == pRace.zephyr || race == pRace.goblin)
                 {
                     spd = (3 + (level/2));
+                    atk = (1 + level / 3);
                     intl = (1 + (level/3));
                 }
                 else if (race == pRace.shade || race == pRace.bandit)
@@ -133,19 +134,19 @@ namespace Realm
                     intl += primary.intlbuff;
                     spd += primary.spdbuff;
                 }
-                if (level >= 5 && race == pRace.human && !abilities.commands.ContainsKey('m'))
+                if (level >= 10 && race == pRace.human && !abilities.commands.ContainsKey('m'))
                     abilities.AddCommand(new Combat.Mimic("Mimic", 'm'));
-                else if (level >= 5 && race == pRace.elf && !abilities.commands.ContainsKey('l'))
+                else if (level >= 10 && race == pRace.elf && !abilities.commands.ContainsKey('l'))
                     abilities.AddCommand(new Combat.Heal("Heal", 'l'));
-                else if (level >= 5 && race == pRace.rockman && !abilities.commands.ContainsKey('g'))
+                else if (level >= 10 && race == pRace.rockman && !abilities.commands.ContainsKey('g'))
                     abilities.AddCommand(new Combat.Safeguard("Safeguard", 'g'));
-                else if (level >= 5 && race == pRace.giant && !abilities.commands.ContainsKey('r'))
+                else if (level >= 10 && race == pRace.giant && !abilities.commands.ContainsKey('r'))
                     abilities.AddCommand(new Combat.Rage("Rage", 'r'));
-                else if (level >= 5 && race == pRace.zephyr && !abilities.commands.ContainsKey('!'))
+                else if (level >= 10 && race == pRace.zephyr && !abilities.commands.ContainsKey('!'))
                     abilities.AddCommand(new Combat.Lightspeed("Lightspeed", '!'));
-                else if (level >= 5 && race == pRace.shade && !abilities.commands.ContainsKey('n'))
+                else if (level >= 10 && race == pRace.shade && !abilities.commands.ContainsKey('n'))
                     abilities.AddCommand(new Combat.Nightshade("Nightshade", 'n'));
-                else if (level >= 5 && race == pRace.slime && !abilities.commands.ContainsKey('m'))
+                else if (level >= 10 && race == pRace.slime && !abilities.commands.ContainsKey('m'))
                 {
                     //abilities.AddCommand();
                 }
@@ -255,14 +256,8 @@ namespace Realm
         {
             if (cost <= Main.Player.g)
             {
+                Main.Player.backpack.Add(i);
                 Main.Player.g -= cost;
-                if (Main.Player.backpack.Count <= 10)
-                {
-                    Main.Player.backpack.Add(i);
-                    Interface.type("Obtained '" + i.name + "'!", ConsoleColor.Green);
-                }
-                else
-                    Interface.type("Not enough space.");
             }
             else
             {

@@ -50,47 +50,7 @@ namespace Realm
 
                 if (command.Key == ConsoleKey.Escape)
                     Environment.Exit(0);
-                else if (command.KeyChar == '-' && Main.devmode)
-                {
-                    var input = Interface.readinput();
-                    if (input == "e")
-                        End.Endgame();
-                    else if (input == "c")
-                    {
-                        var combat_input = Interface.readinput();
-                        var etype = Type.GetType("Realm." + combat_input);
-                        var e = (Enemy) Activator.CreateInstance(etype);
-                        Combat.BattleLoop(e);
-                    }
-                    else if (input == "n")
-                        Main.Player.name = Interface.readinput();
-                    else if (input == "a")
-                    {
-                        var add_input = Interface.readinput();
-                        var atype = Type.GetType("Realm." + add_input);
-                        var i = (Item) Activator.CreateInstance(atype);
-                        if (Main.Player.backpack.Count <= 10)
-                            Main.Player.backpack.Add(i);
-                        else
-                            Interface.type("Not enough space.");
-                        Interface.type("Obtained '" + i.name + "'!");
-                    }
-                    else if (input == "p")
-                    {
-                        var p_input = Interface.readinput();
-                        var atype = Type.GetType("Realm." + p_input);
-                        var i = (Item) Activator.CreateInstance(atype);
-                        Main.Player.primary = i;
-                    }
-                    else if (input == "t")
-                    {
-                        var place_input = Interface.readinput();
-                        var ptype = Type.GetType("Realm." + place_input);
-                        var p = (Place) Activator.CreateInstance(ptype);
-                    }
-                }
-                else
-                    currPlace.handleInput(command.KeyChar);
+                currPlace.handleInput(command.KeyChar);
                 Main.loop_number++;
             }
         }
