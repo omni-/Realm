@@ -11,6 +11,25 @@ namespace Realm
 {
     public class Item
     {
+        protected bool Equals(Item other)
+        {
+            return string.Equals(name, other.name) && atkbuff == other.atkbuff && defbuff == other.defbuff && spdbuff == other.spdbuff && intlbuff == other.intlbuff && multiplier.Equals(other.multiplier);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = (name != null ? name.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ atkbuff;
+                hashCode = (hashCode*397) ^ defbuff;
+                hashCode = (hashCode*397) ^ spdbuff;
+                hashCode = (hashCode*397) ^ intlbuff;
+                hashCode = (hashCode*397) ^ multiplier.GetHashCode();
+                return hashCode;
+            }
+        }
+
         public string name, desc;
         public int atkbuff, defbuff, spdbuff, intlbuff, tier, slot, value;
         public float multiplier;
@@ -22,6 +41,11 @@ namespace Realm
             spdbuff = 0;
             intlbuff = 0;
             multiplier = 1;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return name == ((Item)obj).name;
         }
     }
 
@@ -41,7 +65,21 @@ namespace Realm
             multiplier = 4;
         }
     }
+    public class lucky_slots : Item
+    {
+        public lucky_slots()
+        {
+            value = 3000;
+            name = "Lucky Slots";
+            desc = "It allows you to use the moves of legendary heroes if you're lucky.";
+            atkbuff = 0;
+            spdbuff = 0;
+            intlbuff = 0;
+            tier = 6;
+            slot = 4;
 
+        }
+    }
     public class cardboard_armor : Item
     {
         public cardboard_armor()

@@ -103,11 +103,7 @@ namespace Realm
                     var input = Interface.readkey().KeyChar;
                     if (indices.Contains(Convert.ToInt32(input)))
                     {
-                        Main.Player.g +=
-                            (int)
-                                (Main.Player.backpack[Convert.ToInt32(input)].value == 1
-                                    ? 1
-                                    : Main.Player.backpack[Convert.ToInt32(input)].value*.6);
+                        Main.Player.g += (int)(Main.Player.backpack[Convert.ToInt32(input)].value == 1 ? 1 : Main.Player.backpack[Convert.ToInt32(input)].value * .6);
                         Main.Player.backpack.Remove(Main.Player.backpack[Convert.ToInt32(input)]);
                     }
                     break;

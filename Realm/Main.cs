@@ -45,6 +45,7 @@ namespace Realm
             is_typing,
             devmode,
             hasmap,
+            hasFarmedCrystal,
             achievements_disabled;
 
         public static readonly Achievement ach = new Achievement();
@@ -52,7 +53,7 @@ namespace Realm
 
         public static readonly Random rand = new Random();
 
-        public const string version = "v1.8.4.7";
+        public const string version = "v1.8.4.8";
 
         public static string tpath,
             path,
@@ -112,9 +113,7 @@ namespace Realm
 
         public static void Tutorial()
         {
-            List<string> racelist = new List<string> {"human", "elf", "rockman", "giant", "zephyr", "shade"},
-                classlist = new List<string> {"warrior", "paladin", "mage", "thief"},
-                secret = new List<string>();
+            var secret = new List<string>{ "mage", "warrior", "thief", "paladin" };
             if (achieve["100slimes"])
                 secret.Add("Slime");
             if (achieve["100goblins"])
@@ -155,19 +154,28 @@ namespace Realm
                             Interface.typeOnSameLine(", ", ConsoleColor.Yellow);
                         Interface.type(secret[i], ConsoleColor.Yellow);
                     }
-                    racelist.AddRange(secret);
                 }
                 Interface.type("Please enter a race. ");
                 bool rresult = false;
                 while (!rresult)
-                    rresult = Enum.TryParse(Interface.readinput(), true, out Player.race);
+                {
+                    var s = Interface.readinput();
+                    if (secret.Contains(s))
+                        rresult = Enum.TryParse(s, true, out Player.race);
+                    else
+                        Interface.type("Please enter a valid race", ConsoleColor.Red);
+                }
                 Interface.type("You have selected " + Player.race.ToString().ToUpperFirstLetter() + ".",
                     ConsoleColor.Magenta);
                 Interface.type("Each player also has a class. You may choose from Warrior, Paladin, Mage, or Thief.");
                 Interface.type("Please enter a class. ");
                 bool cresult = false;
                 while (!cresult)
+                {
                     cresult = Enum.TryParse(Interface.readinput(), true, out Player.pclass);
+                    if (!cresult)
+                        Interface.type("Please enter a valid class.", ConsoleColor.Red);
+                }
                 Interface.type("You have selected " + Player.pclass.ToString().ToUpperFirstLetter() + ".",
                     ConsoleColor.Magenta);
                 Interface.type("You are now ready to play Realm. Good luck!");

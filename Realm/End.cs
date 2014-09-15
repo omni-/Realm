@@ -37,7 +37,18 @@ namespace Realm
             Main.Player.hp = Main.Player.maxhp;
             int rand = Main.rand.Next(0, Main.Player.backpack.Count == 0 ? 0 : Main.Player.backpack.Count - 1);
             if (Main.Player.backpack.Count > 0)
+            {
+                var toRemove = Main.Player.backpack[rand];
                 Main.Player.backpack.RemoveAt(rand);
+                if (!Main.Player.backpack.Contains(toRemove) && Main.Player.primary.Equals(toRemove))
+                    Main.Player.primary = new Item();
+                if (!Main.Player.backpack.Contains(toRemove) && Main.Player.secondary.Equals(toRemove))
+                    Main.Player.secondary = new Item();
+                if (!Main.Player.backpack.Contains(toRemove) && Main.Player.armor.Equals(toRemove))
+                    Main.Player.armor = new Item();
+                if (!Main.Player.backpack.Contains(toRemove) && Main.Player.accessory.Equals(toRemove))
+                    Main.Player.accessory = new Item();
+            }
             var test = new int[2];
             if (Main.Player.last_inn != test)
             {

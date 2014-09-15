@@ -61,6 +61,8 @@ namespace Realm
                 lines.Add("is_thief=true");
             if (Main.devmode)
                 lines.Add("devmode=true");
+            if (Main.hasFarmedCrystal)
+                lines.Add("hasFarmedCrystal=true");
             lines.Add("wkingcounter=" + Main.wkingcounter);
             lines.Add("slibcounter=" + Main.slibcounter);
             lines.Add("forrestcounter=" + Main.forrestcounter);
@@ -126,6 +128,8 @@ namespace Realm
                             Main.wkingdead = true;
                         if (entry.Key == "ravendead")
                             Main.raven_dead = true;
+                        if (entry.Key == "hasFarmedCrystal")
+                            Main.hasFarmedCrystal = true;
                         if (entry.Key == "hp")
                             Main.Player.hp = Convert.ToInt32(entry.Value);
                         if (entry.Key == "g")

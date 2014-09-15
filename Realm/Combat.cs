@@ -918,5 +918,123 @@ namespace Realm
                 return true;
             }
         }
+        public class enhanced_blows : Command
+        {
+            public enhanced_blows(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                int dmg = Dice.roll(3, Main.Player.intl + Main.Player.atk);
+                target.hp -= dmg;
+                Main.Player.hp -= (dmg / 2);
+                return true;
+            }
+        }
+        public class aura_burst : Command
+        {
+            public aura_burst(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                int dmg = Dice.roll(3, (Main.Player.intl / 2));
+                target.hp -= dmg;
+                return true;
+            }
+        }
+        public class piercing_light : Command
+        {
+            public piercing_light(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                int dmg = Dice.roll(10, (Main.Player.intl + Main.Player.spd + Main.Player.atk + Main.Player.def + Main.Player.level) / 10);
+                target.hp -= dmg;
+                return true;
+            }
+        }
+        public class soul_flare : Command
+        {
+            public soul_flare(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                int dmg = Dice.roll(5, Main.Player.hp);
+                target.hp -= dmg;
+                return true;
+            }
+        }
+        public class tempests_eye : Command
+        {
+            public tempests_eye(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                int dmg = Dice.roll(20, (Main.Player.atk / 5));
+                target.hp -= dmg;
+                return true;
+            }
+        }
+        public class destiny : Command
+        {
+            public destiny(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                int dmg = (Dice.roll(1, Main.Player.atk)) * Main.Player.reputation;
+                target.hp -= dmg;
+                return true;
+            }
+        }
+        public class event_horizon : Command
+        {
+            public event_horizon(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                if (Main.rand.NextDouble() <= .4)
+                {
+                    target.stunned = true;
+                }
+                int dmg = Dice.roll(3, Main.Player.intl);
+                target.hp -= dmg;
+                return true;
+            }
+        }
+        public class chronoshift : Command
+        {
+            public chronoshift(string aname, char cmd)
+                : base(aname, cmd)
+            {
+            }
+            public override bool Execute(object Data)
+            {
+                Enemy target = (Enemy)Data;
+                int dmg = (5 * (Main.Player.atk += Main.Player.intl));
+                Main.Player.hp = Main.Player.maxhp;
+                target.hp -= dmg;
+                return true;
+            }
+        }
     }
 }

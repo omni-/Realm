@@ -2198,10 +2198,18 @@ namespace Realm
                     }
                     else
                     {
-                        Interface.type(
+                        if (!Main.hasFarmedCrystal)
+                        {
+                            Interface.type(
                             "As you harvest them, the crystals glow, and energy seeps through your veins and into your brain. Your vision becomes very bright, and you feel enlightened.",
                             ConsoleColor.Cyan);
-                        Main.intlbuff += 3;
+                            Main.intlbuff += 3;
+                        }
+                        else
+                        {
+                            Interface.type("You throw up from mana poisoning.", ConsoleColor.Red);
+                            Main.Player.hp -= 5;
+                        }
                     }
                     break;
                 case 'f':

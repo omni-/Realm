@@ -40,8 +40,9 @@ namespace Realm
 
             if (Main.rand.NextDouble() <= .1d)
             {
-                Main.Player.backpack.Add(dropcands[Main.rand.Next(0, dropcands.Count - 1)]);
-                Interface.type("Obtained " + dropcands[Main.rand.Next(0, dropcands.Count - 1)].name + "!",
+                var i = dropcands[Main.rand.Next(0, dropcands.Count - 1)];
+                Main.Player.backpack.Add(i);
+                Interface.type("Obtained " + i.name + "!",
                     ConsoleColor.Green);
             }
 
