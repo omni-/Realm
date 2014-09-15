@@ -41,9 +41,7 @@ namespace Realm
 
         public static bool raven_dead,
             is_theif,
-            wkingdead,
-            is_typing,
-            devmode,
+            wkingdead, devmode,
             hasmap,
             hasFarmedCrystal,
             achievements_disabled;
@@ -113,7 +111,7 @@ namespace Realm
 
         public static void Tutorial()
         {
-            var secret = new List<string>{ "mage", "warrior", "thief", "paladin" };
+            var secret = new List<string>{ "human", "elf", "warrior", "rockman", "shade", "zephyr" };
             if (achieve["100slimes"])
                 secret.Add("Slime");
             if (achieve["100goblins"])
@@ -122,7 +120,6 @@ namespace Realm
                 secret.Add("Bandit");
             if (achieve["100drakes"])
                 secret.Add("Drake");
-            is_typing = true;
             Interface.type("Welcome, ");
             Interface.typeOnSameLine(Player.name, ConsoleColor.White);
             Interface.typeOnSameLine(", to Realm.");
@@ -163,7 +160,7 @@ namespace Realm
                     if (secret.Contains(s))
                         rresult = Enum.TryParse(s, true, out Player.race);
                     else
-                        Interface.type("Please enter a valid race", ConsoleColor.Red);
+                        Interface.type("Please enter a valid race: ", ConsoleColor.Red);
                 }
                 Interface.type("You have selected " + Player.race.ToString().ToUpperFirstLetter() + ".",
                     ConsoleColor.Magenta);
