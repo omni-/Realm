@@ -17,17 +17,18 @@ using System.Reflection;
 
 namespace update
 {
-    internal class Program
+    class Program
     {
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
             string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Realm.exe";
             try
             {
-                var webClient = new WebClient();
-                webClient.OpenRead("https://dl.dropboxusercontent.com/u/83385592/Realm.exe");
-                webClient.OpenWrite("https://dl.dropboxusercontent.com/u/83385592/Realm.exe");
-                webClient.DownloadFile("https://dl.dropboxusercontent.com/u/83385592/Realm.exe", path);
+                using (var webClient = new WebClient())
+                {
+                    webClient.OpenRead("https://dl.dropboxusercontent.com/u/83385592/Realm.exe");
+                    webClient.DownloadFile("https://dl.dropboxusercontent.com/u/83385592/Realm.exe", path);
+                }
                 Process.Start(path);
                 Environment.Exit(0);
             }
