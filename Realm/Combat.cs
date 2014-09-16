@@ -454,8 +454,9 @@ namespace Realm
                 {
                     return true;
                 }
-                var target = (Enemy) data;
-                double damage = Dice.roll(1, Main.Player.atk);
+                var target = (Enemy)data;
+                double variation = Dice.roll(1, 10);
+                double damage = Main.Player.atk - variation;
                 if (Main.Player.primary.multiplier != 0)
                     damage *= Main.Player.primary.multiplier;
                 if (damage <= 0)
@@ -477,8 +478,9 @@ namespace Realm
             public override bool Execute(object data)
             {
                 // data should be the enemy
-                var target = (Enemy) data;
-                double damage = Dice.roll(2, Main.Player.intl);
+                var target = (Enemy)data;
+                double variation = Dice.roll(2, 10);
+                double damage = (2 * Main.Player.atk) - variation;
                 if (damage <= 0)
                     damage = 1;
                 if (Dice.misschance(target.spd))
@@ -498,8 +500,9 @@ namespace Realm
             public override bool Execute(object data)
             {
                 // data should be the enemy
-                var target = (Enemy) data;
-                double damage = Dice.roll(2, Main.Player.atk);
+                var target = (Enemy)data;
+                double variation = Dice.roll(2, 10);
+                double damage = (2 * Main.Player.atk) - variation;
                 if (damage <= 0)
                     damage = 1;
                 if (Dice.misschance(target.spd))
@@ -519,14 +522,15 @@ namespace Realm
             public override bool Execute(object data)
             {
                 // data should be the enemy
-                var target = (Enemy) data;
-                double damage = Dice.roll(2, Main.Player.atk*2/3);
+                var target = (Enemy)data;
+                double variation = Dice.roll(2, 10);
+                double damage = (2 * (Main.Player.atk * 2 / 3)) - variation;
                 if (damage <= 0)
                     damage = 1;
                 if (Dice.misschance(target.spd))
                     damage = 0;
                 target.hp -= Convert.ToInt32(damage);
-                var heal = Convert.ToInt32(damage/3);
+                var heal = Convert.ToInt32(damage / 3);
                 Main.Player.hp += heal;
                 Interface.type("You gain " + heal + " life.", ConsoleColor.Cyan);
                 return true;
@@ -543,8 +547,9 @@ namespace Realm
             public override bool Execute(object data)
             {
                 // data should be the enemy
-                var target = (Enemy) data;
-                double damage = Dice.roll(2, Main.Player.def/2);
+                var target = (Enemy)data;
+                double variation = Dice.roll(2, 10);
+                double damage = (2 * (Main.Player.def / 2)) - variation;
                 if (damage <= 0)
                     damage = 1;
                 if (Dice.misschance(target.spd))
@@ -563,7 +568,7 @@ namespace Realm
 
             public override bool Execute(object data)
             {
-                var target = (Enemy) data;
+                var target = (Enemy)data;
                 double damage = Dice.roll((Main.Player.atk + Main.Player.def + Main.Player.spd + Main.Player.intl),
                     Main.Player.level);
                 target.hp -= Convert.ToInt32(damage);
@@ -580,7 +585,7 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
+                var target = (Enemy)Data;
                 target.hp = 0;
                 return true;
             }
@@ -595,7 +600,7 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
+                var target = (Enemy)Data;
                 target.hp -= Dice.roll(1, Main.Player.intl);
                 target.cursed = true;
                 return true;
@@ -611,14 +616,15 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
-                var dmg = Dice.roll(1, Main.Player.atk/2);
+                var target = (Enemy)Data;
+                int variation = Dice.roll(1, 10);
+                var dmg = (Main.Player.atk / 2) - variation;
                 if (dmg <= 0)
                     dmg = 1;
                 if (Dice.misschance(target.spd))
                     dmg = 0;
                 target.hp -= dmg;
-                Main.Player.hp -= dmg/2;
+                Main.Player.hp -= dmg / 2;
                 return true;
             }
         }
@@ -632,7 +638,7 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
+                var target = (Enemy)Data;
                 Main.Player.phased = true;
                 target.hp -= 2;
                 return true;
@@ -648,8 +654,9 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
-                var damage = Dice.roll(1, ((Main.Player.atk/3) + Main.Player.intl/3));
+                var target = (Enemy)Data;
+                var variation = Dice.roll(1, 10);
+                var damage = (Main.Player.atk / 3) + (Main.Player.intl / 3) - variation;
                 if (damage <= 0)
                     damage = 1;
                 if (Dice.misschance(target.spd))
@@ -668,7 +675,7 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
+                var target = (Enemy)Data;
                 target.hp -= Dice.roll(1, Main.Player.intl);
                 target.on_fire = true;
                 return true;
@@ -684,11 +691,12 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
+                var target = (Enemy)Data;
                 if (stunchance(3))
                     target.stunned = true;
                 target.on_fire = true;
-                var damage = Dice.roll(1, Main.Player.atk/2);
+                var variation = Dice.roll(1, 10);
+                var damage = (Main.Player.atk / 2) - variation;
                 if (damage <= 0)
                     damage = 1;
                 if (Dice.misschance(target.spd))
@@ -707,10 +715,10 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
+                var target = (Enemy)Data;
                 if (stunchance(2))
                     target.stunned = true;
-                var damage = (Main.Player.atk) + (Main.Player.def/3);
+                var damage = (Main.Player.atk) + (Main.Player.def / 3);
                 if (damage <= 0)
                     damage = 1;
                 if (Dice.misschance(target.spd))
@@ -729,7 +737,7 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
+                var target = (Enemy)Data;
                 target.stunned = true;
                 target.on_fire = true;
                 target.cursed = true;
@@ -747,15 +755,15 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
+                var target = (Enemy)Data;
                 var chance = Dice.roll(1, 10);
                 if (chance <= 5)
                 {
-                    Main.Player.hp -= 2*chance;
+                    Main.Player.hp -= 10 * chance;
                 }
                 else
                 {
-                    target.hp -= Main.Player.atk*5;
+                    target.hp -= Main.Player.atk * 8;
                     target.stunned = true;
                     target.on_fire = true;
                     target.cursed = true;
@@ -786,7 +794,7 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var heal = Math.Max(((Main.Player.intl*2)/3), 1);
+                var heal = Math.Max(((Main.Player.intl * 2) / 3), 1);
                 Main.Player.hp += heal;
                 if (Main.Player.hp > Main.Player.maxhp)
                     Main.Player.hp = Main.Player.maxhp;
@@ -818,7 +826,7 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
+                var target = (Enemy)Data;
                 var damage = (Main.Player.maxhp - Main.Player.hp);
                 if (damage <= 0)
                     damage = 1;
@@ -838,8 +846,8 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
-                target.hp -= Dice.roll(1, Main.Player.spd) + Dice.roll(1, (Main.Player.spd/5));
+                var target = (Enemy)Data;
+                target.hp -= Main.Player.spd + Dice.roll(1, (Main.Player.spd / 5));
                 return true;
             }
         }
@@ -853,9 +861,10 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
+                var target = (Enemy)Data;
                 target.blinded = true;
-                var dmg = Dice.roll(2, Main.Player.atk);
+                var variation = Dice.roll(1, 10);
+                var dmg = (2 * Main.Player.atk) - variation;
                 if (dmg <= 0)
                     dmg = 1;
                 if (Dice.misschance(target.spd))
@@ -874,8 +883,8 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
-                var dmg = Dice.roll(9, (Main.Player.intl + Main.Player.def)/10);
+                var target = (Enemy)Data;
+                var dmg = Dice.roll(9, (Main.Player.intl + Main.Player.def) / 10);
                 target.hp -= dmg;
                 return true;
             }
@@ -890,8 +899,8 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
-                var dmg = Dice.roll(6, (Main.Player.intl + Main.Player.atk)/6);
+                var target = (Enemy)Data;
+                var dmg = Dice.roll(6, (Main.Player.intl + Main.Player.atk) / 6);
                 var stun = Dice.roll(1, 5);
                 if (stun == 1 || stun == 2 || stun == 3 || stun == 4)
                     target.stunned = true;
@@ -909,7 +918,7 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
+                var target = (Enemy)Data;
                 var dmg = Dice.roll(1, Main.Player.intl);
                 target.blinded = true;
                 target.hp -= dmg;
@@ -926,8 +935,8 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
-                var dmg = Dice.roll(1, (Main.Player.intl + Main.Player.atk)/2);
+                var target = (Enemy)Data;
+                var dmg = Dice.roll(1, (Main.Player.intl + Main.Player.atk) / 2);
                 target.hp -= dmg;
                 return true;
             }
@@ -942,7 +951,7 @@ namespace Realm
 
             public override bool Execute(object Data)
             {
-                var target = (Enemy) Data;
+                var target = (Enemy)Data;
                 var dmg = Dice.roll(2, Main.Player.intl) - 2;
                 target.hp -= dmg;
                 return true;
