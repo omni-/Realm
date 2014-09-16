@@ -144,9 +144,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="realm.ico" />
-    <EmbeddedResource Include="update.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="update.exe" />
+    <None Include="Resources\main.wav" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

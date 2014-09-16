@@ -21,15 +21,11 @@ namespace update
     {
         public static void Main(string[] args)
         {
-            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Realm.exe";
+            string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             try
             {
-                using (var webClient = new WebClient())
-                {
-                    webClient.OpenRead("https://dl.dropboxusercontent.com/u/83385592/Realm.exe");
-                    webClient.DownloadFile("https://dl.dropboxusercontent.com/u/83385592/Realm.exe", path);
-                }
-                Process.Start(path);
+                File.Copy(path + "\\test.exe", path + "\\realm.exe");
+                Process.Start(path + "\\realm.exe");
                 Environment.Exit(0);
             }
             catch (WebException w)

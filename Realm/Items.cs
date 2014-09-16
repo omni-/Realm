@@ -48,9 +48,9 @@ namespace Realm
             value = 3000;
             name = "Lucky Slots";
             desc = "It allows you to use the moves of legendary heroes if you're lucky.";
-            atkbuff = 0;
-            spdbuff = 0;
-            intlbuff = 0;
+            atkbuff = 7;
+            spdbuff = 7;
+            intlbuff = 7;
             tier = 6;
             slot = 4;
 

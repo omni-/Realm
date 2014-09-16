@@ -1040,7 +1040,7 @@ namespace Realm
                                 break;
                             case 'g':
                                 Interface.type(
-                                    "Now skilled in the art of stealing, you gain 10% more gold. You also feel faster.",
+                                    "Now skilled in the art of stealing, you gain 50% more gold. You also feel faster.",
                                     ConsoleColor.Cyan);
                                 Main.is_theif = true;
                                 Main.spdbuff += 2;

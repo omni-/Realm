@@ -120,6 +120,8 @@ namespace Realm
             Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
             Interface.type("Co-Producer: Giorgio Lo", ConsoleColor.Yellow);
             Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
+            Interface.type("Music By: Charlie Catino", ConsoleColor.Yellow);
+            Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
             Interface.type("Lead Content Designer: Giorgio Lo", ConsoleColor.Yellow);
             Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
             Interface.type("Secondary Content Designer: Cooper Teixeira", ConsoleColor.Yellow);

@@ -153,6 +153,8 @@ namespace Realm
                     Realm.Main.achievements_disabled = true;
                 if (args.Contains("-devmode"))
                     Realm.Main.devmode = true;
+                if (args.Contains("-command"))
+                    Realm.Main.command = true;
                 Init.Initialize();
             }
             catch (Exception e)

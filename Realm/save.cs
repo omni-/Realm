@@ -154,67 +154,67 @@ namespace Realm
                         {
                             var atype = Type.GetType(entry.Value);
                             var i = (Item) Activator.CreateInstance(atype);
-                            Main.Player.backpack.Add(i);
+                            Main.Player.backpack.AddNoText(i, 0);
                         }
                         if (entry.Key == "bp2")
                         {
                             var atype = Type.GetType(entry.Value);
                             var i = (Item) Activator.CreateInstance(atype);
-                            Main.Player.backpack.Add(i);
+                            Main.Player.backpack.AddNoText(i, 0);
                         }
                         if (entry.Key == "bp3")
                         {
                             var atype = Type.GetType(entry.Value);
                             var i = (Item) Activator.CreateInstance(atype);
-                            Main.Player.backpack.Add(i);
+                            Main.Player.backpack.AddNoText(i, 0);
                         }
                         if (entry.Key == "bp4")
                         {
                             var atype = Type.GetType(entry.Value);
                             var i = (Item) Activator.CreateInstance(atype);
-                            Main.Player.backpack.Add(i);
+                            Main.Player.backpack.AddNoText(i, 0);
                         }
                         if (entry.Key == "bp5")
                         {
                             var atype = Type.GetType(entry.Value);
                             var i = (Item) Activator.CreateInstance(atype);
-                            Main.Player.backpack.Add(i);
+                            Main.Player.backpack.AddNoText(i, 0);
                         }
                         if (entry.Key == "bp6")
                         {
                             var atype = Type.GetType(entry.Value);
                             var i = (Item) Activator.CreateInstance(atype);
-                            Main.Player.backpack.Add(i);
+                            Main.Player.backpack.AddNoText(i, 0);
                         }
                         if (entry.Key == "bp7")
                         {
                             var atype = Type.GetType(entry.Value);
                             var i = (Item) Activator.CreateInstance(atype);
-                            Main.Player.backpack.Add(i);
+                            Main.Player.backpack.AddNoText(i, 0);
                         }
                         if (entry.Key == "bp7")
                         {
                             var atype = Type.GetType(entry.Value);
                             var i = (Item) Activator.CreateInstance(atype);
-                            Main.Player.backpack.Add(i);
+                            Main.Player.backpack.AddNoText(i, 0);
                         }
                         if (entry.Key == "bp8")
                         {
                             var atype = Type.GetType(entry.Value);
                             var i = (Item) Activator.CreateInstance(atype);
-                            Main.Player.backpack.Add(i);
+                            Main.Player.backpack.AddNoText(i, 0);
                         }
                         if (entry.Key == "bp9")
                         {
                             var atype = Type.GetType(entry.Value);
                             var i = (Item) Activator.CreateInstance(atype);
-                            Main.Player.backpack.Add(i);
+                            Main.Player.backpack.AddNoText(i, 0);
                         }
                         if (entry.Key == "bp10")
                         {
                             var atype = Type.GetType(entry.Value);
                             var i = (Item) Activator.CreateInstance(atype);
-                            Main.Player.backpack.Add(i);
+                            Main.Player.backpack.AddNoText(i, 0);
                         }
                         if (entry.Key == "primary")
                         {

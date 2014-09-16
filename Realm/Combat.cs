@@ -20,7 +20,7 @@ namespace Realm
             Main.Player.applybonus();
 
             var enemydmg = 0;
-            var mana = 1 + Main.Player.intl/10;
+            var mana = 1 + (Main.Player.intl / 10) + (Main.Player.level / 5);
             Interface.type("You have entered combat! Ready your weapons!", ConsoleColor.Red);
             Interface.type("Level " + enemy.level + " " + enemy.name + ":", ConsoleColor.Yellow);
             Interface.type("-------------------------", ConsoleColor.Yellow);
@@ -29,6 +29,7 @@ namespace Realm
             Interface.type("Defense: " + enemy.def, ConsoleColor.Yellow);
             Interface.type("-------------------------", ConsoleColor.Yellow);
             var is_turn = enemy.spd < Main.Player.spd;
+            var hasUsedLuckySlots = false;
             while (enemy.hp >= 0)
             {
                 Interface.type("----------------------", ConsoleColor.Cyan);
@@ -84,7 +85,7 @@ namespace Realm
                         Interface.type("");
                         ch = Interface.readkey().KeyChar;
                     }
-                    if (ch == 'b' && Main.Player.primary.name == "Lucky Slots")
+                    if (ch == 'b' && Main.Player.accessory.name == "Lucky Slots" && !hasUsedLuckySlots)
                     {
                         int result = Main.rand.NextDouble() <= .05d ? 0 : Main.rand.Next(1, 8);
                         var lucky = new List<Command> { 
@@ -99,10 +100,7 @@ namespace Realm
                         Interface.type("LUCKY SLOTS ARE SPINNING... RESULT IS...", true);
                         Interface.typeOnSameLine(result.ToString(), ConsoleColor.White);
                         Main.Player.abilities.AddCommand(lucky[result]);
-                    }
-                    if (ch == '&')
-                    {
-                        Main.Player.abilities.RemoveCommand('&');
+                        hasUsedLuckySlots = true;
                     }
                     if (ch != 'b')
                         mana--;
@@ -111,7 +109,7 @@ namespace Realm
                         Interface.type("You mimc the enemy's damage!", ConsoleColor.Cyan);
                         enemy.hp -= enemydmg;
                     }
-                    if (!Main.Player.blinded)
+                    if (!Main.Player.blinded && !(ch == 'b' && Main.Player.accessory.name == "Lucky Slots" && !hasUsedLuckySlots))
                         Main.Player.abilities.ExecuteCommand(ch, enemy);
                     else
                     {
@@ -128,6 +126,8 @@ namespace Realm
                     var enemyhp = oldhp - enemy.hp;
                     if (ch != 'l')
                         Interface.type("The enemy takes " + enemyhp + " damage!", ConsoleColor.Cyan);
+                    if (ch == '&')
+                        Main.Player.abilities.RemoveCommand('&');
                     if (enemy.hp <= 0)
                     {
                         Interface.type("Your have defeated " + enemy.name + "!", ConsoleColor.Yellow);
@@ -410,7 +410,7 @@ namespace Realm
 
             public void RemoveCommand(char c)
             {
-                Interface.type("Forgot " + _commands[c] + "!");
+                Interface.type("Forgot " + _commands[c].name + "!");
                 _commands.Remove(c);
             }
 
@@ -450,12 +450,8 @@ namespace Realm
             public override bool Execute(object data)
             {
                 // data should be the enemy
-                if (Main.Player.primary.name == "Lucky Slots")
-                {
-                    return true;
-                }
                 var target = (Enemy)data;
-                double variation = Dice.roll(1, 10);
+                double variation = Main.rand.Next(5, 11);
                 double damage = Main.Player.atk - variation;
                 if (Main.Player.primary.multiplier != 0)
                     damage *= Main.Player.primary.multiplier;

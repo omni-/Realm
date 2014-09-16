@@ -15,7 +15,7 @@ namespace Realm
     public class Enemy
     {
         public string name;
-        public int level, hp, atk, def, spd, xpdice, gpdice, fire, extrarep;
+        public int level, hp, atk, def, spd, xpdice, gpdice, fire, extrarep, mod;
         public bool trapped = false, cursed = false, on_fire = false, stunned = false, blinded = false;
         protected List<string> abilities;
 
@@ -26,12 +26,12 @@ namespace Realm
 
         public void droploot()
         {
-            var gold = Dice.roll(1 + (level/2), gpdice);
+            var gold = Main.rand.Next(gpdice / 2, gpdice);
             Interface.type("You gain " + gold + " gold.", ConsoleColor.Yellow);
             if (!Main.is_theif)
                 Main.Player.g += gold;
             else
-                Main.Player.g += (gold + (gold/10));
+                Main.Player.g += (gold + (gold/2));
 
             var xp = Dice.roll(1, xpdice);
             Interface.type("You gained " + xp + " xp.", ConsoleColor.Yellow);
@@ -43,7 +43,7 @@ namespace Realm
                 var i = dropcands[Main.rand.Next(0, dropcands.Count - 1)];
                 Main.Player.backpack.Add(i);
             }
-            if (Main.rand.NextDouble() <= .05d)
+            if (Main.rand.NextDouble() <= .01d)
             {
                 Main.Player.backpack.Add(new lucky_slots());
             }
@@ -61,11 +61,12 @@ namespace Realm
     {
         public Slime()
         {
+            mod = (level<=10? 2:level<=15? 7: 18);
             name = "Slime";
-            hp = 5 + level;
-            atk = level < 3 ? 1 : 2 + (level/2);
-            def = level < 3 ? 0 : 2 + (level/2);
-            spd = level < 3 ? 0 : 2 + (level/2);
+            hp = 10 + level;
+            atk = 1 + mod;
+            def = mod;
+            spd = mod;
             xpdice = 12 - (level/5);
             gpdice = 8 - (level/5);
             abilities = new List<string> {"BasicAttack", "SuperSlimySlam"};
@@ -100,10 +101,11 @@ namespace Realm
         public Goblin()
         {
             name = "Goblin";
-            hp = 8 + (level/2);
-            atk = 3 + (level/2);
-            def = 1 + (level/2);
-            spd = 1 + (level/2);
+            mod = (level <= 10 ? 5 : level <= 15 ? 7 : 300);
+            hp = 14 + mod;
+            atk = 3 + mod;
+            def = 1 + mod;
+            spd = 1 + mod;
             xpdice = 20;
             gpdice = 15;
             abilities = new List<string> {"BasicAttack", "Impale", "CrazedSlashes"};
@@ -145,10 +147,11 @@ namespace Realm
         public Bandit()
         {
             name = "Bandit";
-            hp = 12 + (level/2);
-            atk = 1 + (level/2);
-            def = 0 + (level/2);
-            spd = 3 + (level/2);
+            mod = (level <= 10 ? 2 : level <= 15 ? 7 : 18);
+            hp = 12 + mod;
+            atk = 1 + mod;
+            def = 0 + mod;
+            spd = 3 + mod;
             xpdice = 25;
             gpdice = 18;
             abilities = new List<string>();
@@ -233,10 +236,11 @@ namespace Realm
         public Drake()
         {
             name = "Drake";
-            hp = 30 + (level/2);
-            atk = 7 + (level/2);
-            def = 10 + (level/2);
-            spd = 10 + (level/2);
+            mod = (level <= 10 ? 2 : level <= 15 ? 7 : 18);
+            hp = 50;
+            atk = 5 + mod;
+            def = 10 + mod;
+            spd = 10 + mod;
             xpdice = 35;
             gpdice = 35;
             abilities = new List<string>();

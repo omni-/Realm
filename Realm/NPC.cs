@@ -96,12 +96,12 @@ namespace Realm
                     var itr = 1;
                     foreach (var item in Main.Player.backpack)
                     {
-                        Interface.type(itr + ". " + item.name + "....." + (item.value == 1 ? 1 : (int) (item.value*.6)));
+                        Interface.type(itr + ". " + item.name + "....." + (item.value == 1 ? 1 : (int) (item.value * .6)));
                         indices.Add(itr);
                         itr++;
                     }
                     var input = Interface.readkey().KeyChar;
-                    if (indices.Contains(Convert.ToInt32(input)))
+                    if (indices.Contains(Convert.ToInt32(input) - 1))
                     {
                         Main.Player.g += (int)(Main.Player.backpack[Convert.ToInt32(input)].value == 1 ? 1 : Main.Player.backpack[Convert.ToInt32(input)].value * .6);
                         Main.Player.backpack.Remove(Main.Player.backpack[Convert.ToInt32(input)]);

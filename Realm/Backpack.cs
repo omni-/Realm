@@ -23,7 +23,10 @@ namespace Realm
         public BP()
         {
         }
-
+        public void AddNoText(Item item, int index)
+        {
+            base.InsertItem(index, item);
+        }
         protected override void InsertItem(int index, Item item)
         {
             if (Count < 10)
@@ -44,7 +47,7 @@ namespace Realm
                 var result = Int32.TryParse(Interface.readkey().KeyChar.ToString(), out k);
                 if (result && Count - 1 >= k && k >= 0)
                 {
-                    base.InsertItem(IndexOf(this[k]), item);
+                    base.InsertItem(k, item);
                     Interface.type("Obtained " + item.name + "!", ConsoleColor.Green);
                     Remove(this[k]);
                 }

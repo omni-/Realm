@@ -10,6 +10,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 
 namespace Realm
 {
@@ -41,7 +42,9 @@ namespace Realm
 
         public static bool raven_dead,
             is_theif,
-            wkingdead, devmode,
+            wkingdead, 
+            devmode,
+            command,
             hasmap,
             is_typing,
             hasFarmedCrystal,
@@ -52,7 +55,7 @@ namespace Realm
 
         public static readonly Random rand = new Random();
 
-        public const string version = "v1.8.4.9";
+        public const string version = "v1.8.5.4";
 
         public static string tpath,
             path,
@@ -112,7 +115,7 @@ namespace Realm
 
         public static void Tutorial()
         {
-            var secret = new List<string>{ "human", "elf", "warrior", "rockman", "shade", "zephyr" };
+            var secret = new List<string>{ "human", "elf", "warrior", "rockman", "shade", "zephyr", "giant" };
             if (achieve["100slimes"])
                 secret.Add("Slime");
             if (achieve["100goblins"])
@@ -189,8 +192,12 @@ namespace Realm
 
         public static void MainLoop()
         {
+            var player = new SoundPlayer(Properties.Resources.main);
+            player.PlayLooping();
             while (Player.hp > 0)
             {
+                if (Player.abilities.commands.ContainsKey('&'))
+                    Player.abilities.RemoveCommand('&');
                 if (slimecounter == 100)
                     ach.Get("100slimes");
                 if (goblincounter == 100)
@@ -269,7 +276,7 @@ namespace Realm
 
                 if (command.Key == ConsoleKey.Escape)
                     Environment.Exit(0);
-                else if (command.KeyChar == '-' && devmode)
+                else if (command.KeyChar == '-' && (devmode || Main.command))
                 {
                     try
                     {
