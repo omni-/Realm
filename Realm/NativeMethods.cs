@@ -23,11 +23,19 @@ namespace Realm
         public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         public const int HIDE = 0;
+        public const int SHOWNORMAL = 1;
+        public const int MINIMIZENORMAL = 2;
         public const int MAXIMIZE = 3;
         public const int MINIMIZE = 6;
         public const int RESTORE = 9;
 
         [DllImport("wininet.dll")]
         public static extern bool InternetGetConnectedState(out int Description, int ReservedValue);
+
+        [DllImport("winmm.dll")]
+        public static extern int waveOutGetVolume(IntPtr hwo, out uint dwVolume);
+
+        [DllImport("winmm.dll")]
+        public static extern int waveOutSetVolume(IntPtr hwo, uint dwVolume);
     }
 }

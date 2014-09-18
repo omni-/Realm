@@ -12,6 +12,12 @@ using System.Collections.Generic;
 
 namespace Realm
 {
+    public enum Difficulty
+    {
+        easy = 1,
+        normal,
+        impossible
+    }
     public class Enemy
     {
         public string name;
@@ -43,7 +49,7 @@ namespace Realm
                 var i = dropcands[Main.rand.Next(0, dropcands.Count - 1)];
                 Main.Player.backpack.Add(i);
             }
-            if (Main.rand.NextDouble() <= .01d)
+            if (Main.rand.NextDouble() <= .005d)
             {
                 Main.Player.backpack.Add(new lucky_slots());
             }
@@ -61,7 +67,7 @@ namespace Realm
     {
         public Slime()
         {
-            mod = (level<=10? 2:level<=15? 7: 18);
+            mod = (int)((level <= 10 ? 2 : level <= 15 ? 7 : 18) * (Main.difficulty == Difficulty.easy ? 1 : Main.difficulty == Difficulty.normal ? 1.5 : 2));
             name = "Slime";
             hp = 10 + level;
             atk = 1 + mod;
@@ -101,7 +107,7 @@ namespace Realm
         public Goblin()
         {
             name = "Goblin";
-            mod = (level <= 10 ? 5 : level <= 15 ? 7 : 300);
+            mod = (int)((level <= 10 ? 2 : level <= 15 ? 7 : 18) * (Main.difficulty == Difficulty.easy ? 1 : Main.difficulty == Difficulty.normal ? 1.5 : 2));
             hp = 14 + mod;
             atk = 3 + mod;
             def = 1 + mod;
@@ -147,7 +153,7 @@ namespace Realm
         public Bandit()
         {
             name = "Bandit";
-            mod = (level <= 10 ? 2 : level <= 15 ? 7 : 18);
+            mod = (int)((level <= 10 ? 2 : level <= 15 ? 7 : 18) * (Main.difficulty == Difficulty.easy ? 1 : Main.difficulty == Difficulty.normal ? 1.5 : 2));
             hp = 12 + mod;
             atk = 1 + mod;
             def = 0 + mod;
@@ -236,7 +242,7 @@ namespace Realm
         public Drake()
         {
             name = "Drake";
-            mod = (level <= 10 ? 2 : level <= 15 ? 7 : 18);
+            mod = (int)((level <= 10 ? 2 : level <= 15 ? 7 : 18) * (Main.difficulty == Difficulty.easy ? 1 : Main.difficulty == Difficulty.normal ? 1.5 : 2));
             hp = 50;
             atk = 5 + mod;
             def = 10 + mod;
@@ -385,10 +391,11 @@ namespace Realm
         public cavespider()
         {
             name = "Cave Spider";
-            hp = 20 + (level/2);
-            atk = 10 + (level/2);
-            def = 5 + (level/2);
-            spd = 6 + (level/2);
+            mod = (int)((level <= 10 ? 2 : level <= 15 ? 7 : 18) * (Main.difficulty == Difficulty.easy ? 1 : Main.difficulty == Difficulty.normal ? 1.5 : 2));
+            hp = 20 + (level/2) + mod;
+            atk = 10 + (level/2) + mod;
+            def = 5 + (level/2) + mod;
+            spd = 6 + (level/2) + mod;
             xpdice = 30 + (level/2);
             gpdice = 30 + (level/2);
             abilities = new List<string>();
@@ -432,10 +439,11 @@ namespace Realm
         public cavebat()
         {
             name = "Cave Bat";
-            hp = 10 + (level/2);
-            atk = 6 + (level/2);
-            def = 3 + (level/2);
-            spd = 4 + (level/2);
+            mod = (int)((level <= 10 ? 2 : level <= 15 ? 7 : 18) * (Main.difficulty == Difficulty.easy ? 1 : Main.difficulty == Difficulty.normal ? 1.5 : 2));
+            hp = 10 + (level/2) + mod;
+            atk = 6 + (level/2) + mod;
+            def = 3 + (level/2) + mod;
+            spd = 4 + (level/2) + mod;
             xpdice = 15 + (level/2);
             gpdice = 15 + (level/2);
             abilities = new List<string>();

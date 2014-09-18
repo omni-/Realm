@@ -97,11 +97,24 @@ namespace Realm
                 if (!File.Exists(Main.path))
                     return false;
                 Interface.type("Loading Save...", ConsoleColor.White);
+                int reason = 0;
+                if (!LoadSettings(out reason));
+                {
+                    switch (reason)
+                    {
+                        case 1:
+                            Interface.type("Settings file not found.");
+                            break;
+                        case 2:
+                            Interface.type("Invalid settings file.");
+                            break;
+                    }
+                }
                 DecryptFile(Main.path, Main.tpath, key);
                 var vals = new Dictionary<string, string>();
-                string line;
                 using (var file = new StreamReader(Main.tpath))
                 {
+                    string line;
                     while ((line = file.ReadLine()) != null)
                     {
                         var split = line.Split(new[] {'='});
@@ -109,11 +122,6 @@ namespace Realm
                     }
                     foreach (var entry in vals)
                     {
-                        if (entry.Key == "devmode")
-                        {
-                            var devmode = new Exception("Devmode detected. Load save aborted.");
-                            throw devmode;
-                        }
                         if (entry.Key == "name")
                             Main.Player.name = entry.Value;
                         if (entry.Key == "level")
@@ -358,6 +366,75 @@ namespace Realm
 
                 return false;
             }
+        }
+
+        public static void SaveSettings()
+        {
+            if (!File.Exists(Main.spath))
+                File.Create(Main.spath).Close();
+            File.WriteAllLines(Main.spath, new string[]
+            {
+                "difficulty:" + Main.difficulty,
+                "volume:" + Main.volume,
+                "fullscreen:" + Main.fullscreen,
+                "text speed:" + Main.speed,
+                "default color:" + Main.DefaultColor
+            });
+        }
+
+        public static bool LoadSettings(out int reason)
+        {
+            if (!File.Exists(Main.spath))
+            {
+                reason = 1;
+                return false;
+            }
+            try
+            {
+                var vals = new Dictionary<string, string>();
+                using (var file = new StreamReader(Main.spath))
+                {
+                    string line;
+                    while ((line = file.ReadLine()) != null)
+                    {
+                        var split = line.Split(':');
+                        vals.Add(split[0], split[1]);
+                    }
+                    foreach (var entry in vals)
+                    {
+                        switch (entry.Key)
+                        {
+                            case "difficulty":
+                                if (!Enum.TryParse(entry.Value, out Main.difficulty))
+                                    throw new ArgumentException();
+                                break;
+                            case "volume":
+                                if (!uint.TryParse(entry.Value, out Main.volume))
+                                    throw new ArgumentException();
+                                break;
+                            case "fullscreen":
+                                if (!bool.TryParse(entry.Value, out Main.fullscreen))
+                                    throw new ArgumentException();
+                                break;
+                            case "text speed":
+                                if (!Enum.TryParse(entry.Value, out Main.speed))
+                                    throw new ArgumentException();
+                                break;
+                            case "default color":
+                                if (!Enum.TryParse(entry.Value, out Main.DefaultColor))
+                                    throw new ArgumentException();
+                                break;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                reason = 2;
+                return false;
+            }
+            reason = 0;
+            return true;
         }
 
         public static void EncryptFile(string sInputFilename, string sOutputFilename, string sKey)

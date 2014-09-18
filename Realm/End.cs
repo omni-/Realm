@@ -152,7 +152,7 @@ namespace Realm
 
         private static Tuple<string, int> calcScore()
         {
-            var score = (Main.Player.reputation + (Main.Player.level*10) + Main.Player.g);
+            var score = (Main.Player.reputation + (Main.Player.level*10) + Main.Player.g) * (int)Main.difficulty;
             var rank = (score >= 1500
                 ? "S Rank"
                 : score >= 1000

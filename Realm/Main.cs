@@ -9,6 +9,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Media;
 
@@ -48,22 +51,31 @@ namespace Realm
             hasmap,
             is_typing,
             hasFarmedCrystal,
-            achievements_disabled;
+            achievements_disabled,
+            fullscreen = true;
+
+        public static Difficulty difficulty = Difficulty.easy;
+        public static uint volume;
+        public static TextSpeed speed = TextSpeed.Slow;
+        public static ConsoleColor DefaultColor = ConsoleColor.Gray;
 
         public static readonly Achievement ach = new Achievement();
         public static Player.GamePlayer Player = new Player.GamePlayer();
 
         public static readonly Random rand = new Random();
 
-        public const string version = "v1.8.5.4";
+        public const string version = "v1.8.5.5";
 
         public static string tpath,
             path,
             achpath,
             tachpath,
-            crashpath;
+            crashpath,
+            spath;
 
         public static Dictionary<string, bool> achieve = new Dictionary<string, bool>();
+
+        public static SoundPlayer mainplayer;
 
         public static readonly List<Item> MainItemList = new List<Item>
         {
@@ -143,6 +155,7 @@ namespace Realm
                     Interface.type(
                         "While in the backpack, simply select a number corresponding to an item. You may swap this item in or out. Make sure to equip an item once you pick it up!");
                     Interface.type("At any specified time, you may press #. Doing so will save the game.");
+                    Interface.type("You may also press 'Esc' to access options.");
                 }
                 Interface.type(
                     "In Realm, every player selects a race. Each race gives its own bonuses. You may choose from Human, Elf, Rockman, Giant, Zephyr, or Shade.");
@@ -190,10 +203,134 @@ namespace Realm
             MainLoop();
         }
 
+        private static void Options()
+        {
+            bool optioning = true;
+            while (optioning)
+            {
+                Console.Clear();
+                Interface.typeNoDelay("OPTIONS:\r\n", ConsoleColor.White);
+                Interface.type("1. Text speed\r\n\r\n2. Volume\r\n\r\n3. Difficulty\r\n\r\n4. Default text color\r\n\r\n5. Window size (will require restart)\r\n\r\n6. Delete save(will require restart)\r\n\r\n7. Exit settings\r\n\r\n8. Exit game\r\n\r\nEnter a number listed to set the value: ");
+                switch (Interface.readkey().KeyChar)
+                {
+                    case '1':
+                        Console.Clear();
+                        Interface.type("Please enter slow, medium, or fast (current setting: " + speed + "): ");
+                        bool valid = false;
+                        while (!valid)
+                        {
+                            switch (Interface.readinput().ToLower())
+                            {
+                                case "1":
+                                case "slow":
+                                    speed = TextSpeed.Slow;
+                                    valid = true;
+                                    break;
+                                case "2":
+                                case "medium":
+                                    speed = TextSpeed.Medium;
+                                    valid = true;
+                                    break;
+                                case "3":
+                                case "fast":
+                                    speed = TextSpeed.Fast;
+                                    valid = true;
+                                    break;
+                                default:
+                                    Interface.type("Invalid.\r\n");
+                                    break;
+                            }
+                        }
+                        break;
+                    case '2':
+                        Console.Clear();
+                        NativeMethods.waveOutGetVolume(IntPtr.Zero, out volume);
+                        var CalcVol = (ushort)(volume & 0x0000ffff);
+                        Interface.type("Please enter a number between 1 and 10 (current volume: " + CalcVol / (ushort.MaxValue / 10) + "): ");
+                        bool valid2 = false;
+                        int input = 0;
+                        while (!valid2) valid2 = int.TryParse(Interface.readinput(), out input);
+                        var NewVolume = ((ushort.MaxValue / 10) * input);
+                        volume = (((uint)NewVolume & 0x0000ffff) | ((uint)NewVolume << 16));
+                        NativeMethods.waveOutSetVolume(IntPtr.Zero, volume);
+                        break;
+                    case '3':
+                        Console.Clear();
+                        Interface.type("Please enter easy, normal, or impossible (current difficulty: " + difficulty + "): ");
+                        bool success = false;
+                        while (!success) success = Enum.TryParse(Interface.readinput(), out difficulty);
+                        break;
+                    case '4':
+                        Console.Clear();
+                        Interface.type("Color options: Black, Blue, Cyan, Gray, Green, Magenta, Red, Dark Blue, Dark Cyan, Dark Gray, Dark Green, Dark Magenta, Dark Red");
+                        Interface.type("Please enter a color (current color: ");
+                        Interface.typeOnSameLine(DefaultColor.ToString().Remove(12), DefaultColor);
+                        Interface.typeOnSameLine(": ");
+                        bool colorified = false;
+                        while (!colorified)
+                            colorified = Enum.TryParse(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Interface.readinput()), out DefaultColor);
+                        break;
+                    case '5':
+                        Console.Clear();
+                        Interface.type("Fullscreen?(y/n) ");
+                        switch (Interface.readkey().KeyChar)
+                        {
+                            case 'y':
+                                fullscreen = true;
+                                Save.SaveSettings();
+                                Restart();
+                                break;
+                            default:
+                                fullscreen = false;
+                                Save.SaveSettings();
+                                Restart();
+                                break;
+                        }
+                        break;
+                    case '6':
+                        Console.Clear();
+                        Interface.type("Are you sure you want to delete your save?(y/n) ");
+                        if (Interface.readkey().KeyChar == 'y')
+                        {
+                            if (File.Exists(path))
+                                File.Delete(path);
+                            Restart();
+                        }
+                        break;
+                    case '7':
+                        Console.Clear();
+                        Interface.type("Save settings?(y/n) ");
+                        if (Interface.readkey().KeyChar == 'y')
+                            Save.SaveSettings();
+                        optioning = false;
+                        break;
+                    case '8':
+                        Console.Clear();
+                        Interface.type("Are you sure?(y/n)");
+                        switch (Interface.readkey().KeyChar)
+                        {
+                            case 'y':
+                                Interface.type("Would you like to save?(y/n)");
+                                switch (Interface.readkey().KeyChar)
+                                {
+                                    case 'y':
+                                        Save.SaveSettings();
+                                        Environment.Exit(0);
+                                        break;
+                                    default:
+                                        Environment.Exit(0);
+                                        break;
+                                }
+                                break;
+                        }
+                        break;
+                }
+            }
+        }
+
         public static void MainLoop()
         {
-            var player = new SoundPlayer(Properties.Resources.main);
-            player.PlayLooping();
+            mainplayer.PlayLooping();
             while (Player.hp > 0)
             {
                 if (Player.abilities.commands.ContainsKey('&'))
@@ -275,7 +412,7 @@ namespace Realm
                 var command = Interface.readkey();
 
                 if (command.Key == ConsoleKey.Escape)
-                    Environment.Exit(0);
+                    Options();
                 else if (command.KeyChar == '-' && (devmode || Main.command))
                 {
                     try
@@ -371,6 +508,20 @@ namespace Realm
                     currPlace.handleInput(command.KeyChar);
                 loop_number++;
             }
+        }
+        public static void Restart()
+        {
+            var Info = new ProcessStartInfo
+            {
+                Arguments =
+                    "/C ping 127.0.0.1 -n 2 && \"" +
+                    Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\"",
+                WindowStyle = ProcessWindowStyle.Hidden,
+                CreateNoWindow = true,
+                FileName = "cmd.exe"
+            };
+            Process.Start(Info);
+            Environment.Exit(0); 
         }
     }
 }

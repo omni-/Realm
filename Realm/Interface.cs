@@ -53,12 +53,15 @@ namespace Realm
 
         public static void typeNoDelay(string src, ConsoleColor color)
         {
+            Console.ForegroundColor = Main.DefaultColor;
             Console.WriteLine(src, color);
+            Console.ResetColor();
         }
 
         public static void type(string src, int speed)
         {
             Main.is_typing = true;
+            Console.ForegroundColor = Main.DefaultColor;
             Console.WriteLine("\r\n");
             foreach (var c in src)
             {
@@ -66,18 +69,21 @@ namespace Realm
                 Thread.SpinWait(speed*1000000);
             }
             Main.is_typing = false;
+            Console.ResetColor();
         }
 
         public static void type(string src)
         {
             Main.is_typing = true;
+            Console.ForegroundColor = Main.DefaultColor;
             Console.WriteLine("\r\n");
             foreach (var c in src)
             {
                 Console.Write(c);
-                Thread.SpinWait(1000000);
+                Thread.SpinWait((int)Main.speed * 100000);
             }
             Main.is_typing = false;
+            Console.ResetColor();
         }
 
         public static void typeStats()
@@ -136,23 +142,14 @@ namespace Realm
         public static void typeOnSameLine(string src)
         {
             Main.is_typing = true;
+            Console.ForegroundColor = Main.DefaultColor;
             foreach (var c in src)
             {
                 Console.Write(c);
-                Thread.SpinWait(1000000);
+                Thread.SpinWait((int)Main.speed * 100000);
             }
             Main.is_typing = false;
-        }
-
-        public static void typeOnSameLine(string src, int speed)
-        {
-            Main.is_typing = true;
-            foreach (var c in src)
-            {
-                Console.Write(c);
-                Thread.SpinWait(1000000*speed);
-            }
-            Main.is_typing = false;
+            Console.ResetColor();
         }
 
         public static void typeOnSameLine(string src, ConsoleColor color)
@@ -162,20 +159,7 @@ namespace Realm
             foreach (var c in src)
             {
                 Console.Write(c);
-                Thread.SpinWait(1000000);
-            }
-            Main.is_typing = false;
-            Console.ResetColor();
-        }
-
-        public static void typeOnSameLine(string src, int speed, ConsoleColor color)
-        {
-            Main.is_typing = true;
-            Console.ForegroundColor = color;
-            foreach (var c in src)
-            {
-                Console.Write(c);
-                Thread.SpinWait(1000000*speed);
+                Thread.SpinWait((int)Main.speed * 100000);
             }
             Main.is_typing = false;
             Console.ResetColor();
@@ -189,7 +173,7 @@ namespace Realm
             foreach (var c in src)
             {
                 Console.Write(c);
-                Thread.SpinWait(1000000);
+                Thread.SpinWait((int)Main.speed * 100000);
             }
             Main.is_typing = false;
             Console.ResetColor();
@@ -236,7 +220,7 @@ namespace Realm
                     foreach (var c in word)
                     {
                         Console.Write(c);
-                        Thread.SpinWait(1000000);
+                        Thread.SpinWait((int)Main.speed * 100000);
                     }
                     i++;
                     if (i > colors.Count - 1)
@@ -253,55 +237,6 @@ namespace Realm
                 {
                     Console.Write(c);
                     Thread.SpinWait(1000000);
-                }
-                Main.is_typing = false;
-            }
-        }
-
-        public static void type(string src, int speed, bool rainbow)
-        {
-            if (rainbow)
-            {
-                Main.is_typing = true;
-                var colors = new List<ConsoleColor>
-                {
-                    ConsoleColor.Blue,
-                    ConsoleColor.Cyan,
-                    ConsoleColor.DarkMagenta,
-                    ConsoleColor.Green,
-                    ConsoleColor.Magenta,
-                    ConsoleColor.Red,
-                    ConsoleColor.White,
-                    ConsoleColor.Yellow
-                };
-                Console.WriteLine("\r\n");
-                var words = src.Split();
-                var i = 0;
-                foreach (var word in words)
-                {
-                    if (word != words[0])
-                        Console.Write(" ");
-                    Console.ForegroundColor = colors[i];
-                    foreach (var c in word)
-                    {
-                        Console.Write(c);
-                        Thread.SpinWait(1000000*speed);
-                    }
-                    i++;
-                    if (i > colors.Count - 1)
-                        i = 0;
-                }
-                Main.is_typing = false;
-                Console.ResetColor();
-            }
-            else
-            {
-                Main.is_typing = true;
-                Console.WriteLine("\r\n");
-                foreach (var c in src)
-                {
-                    Console.Write(c);
-                    Thread.SpinWait(1000000*speed);
                 }
                 Main.is_typing = false;
             }
@@ -390,49 +325,11 @@ namespace Realm
             // return the array made of the new char array
             return new string(letters);
         }
-
-        public static SecureString getPassword()
-        {
-            var pwd = new SecureString();
-            while (true)
-            {
-                var i = Console.ReadKey(true);
-                if (i.Key == ConsoleKey.Enter)
-                {
-                    break;
-                }
-                if (i.Key == ConsoleKey.Backspace)
-                {
-                    try
-                    {
-                        pwd.RemoveAt(pwd.Length - 1);
-                        Console.Write("\b \b");
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                    }
-                }
-                else
-                {
-                    pwd.AppendChar(i.KeyChar);
-                    Console.Write("*");
-                }
-            }
-            return pwd;
-        }
-
-        public static String SecureStringToString(SecureString value)
-        {
-            var bstr = Marshal.SecureStringToBSTR(value);
-
-            try
-            {
-                return Marshal.PtrToStringBSTR(bstr);
-            }
-            finally
-            {
-                Marshal.FreeBSTR(bstr);
-            }
-        }
+    }
+    public enum TextSpeed
+    {
+        Slow = 10,
+        Medium = 5,
+        Fast = 1,
     }
 }

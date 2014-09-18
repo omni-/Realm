@@ -45,12 +45,13 @@ namespace Realm
     {
         public lucky_slots()
         {
-            value = 3000;
+            value = 1000;
             name = "Lucky Slots";
             desc = "It allows you to use the moves of legendary heroes if you're lucky.";
-            atkbuff = 7;
-            spdbuff = 7;
-            intlbuff = 7;
+            atkbuff = 20;
+            spdbuff = 20;
+            intlbuff = 20;
+            defbuff = 20;
             tier = 6;
             slot = 4;
 

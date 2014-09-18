@@ -94,33 +94,34 @@ namespace Realm
                     atk = (1 + (level/3));
                 }
                 else
-                    maxhp = 9 + level;
-                if (race == pRace.human)
+                    maxhp = 9 + level * 2;
+                switch (race)
                 {
-                    def = (1 + (level/3));
-                    atk = (2 + (level/3));
-                    spd = (1 + (level/3));
-                }
-                else if (race == pRace.elf || race == pRace.slime)
-                {
-                    intl = (3 + (level/2));
-                    spd = (1 + (level/3));
-                }
-                else if (race == pRace.rockman)
-                {
-                    def = (3 + (level/2));
-                    maxhp = 10 + level;
-                }
-                else if (race == pRace.zephyr || race == pRace.goblin)
-                {
-                    spd = (3 + (level/2));
-                    atk = (1 + level / 3);
-                    intl = (1 + (level/3));
-                }
-                else if (race == pRace.shade || race == pRace.bandit)
-                {
-                    atk = (3 + (level/2));
-                    spd = (1 + (level/3));
+                    case pRace.human:
+                        def = (1 + (level/3));
+                        atk = (2 + (level/3));
+                        spd = (1 + (level/3));
+                        break;
+                    case pRace.slime:
+                    case pRace.elf:
+                        intl = (3 + (level/2));
+                        spd = (1 + (level/3));
+                        break;
+                    case pRace.rockman:
+                        def = (3 + (level/2));
+                        maxhp = 10 + level;
+                        break;
+                    case pRace.goblin:
+                    case pRace.zephyr:
+                        spd = (3 + (level/2));
+                        atk = (1 + level / 3);
+                        intl = (1 + (level/3));
+                        break;
+                    case pRace.bandit:
+                    case pRace.shade:
+                        atk = (3 + (level/2));
+                        spd = (1 + (level/3));
+                        break;
                 }
                 atk += Main.atkbuff;
                 def += Main.defbuff;

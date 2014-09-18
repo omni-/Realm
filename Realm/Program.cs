@@ -20,8 +20,6 @@ namespace Realm
         {
             try
             {
-                Console.SetWindowSize(Console.LargestWindowWidth - 4, Console.LargestWindowHeight);
-                NativeMethods.ShowWindow(NativeMethods.ThisConsole, NativeMethods.MAXIMIZE);
                 Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
                                           @"\my games\Realm");
                 Realm.Main.tpath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
@@ -34,6 +32,9 @@ namespace Realm
                                       @"\my games\Realm\temp_achievements.rlm";
                 Realm.Main.crashpath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
                                        @"\my games\Realm\crashlog.txt";
+                Realm.Main.spath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
+                                       @"\my games\Realm\settings.txt";
+                #region handleargs
                 if (args.Contains("-wipe"))
                 {
                     try
@@ -155,12 +156,14 @@ namespace Realm
                     Realm.Main.devmode = true;
                 if (args.Contains("-command"))
                     Realm.Main.command = true;
+                #endregion
+
                 Init.Initialize();
             }
             catch (Exception e)
             {
                 Save.WriteError(e);
-                throw e;
+                throw;
             }
         }
     }
