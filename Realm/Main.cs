@@ -19,6 +19,8 @@ namespace Realm
 {
     public static class Main
     {
+        public const string version = "v1.8.6.1";
+
         public static int loop_number,
             slimecounter,
             goblincounter,
@@ -60,11 +62,9 @@ namespace Realm
         public static ConsoleColor DefaultColor = ConsoleColor.Gray;
 
         public static readonly Achievement ach = new Achievement();
-        public static Player.GamePlayer Player = new Player.GamePlayer();
+        public static readonly Player.GamePlayer Player = new Player.GamePlayer();
 
         public static readonly Random rand = new Random();
-
-        public const string version = "v1.8.5.5";
 
         public static string tpath,
             path,
@@ -215,7 +215,7 @@ namespace Realm
                 {
                     case '1':
                         Console.Clear();
-                        Interface.type("Please enter slow, medium, or fast (current setting: " + speed + "): ");
+                        Interface.type("Please enter slow, medium, fast, or zero (current setting: " + speed + "): ");
                         bool valid = false;
                         while (!valid)
                         {
@@ -234,6 +234,11 @@ namespace Realm
                                 case "3":
                                 case "fast":
                                     speed = TextSpeed.Fast;
+                                    valid = true;
+                                    break;
+                                case "4":
+                                case "zero":
+                                    speed = TextSpeed.Zero;
                                     valid = true;
                                     break;
                                 default:
@@ -263,9 +268,7 @@ namespace Realm
                     case '4':
                         Console.Clear();
                         Interface.type("Color options: Black, Blue, Cyan, Gray, Green, Magenta, Red, Dark Blue, Dark Cyan, Dark Gray, Dark Green, Dark Magenta, Dark Red");
-                        Interface.type("Please enter a color (current color: ");
-                        Interface.typeOnSameLine(DefaultColor.ToString().Remove(12), DefaultColor);
-                        Interface.typeOnSameLine(": ");
+                        Interface.type("Please enter a color: ");
                         bool colorified = false;
                         while (!colorified)
                             colorified = Enum.TryParse(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Interface.readinput()), out DefaultColor);
@@ -507,9 +510,11 @@ namespace Realm
                 else
                     currPlace.handleInput(command.KeyChar);
                 loop_number++;
+                Player.mana += Player.mana >= Player.maxmana ? 0 : 1;
             }
         }
-        public static void Restart()
+
+        private static void Restart()
         {
             var Info = new ProcessStartInfo
             {

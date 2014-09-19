@@ -22,7 +22,7 @@ namespace Realm
 
         public static void Initialize()
         {
-            if (!Main.devmode)
+            //if (!Main.devmode)
                 FileIO.checkver();
             File.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe");
             Console.Title = "Realm: " + Interface.GetTitle() + " (" + Main.version + ")";

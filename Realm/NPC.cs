@@ -113,8 +113,8 @@ namespace Realm
 
     public class Innkeeper : NPC
     {
-        private int price;
-        public string stay, leave;
+        private readonly int price;
+        private readonly string stay, leave;
 
         public Innkeeper(string Name, string Text, string stayText, string leaveText)
         {
@@ -135,7 +135,8 @@ namespace Realm
                     if (Player.Purchase(price))
                     {
                         Main.Player.hp = Main.Player.maxhp;
-                        Interface.type("Your health has been restored.", ConsoleColor.Cyan);
+                        Main.Player.mana = Main.Player.maxmana;
+                        Interface.type("Your health and mana have been restored.", ConsoleColor.Cyan);
                         if (!String.IsNullOrEmpty(stay))
                             Interface.type(stay);
                         Main.Player.last_inn[0] = Map.PlayerPosition.x;

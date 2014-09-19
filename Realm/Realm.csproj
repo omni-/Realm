@@ -145,8 +145,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="realm.ico" />
-    <None Include="Resources\main.wav" />
     <EmbeddedResource Include="update.exe" />
+    <None Include="Resources\main.wav" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

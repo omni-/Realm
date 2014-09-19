@@ -97,7 +97,7 @@ namespace Realm
             type(
                 "Attack: " + Main.Player.atk + " / Defense: " + Main.Player.def + " / Speed: " + Main.Player.spd +
                 " / Intelligence: " + Main.Player.intl, ConsoleColor.Yellow);
-            type("Mana: " + (1 + (Main.Player.intl/10)), ConsoleColor.Yellow);
+            type("Mana: " + Main.Player.mana + "/" + Main.Player.maxmana, ConsoleColor.Yellow);
             type("Gold: " + Main.Player.g + " / Exp to Level: " + (Main.Player.xp_next - Main.Player.xp),
                 ConsoleColor.Yellow);
             type("=============Achievements============", ConsoleColor.Cyan);
@@ -331,5 +331,6 @@ namespace Realm
         Slow = 10,
         Medium = 5,
         Fast = 1,
+        Zero = 0
     }
 }

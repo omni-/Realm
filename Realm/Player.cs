@@ -39,7 +39,7 @@ namespace Realm
     {
         public class GamePlayer
         {
-            public int hp, maxhp, spd, atk, intl, def, g, level, xp, xp_next, fire, guard, reputation;
+            public int hp, maxhp, spd, atk, intl, def, g, level, xp, xp_next, fire, guard, reputation, mana, maxmana;
 
             public string name;
 
@@ -88,6 +88,7 @@ namespace Realm
                 def = 1;
                 spd = 1;
                 intl = 1;
+                maxmana = 10 + (Main.Player.intl / 5) + (Main.Player.level / 3);
                 if (race == pRace.giant || race == pRace.drake)
                 {
                     maxhp = 12 + (level + 2);

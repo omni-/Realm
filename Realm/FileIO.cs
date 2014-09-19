@@ -69,7 +69,7 @@ namespace Realm
             return tf;
         }
 
-        public static string CalculateMD5Hash(string input)
+        private static string CalculateMD5Hash(string input)
         {
             // step 1, calculate MD5 hash from input
             var md5 = MD5.Create();
@@ -89,7 +89,7 @@ namespace Realm
             const string programName = "update.exe";
             const string resourceName = "Realm.update.exe";
             var exepath = path + "\\Realm.exe";
-            var temppath = path + "\\test.exe";
+            var temppath = path + "\\test.txt";
             worker();
             while (!Init.init)
             {
@@ -98,7 +98,7 @@ namespace Realm
             if (isConnected())
             {
                 if (Init.failed) return;
-                if (!FileCompare(exepath, temppath))
+                if (CalculateMD5Hash(Convert.ToBase64String(File.ReadAllBytes(exepath))) != File.ReadAllText(temppath))
                 {
                     Interface.type("New version available. Press 'p' to download. ", 0);
                     if (Interface.readkey().KeyChar == 'p')
@@ -117,11 +117,11 @@ namespace Realm
         private void startDownload()
         {
             Console.Write("Loading...0%");
-            var temppath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe";
+            var temppath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.txt";
             var client = new WebClient();
             client.DownloadProgressChanged += client_DownloadProgressChanged;
             client.DownloadFileCompleted += client_DownloadFileCompleted;
-            client.DownloadFileAsync((new Uri("https://dl.dropboxusercontent.com/u/83385592/Realm.exe")), temppath);
+            client.DownloadFileAsync((new Uri("https://dl.dropboxusercontent.com/u/83385592/md5.txt")), temppath);
         }
 
         private static void worker()

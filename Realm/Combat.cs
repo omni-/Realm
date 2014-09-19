@@ -20,7 +20,6 @@ namespace Realm
             Main.Player.applybonus();
 
             var enemydmg = 0;
-            var mana = 1 + (Main.Player.intl / 10) + (Main.Player.level / 5);
             Interface.type("You have entered combat! Ready your weapons!", ConsoleColor.Red);
             Interface.type("Level " + enemy.level + " " + enemy.name + ":", ConsoleColor.Yellow);
             Interface.type("-------------------------", ConsoleColor.Yellow);
@@ -33,8 +32,8 @@ namespace Realm
             while (enemy.hp >= 0)
             {
                 Interface.type("----------------------", ConsoleColor.Cyan);
-                Interface.type("Your HP: " + Main.Player.hp, ConsoleColor.Cyan);
-                Interface.type("Your Mana: " + mana, ConsoleColor.Cyan);
+                Interface.type("Your HP: " + Main.Player.hp + "/" + Main.Player.maxhp, ConsoleColor.Cyan);
+                Interface.type("Your Mana: " + Main.Player.mana + "/" + Main.Player.maxmana, ConsoleColor.Cyan);
                 Interface.type("----------------------", ConsoleColor.Cyan);
                 Interface.type("Enemy HP: " + enemy.hp, ConsoleColor.Red);
                 Interface.type("----------------------", ConsoleColor.Cyan);
@@ -47,7 +46,7 @@ namespace Realm
                     var i = 0;
                     foreach (var c in Main.Player.abilities.commands.Values)
                     {
-                        var src = "||   " + c.cmdchar + ". " + c.name;
+                        var src = "||   " + c.cmdchar + ". " + c.name + " (" + c.cost + ") ";
                         Interface.type(src, ConsoleColor.Cyan);
                         i++;
                     }
@@ -79,9 +78,9 @@ namespace Realm
                         Interface.type("");
                         ch = Interface.readkey().KeyChar;
                     }
-                    while (ch != 'b' && mana <= 0)
+                    while (ch != 'b' && Main.Player.mana - Main.Player.abilities.commands[ch].cost < 0)
                     {
-                        Interface.type("Out of mana!", ConsoleColor.Red);
+                        Interface.type("Not enough mana!", ConsoleColor.Red);
                         Interface.type("");
                         ch = Interface.readkey().KeyChar;
                     }
@@ -103,7 +102,7 @@ namespace Realm
                         hasUsedLuckySlots = true;
                     }
                     if (ch != 'b')
-                        mana--;
+                        Main.Player.mana -= Main.Player.abilities.commands[ch].cost;
                     if (ch == 'm')
                     {
                         Interface.type("You mimc the enemy's damage!", ConsoleColor.Cyan);
@@ -343,9 +342,7 @@ namespace Realm
 
         public static bool CheckBattle()
         {
-            var randint = new Random();
-            var rollresult = Dice.roll(1, 3);
-            return rollresult == 1;
+            return Main.rand.Next(1, 4) == 1;
         }
 
         public static string DecideAttack(List<string> abilities)
@@ -361,30 +358,7 @@ namespace Realm
 
         public static bool stunchance(int chance)
         {
-            if (Dice.roll(1, chance) == 1)
-                return true;
-            return false;
-        }
-
-        public class Command
-        {
-            public string name;
-            public char cmdchar;
-
-            public Command()
-            {
-            }
-
-            public Command(string aname, char achar)
-            {
-                name = aname;
-                cmdchar = achar;
-            }
-
-            public virtual bool Execute(object Data)
-            {
-                return false;
-            }
+            return Dice.roll(1, chance) == 1;
         }
 
         public class CommandTable
@@ -404,7 +378,7 @@ namespace Realm
             public void AddCommand(Command cmd)
             {
                 _commands.Add(cmd.cmdchar, cmd);
-                if (cmd.name != "Basic Attack" && cmd.GetType() == typeof (Command))
+                if (cmd.name != "Basic Attack" && cmd.GetType() == typeof(Command))
                     Interface.type("Learned " + cmd.name + "!", ConsoleColor.Cyan);
             }
 
@@ -440,11 +414,36 @@ namespace Realm
             }
         }
 
+        public class Command
+        {
+            public string name;
+            public char cmdchar;
+            public int cost = 0;
+
+            protected Command()
+            {
+            }
+
+            protected Command(string aname, char achar)
+            {
+                name = aname;
+                cmdchar = achar;
+            }
+
+            public virtual bool Execute(object Data)
+            {
+                return false;
+            }
+        }
+
+        #region Abilities
+
         public class BasicAttack : Command
         {
             public BasicAttack(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 0;
             }
 
             public override bool Execute(object data)
@@ -469,6 +468,7 @@ namespace Realm
             public EnergyOverload(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 1;
             }
 
             public override bool Execute(object data)
@@ -491,6 +491,7 @@ namespace Realm
             public BladeDash(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 1;
             }
 
             public override bool Execute(object data)
@@ -513,6 +514,7 @@ namespace Realm
             public ConsumeSoul(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 2;
             }
 
             public override bool Execute(object data)
@@ -538,6 +540,7 @@ namespace Realm
             public HolySmite(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 1;
             }
 
             public override bool Execute(object data)
@@ -560,6 +563,7 @@ namespace Realm
             public EndtheIllusion(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 9;
             }
 
             public override bool Execute(object data)
@@ -577,6 +581,7 @@ namespace Realm
             public ArrowsofLies(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 10;
             }
 
             public override bool Execute(object Data)
@@ -592,6 +597,7 @@ namespace Realm
             public Curse(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 5;
             }
 
             public override bool Execute(object Data)
@@ -608,6 +614,7 @@ namespace Realm
             public Sacrifice(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 3;
             }
 
             public override bool Execute(object Data)
@@ -630,6 +637,7 @@ namespace Realm
             public Phase(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 6;
             }
 
             public override bool Execute(object Data)
@@ -646,6 +654,7 @@ namespace Realm
             public VorpalBlades(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 5;
             }
 
             public override bool Execute(object Data)
@@ -667,6 +676,7 @@ namespace Realm
             public Incinerate(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 3;
             }
 
             public override bool Execute(object Data)
@@ -683,6 +693,7 @@ namespace Realm
             public Dawnstrike(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 2;
             }
 
             public override bool Execute(object Data)
@@ -707,6 +718,7 @@ namespace Realm
             public Heavensplitter(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 4;
             }
 
             public override bool Execute(object Data)
@@ -729,6 +741,7 @@ namespace Realm
             public HellsKitchen(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 2;
             }
 
             public override bool Execute(object Data)
@@ -747,6 +760,7 @@ namespace Realm
             public Gamble(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 3;
             }
 
             public override bool Execute(object Data)
@@ -773,6 +787,7 @@ namespace Realm
             public Mimic(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 2;
             }
 
             public override bool Execute(object Data)
@@ -786,6 +801,7 @@ namespace Realm
             public Heal(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 2;
             }
 
             public override bool Execute(object Data)
@@ -804,6 +820,7 @@ namespace Realm
             public Safeguard(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 2;
             }
 
             public override bool Execute(object Data)
@@ -818,6 +835,7 @@ namespace Realm
             public Rage(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 2;
             }
 
             public override bool Execute(object Data)
@@ -838,6 +856,7 @@ namespace Realm
             public Lightspeed(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 2;
             }
 
             public override bool Execute(object Data)
@@ -853,6 +872,7 @@ namespace Realm
             public Nightshade(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 2;
             }
 
             public override bool Execute(object Data)
@@ -875,6 +895,7 @@ namespace Realm
             public ForcePulse(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 5;
             }
 
             public override bool Execute(object Data)
@@ -891,6 +912,7 @@ namespace Realm
             public IceChains(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 6;
             }
 
             public override bool Execute(object Data)
@@ -910,6 +932,7 @@ namespace Realm
             public NowYouSeeMe(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 3;
             }
 
             public override bool Execute(object Data)
@@ -927,6 +950,7 @@ namespace Realm
             public Illusion(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 3;
             }
 
             public override bool Execute(object Data)
@@ -943,6 +967,7 @@ namespace Realm
             public PewPewPew(string aname, char cmd)
                 : base(aname, cmd)
             {
+                cost = 3;
             }
 
             public override bool Execute(object Data)
@@ -953,6 +978,7 @@ namespace Realm
                 return true;
             }
         }
+
         public class enhanced_blows : Command
         {
             public enhanced_blows(string aname, char cmd)
@@ -1072,4 +1098,5 @@ namespace Realm
             }
         }
     }
+        #endregion
 }
