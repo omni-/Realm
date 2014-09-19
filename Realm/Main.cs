@@ -19,7 +19,7 @@ namespace Realm
 {
     public static class Main
     {
-        public const string version = "v1.8.6.1";
+        public const string version = "v1.8.6.2";
 
         public static int loop_number,
             slimecounter,
@@ -275,7 +275,7 @@ namespace Realm
                         break;
                     case '5':
                         Console.Clear();
-                        Interface.type("Fullscreen?(y/n) ");
+                        Interface.type("Fullscreen? (y/n) ");
                         switch (Interface.readkey().KeyChar)
                         {
                             case 'y':
@@ -292,7 +292,7 @@ namespace Realm
                         break;
                     case '6':
                         Console.Clear();
-                        Interface.type("Are you sure you want to delete your save?(y/n) ");
+                        Interface.type("Are you sure you want to delete your save? (y/n) ");
                         if (Interface.readkey().KeyChar == 'y')
                         {
                             if (File.Exists(path))
@@ -302,22 +302,23 @@ namespace Realm
                         break;
                     case '7':
                         Console.Clear();
-                        Interface.type("Save settings?(y/n) ");
+                        Interface.type("Save settings? (y/n) ");
                         if (Interface.readkey().KeyChar == 'y')
                             Save.SaveSettings();
                         optioning = false;
                         break;
                     case '8':
                         Console.Clear();
-                        Interface.type("Are you sure?(y/n)");
+                        Interface.type("Are you sure? (y/n) ");
                         switch (Interface.readkey().KeyChar)
                         {
                             case 'y':
-                                Interface.type("Would you like to save?(y/n)");
+                                Interface.type("Would you like to save? (y/n) ");
                                 switch (Interface.readkey().KeyChar)
                                 {
                                     case 'y':
                                         Save.SaveSettings();
+                                        Save.SaveGame();
                                         Environment.Exit(0);
                                         break;
                                     default:
