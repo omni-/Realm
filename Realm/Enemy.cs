@@ -22,7 +22,7 @@ namespace Realm
     {
         public string name;
         public int level, hp, atk, def, spd, xpdice, gpdice, fire, extrarep, mod;
-        public bool trapped = false, cursed = false, on_fire = false, stunned = false, blinded = false;
+        public bool trapped = false, cursed, on_fire, stunned, blinded;
         protected List<string> abilities;
 
         public virtual void attack(out string ability_used)

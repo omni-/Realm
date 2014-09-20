@@ -43,13 +43,8 @@ namespace Realm
                         Main.Player.phased = false;
                     Interface.type("\r\nAvailable Moves:", ConsoleColor.Cyan);
                     Interface.type("-------------", ConsoleColor.Cyan);
-                    var i = 0;
-                    foreach (var c in Main.Player.abilities.commands.Values)
-                    {
-                        var src = "||   " + c.cmdchar + ". " + c.name + " (" + c.cost + ") ";
+                    foreach (var src in Main.Player.abilities.commands.Values.Select(c => "||   " + c.cmdchar + ". " + c.name + " (" + c.cost + ") "))
                         Interface.type(src, ConsoleColor.Cyan);
-                        i++;
-                    }
                     Interface.type("-------------", ConsoleColor.Cyan);
                     Interface.type("");
 
@@ -336,10 +331,6 @@ namespace Realm
             }
         }
 
-        public static void SammysAdventure()
-        {
-        }
-
         public static bool CheckBattle()
         {
             return Main.rand.Next(1, 4) == 1;
@@ -418,7 +409,7 @@ namespace Realm
         {
             public string name;
             public char cmdchar;
-            public int cost = 0;
+            public int cost;
 
             protected Command()
             {

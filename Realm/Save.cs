@@ -17,7 +17,7 @@ using System.Windows.Forms;
 
 namespace Realm
 {
-    public class Save
+    public static class Save
     {
         public const string key = "???t\0sl";
 
@@ -97,16 +97,16 @@ namespace Realm
                 if (!File.Exists(Main.path))
                     return false;
                 Interface.type("Loading Save...", ConsoleColor.White);
-                int reason = 0;
-                if (!LoadSettings(out reason));
+                int reason;
+                if (!LoadSettings(out reason))
                 {
                     switch (reason)
                     {
                         case 1:
-                            Interface.type("Settings file not found.");
+                            Interface.type("Settings file not found.", ConsoleColor.White);
                             break;
                         case 2:
-                            Interface.type("Invalid settings file.");
+                            Interface.type("Invalid settings file.", ConsoleColor.Red);
                             break;
                     }
                 }
@@ -372,7 +372,7 @@ namespace Realm
         {
             if (!File.Exists(Main.spath))
                 File.Create(Main.spath).Close();
-            File.WriteAllLines(Main.spath, new string[]
+            File.WriteAllLines(Main.spath, new[]
             {
                 "difficulty:" + Main.difficulty,
                 "volume:" + Main.volume,

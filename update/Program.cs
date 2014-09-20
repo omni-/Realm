@@ -18,7 +18,7 @@ namespace update
 {
     static class Program
     {
-        private static bool init = false;
+        private static bool init;
 
         public static void Main(string[] args)
         {

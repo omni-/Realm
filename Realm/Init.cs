@@ -41,7 +41,7 @@ namespace Realm
                 if (Main.devmode)
                 {
                     Console.Clear();
-                    int reason = 0;
+                    int reason;
                     if (!Save.LoadSettings(out reason))
                     {
                         switch (reason)

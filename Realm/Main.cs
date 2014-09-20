@@ -413,11 +413,11 @@ namespace Realm
                     Interface.typeOnSameLine(", " + c, ConsoleColor.Cyan);
                 Interface.type("");
 
-                var command = Interface.readkey();
+                var readkey = Interface.readkey();
 
-                if (command.Key == ConsoleKey.Escape)
+                if (readkey.Key == ConsoleKey.Escape)
                     Options();
-                else if (command.KeyChar == '-' && (devmode || Main.command))
+                else if (readkey.KeyChar == '-' && (devmode || command))
                 {
                     try
                     {
@@ -509,7 +509,7 @@ namespace Realm
                     }
                 }
                 else
-                    currPlace.handleInput(command.KeyChar);
+                    currPlace.handleInput(readkey.KeyChar);
                 loop_number++;
                 Player.mana += Player.mana >= Player.maxmana ? 0 : 1;
             }

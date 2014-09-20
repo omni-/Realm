@@ -27,7 +27,7 @@ namespace Realm
         public string Description
         {
             get { return GetDesc(); }
-            set { }
+            private set { }
         }
 
         public virtual Enemy getEnemyList()
@@ -623,8 +623,6 @@ namespace Realm
                                 "You talk to a villager. He muses about the fact that sometimes, reality doesn't feel real at all. Puzzled by his comment, you walk away.");
                             Interface.type(
                                 "A paper flaps out of his cloak as he walks away. On it is nothing but the letter 'w'.");
-                            break;
-                        default:
                             break;
                     }
                     break;
@@ -1834,14 +1832,10 @@ namespace Realm
                                             }
                                         }
                                         break;
-                                    default:
-                                        break;
                                 }
                                 break;
                             case 'n':
                                 Interface.type("You leave.");
-                                break;
-                            default:
                                 break;
                         }
                         Main.minecounter++;
@@ -1955,8 +1949,6 @@ namespace Realm
                                     "You pick up the book entitled Ice. You learn of the ancient sorcer who was able to cast ice spells by drawing the heat out of the air, and the water from the ground.");
                                 Main.Player.abilities.AddCommand(new Combat.IceChains("Ice Chains", 'i'));
                                 break;
-                            default:
-                                break;
                         }
                         Main.Player.xp += 10;
                         Main.frozencounter++;
@@ -2067,8 +2059,6 @@ namespace Realm
                             case 'm':
                                 Interface.type("You learn of how to make cool lasers with magic.");
                                 Main.Player.abilities.AddCommand(new Combat.PewPewPew("Pew Pew Pew", 'w'));
-                                break;
-                            default:
                                 break;
                         }
                         Main.Player.xp += 10;

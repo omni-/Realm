@@ -43,7 +43,7 @@ namespace Realm
                 {
                     Interface.type(j + ". " + this[j].name);
                 }
-                var k = 0;
+                int k;
                 var result = Int32.TryParse(Interface.readkey().KeyChar.ToString(), out k);
                 if (result && Count - 1 >= k && k >= 0)
                 {
