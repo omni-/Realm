@@ -14,7 +14,7 @@ namespace Realm
 {
     public class NPC
     {
-        public string name, text;
+        protected string name, text;
         public int cmdp;
         private char[] commands;
 
@@ -39,9 +39,9 @@ namespace Realm
 
     public class Merchant : NPC
     {
-        public string buy, leave;
+        private string stay, leave;
 
-        private Dictionary<char, Item> forsale = new Dictionary<char, Item>();
+        private readonly Dictionary<char, Item> forsale;
 
         /// <summary>
         /// A constructor for the merchant class. Use this to make a new merchant.
@@ -57,7 +57,7 @@ namespace Realm
             name = MerchantName;
             text = GreetingText;
             forsale = ItemsForSale;
-            buy = buyText;
+            stay = buyText;
             leave = leaveText;
         }
 
@@ -88,6 +88,8 @@ namespace Realm
                         if (!handleinput(Interface.readkey().KeyChar))
                             loop = false;
                     }
+                    if (!String.IsNullOrEmpty(stay))
+                        Interface.type(stay);
                     break;
                 case 's':
                     Interface.type("Index. Item name.....Item resale value. Press a non-listed key to go back.",
@@ -96,16 +98,20 @@ namespace Realm
                     var itr = 1;
                     foreach (var item in Main.Player.backpack)
                     {
-                        Interface.type(itr + ". " + item.name + "....." + (item.value == 1 ? 1 : (int) (item.value * .6)));
+                        Interface.type(itr + ". " + item.name + "....." + (item.value == 1 ? 1 : (int) (item.value * .6)) + " ");
                         indices.Add(itr);
                         itr++;
                     }
                     var input = Interface.readkey().KeyChar;
-                    if (indices.Contains(Convert.ToInt32(input) - 1))
+                    if (indices.Contains(Convert.ToInt32(input)))
                     {
                         Main.Player.g += (int)(Main.Player.backpack[Convert.ToInt32(input)].value == 1 ? 1 : Main.Player.backpack[Convert.ToInt32(input)].value * .6);
                         Main.Player.backpack.RemoveAt(Convert.ToInt32(input - 1));
                     }
+                    break;
+                default:
+                    if (!String.IsNullOrEmpty(leave))
+                        Interface.type(leave);
                     break;
             }
         }

@@ -144,7 +144,7 @@ namespace Realm
             Interface.type("- Bradley Lignoski", ConsoleColor.Yellow);
             Interface.type("- Alexander Pfenning", ConsoleColor.Yellow);
             Interface.type("__________________________________________________", ConsoleColor.DarkMagenta);
-            Interface.type("Copyright(c) 2013", ConsoleColor.White);
+            Interface.type("Copyright(c) 2014", ConsoleColor.White);
             Interface.type("Press any key to continue.", ConsoleColor.White);
             Interface.readkey();
             Environment.Exit(0);

@@ -760,7 +760,7 @@ namespace Realm
                 var chance = Dice.roll(1, 10);
                 if (chance <= 5)
                 {
-                    Main.Player.hp -= 10 * chance;
+                    Main.Player.hp -= (int)(1.5 * chance);
                 }
                 else
                 {
@@ -1050,7 +1050,7 @@ namespace Realm
             public override bool Execute(object Data)
             {
                 Enemy target = (Enemy)Data;
-                int dmg = (Dice.roll(1, Main.Player.atk)) * Main.Player.reputation;
+                int dmg = Math.Abs((Dice.roll(1, Main.Player.atk)) * Main.Player.reputation);
                 target.hp -= dmg;
                 return true;
             }
