@@ -26,28 +26,32 @@ namespace Realm
             catch (GameOverException)
             {
             }
-            Console.Clear();
             Main.loop_number = 0;
             Interface.type(
-                "Game Over. You have been revived at the last inn you stayed in. You have lost all your gold and a random item.",
+                "Game Over. You have been revived at the last inn you stayed in. You have lost half your gold and maybe an item. Press any key to continue.",
                 ConsoleColor.DarkRed);
-            Main.Player.g = 0;
+            Console.ReadKey();
+            Console.Clear();
+            Main.Player.g /= 2;
             Main.Player.reputation = -50;
             Main.Player.xp = 0;
             Main.Player.hp = Main.Player.maxhp;
-            int rand = Main.rand.Next(0, Main.Player.backpack.Count == 0 ? 0 : Main.Player.backpack.Count - 1);
-            if (Main.Player.backpack.Count > 0)
+            if (Main.rand.NextDouble() <= .25)
             {
-                var toRemove = Main.Player.backpack[rand];
-                Main.Player.backpack.RemoveAt(rand);
-                if (!Main.Player.backpack.Contains(toRemove) && Main.Player.primary.name == toRemove.name)
-                    Main.Player.primary = new Item();
-                if (!Main.Player.backpack.Contains(toRemove) && Main.Player.secondary.name == toRemove.name)
-                    Main.Player.secondary = new Item();
-                if (!Main.Player.backpack.Contains(toRemove) && Main.Player.armor.name == toRemove.name)
-                    Main.Player.armor = new Item();
-                if (!Main.Player.backpack.Contains(toRemove) && Main.Player.accessory.name == toRemove.name)
-                    Main.Player.accessory = new Item();
+                int rand = Main.rand.Next(0, Main.Player.backpack.Count == 0 ? 0 : Main.Player.backpack.Count - 1);
+                if (Main.Player.backpack.Count > 0)
+                {
+                    var toRemove = Main.Player.backpack[rand];
+                    Main.Player.backpack.RemoveAt(rand);
+                    if (!Main.Player.backpack.Contains(toRemove) && Main.Player.primary.name == toRemove.name)
+                        Main.Player.primary = new Item();
+                    if (!Main.Player.backpack.Contains(toRemove) && Main.Player.secondary.name == toRemove.name)
+                        Main.Player.secondary = new Item();
+                    if (!Main.Player.backpack.Contains(toRemove) && Main.Player.armor.name == toRemove.name)
+                        Main.Player.armor = new Item();
+                    if (!Main.Player.backpack.Contains(toRemove) && Main.Player.accessory.name == toRemove.name)
+                        Main.Player.accessory = new Item();
+                }
             }
             var test = new int[2];
             if (Main.Player.last_inn != test)

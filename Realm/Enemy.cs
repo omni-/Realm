@@ -69,7 +69,7 @@ namespace Realm
         {
             mod = (int)((level <= 10 ? 2 : level <= 15 ? 7 : 18) * (Main.difficulty == Difficulty.easy ? 1 : Main.difficulty == Difficulty.normal ? 1.5 : 2));
             name = "Slime";
-            hp = 10 + level;
+            hp = level + mod;
             atk = 1 + mod;
             def = mod;
             spd = mod;
@@ -108,7 +108,7 @@ namespace Realm
         {
             name = "Goblin";
             mod = (int)((level <= 10 ? 2 : level <= 15 ? 7 : 18) * (Main.difficulty == Difficulty.easy ? 1 : Main.difficulty == Difficulty.normal ? 1.5 : 2));
-            hp = 14 + mod;
+            hp = 7 + mod;
             atk = 3 + mod;
             def = 1 + mod;
             spd = 1 + mod;
@@ -178,13 +178,13 @@ namespace Realm
             }
             else if (Combat.DecideAttack(abilities) == "DustStorm")
             {
-                double damage = Dice.roll(atk, 4);
+                double damage = Dice.roll(atk, 3);
                 dmg = Convert.ToInt32(damage);
                 ability_used = "Dust Storm";
             }
             else if (Combat.DecideAttack(abilities) == "RavenousPound")
             {
-                double damage = Dice.roll(3, 4);
+                double damage = Dice.roll(4, 2);
                 dmg = Convert.ToInt32(damage);
                 ability_used = "Ravenous Pound";
             }
@@ -225,7 +225,7 @@ namespace Realm
             }
             else if (Combat.DecideAttack(abilities) == "Terminate")
             {
-                double damage = Dice.roll(atk, atk*2);
+                double damage = Dice.roll(2, atk / 3);
                 dmg = Convert.ToInt32(damage) - (Main.Player.def/3);
                 ability_used = "Terminate";
             }
@@ -243,10 +243,10 @@ namespace Realm
         {
             name = "Drake";
             mod = (int)((level <= 10 ? 2 : level <= 15 ? 7 : 18) * (Main.difficulty == Difficulty.easy ? 1 : Main.difficulty == Difficulty.normal ? 1.5 : 2));
-            hp = 50;
+            hp = 35;
             atk = 5 + mod;
-            def = 10 + mod;
-            spd = 10 + mod;
+            def = 6 + mod;
+            spd = 7 + mod;
             xpdice = 35;
             gpdice = 35;
             abilities = new List<string>();

@@ -518,7 +518,7 @@ namespace Realm
             listlines.Add("-------------------------------------------------------");
             try
             {
-                if (!File.Exists(Main.crashpath))
+                if (!File.Exists(Main.crashpath) && Main.crashpath != null)
                     File.Create(Main.crashpath).Dispose();
                 listlines.Add(e.InnerException.ToString());
             }

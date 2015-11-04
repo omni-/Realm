@@ -82,7 +82,16 @@ namespace Realm
                 sb.Append(t.ToString("X2"));
             return sb.ToString();
         }
-
+        static string compute(string filename)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filename))
+                {
+                    return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "");
+                }
+            }
+        }
         public static void checkver()
         {
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -98,7 +107,7 @@ namespace Realm
             if (isConnected())
             {
                 if (Init.failed) return;
-                if (CalculateMD5Hash(Convert.ToBase64String(File.ReadAllBytes(exepath))) != File.ReadAllText(temppath))
+                if (compute(exepath) != File.ReadAllText(temppath))
                 {
                     Interface.type("New version available. Press 'p' to download. ", 0);
                     if (Interface.readkey().KeyChar == 'p')

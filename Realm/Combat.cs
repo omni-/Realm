@@ -441,7 +441,7 @@ namespace Realm
             {
                 // data should be the enemy
                 var target = (Enemy)data;
-                double variation = Main.rand.Next(5, 11);
+                double variation = Main.rand.Next(0, Main.Player.level == 1 ? 1 : Main.Player.level / 2);
                 double damage = Main.Player.atk - variation;
                 if (Main.Player.primary.multiplier != 0)
                     damage *= Main.Player.primary.multiplier;
@@ -466,7 +466,7 @@ namespace Realm
             {
                 // data should be the enemy
                 var target = (Enemy)data;
-                double variation = Dice.roll(2, 10);
+                int variation = Main.rand.Next(0, Main.Player.level == 1 ? 1 : Main.Player.level / 2);
                 double damage = (2 * Main.Player.atk) - variation;
                 if (damage <= 0)
                     damage = 1;
@@ -489,7 +489,7 @@ namespace Realm
             {
                 // data should be the enemy
                 var target = (Enemy)data;
-                double variation = Dice.roll(2, 10);
+                double variation = Main.rand.Next(0, Main.Player.level == 1 ? 1 : Main.Player.level / 2);
                 double damage = (2 * Main.Player.atk) - variation;
                 if (damage <= 0)
                     damage = 1;
@@ -512,7 +512,7 @@ namespace Realm
             {
                 // data should be the enemy
                 var target = (Enemy)data;
-                double variation = Dice.roll(2, 10);
+                double variation = Main.rand.Next(0, Main.Player.level == 1 ? 1 : Main.Player.level / 2);
                 double damage = (2 * (Main.Player.atk * 2 / 3)) - variation;
                 if (damage <= 0)
                     damage = 1;
@@ -538,7 +538,7 @@ namespace Realm
             {
                 // data should be the enemy
                 var target = (Enemy)data;
-                double variation = Dice.roll(2, 10);
+                double variation = Main.rand.Next(1, Main.Player.level / 2);
                 double damage = (2 * (Main.Player.def / 2)) - variation;
                 if (damage <= 0)
                     damage = 1;
@@ -611,7 +611,7 @@ namespace Realm
             public override bool Execute(object Data)
             {
                 var target = (Enemy)Data;
-                int variation = Dice.roll(1, 10);
+                int variation = Main.rand.Next(1, Main.Player.level / 2);
                 var dmg = (Main.Player.atk / 2) - variation;
                 if (dmg <= 0)
                     dmg = 1;
@@ -651,7 +651,7 @@ namespace Realm
             public override bool Execute(object Data)
             {
                 var target = (Enemy)Data;
-                var variation = Dice.roll(1, 10);
+                var variation = Main.rand.Next(1, Main.Player.level / 2);
                 var damage = (Main.Player.atk / 3) + (Main.Player.intl / 3) - variation;
                 if (damage <= 0)
                     damage = 1;
@@ -693,7 +693,7 @@ namespace Realm
                 if (stunchance(3))
                     target.stunned = true;
                 target.on_fire = true;
-                var variation = Dice.roll(1, 10);
+                var variation = Main.rand.Next(1, Main.Player.level / 2);
                 var damage = (Main.Player.atk / 2) - variation;
                 if (damage <= 0)
                     damage = 1;
@@ -870,7 +870,7 @@ namespace Realm
             {
                 var target = (Enemy)Data;
                 target.blinded = true;
-                var variation = Dice.roll(1, 10);
+                var variation = Main.rand.Next(1, Main.Player.level / 2);
                 var dmg = (2 * Main.Player.atk) - variation;
                 if (dmg <= 0)
                     dmg = 1;

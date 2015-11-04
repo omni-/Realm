@@ -2357,12 +2357,14 @@ namespace Realm
                         Main.ach.Get("dragon");
                     }
                     else
+                    {
                         Interface.type("You successfully snuck past the dragon!");
-                    Interface.type(
-                        "You escape the cave! You find youself in a sewer, and when you finally pull yourself out, you're in Central.");
-                    Map.PlayerPosition.y = 3;
-                    Map.PlayerPosition.x = 3;
-                    //Main.MainLoop();
+                        Interface.type(
+                            "You escape the cave! You find youself in a sewer, and when you finally pull yourself out, you're in Central.");
+                        Map.PlayerPosition.y = 3;
+                        Map.PlayerPosition.x = 3;
+                        Main.MainLoop();
+                    }
                     break;
                 case 'b':
                     if (Main.Player.backpack.Count > 0)

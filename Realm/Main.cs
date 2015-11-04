@@ -19,7 +19,7 @@ namespace Realm
 {
     public static class Main
     {
-        public const string version = "v1.8.6.2";
+        public const string version = "v1.8.6.5";
 
         public static int loop_number,
             slimecounter,

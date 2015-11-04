@@ -86,10 +86,12 @@ namespace Realm
                                 ConsoleColor.Green);
                         Interface.type("");
                         if (!handleinput(Interface.readkey().KeyChar))
+                        {
                             loop = false;
+                            if (!String.IsNullOrEmpty(stay))
+                                Interface.type(stay);
+                        }
                     }
-                    if (!String.IsNullOrEmpty(stay))
-                        Interface.type(stay);
                     break;
                 case 's':
                     Interface.type("Index. Item name.....Item resale value. Press a non-listed key to go back.",
@@ -98,15 +100,15 @@ namespace Realm
                     var itr = 1;
                     foreach (var item in Main.Player.backpack)
                     {
-                        Interface.type(itr + ". " + item.name + "....." + (item.value == 1 ? 1 : (int) (item.value * .6)) + " ");
+                        Interface.type(itr + ". " + item.name + "....." + (item.value == 1 ? 1 : item.value * .6) + " ");
                         indices.Add(itr);
                         itr++;
                     }
-                    var input = Interface.readkey().KeyChar;
-                    if (indices.Contains(Convert.ToInt32(input)))
+                    int i = (int)Char.GetNumericValue(Interface.readkey().KeyChar);
+                    if (indices.Contains(i))
                     {
-                        Main.Player.g += (int)(Main.Player.backpack[Convert.ToInt32(input)].value == 1 ? 1 : Main.Player.backpack[Convert.ToInt32(input)].value * .6);
-                        Main.Player.backpack.RemoveAt(Convert.ToInt32(input - 1));
+                        Main.Player.g += (int)(Main.Player.backpack[i - 1].value == 1 ? 1 : Main.Player.backpack[i - 1].value * .6);
+                        Main.Player.backpack.RemoveAt(i - 1);
                     }
                     break;
                 default:
