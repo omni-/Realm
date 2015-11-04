@@ -146,7 +146,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="realm.ico" />
-    <EmbeddedResource Include="update.exe" />
+    <EmbeddedResource Include="update.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

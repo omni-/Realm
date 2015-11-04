@@ -41,7 +41,7 @@ namespace Realm
                 if (Main.devmode)
                 {
                     Console.Clear();
-                    int reason;C:\Users\coope\Documents\GitHub\Realm\Realm\Enemy.cs
+                    int reason;
                     if (!Save.LoadSettings(out reason))
                     {
                         switch (reason)

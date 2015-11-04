@@ -32,8 +32,7 @@ namespace Realm
             {"itembuy", false},
             {"cardboard", false},
             {"dragon", false},
-            {"set", false}
-        };
+            {"set", false} };
 
         public void Get(string achievement)
         {
