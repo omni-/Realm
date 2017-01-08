@@ -6,14 +6,10 @@
 *.suo
 *.user
 *.sln.docstates
-*.exe
-*.dll
 *.application
-*.manifest
 *.rlm
 *.txt
 *.CACHE
-*.config
 *.tempcache
 # Build results
 
@@ -23,8 +19,6 @@ x64/
 build/
 [Bb]in/
 [Oo]bj/
-[Rr]ealm/[Rr]esources
-[Rr]esources/
 
 # Enable "build/" folder in the NuGet Packages folder since NuGet packages use it for MSBuild targets
 !packages/*/build/
