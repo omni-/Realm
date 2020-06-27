@@ -23,8 +23,8 @@ namespace Realm
         public static void Initialize()
         {
             //if (!Main.devmode)
-                FileIO.checkver();
-            File.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe");
+            //    FileIO.checkver();
+            //File.Delete(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\test.exe");
             Console.Title = "Realm: " + Interface.GetTitle() + " (" + Main.version + ")";
             Interface.type("You are running Realm " + Main.version, ConsoleColor.White);
             Main.mainplayer = new SoundPlayer(Properties.Resources.main);
